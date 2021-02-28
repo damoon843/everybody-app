@@ -1,26 +1,23 @@
 # cs0320 Term Project 2021
 
 **Team Members:**
-Lauren Choi
-Alex Guo
-David Moon
-Joshua Woo
+Lauren Choi, Alex Guo, David Moon, Joshua Woo
 
 **Team Strengths and Weaknesses:**
-Lauren
-strengths: frontend
+Lauren  
+strengths: frontend  
 weaknesses: backend, databases
 
-Alex
-strengths: backend, databases
+Alex  
+strengths: backend, databases  
 weaknesses: frontend
 
-David
-strengths: backend, databases
+David  
+strengths: backend, databases  
 weaknesses: frontend
 
-Josh
-strengths: frontend
+Josh  
+strengths: frontend  
 weaknesses: backend, databases
 
 **Project Idea(s):** _Fill this in with three unique ideas!_
