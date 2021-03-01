@@ -4,6 +4,7 @@
 Lauren Choi, Alex Guo, David Moon, Joshua Woo
 
 **Team Strengths and Weaknesses:**
+
 Lauren  
 strengths: frontend  
 weaknesses: backend, databases
@@ -20,11 +21,10 @@ Josh
 strengths: frontend  
 weaknesses: backend, databases
 
-**Project Idea(s):** _Fill this in with three unique ideas!_
 ### Idea 1: Travel Sidekick
-Premise: Traveling is great! But it's sometimes hard to keep track of everything in one place, especially when you're visiting multiple stops. To solve this, we'd like to create a one-stop website to help travelers manage trips.
+**Premise:** Traveling is great! But it's sometimes hard to keep track of everything in one place, especially when you're visiting multiple stops. To solve this, we'd like to create a one-stop website to help travelers manage trips.
 
-Features
+**Features**
 
 - A page with flight information (boarding group, gate number, etc): transportation is a necessary part of traveling, so it'd be helpful to organize flight information in one place. Some possible challenges include accounting for delayed/cancelled flights and factoring in time zone differences.
 
@@ -36,12 +36,12 @@ Features
 
 - Login page + registration: this feature will enable users to save their information. Some possible challenges include integrating login information with users' associated trip information, querying the database for user registration details, and hashing passwords.
 
-Algorithm: The site could use the k-nearest neighbors algorithm to generate recommended points of interest.
+**Algorithm:** The site could use the k-nearest neighbors algorithm to generate recommended points of interest.
 
 ### Idea 2: Workout Buddy
-Premise: With the new circumstances brought about by COVID, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts, whether from user-uploaded videos on youtube or paid collections from a fitness organization. We'd like to design an app or website allowing easy access for registered users to create and upload bodyweight workouts, serving as a mobile platform to both find and share your favorite workouts.
+**Premise:** With the new circumstances brought about by COVID, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts, whether from user-uploaded videos on youtube or paid collections from a fitness organization. We'd like to design an app or website allowing easy access for registered users to create and upload bodyweight workouts, serving as a mobile platform to both find and share your favorite workouts.
 
-Features:
+**Features:**
 
 - Home feed: this page will randomly display recent workouts posted by people you follow. The main challenge of this feature is filtering out workouts that users have already seen, as well as pulling a small subset of data (people you follow) from a large dataset (all users).
 
@@ -53,12 +53,12 @@ Features:
 
 - Login page + registration: this feature will enable users to save their workout information. Some possible challenges include mapping login details to users' data, querying the database for user registration details, and hashing passwords.
 
-Algorithm: we'd need to develop an algorithm to choose which workouts to display on the home page. The algorithm would factor in workout recency, user preferences, and the workout poster.
+**Algorithm:** we'd need to develop an algorithm to choose which workouts to display on the home page. The algorithm would factor in workout recency, user preferences, and the workout poster.
 
 ### Idea 3: Coffee Chats
-Premise: We all love coffee shops, and we all love study breaks! This app will randomly pair people at cafes for quick 5-10 minute coffee chats.
+**Premise:** We all love coffee shops, and we all love study breaks! This app will randomly pair people at cafes for quick 5-10 minute coffee chats.
 
-Features:
+**Features:**
 
 - Checking in: users will be able to "check in" to a cafe to let other users know they're available for chats. The biggest challenge of this feature is generating a user token -- since the app won't have a login system, the site will need to map users to an identifier for each session.
 
@@ -70,7 +70,7 @@ Features:
 
 - Chatting: another feature would be putting matched users into a chat room to organize meeting logistics (where to meet, recognizing appearance, etc.) The main challenge of this feature is implementing a chatting function and hosting each chat.
 
-Algorithm: the app would integrate an algorithm to weight user preferences before returning a match.
+**Algorithm:** the app would integrate an algorithm to weight user preferences before returning a match.
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
