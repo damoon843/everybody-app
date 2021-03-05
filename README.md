@@ -38,6 +38,8 @@ weaknesses: backend, databases
 
 **Algorithm:** The site could use the k-nearest neighbors algorithm to generate recommended points of interest.
 
+TA Approval (dlichen): Maybe, but probably rejected. The algorithm is not significantly complex. 
+
 ### Idea 2: Workout Buddy
 **Premise:** With the new circumstances brought about by COVID, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts, whether from user-uploaded videos on youtube or paid collections from a fitness organization. We'd like to design an app or website allowing easy access for registered users to create and upload bodyweight workouts, serving as a mobile platform to both find and share your favorite workouts.
 
@@ -55,6 +57,7 @@ weaknesses: backend, databases
 
 **Algorithm:** we'd need to develop an algorithm to choose which workouts to display on the home page. The algorithm would factor in workout recency, user preferences, and the workout poster.
 
+TA Approval (dlichen): Maybe if you added a more significant algorithm -> maybe generating workouts under certain constraints? Currently the algorithm is not complex enough. 
 ### Idea 3: Coffee Chats
 **Premise:** We all love coffee shops, and we all love study breaks! This app will randomly pair people at cafes for quick 5-10 minute coffee chats.
 
@@ -71,6 +74,10 @@ weaknesses: backend, databases
 - Chatting: another feature would be putting matched users into a chat room to organize meeting logistics (where to meet, recognizing appearance, etc.) The main challenge of this feature is implementing a chatting function and hosting each chat.
 
 **Algorithm:** the app would integrate an algorithm to weight user preferences before returning a match.
+
+TA Approval: Rejected because the algorithm is not complex enough.
+
+Please resubmit before the end of the week either expanding upon existing ideas or making a new one. 
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
