@@ -38,7 +38,9 @@ weaknesses: backend, databases
 
 **Algorithm:** The site could use the k-nearest neighbors algorithm to generate recommended points of interest.
 
-TA Approval (dlichen): Maybe, but probably rejected. The algorithm is not significantly complex. 
+**UPDATED ALGORITHM:** We could adapt the k-nearest neighbors algorithm to factor in user preferences (type of destination, event, recently visited, etc.) and return a list of nearest destinations using the Google Maps API. Then, the user could enter which locations they want to visit, and we could implement a minimum spanning tree with Prim's Algorithm to generate a route that hits all of their desired locations. To make this more complex, we could also rank the nearest destinations / routes based on previous preferences and/or recently visited destinations.
+
+TA Approval (dlichen): Maybe, but probably rejected. The algorithm is not significantly complex.
 
 ### Idea 2: Workout Buddy
 **Premise:** With the new circumstances brought about by COVID, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts, whether from user-uploaded videos on youtube or paid collections from a fitness organization. We'd like to design an app or website allowing easy access for registered users to create and upload bodyweight workouts, serving as a mobile platform to both find and share your favorite workouts.
@@ -57,7 +59,12 @@ TA Approval (dlichen): Maybe, but probably rejected. The algorithm is not signif
 
 **Algorithm:** we'd need to develop an algorithm to choose which workouts to display on the home page. The algorithm would factor in workout recency, user preferences, and the workout poster.
 
-TA Approval (dlichen): Maybe if you added a more significant algorithm -> maybe generating workouts under certain constraints? Currently the algorithm is not complex enough. 
+**UPDATED ALGORITHM**: We could develop a "for you"/recommendations page based on Kosaraju's algorithm to determine which workout posters are most relevant to the user. This will allow the user to engage with people who they aren't necessarily following, but are strongly connected to in the graph. We could also weight the graph based on recency, past interactions with other content, user profile information (HIIT, crossfit, bodybuilding, etc).
+
+Another idea: since each workout is a combination of exercises, we could develop a workout generator based on a categorical decision tree that creates exercise combinations based on user preferences -- for example, length of workout, type of exercise, and similarity to other workouts. We could also develop an algorithm to generate week-long workout plans; this would factor in time on a macro level, since we'd have to evenly distribute workout types across each day.
+
+TA Approval (dlichen): Maybe if you added a more significant algorithm -> maybe generating workouts under certain constraints? Currently the algorithm is not complex enough.
+
 ### Idea 3: Coffee Chats
 **Premise:** We all love coffee shops, and we all love study breaks! This app will randomly pair people at cafes for quick 5-10 minute coffee chats.
 
@@ -75,9 +82,11 @@ TA Approval (dlichen): Maybe if you added a more significant algorithm -> maybe 
 
 **Algorithm:** the app would integrate an algorithm to weight user preferences before returning a match.
 
+**UPDATED ALGORITHM:** First, we'd process drinks on a cafe-by-cafe basis to categorize each drink and build up a database. Then, once we've cleaned up the data, we can adapt the K-nearest neighbors where K=1 to match users who are most similar to each other. Each node in the KD tree would represent a user, and each dimension would represent characteristics about that user (age, drink order, etc.). Because the dimensions are words rather than integers, instead of using Euclidean/axis distance to recur down the KD tree, we'd utilize the Knuth-Morris-Pratt algorithm to determine how similar two dimensions are. In the case of drink orders, we'd use the drink data stored in the backend to look at overall similarities between categories. One anticipated challenge of this algorithm is updating the KD tree as users join the website.
+
 TA Approval: Rejected because the algorithm is not complex enough.
 
-Please resubmit before the end of the week either expanding upon existing ideas or making a new one. 
+Please resubmit before the end of the week either expanding upon existing ideas or making a new one.
 
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
