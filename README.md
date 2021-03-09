@@ -88,6 +88,8 @@ TA Approval: Rejected because the algorithm is not complex enough.
 
 Please resubmit before the end of the week either expanding upon existing ideas or making a new one.
 
+TA Approval for resubmission: Approved for the workout buddy idea. I think the other two have the makings of potentially being sufficiently complex, but in the case of the travel buddy one it sounds a little too similar to maps and for the coffee chats one i'm not sure how feasible that is, it's really hard to cluster qualitative properties. I think workout buddy is definitely approved, coffee chat is a maybe, and travel buddy is a bit of a weaker maybe. I would talk to your mentor ta once assigned one if you feel strongly about coffee chat or travel buddy to flesh out the ideas. 
+
 **Mentor TA:** _Put your mentor TA's name and email here once you're assigned one!_
 
 ## Meetings
