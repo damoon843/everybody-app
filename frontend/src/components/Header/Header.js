@@ -1,19 +1,8 @@
 import React from 'react'; 
 import './Header.css';
+import Navbar from 'react-bootstrap/Navbar';
 
-export default class Header extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
-
-  render() {
-    return (
-      <header>
-        
-      </header>
-    );
-  }
+function Header(props){
+  return <div>Hello</div>
 }
+export default Header

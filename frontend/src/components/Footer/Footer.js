@@ -1,19 +1,8 @@
 import React from 'react'; 
 import './Header.css';
 
-export default class Header extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
+  function Footer(props){
+    return <div>Hello</div>
   }
-
-  render() {
-    return (
-      <footer>
-        
-      </footer>
-    );
-  }
-}
+  export default Footer

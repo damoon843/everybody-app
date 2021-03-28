@@ -6,10 +6,12 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SubmissionPage from './pages/SubmissionPage/SubmissionPage';
+import Header from './components/Header/Header';
 
 function App() {
   return (
     <Router>
+        <Header />
         <Switch>
           <Route path="">
             < HomePage />
