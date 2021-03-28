@@ -1,7 +1,15 @@
 import React from 'react'; 
+import Main from './components/Main/Main';
+import UserProfile from './components/UserProfile/UserProfile';
 import './HomePage.css';
 
-function HomePage(props){
-  return <div>Hello</div>
+function Home() {
+  return (
+    <div className="home">
+      <UserProfile />
+      <Main />
+    </div>
+  );
 }
-export default HomePage
+
+export default Home;

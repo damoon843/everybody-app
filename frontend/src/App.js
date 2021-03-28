@@ -14,7 +14,7 @@ function App() {
         <Header />
         <Switch>
           <Route path="">
-            < HomePage />
+            <HomePage />
           </Route>
           <Route path="/exercise">
             {/* TODO: figure out how to render specific exercises */}
