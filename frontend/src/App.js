@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import { Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ExercisePage from './pages/ExercisePage/ExercisePage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -14,7 +14,9 @@ function App() {
         <Header />
         <Switch>
           <Route path="">
-            <HomePage />
+            <div className="App">
+              <HomePage />
+            </div>
           </Route>
           <Route path="/exercise">
             {/* TODO: figure out how to render specific exercises */}
