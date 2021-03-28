@@ -1,4 +1,4 @@
-package edu.brown.cs.everybody.utils;
+package edu.brown.cs.everybody.backendUtils;
 
 /**
  * The Main class of our project. This is where execution begins.
