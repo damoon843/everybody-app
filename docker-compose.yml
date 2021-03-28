@@ -1,5 +1,5 @@
 # COMBINES ALL APPLICATION CONTAINERS
-version: '3'
+version: '3.9'
 services:
   web:
     image: node:alpine
