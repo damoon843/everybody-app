@@ -1,0 +1,22 @@
+# COMBINES ALL APPLICATION CONTAINERS
+version: '3.9'
+services:
+  web:
+    image: node:alpine
+  db:
+    image: postgres
+#    environment:
+#      - POSTGRES_USER = 'cs32-final'
+#      - POSTGRES_DB = postgres
+#    ports:
+#      - '5432:5432'
+#    volumes:
+#      - pg-data: ./data/postgresql
+  backend:
+    image: everybody-app
+    build:
+      context: ./src
+      dockerfile: src/Dockerfile
+
+  volumes:
+    pg-data:
