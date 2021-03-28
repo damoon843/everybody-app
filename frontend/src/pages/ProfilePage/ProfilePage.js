@@ -11,7 +11,7 @@ export default class ProfilePage extends React.Component {
 
   render() {
     return (
-      <div className="profile">
+      <div className="App profile">
       </div>
     );
   }

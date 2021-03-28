@@ -11,7 +11,7 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className="login">
+      <div className="App login">
       </div>
     );
   }

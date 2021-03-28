@@ -11,7 +11,7 @@ export default class ExercisePage extends React.Component {
 
   render() {
     return (
-      <div className="exercise">
+      <div className="App exercise">
       </div>
     );
   }

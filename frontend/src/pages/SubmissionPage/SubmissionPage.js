@@ -11,7 +11,7 @@ export default class SubmissionPage extends React.Component {
 
   render() {
     return (
-      <div className="submission">
+      <div className="App submission">
       </div>
     );
   }
