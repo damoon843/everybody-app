@@ -1,0 +1,12 @@
+# COMBINES ALL APPLICATION CONTAINERS
+version: '3'
+services:
+  web:
+    image: node:alpine
+  db:
+    image: postgres
+  backend:
+    image: everybody-app
+    build:
+      context: ./src
+      dockerfile: src/Dockerfile
