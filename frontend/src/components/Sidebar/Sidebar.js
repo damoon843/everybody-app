@@ -1,7 +1,7 @@
 import React from 'react'; 
-import './ProfilePage.css';
+import './Sidebar.css';
 
-export default class ProfilePage extends React.Component {
+export default class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -11,7 +11,7 @@ export default class ProfilePage extends React.Component {
 
   render() {
     return (
-      <div className="profile">
+      <div className="sidebar">
       </div>
     );
   }
