@@ -2,23 +2,15 @@
 version: '3.9'
 services:
   web:
-    image: node:alpine
-  db:
-    image: postgres
-    environment:
-      # TODO: create more secure access settings for DB
-      - POSTGRES_USER='postgres'
-      - POSTGRES_PASSWORD='cs32-final-server!'
-      - POSTGRES_DB=everybody_db
+    image: everybody-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - '5432:5432'
-    volumes:
-      - db-data:/data/postgresql
+      - 3000:3000
+    command: 'npm start'
   backend:
     image: everybody-app
     build:
-      context: ./src
+      context: ./
       dockerfile: src/Dockerfile
-
-volumes:
-  db-data:
