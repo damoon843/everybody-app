@@ -123,6 +123,15 @@
       <artifactId>postgresql</artifactId>
       <version>42.2.19</version>
     </dependency>
+
+    <!--
+    dependency for neo4j
+    -->
+    <dependency>
+      <groupId>org.neo4j.driver</groupId>
+      <artifactId>neo4j-java-driver</artifactId>
+      <version>4.2.0</version>
+    </dependency>
   </dependencies>
 
   <!-- Build section -->
