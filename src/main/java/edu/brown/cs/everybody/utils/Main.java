@@ -22,6 +22,7 @@ public final class Main {
   }
 
   private void run() {
+    Server server = new Server(DEFAULT_PORT);
     System.out.println("THIS IS THE BEST APP EVER!");
   }
 }
