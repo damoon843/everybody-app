@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './UserProfile.css';
 
 function UserProfile() {
@@ -12,11 +12,9 @@ function UserProfile() {
   const getUserInfo = () => {
   }
 
-  console.log(userInfo);
-
   return (
     <div className="user-profile">
-      <img src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="profile picture" id="profile-pic" />
+      <img src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="user profile" id="profile-pic" />
       <h3 id="name">{userInfo.name}</h3>
       <div className="follow-container">
         <div className="follow-info">

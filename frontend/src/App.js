@@ -9,14 +9,13 @@ import SubmissionPage from './pages/SubmissionPage/SubmissionPage';
 import Header from './components/Header/Header';
 
 function App() {
+  document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   return (
     <Router>
         <Header />
         <Switch>
           <Route path="">
-            <div className="App">
-              <HomePage />
-            </div>
+            <HomePage />
           </Route>
           <Route path="/exercise">
             {/* TODO: figure out how to render specific exercises */}
