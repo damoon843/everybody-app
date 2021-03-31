@@ -17,11 +17,13 @@ public final class Main {
    *
    * @param args An array of command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     new Main(args).run();
   }
 
-  private void run() {
+  private void run() throws Exception {
+
+    // Begin the server
     Server server = new Server(DEFAULT_PORT);
     System.out.println("THIS IS THE BEST APP EVER!");
   }
