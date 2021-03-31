@@ -22,6 +22,6 @@ public final class Main {
   }
 
   private void run() {
-    System.out.println("HELLO WORLD");
+    System.out.println("THIS IS THE BEST APP EVER!");
   }
 }
