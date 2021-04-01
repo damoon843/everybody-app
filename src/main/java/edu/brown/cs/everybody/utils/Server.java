@@ -2,7 +2,6 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import edu.brown.cs.everybody.data.GraphDB;
 import org.json.JSONObject;
 import spark.*;
 
@@ -17,14 +16,6 @@ public class Server {
   private static final Gson GSON = new Gson();
 
   public Server(int port) throws Exception {
-    // Connect to graph DB
-//    try ( GraphDB graphDB = new GraphDB( "bolt://localhost:7687", "neo4j", "password" ) )
-//    {
-//      graphDB.printGreeting( "hello, world" );
-//    } catch (Exception ex) {
-//      System.out.println("Can't connect yet...");
-//    }
-
     // Run server
     runSparkServer(port);
   }
