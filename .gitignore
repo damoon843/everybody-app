@@ -1,6 +1,7 @@
 target/
 .mvn-classpath
 .classpath
+.env
 .idea/
 **.DS_Store**
 *.sqlite3
