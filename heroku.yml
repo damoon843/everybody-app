@@ -9,3 +9,5 @@ build:
   docker:
     backend: src/Dockerfile
     web: frontend/Dockerfile
+run:
+  web: npm start
