@@ -4,6 +4,7 @@ setup:
     - plan: heroku-postgresql
       as: DATABASE
     - plan: heroku-auth0
+      as: AUTH0
 build:
   docker:
     backend: src/Dockerfile
