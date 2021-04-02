@@ -1,5 +1,8 @@
 package edu.brown.cs.everybody.data;
 
+import edu.brown.cs.everybody.userComponents.AppUser;
+import edu.brown.cs.everybody.utils.ErrorConstants;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -12,6 +15,7 @@ import java.sql.SQLException;
  */
 public final class PostgresDatabase {
   private static PostgresDatabase singleInstance = null;
+  private static Connection dbConn = null;
 
   /* Hidden constructor to avoid instantiation */
   private PostgresDatabase() {
@@ -19,12 +23,15 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Singleton getter for PostgresDatabase.
+   * Singleton getter for PostgresDatabase and sets up DB connection.
    * @return single instance of PostgresDatabase.
    */
-  public static PostgresDatabase getInstance() {
+  public static PostgresDatabase getInstance() throws URISyntaxException, SQLException {
     if (singleInstance == null) {
       singleInstance = new PostgresDatabase();
+      if (setUpConnection() == null) {
+        System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
+      }
     }
     return singleInstance;
   }
@@ -35,7 +42,7 @@ public final class PostgresDatabase {
    * @throws URISyntaxException when given improper URI
    * @throws SQLException when driver cannot retrieve conn
    */
-  private static Connection getConnection() throws URISyntaxException, SQLException {
+  private static Connection setUpConnection() throws URISyntaxException, SQLException {
     // TODO: encode these details elsewhere
     String tempURI = "postgres://roifqtuewetfej:7d514e978ce5f83a75ca408a356cb5e5324a3657960f95a3533aeb93622c5" +
       "906@ec2-52-7-115-250.compute-1.amazonaws.com:5432/d97rt21a1m7m9k\n";
@@ -45,6 +52,20 @@ public final class PostgresDatabase {
     String password = dbUri.getUserInfo().split(":")[1];
     String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 
-    return DriverManager.getConnection(dbUrl, username, password);
+    dbConn = DriverManager.getConnection(dbUrl, username, password);
+    return dbConn;
+  }
+
+  /**
+   * Inserts a new user into the users table.
+   * @param user new user to insert
+   */
+  public static void insertUser(AppUser user) {
+  }
+
+  /**
+   * Deletes an existing user from the users table.
+   */
+  public static void deleteUser() {
   }
 }

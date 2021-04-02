@@ -2,11 +2,13 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.userComponents.UserHandlers;
 import org.json.JSONObject;
 import spark.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -48,21 +50,10 @@ public class Server {
     Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
     Spark.exception(Exception.class, new ExceptionPrinter());
 
-    // TODO: handler classes stored here for now; consider extracting to distinct classes if this file gets too long
     // For user creation
-    Spark.post("/newUser", new NewUserHandler());
-  }
-
-  /**
-   * Handles requests made for user creation.
-   */
-  private static class NewUserHandler implements Route {
-    @Override
-    public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
-      return GSON.toJson(variables);
-    }
+    Spark.get("/newUser", new UserHandlers.NewUserHandler());
+    // For user deletion
+    Spark.get("deleteUser", new UserHandlers.DeleteUserHandler());
   }
 
   /**
