@@ -1,7 +1,7 @@
 package edu.brown.cs.everybody.userComponents;
 
 /**
- * Represents a post.
+ * Represents an exercise.
  */
-public class Post {
+public class Exercise {
 }

@@ -8,13 +8,18 @@ public class AppUser {
   private double createdAt;
   private String firstName;
   private String lastName;
-  // TODO: consider adding user preferences info here
+
+  // TODO: review these preferences
+  private String workoutType;
+
 
   public AppUser(int id, double timeCreated, String fName, String lName) {
     this.userID = id;
     this.createdAt = timeCreated;
     this.firstName = fName;
     this.lastName = lName;
+
+    // TODO: add user preferences fields here
   }
 
   // TODO: add getters here
