@@ -6,9 +6,13 @@ function LoginPage(){
   return (
     <div className="login-page row">
       <div className="login-section login-image">
-        <img src="https://www.gannett-cdn.com/presto/2020/04/30/USAT/82d7ebfe-823e-4acf-bd9e-9d915c8e35db-GettyImages-1156227790.jpg?width=660&height=440&fit=crop&format=pjpg&auto=webp" id="login-img" />
+        <img src="https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg" id="login-img" />
       </div>
       <div className="login-section col">
+        <div className="login-top">
+          <h1>everyBODY</h1>
+          <p>Fitness curated by all, for all.</p>
+        </div>
         <Card className="login-card" body>
           <Tabs className="login-tabs" defaultActiveKey="login">
             <Tab eventKey="login" title="Login">

@@ -1,17 +1,21 @@
 #login-img {
-  width: auto;
   height: 100vh;
+  width: 50vw;
+  object-fit: cover;
 }
 
 .login-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden
+}
+
+.login-top {
+  margin: 5vh 0 1rem 0;
 }
 
 .login-section {
   width: 50vw;
+  display: flex;
+  align-items: center;
 }
 
 .login-card {
@@ -20,4 +24,9 @@
 
 .login-form, .signup-form {
   padding: 3rem 0;
+}
+
+#login-btn, #signup-btn {
+  margin: 1rem 0 0 0;
+  width: 100%;
 }
