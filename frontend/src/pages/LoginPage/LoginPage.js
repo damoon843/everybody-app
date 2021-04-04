@@ -1,4 +1,5 @@
 import React, { useState } from 'react'; 
+import {Link} from 'react-router-dom';
 import {Tabs, Tab, Form, Col, Row, Card} from 'react-bootstrap';
 import './LoginPage.css';
 
@@ -13,7 +14,7 @@ function LoginPage(){
           <h1>everyBODY</h1>
           <p>Fitness curated by all, for all.</p>
         </div>
-        <Card className="login-card" body>
+        <div className="login-card">
           <Tabs className="login-tabs" defaultActiveKey="login">
             <Tab eventKey="login" title="Login">
               <Form className="login-form">
@@ -25,9 +26,9 @@ function LoginPage(){
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Enter password" />
                 </Form.Group>
-                <button className="submit-btn" id="login-btn">
+                <Link to="/" className="btn submit-btn" id="login-btn">
                   Login
-                </button>
+                </Link>
               </Form>
             </Tab>
             <Tab eventKey="signup" title="Sign up">
@@ -48,13 +49,13 @@ function LoginPage(){
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Enter password" />
                 </Form.Group>
-                <button className="submit-btn" id="signup-btn">
-                  Sign Up
-                </button>
+                <Link to="/" className="btn submit-btn" id="signup-btn">
+                  Sign up
+                </Link>
               </Form>
             </Tab>
           </Tabs>
-        </Card>
+        </div>
       </div>
     </div>
   );
