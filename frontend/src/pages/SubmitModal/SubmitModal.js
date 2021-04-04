@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import {Modal} from 'react-bootstrap';
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
+import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
 import './SubmitModal.css';
 
 function SubmitModal(){
@@ -16,28 +14,138 @@ function SubmitModal(){
         Upload
       </button>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
+      <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Body>
-          <Tabs defaultActiveKey="tab1" id="uncontrolled-tab-example">
-            <Tab eventKey="tab1" title="tab 1">
-              <p>tab 1</p>
+          <Tabs defaultActiveKey="workout">
+            <Tab eventKey="workout" title="Workout">
+              <Form className="workout-form">
+                <Form.Group controlId="workoutTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" placeholder="Enter workout title" />
+                </Form.Group>
+
+                <Form.Group controlId="workoutDesc">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
+                </Form.Group>
+
+                <Form.Label>Tags</Form.Label>
+                <Form.Group as={Row} controlId="workoutTags">
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      label="Cardio"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Bodyweight"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Another Label"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      label="Legs"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Arms"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Abs"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
+                    />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.File id="workoutMedia" label="Upload workout video" />
+                </Form.Group>
+              </Form>
             </Tab>
-            <Tab eventKey="tab2" title="tab 2">
-              <p>tab 2</p>
-            </Tab>
-            <Tab eventKey="tab3" title="tab 3">
-              <p>tab 3</p>
+            <Tab eventKey="exercise" title="Exercise">
+            <Form className="exercise-form">
+                <Form.Group controlId="exerciseTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control type="text" placeholder="Enter exercise title" />
+                </Form.Group>
+
+                <Form.Group controlId="exerciseDesc">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
+                </Form.Group>
+
+                <Form.Label>Tags</Form.Label>
+                <Form.Group as={Row} controlId="exerciseTags">
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      label="Cardio"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Bodyweight"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Another Label"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
+                    />
+                  </Col>
+                  <Col>
+                    <Form.Check
+                      type="checkbox"
+                      label="Legs"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Arms"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Abs"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
+                    />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.File id="exerciseMedia" label="Upload exercise video" />
+                </Form.Group>
+              </Form>
             </Tab>
           </Tabs>
         </Modal.Body>
         <Modal.Footer>
-          <button variant="secondary" onClick={handleClose}>
+          <button onClick={handleClose}>
             Close
           </button>
-          <button variant="primary" onClick={handleClose}>
+          <button onClick={handleClose}>
             Save Changes
           </button>
         </Modal.Footer>
