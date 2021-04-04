@@ -13,21 +13,23 @@ function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   return (
     <Router>
-        <Toolbar />
         <Switch>
           <Route path="/exercises">
+            <Toolbar />
             <ExercisePage />
           </Route>
           <Route path="/login">
             <LoginPage />
           </Route>
           <Route path="/profile">
+            <Toolbar />
             <ProfilePage />
           </Route>
           <Route path="/submit">
             <SubmissionPage />
           </Route>
           <Route path="/">
+            <Toolbar />
             <HomePage />
           </Route>
         </Switch>
