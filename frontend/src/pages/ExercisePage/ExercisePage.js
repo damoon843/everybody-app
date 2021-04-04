@@ -3,6 +3,7 @@ import './ExercisePage.css';
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 function ExercisePage(props){
+
   return (
       <div>
         <Sidebar></Sidebar>

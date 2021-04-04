@@ -1,0 +1,23 @@
+#login-img {
+  width: auto;
+  height: 100vh;
+}
+
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden
+}
+
+.login-section {
+  width: 50vw;
+}
+
+.login-card {
+  width: 30rem;
+}
+
+.login-form, .signup-form {
+  padding: 3rem 0;
+}
