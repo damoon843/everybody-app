@@ -9,3 +9,11 @@
   display: flex;
   flex-direction: column;
 }
+
+.submit-btn {
+  border: none;
+  color: white;
+  background-color: #34A2B8;
+  padding: 0.5rem;
+  border-radius: 4px;
+}

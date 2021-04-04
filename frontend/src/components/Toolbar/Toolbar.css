@@ -1,5 +1,5 @@
-.active {
-  border-bottom: 3px solid white;
+.active-nav {
+  border-bottom: 3px solid #13A3b8;
 }
 
 .item {
@@ -12,10 +12,6 @@
 .item:hover {
   cursor: pointer;
   color: white;
-  border-bottom: 3px solid #13A3B8;
+  border-bottom: 3px solid #13A3b8;
   text-decoration: none;
-}
-
-.active {
-  border-bottom: 3px solid #13A3B8;
 }

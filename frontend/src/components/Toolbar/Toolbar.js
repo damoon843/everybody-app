@@ -11,13 +11,13 @@ function Toolbar(props){
               <Navbar.Brand href="/">everyBODY</Navbar.Brand>
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavLink exact className="item" activeClassName="active" to="/">
+                    <NavLink exact className="item" activeClassName="active-nav" to="/">
                         Home
                     </NavLink>
-                    <NavLink className="item" activeClassName="active" to="/profile">
+                    <NavLink className="item" activeClassName="active-nav" to="/profile">
                         Profile
                     </NavLink>
-                    <NavLink className="item" activeClassName="active" to="/exercises">
+                    <NavLink className="item" activeClassName="active-nav" to="/exercises">
                         Exercises
                     </NavLink>
                 </Nav>
