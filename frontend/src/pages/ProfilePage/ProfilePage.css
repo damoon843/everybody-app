@@ -1,6 +1,11 @@
 .profile-page {
   display: flex;
+  margin-top: 0%;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  flex-direction: column;
+
+}
+.prof-card{
+  margin-top: 0;
 }
