@@ -1,7 +1,6 @@
 import React from 'react'; 
-import Navbar from 'react-bootstrap/Navbar';
 import {NavLink} from 'react-router-dom';
-import {Button, Form, FormControl, Nav} from "react-bootstrap";
+import {Navbar, Button, Form, FormControl, Nav} from "react-bootstrap";
 import './Toolbar.css';
 
 function Toolbar(props){

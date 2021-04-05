@@ -5,7 +5,6 @@ import ExercisePage from './pages/ExercisePage/ExercisePage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-//import SubmissionPage from './pages/SubmissionPage/SubmissionPage';
 import Toolbar from './components/Toolbar/Toolbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -29,10 +28,7 @@ function App() {
             <Toolbar />
             <ProfilePage />
           </Route>
-          <Route path="/submit">
-            <HomePage />
 
-          </Route>
           <Route path="/">
             <Toolbar />
             <HomePage />
