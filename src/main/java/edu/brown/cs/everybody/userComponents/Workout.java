@@ -11,7 +11,6 @@ public class Workout {
   private int user_id;
   private Date created_at;
   private String description;
-  private String workout_type;
   private Double duration;
   private URL media_link;
   private Long like_count;
@@ -25,7 +24,6 @@ public class Workout {
     this.user_id = builder._user_id;
     this.created_at = builder._created_at;
     this.description = builder._description;
-    this.workout_type = builder._workout_type;
     this.duration = builder._duration;
     this.media_link = builder._media_link;
     this.like_count = builder._like_count;
@@ -64,14 +62,6 @@ public class Workout {
   }
 
   /**
-   * Getter for workout type.
-   * @return workout type
-   */
-  public String getWorkoutType() {
-    return this.workout_type;
-  }
-
-  /**
    * Getter for workout duration
    * @return duration
    */
@@ -103,7 +93,6 @@ public class Workout {
     private int _user_id;
     private Date _created_at;
     private String _description;
-    private String _workout_type;
     private Double _duration;
     private URL _media_link;
     private Long _like_count;
@@ -120,7 +109,7 @@ public class Workout {
     }
 
     /**
-     * Sets workout_id field.
+     * Sets workout id field.
      * @param id workout id
      * @return WorkoutBuilder object
      */
@@ -130,7 +119,7 @@ public class Workout {
     }
 
     /**
-     * Sets user_id field.
+     * Sets user id field.
      * @param id user id
      * @return WorkoutBuilder object
      */
@@ -140,7 +129,7 @@ public class Workout {
     }
 
     /**
-     * Sets created_at field.
+     * Sets created at field.
      * @param timestamp time created
      * @return WorkoutBuilder object
      */
@@ -156,16 +145,6 @@ public class Workout {
      */
     public WorkoutBuilder description(String text) {
       this._description  = text;
-      return this;
-    }
-
-    /**
-     * Sets workout type field.
-     * @param type workout type
-     * @return WorkoutBuilder object
-     */
-    public WorkoutBuilder workout_type(String type) {
-      this._workout_type  = type;
       return this;
     }
 

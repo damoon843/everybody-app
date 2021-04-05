@@ -13,7 +13,7 @@ public class Exercise {
     private Date created_at;
     private String description;
     private String exercise_type;
-    private String exercise_target_area;
+    private String target_area;
     private Double duration;
     private URL media_link;
     private int next; // Stores ID of next exercise (in workout)
@@ -23,189 +23,222 @@ public class Exercise {
      * Constructor for Exercise
      * @param builder hydrated builder object
      */
-    public Exercise(builder) {
+    public Exercise(ExerciseBuilder builder) {
+      this.exercise_id = builder._exercise_id;
       this.workout_id = builder._workout_id;
       this.user_id = builder._user_id;
       this.created_at = builder._created_at;
       this.description = builder._description;
-      this.workout_type = builder._workout_type;
+      this.exercise_type = builder._exercise_type;
+      this.target_area = builder._target_area;
       this.duration = builder._duration;
       this.media_link = builder._media_link;
-      this.like_count = builder._like_count;
+      this.next = builder._next;
     }
 
   /**
    * Getter for exercise ID.
-   * @return
+   * @return exercise ID
    */
   public int getExerciseId() {
-      return this.exercise_id;
+    return this.exercise_id;
+  }
+
+  /**
+   * Getter for workout ID.
+   * @return workout ID
+   */
+  public int getWorkoutId() {
+    return this.workout_id;
+  }
+
+  /**
+   * Getter for user ID that posted workout.
+   * @return user ID
+   */
+  public int getUserId() {
+    return this.user_id;
+  }
+
+  /**
+   * Getter for time exercise posted.
+   * @return timestamp
+   */
+  public Date getCreatedAt() {
+    return this.created_at;
+  }
+
+  /**
+   * Getter for exercise description.
+   * @return description
+   */
+  public String getDescription() {
+    return this.description;
+  }
+
+  /**
+   * Getter for exercise type.
+   * @return exercise type
+   */
+  public String getExerciseType() {
+    return this.exercise_type;
+  }
+
+  /**
+   * Getter for exercise target area
+   * @return exercise target area
+   */
+  public String getExerciseTargetArea() {
+    return this.target_area;
+  }
+
+  /**
+   * Getter for duration.
+   * @return duration
+   */
+  public Double getDuration() {
+    return this.duration;
+  }
+
+  /**
+   * Getter for media link.
+   * @return media link
+   */
+  public URL getMediaLink() {
+    return this.media_link;
+  }
+
+  /**
+   * Getter for ID of next exercise (in workout).
+   * @return next exercise ID (null if no next)
+   */
+  public int getNext() {
+    return this.next;
+  }
 
     /**
-     * Getter for workout ID.
-     * @return workout ID
+     * Inner builder class for Exercises. Uses the Builder Design pattern.
      */
-    public int getWorkoutId() {
-      return this.workout_id;
-    }
-
-    /**
-     * Getter for user ID that posted workout.
-     * @return user ID
-     */
-    public int getUserId() {
-      return this.user_id;
-    }
-
-    /**
-     * Getter for time workout posted.
-     * @return timestamp
-     */
-    public Date getCreatedAt() {
-      return this.created_at;
-    }
-
-    /**
-     * Getter for workout description.
-     * @return description
-     */
-    public String getDescription() {
-      return this.description;
-    }
-
-    /**
-     * Getter for workout type.
-     * @return workout type
-     */
-    public String getWorkoutType() {
-      return this.workout_type;
-    }
-
-    /**
-     * Getter for workout duration
-     * @return duration
-     */
-    public Double getDuration() {
-      return this.duration;
-    }
-
-    /**
-     * Getter for media link.
-     * @return media link
-     */
-    public URL getMediaLink() {
-      return this.media_link;
-    }
-
-    /**
-     * Getter for like count.
-     * @return like count
-     */
-    public Long getLikeCount() {
-      return this.like_count;
-    }
-
-    /**
-     * Inner builder class for Workouts. Uses the Builder Design pattern.
-     */
-    public static class WorkoutBuilder {
+    public static class ExerciseBuilder {
+      private int _exercise_id;
       private int _workout_id;
       private int _user_id;
       private Date _created_at;
       private String _description;
-      private String _workout_type;
+      private String _exercise_type;
+      private String _target_area;
       private Double _duration;
       private URL _media_link;
-      private Long _like_count;
+      private int _next;
 
       /* Empty constructor */
-      public WorkoutBuilder() {}
+      public ExerciseBuilder() {}
 
       /**
-       * Final construction of Workout.
-       * @return Workout object
+       * Final construction of Exercise.
+       * @return Exercise object
        */
-      public edu.brown.cs.everybody.userComponents.Workout buildWorkout() {
-        return new edu.brown.cs.everybody.userComponents.Workout(this);
+      public Exercise buildExercise() {
+        return new Exercise(this);
       }
 
       /**
-       * Sets workout_id field.
+       * Sets exercise id field.
+       * @param id exercise id
+       * @return WorkoutBuilder object
+       */
+      public ExerciseBuilder exercise_id(int id) {
+        this._exercise_id = id;
+        return this;
+      }
+
+      /**
+       * Sets workout id field.
        * @param id workout id
        * @return WorkoutBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder workout_id(int id) {
+      public ExerciseBuilder workout_id(int id) {
         this._workout_id  = id;
         return this;
       }
 
       /**
-       * Sets user_id field.
+       * Sets user id field.
        * @param id user id
-       * @return WorkoutBuilder object
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder user_id(int id) {
+      public ExerciseBuilder user_id(int id) {
         this._user_id  = id;
         return this;
       }
 
       /**
-       * Sets created_at field.
+       * Sets created at field.
        * @param timestamp time created
-       * @return WorkoutBuilder object
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder created_at(Date timestamp) {
+      public ExerciseBuilder created_at(Date timestamp) {
         this._created_at = timestamp;
         return this;
       }
 
       /**
        * Sets description field.
-       * @param text description of workout
-       * @return WorkoutBuilder object
+       * @param text description of exercise
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder description(String text) {
+      public ExerciseBuilder description(String text) {
         this._description  = text;
         return this;
       }
 
       /**
-       * Sets workout type field.
-       * @param type workout type
-       * @return WorkoutBuilder object
+       * Sets exercise type field.
+       * @param type exercise type
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder workout_type(String type) {
-        this._workout_type  = type;
+      public ExerciseBuilder exercise_type(String type) {
+        this._exercise_type = type;
+        return this;
+      }
+
+      /**
+       * Sets target area field.
+       * @param target target area
+       * @return ExerciseBuilder object
+       */
+      public ExerciseBuilder target_area(String target) {
+        this._target_area = target;
         return this;
       }
 
       /**
        * Sets duration field.
-       * @param length workout length
-       * @return WorkoutBuilder object
+       * @param length exercise length
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder duration(Double length) {
+      public ExerciseBuilder duration(Double length) {
         this._duration  = length;
         return this;
       }
 
       /**
        * Sets media link field
-       * @param link URL to workout thumbnail
-       * @return WorkoutBuilder object
+       * @param link URL to exercise thumbnail
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder media_link(URL link) {
+      public ExerciseBuilder media_link(URL link) {
         this._media_link = link;
         return this;
       }
 
       /**
-       * Sets like count field.
-       * @param count workout type
-       * @return WorkoutBuilder object
+       * Sets next (exercise ID) field
+       * @param id next exercise ID
+       * @return ExerciseBuilder object
        */
-      public edu.brown.cs.everybody.userComponents.Workout.WorkoutBuilder like_count(Long count) {
-        this._like_count  = count;
+      public ExerciseBuilder next(int id) {
+        this._next = id;
         return this;
       }
     }
