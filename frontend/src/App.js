@@ -15,10 +15,7 @@ function App() {
     <Router>
         <Switch>
 
-          <Route path="">
-            <Toolbar />
-            <ProfilePage/>
-          </Route>
+
           <Route path="/exercise"></Route>
             {/* TODO: figure out how to render specific exercises */}
           <Route path="/exercises">
@@ -39,6 +36,10 @@ function App() {
           <Route path="/">
             <Toolbar />
             <HomePage />
+          </Route>
+          <Route path="">
+            <Toolbar />
+            <ExercisePage />
           </Route>
         </Switch>
     </Router>
