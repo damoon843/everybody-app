@@ -1,9 +1,13 @@
 import React, {useEffect} from "react";
 import './Exercise.css'
+import ExerciseData from "../../../data/exercises.json";
 
 function Exercise(props){
     let workouts = [{title: "Mountain Climbers", duration: "15 min", user: "Tim Nelson", description: "This is an short, intensive exercise focused on the core",thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {description: "This is an short, intensive exercise focused on the core",title: "Planks", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
         {description: "This is an short, intensive exercise focused on the core",title: "Crunches", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
+
+    let exercises = ExerciseData;
+    console.log(exercises);
 
     useEffect(() => {
         getWorkouts();
@@ -16,8 +20,8 @@ function Exercise(props){
 
     const renderWorkouts = () => {
         const anchor = document.getElementById("ex-grid-anchor")
-        if (workouts) {
-            workouts.forEach(workout => {
+        if (exercises) {
+            exercises.forEach(workout => {
                 const container = document.createElement("div")
                 const text = document.createElement("div")
                 const title = document.createElement("h5")
