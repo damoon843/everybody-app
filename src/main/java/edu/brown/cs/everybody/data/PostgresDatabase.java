@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Singleton class wrapping PostgreSQL DB and
@@ -19,7 +20,6 @@ public final class PostgresDatabase {
 
   /* Hidden constructor to avoid instantiation */
   private PostgresDatabase() {
-
   }
 
   /**
@@ -68,4 +68,19 @@ public final class PostgresDatabase {
    */
   public static void deleteUser() {
   }
+
+  public static List<Integer> getFollowing(int id) {
+    return null;
+  }
+
+  /**
+   * Queries database for the user specified by input id
+   * @param id user ID
+   * @return AppUser object containing info about user with given id
+   */
+  public static AppUser getUser(int id) {
+    return null;
+  }
+
+
 }
