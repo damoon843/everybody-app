@@ -1,4 +1,4 @@
-package edu.brown.cs.everybody.userComponents;
+package edu.brown.cs.everybody.feedComponents;
 
 /**
  * Represents an exercise.
