@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
 import axios from 'axios';
 import './WorkoutModal.css';
-import WorkoutItem from './components/WorkoutItem/WorkoutItem';
 import Select from 'react-select';
 
 const sampleData = [{label: "exercise 1", duration: "00:15:00", value: 1}, {label: "exercise 2", duration: "00:20:00", value: 2}, {label: "exercise 3", duration: "00:10:00", value: 3}]
@@ -22,56 +21,6 @@ function WorkoutModal(){
       result.push(newObj)
     })
     return result;
-  }
-
-  // gets list of exercises (may not need this with async select)
-  const getExercises = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      }
-    }
-    await axios.get(
-        "http://localhost:3000/postWorkout",
-        config
-    )
-    .then(response => {
-      // do something here
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  // posts a new workout
-  const postWorkout = async () => {
-    let formMsg = document.getElementById("form-msg");
-    const toSend = {
-      exercises: exercises
-    };
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      }
-    }
-    await axios.post(
-      // fix this address/endpoint
-      "http://localhost:3000/postWorkout",
-      toSend,
-      config
-    )
-    .then(response => {
-      if (response.status === 200) {
-        formMsg.innerText = "Workout created!";
-        setTimeout(function(){ handleClose(); }, 2000);
-      }
-    })
-    .catch(function (error) {
-      formMsg.innerText = "Error: could not submit. Please try again.";
-      console.log(error);
-    });
   }
 
   // TODO: make this async

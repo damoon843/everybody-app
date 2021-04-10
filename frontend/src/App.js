@@ -5,6 +5,7 @@ import ExercisePage from './pages/ExercisePage/ExercisePage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import WorkoutPage from './pages/WorkoutPage/WorkoutPage';
 import Toolbar from './components/Toolbar/Toolbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,7 +14,10 @@ function App() {
   return (
     <Router>
         <Switch>
-
+          <Route path="/workout/:id">
+            <Toolbar />
+            <WorkoutPage />
+          </Route>
 
           <Route path="/exercise"></Route>
             {/* TODO: figure out how to render specific exercises */}
@@ -33,10 +37,10 @@ function App() {
             <Toolbar />
             <HomePage />
           </Route>
-          <Route path="">
+          {/* <Route path="">
             <Toolbar />
             <ExercisePage />
-          </Route>
+          </Route> */}
         </Switch>
     </Router>
 
