@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {Navbar, Button, Form, FormControl, Nav} from "react-bootstrap";
 import './Toolbar.css';
-import SubmitModal from '../SubmitModal/SubmitModal';
+import ExerciseModal from '../ExerciseModal/ExerciseModal';
 
 function Toolbar(props){
   return (
@@ -26,7 +26,6 @@ function Toolbar(props){
                     <Button variant="outline-info">Search</Button>
                 </Form> */}
               </Navbar.Collapse>
-              <SubmitModal />
           </Navbar>
       </div>
   );

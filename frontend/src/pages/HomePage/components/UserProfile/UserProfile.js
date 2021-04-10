@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import './UserProfile.css';
+import ExerciseModal from '../../../../components/ExerciseModal/ExerciseModal'
+import WorkoutModal from '../../../../components/WorkoutModal/WorkoutModal'
 
 function UserProfile() {
   let userInfo = {name: "Jane Doe", followerCount: 123, followingCount: 456, workoutCount: 2};
@@ -30,6 +32,8 @@ function UserProfile() {
           <h5 id="workout-ct">{userInfo.workoutCount}</h5>
         </div>
       </div>
+      <ExerciseModal />
+      <WorkoutModal />
     </div>
   );
 }

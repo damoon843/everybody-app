@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
-import './SubmitModal.css';
+import './ExerciseModal.css';
 
-function SubmitModal(){
+function ExerciseModal(){
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
-    <div className="submit-modal">
-      <button className="submit-btn" id="upload-btn" onClick={handleShow}>
-        Upload
+    <div className="exercise-modal">
+      <button className="submit-btn" onClick={handleShow}>
+        Upload Exercise
       </button>
 
       <Modal show={show} onHide={handleClose} size="lg">
@@ -91,4 +91,4 @@ function SubmitModal(){
     </div>
   );
 }
-export default SubmitModal
+export default ExerciseModal
