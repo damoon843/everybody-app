@@ -18,6 +18,12 @@
   border-radius: 4px;
 }
 
+.submit-btn:hover {
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  background-color: #49b5ca;
+}
+
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }

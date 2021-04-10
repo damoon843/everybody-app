@@ -1,13 +1,16 @@
 .user-profile {
-  width: 19rem;
-  height: 14rem;
+  width: 25rem;
+  height: 18rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 2rem;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
   margin: 4rem 2rem;
   background-color: white;
+}
+
+.user-text {
+  align-self: center;
 }
 
 #profile-pic {
@@ -32,4 +35,9 @@
   flex-direction: column;
   align-items: center;
   margin: 0 0.5rem;
+}
+
+.modal-buttons {
+  justify-content: space-evenly;
+  margin: 1rem 0;
 }
