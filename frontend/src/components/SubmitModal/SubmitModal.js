@@ -15,131 +15,69 @@ function SubmitModal(){
       </button>
 
       <Modal show={show} onHide={handleClose} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Upload Exercise</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
-          <Tabs defaultActiveKey="workout">
-            <Tab eventKey="workout" title="Workout">
-              <Form className="workout-form">
-                <Form.Group controlId="workoutTitle">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control type="text" placeholder="Enter workout title" />
-                </Form.Group>
+          <Form className="exercise-form">
+            <Form.Group controlId="exerciseTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control type="text" placeholder="Enter exercise title" />
+            </Form.Group>
 
-                <Form.Group controlId="workoutDesc">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
-                </Form.Group>
+            <Form.Group controlId="exerciseDesc">
+              <Form.Label>Description</Form.Label>
+              <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
+            </Form.Group>
 
-                <Form.Label>Tags</Form.Label>
-                <Form.Group as={Row} controlId="workoutTags">
-                  <Col>
-                    <Form.Check
-                      type="checkbox"
-                      label="Cardio"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios1"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Bodyweight"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios2"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Another Label"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios3"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Check
-                      type="checkbox"
-                      label="Legs"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios1"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Arms"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios2"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Abs"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios3"
-                    />
-                  </Col>
-                </Form.Group>
+            <Form.Label>Tags</Form.Label>
+              <Form.Group as={Row} controlId="exerciseTags">
+                <Col>
+                  <Form.Check
+                    type="checkbox"
+                    label="Cardio"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios1"
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    label="Bodyweight"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios2"
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    label="Another Label"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios3"
+                  />
+                </Col>
+                <Col>
+                  <Form.Check
+                    type="checkbox"
+                    label="Legs"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios1"
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    label="Arms"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios2"
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    label="Abs"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios3"
+                  />
+                </Col>
+              </Form.Group>
 
-                <Form.Group>
-                  <Form.File id="workoutMedia" label="Upload workout video" />
-                </Form.Group>
-              </Form>
-            </Tab>
-            <Tab eventKey="exercise" title="Exercise">
-            <Form className="exercise-form">
-                <Form.Group controlId="exerciseTitle">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control type="text" placeholder="Enter exercise title" />
-                </Form.Group>
-
-                <Form.Group controlId="exerciseDesc">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
-                </Form.Group>
-
-                <Form.Label>Tags</Form.Label>
-                <Form.Group as={Row} controlId="exerciseTags">
-                  <Col>
-                    <Form.Check
-                      type="checkbox"
-                      label="Cardio"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios1"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Bodyweight"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios2"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Another Label"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios3"
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Check
-                      type="checkbox"
-                      label="Legs"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios1"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Arms"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios2"
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Abs"
-                      name="formHorizontalRadios"
-                      id="formHorizontalRadios3"
-                    />
-                  </Col>
-                </Form.Group>
-
-                <Form.Group>
-                  <Form.File id="exerciseMedia" label="Upload exercise video" />
-                </Form.Group>
-              </Form>
-            </Tab>
-          </Tabs>
+              <Form.Group>
+                <Form.File id="exerciseMedia" label="Upload exercise video" />
+              </Form.Group>
+            </Form>
         </Modal.Body>
         <Modal.Footer>
           <button onClick={handleClose}>

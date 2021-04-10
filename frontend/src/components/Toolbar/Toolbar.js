@@ -2,6 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {Navbar, Button, Form, FormControl, Nav} from "react-bootstrap";
 import './Toolbar.css';
+import SubmitModal from '../SubmitModal/SubmitModal';
 
 function Toolbar(props){
   return (
@@ -20,11 +21,12 @@ function Toolbar(props){
                         Exercises
                     </NavLink>
                 </Nav>
-                <Form inline>
+                {/* <Form inline>
                     <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                     <Button variant="outline-info">Search</Button>
-                </Form>
+                </Form> */}
               </Navbar.Collapse>
+              <SubmitModal />
           </Navbar>
       </div>
   );
