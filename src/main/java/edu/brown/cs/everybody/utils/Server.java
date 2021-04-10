@@ -52,6 +52,8 @@ public class Server {
 
     // For user creation
     Spark.get("/newUser", new UserHandlers.NewUserHandler());
+    // For user information
+    Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For user deletion
     Spark.get("deleteUser", new UserHandlers.DeleteUserHandler());
   }

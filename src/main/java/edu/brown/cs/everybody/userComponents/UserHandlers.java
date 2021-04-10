@@ -8,7 +8,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Contains handler classes for user-related logic.
@@ -25,14 +26,20 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
 
       // Parse request from client
-      String username = data.getString("username");
       String fName = data.getString("firstName");
       String lName = data.getString("lastName");
-      String createdAt = data.getString("createdAt");
-      // TODO: convert createdAt str to Date obj
-      // TODO: add user preferences fields
+      String createdAtStr = data.getString("createdAt");
+      String username = data.getString("username");
+      String workoutType = data.getString("workoutType");
+      Integer workoutDuration = data.getInt("workoutDuration");
 
-      PostgresDatabase.insertUser(null);
+      // Format date
+      // TODO: verify date format
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      Date createdAt = sdf.parse(createdAtStr);
+
+      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, createdAt, username, workoutType, workoutDuration));
+      PostgresDatabase.insertUser(listData);
       return null;
     }
   }
@@ -44,6 +51,20 @@ public class UserHandlers {
 
 
       Map<String, Object> variables = ImmutableMap.of("foo", "bar");
+      return GSON.toJson(variables);
+    }
+  }
+
+  public static class GetUserInfoHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("username");
+
+      AppUser user = PostgresDatabase.getUserInfo(username);
+
+      Map<String, Object> variables = ImmutableMap.of("firstName", user.getFirstName(), "lastName", user.getLastName(),
+      "workoutType", user.getWorkoutType(), "workoutDuration", user.getWorkoutDuration());
       return GSON.toJson(variables);
     }
   }

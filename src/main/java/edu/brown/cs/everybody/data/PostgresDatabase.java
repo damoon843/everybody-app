@@ -5,9 +5,8 @@ import edu.brown.cs.everybody.utils.ErrorConstants;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,10 +56,68 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Inserts a new user into the users table.
-   * @param user new user to insert
+   * Tears down connection ot pg DB.
    */
-  public static void insertUser(AppUser user) {
+  public static void tearDownConnection() {
+    // TODO: fill this out.
+  }
+
+  /**
+   * Inserts a new user into the users table (sign-up).
+   * @param data list of user-related data to insert
+   */
+  public static void insertUser(List<Object> data) {
+    String insertString = Queries.insertUserQuery();
+
+    // Insert into users table
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setString(1, (String) data.get(0));
+      stmt.setString(2, (String) data.get(1));
+      stmt.setDate(3, (Date) data.get(2));
+      stmt.setString(4, (String) data.get(3));
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+    }
+
+    // Insert into user_preferences table
+    insertString = Queries.insertUserQuery();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setString(1, (String) data.get(3));
+      stmt.setString(2, (String) data.get(4));
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+    }
+  }
+
+  /**
+   * Retrieves an existing user's information with username.
+   * @param username username
+   * @return AppUser object
+   */
+  public static AppUser getUserInfo(String username) throws SQLException {
+    String queryString = Queries.getUserInfo();
+    AppUser user = null;
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, username);
+
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          String firstName = res.getString("first_name");
+          String lastName = res.getString("last_name");
+          String workoutType = res.getString("workout_type");
+          Integer workoutDuration = res.getInt("workout_duration");
+
+          // TODO: encapsulate all fields in AppUser object
+          user = new AppUser(null, firstName, lastName);
+        }
+      } catch (SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      }
+      return user;
+    }
   }
 
   /**

@@ -26,9 +26,10 @@ public class AppUser {
 
   // TODO: review these preferences
   private String workoutType;
+  private String workoutDuration;
 
-  public AppUser(int id, Date timeCreated, String fName, String lName) {
-    this.userID = id;
+  public AppUser(Date timeCreated, String fName, String lName) {
+    // TODO: edit class to prevent strict instantiation in constructor
     this.createdAt = timeCreated;
     this.firstName = fName;
     this.lastName = lName;
@@ -81,5 +82,9 @@ public class AppUser {
 
   public String getWorkoutType() {
     return this.workoutType;
+  }
+
+  public String getWorkoutDuration() {
+    return this.workoutDuration;
   }
 }
