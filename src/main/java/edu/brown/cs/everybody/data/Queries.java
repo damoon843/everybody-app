@@ -40,4 +40,14 @@ public final class Queries {
       + "FROM users INNER JOIN user_preferences prefs ON users.id = prefs.user_id "
       + "WHERE users.username = ?";
   }
+
+  /**
+   * Query to retrieve a user's workouts
+   * @return query string
+   */
+  public static String getWorkouts() {
+    return "SELECT description, workout_type, duration, media_link, total_likes, workout_name"
+      + " FROM workouts"
+      + " WHERE username = ?;";
+  }
 }

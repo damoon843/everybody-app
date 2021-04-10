@@ -1,5 +1,7 @@
 package edu.brown.cs.everybody.data;
 
+import edu.brown.cs.everybody.feedComponents.Exercise;
+import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.utils.ErrorConstants;
 
@@ -118,6 +120,51 @@ public final class PostgresDatabase {
       }
       return user;
     }
+  }
+
+  /**
+   * Retrieves a user's uploaded workouts.
+   * @param username username
+   * @return list of Workout objects
+   */
+  public static List<Workout> getUserWorkouts(String username) throws SQLException {
+    String queryString = Queries.getWorkouts();
+    List<Workout> workouts = null;
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, username);
+
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Workout temp = null;
+          String workoutName = res.getString("workout_name");
+          Integer likes = res.getInt("total_likes");
+          String mediaLink = res.getString("media_link");
+          Integer duration = res.getInt("duration");
+          String workoutType = res.getString("workout_type");
+          String description = res.getString("description");
+
+          temp = new Workout.WorkoutBuilder().name(workoutName).like_count(likes).
+            media_link(mediaLink).duration(duration).type(workoutType).description(description).buildWorkout();
+
+          workouts.add(temp);
+        }
+      } catch (SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      }
+      return workouts;
+    }
+  }
+
+  /**
+   * Retrieves a user's exercises within a specific workout.
+   * @param username username
+   * @param workoutName workout name
+   * @return list of Exercise objects
+   */
+  public static List<Exercise> getUserExercises(String username, String workoutName) {
+    // TODO
+    return null;
   }
 
   /**
