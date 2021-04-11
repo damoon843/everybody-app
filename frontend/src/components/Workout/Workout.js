@@ -2,7 +2,7 @@ import React from 'react';
 import './Workout.css';
 
 function Workout(props){
-  const url = "https://everybody-app.herokuapp.com/workout/" + props.id
+  const url = "/workout/" + props.id
   return(
     <div className="workout-container">
       <img className="workout-image" src={props.thumbnail}/>

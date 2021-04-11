@@ -24,7 +24,7 @@ export const getRecommendations = async (username) => {
 }
 
 // gets workouts for a specific user
-// username
+// username: the user's username
 export const getWorkouts = async (username) => {
   let config = {
     headers: {
@@ -58,7 +58,28 @@ export const getWorkout = async (id) => {
       config
   )
   .then(response => {
-    return response;
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+// gets an existing workout
+// id: the workout's unique ID
+export const getAllExercises = async () => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.get(
+    "https://everybody-app.herokuapp.com/exercises",
+    config
+  )
+  .then(response => {
+    return response.data;
   })
   .catch(function (error) {
     console.log(error);
@@ -69,7 +90,7 @@ export const getWorkout = async (id) => {
 
 // posts a new workout
 // data: information about the workout
-export const postWorkout = async (data) => {
+export const createWorkout = async (data) => {
   const toSend = {
     title: data.title,
     description: data.description,
@@ -82,13 +103,40 @@ export const postWorkout = async (data) => {
     }
   }
   await axios.post(
-    // fix this address/endpoint
-    "https://everybody-app.herokuapp.com/postWorkout",
+    "https://everybody-app.herokuapp.com/uploadWorkout",
     toSend,
     config
   )
   .then(response => {
-    return response
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+// posts a new workout
+// data: information about the workout
+export const createExercise = async (data) => {
+  const toSend = {
+    title: data.title,
+    description: data.description,
+    exercises: data.tags,
+    media: data.media
+  };
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+    "https://everybody-app.herokuapp.com/uploadExercise",
+    toSend,
+    config
+  )
+  .then(response => {
+    return response.data;
   })
   .catch(function (error) {
     console.log(error);

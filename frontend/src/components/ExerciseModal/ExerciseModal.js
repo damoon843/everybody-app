@@ -83,9 +83,7 @@ function ExerciseModal(){
           <button onClick={handleClose}>
             Close
           </button>
-          <button onClick={handleClose}>
-            Save Changes
-          </button>
+          <a href="/uploadExercise"><button onClick={handleClose}>Upload Exercise</button></a>
         </Modal.Footer>
       </Modal>
     </div>
