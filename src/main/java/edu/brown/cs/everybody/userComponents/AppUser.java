@@ -23,84 +23,151 @@ public class AppUser {
   // contains ID's of workouts already recommended on feed
   private Set<Integer> recentlyViewedFeed = new HashSet<>();
 
-  // TODO: review these preferences (ADD DURATION?)
   private String workoutType;
   private String workoutDuration;
 
-  public AppUser(int id, Date timeCreated, String fName, String lName) {
+  /**
+   * Constructor.
+   * @param id userID
+   * @param timeCreated time profile was created
+   * @param fName user first name
+   * @param lName user last name
+   * @param workoutType workout type preference
+   * @param workoutDuration workout duration preference
+   */
+  public AppUser(int id, Date timeCreated, String fName, String lName, String workoutType,
+                 String workoutDuration) {
     this.userID = id;
     this.createdAt = timeCreated;
     this.firstName = fName;
     this.lastName = lName;
-    this.following = PostgresDatabase.getFollowing(this.userID); // CHANGE?
+    this.following = PostgresDatabase.getFollowing(this.userID);
     this.workouts = PostgresDatabase.getWorkouts(this.userID);
-    // TODO: add user preferences fields here
+    this.workoutType = workoutType;
+    this.workoutDuration = workoutDuration;
   }
 
-  // TODO: add getter javadocs here
+  /**
+   * Getter for ID.
+   * @return user ID
+   */
   public int getUserID() {
     return this.userID;
   }
 
+  /**
+   * Getter for Username.
+   * @return username
+   */
   public String getUsername() {
     return this.username;
   }
 
+  /**
+   * Getter for time created.
+   * @return time created
+   */
   public Date getCreatedAt() {
     return this.createdAt;
   }
 
+  /**
+   * Getter for first name.
+   * @return first name
+   */
   public String getFirstName() {
     return this.firstName;
   }
 
+  /**
+   * Getter for last name.
+   * @return last name
+   */
   public String getLastName() {
     return this.lastName;
   }
 
+  /**
+   * Getter for workouts user has posted.
+   * @return priority queue of workouts ordered by recency posted
+   */
   public PriorityQueue<Workout> getWorkouts() {
     return this.workouts;
   }
 
+  /**
+   * Adds a workout to pq of workouts.
+   * @param w workout to add
+   */
   public void addWorkout(Workout w) {
     this.workouts.add(w);
   }
 
+  /**
+   * Gets recently recommended workouts to user.
+   * @return set of integers containing workout ID's
+   */
   public Set<Integer> getRecentlyViewed() {
     return this.recentlyViewedFeed;
   }
 
-  public void addRecentlViewed(int i) {
+  /**
+   * Adds a workout to recently viewed set.
+   * @param i workout ID to add.
+   */
+  public void addRecentlyViewed(int i) {
     this.recentlyViewedFeed.add(i);
-    PostgresDatabase.addRecentlyViewed(i);
+    PostgresDatabase.addRecentlyViewed(this.userID, i);
   }
 
-  // used in home feed recommendation when not enough people in stronglyConnectedComponent
+  /**
+   * Gets users the user is following; used in home feed recommendation algorithm.
+   * @return List of user ID's who user follows
+   */
   public List<Integer> getFollowing() {
     return this.following;
   }
 
-  // used whenever main receives post request of an account following another
+  //
+
+  /**
+   * Adds user to following list; called whenever server receives post request of an account
+   * following another.
+   * @param id follower id
+   */
   public void addFollowing(int id) {
     this.following.add(id);
   }
 
-  // updates stronglyConnectedComponent stored
+  /**
+   * Recalculates the strongly connected component of user using Kosaraju's algorithm.
+   */
   private void updateStronglyConnected() {
     this.following = PostgresDatabase.getFollowing(this.userID);
     this.stronglyConnected = new KosarajusAlgorithm().findSCC(this.userID);
   }
 
-  // used in home feed recommendation to recommend new workouts
+  /**
+   * Used in home feed algorithm to find strongly connected users.
+   * @return List of user ID's
+   */
   public List<Integer> getStronglyConnected() {
     updateStronglyConnected();
     return this.stronglyConnected;
   }
 
+  /**
+   * Gets workout type preference.
+   * @return workout type
+   */
   public String getWorkoutType() {
     return this.workoutType;
   }
 
+  /**
+   * Gets workout duration preference.
+   * @return workout duration
+   */
   public String getWorkoutDuration() {
     return this.workoutDuration;
   }

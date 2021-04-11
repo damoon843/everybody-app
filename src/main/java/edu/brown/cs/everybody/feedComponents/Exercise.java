@@ -8,6 +8,7 @@ import java.util.Date;
  * Encapsulates an Exercise object.
  */
 public class Exercise {
+
   private int exercise_id;
   private int workout_id;
   private int user_id;
@@ -17,6 +18,7 @@ public class Exercise {
   private String target_area;
   private Double duration;
   private URL media_link;
+  // TODO: need this?
   private int next; // Stores ID of next exercise (in workout)
 
   /**
