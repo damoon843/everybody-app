@@ -154,7 +154,7 @@ public class UserHandlers {
         output.add(finalWorkout.toMap());
         finalWorkout = finalSortedWorkouts.poll();
       }
-      Map<String, Object> variables = ImmutableMap.of("output", output);
+      Map<String, Object> variables = ImmutableMap.of("workouts", output);
       return GSON.toJson(variables);
     }
   }

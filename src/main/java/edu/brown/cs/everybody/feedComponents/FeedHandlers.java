@@ -86,13 +86,17 @@ public class FeedHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
+      List<Map<String, String>> output = new ArrayList<>();
 
       String username = data.getString("username");
-      List<Workout> workouts = PostgresDatabase.getUserWorkouts(username);
+      PriorityQueue<Workout> workouts = PostgresDatabase.getUserWorkouts(username);
 
-      // TODO: convert Workout objects attributes into list
-
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
+      Workout finalWorkout = workouts.poll();
+      while (finalWorkout != null) {
+        output.add(finalWorkout.toMap());
+        finalWorkout = workouts.poll();
+      }
+      Map<String, Object> variables = ImmutableMap.of("workouts", output);
       return GSON.toJson(variables);
     }
   }
@@ -100,6 +104,7 @@ public class FeedHandlers {
   /**
    * Retrieves all exercises within a workout posted by a user (for profile).
    */
+  // TODO
   public static class GetExercisesHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {

@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import edu.brown.cs.everybody.data.PostgresDatabase;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -28,7 +29,7 @@ public class KosarajusAlgorithm {
    * @param user userID we are interested in
    * @return list containing ID's of users in same strongly connected component in graph
    */
-  public List<Integer> findSCC(int user) {
+  public List<Integer> findSCC(int user) throws SQLException {
     // Data structures for Kosaraju's Algorithm.
     Map<Integer, List<Integer>> reverseRelations = new HashMap<>();
     Set<Integer> firstRun = new HashSet<>();

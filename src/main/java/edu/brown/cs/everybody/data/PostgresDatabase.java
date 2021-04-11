@@ -8,10 +8,10 @@ import edu.brown.cs.everybody.utils.WorkoutComparator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Singleton class wrapping PostgreSQL DB and
@@ -139,34 +139,31 @@ public final class PostgresDatabase {
    * @param username username
    * @return list of Workout objects
    */
-  public static List<Workout> getUserWorkouts(String username) throws SQLException {
+  public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException {
     String queryString = Queries.getWorkouts();
-    List<Workout> workouts = new ArrayList<>();
-
+    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
-
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
-          Workout temp = null;
+          int workoutID = res.getInt("workout_id");
           String workoutName = res.getString("workout_name");
-          Integer likes = res.getInt("total_likes");
-          String mediaLink = res.getString("media_link");
-          Integer duration = res.getInt("duration");
-          String workoutType = res.getString("workout_type");
+          Date created = res.getDate("created_at");
+          int likes = res.getInt("total_likes");
+          URL mediaLink = res.getURL("media_link");
+          int duration = res.getInt("duration");
+          String createrUsername = res.getString("username");
           String description = res.getString("description");
-
-//          temp = new Workout.WorkoutBuilder().name(workoutName).like_count(likes).
-//            media_link(mediaLink).duration(duration).type(workoutType).description(description).buildWorkout();
-          temp = null;
-
-          workouts.add(temp);
+          Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
+              username(createrUsername).created_at(created).description(description)
+              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+          pq.add(workout);
         }
       } catch (SQLException ex) {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
-      return workouts;
+      return pq;
     }
   }
 
@@ -215,17 +212,16 @@ public final class PostgresDatabase {
               // TODO: create Exercise object
               Exercise temp = null;
               exercises.add(temp);
-              }
-            } catch (SQLException ex) {
-                System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
-                throw new SQLException(ex.getMessage());
             }
+          } catch (SQLException ex) {
+            System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+            throw new SQLException(ex.getMessage());
           }
-        } catch (SQLException ex) {
-          System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
-          throw new SQLException(ex.getMessage());
         }
-
+      } catch (SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        throw new SQLException(ex.getMessage());
+      }
       return exercises;
     }
   }
@@ -330,25 +326,22 @@ public final class PostgresDatabase {
    * @param id input user ID.
    * @return list of user ID's.
    */
-  public static List<Integer> getFollowing(int id) {
+  public static List<Integer> getFollowing(int id) throws SQLException {
     String getString = Queries.getFollowingQuery();
-
-    // Insert into workouts table
+    List<Integer> following = new ArrayList<>();
     try (PreparedStatement stmt = dbConn.prepareStatement(getString)) {
-      stmt.setDate(1, createdAt);
-      stmt.setInt(2, duration);
-      stmt.setString(3, mediaLink);
-      stmt.setInt(4, totalLikes);
-      stmt.setArray(5, (Array) exerciseIds);
-      stmt.setString(6, description);
-      stmt.setString(7, username);
-      stmt.setString(8, workoutName);
-      stmt.execute();
+      stmt.setInt(1, id);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer userID = res.getInt("following_id");
+          following.add(userID);
+        }
+      }
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
-    return null;
+    return following;
   }
 
   /**
@@ -356,49 +349,28 @@ public final class PostgresDatabase {
    * @param id user ID
    * @return AppUser object containing info about user with given id
    */
-  public static AppUser getUser(int id) {
-    //COPY THE CODE AND MODIFFY
-     /**
-     * Retrieves an existing user's information with username.
-     * @param username username
-     * @return list of user info
-     */
-//    public static List<Object> getUserInfo(String username) throws SQLException {
-//      String queryString = Queries.getUserInfo();
-//      List<Object> result = new ArrayList<>();
-//
-//      try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-//        stmt.setString(1, username);
-//
-//        try (ResultSet res = stmt.executeQuery()) {
-//          while (res.next()) {
-//            String firstName = res.getString("first_name");
-//            String lastName = res.getString("last_name");
-//            String workoutType = res.getString("workout_type");
-//            Integer workoutDuration = res.getInt("workout_duration");
-//
-//            result.add(firstName);
-//            result.add(lastName);
-//            result.add(workoutType);
-//            result.add(workoutDuration);
-//          }
-//        } catch (SQLException ex) {
-//          System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
-//        }
-//        return result;
-//      }
-//    }
-    return null;
-  }
-
-  /**
-   * Queries database for all workouts created by the user specified by the input id.
-   * @param id user ID
-   * @return PQ of workouts user has created ordered by date created
-   */
-  public static PriorityQueue<Workout> getWorkouts(int id) {
-    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
-    return null;
+  public static AppUser getUser(int id) throws SQLException {
+    String queryString = Queries.getUser();
+    AppUser user = null;
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, id);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          String firstName = res.getString("first_name");
+          int userID = res.getInt("id");
+          String username = res.getString("username");
+          Date created_at = res.getDate("created_at");
+          String lastName = res.getString("last_name");
+          String workoutType = res.getString("workout_type");
+          Integer workoutDuration = res.getInt("workout_duration");
+          user = new AppUser(userID, username, created_at, firstName, lastName, workoutType, workoutDuration);
+        }
+      } catch (SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        throw new SQLException(ex.getMessage());
+      }
+      return user;
+    }
   }
 
   /**
@@ -406,8 +378,40 @@ public final class PostgresDatabase {
    * @param user user id
    * @param workout workout id
    */
-  public static void addRecentlyViewed(int user, int workout) {
+  public static void addRecentlyViewed(int user, int workout) throws SQLException {
+    String insertString = Queries.insertViewedWorkout();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, user);
+      stmt.setInt(2, workout);
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+  }
 
+  /**
+   * Gets all the recently viewed workout Ids for a given user.
+   * @param userID user id
+   * @return set of workout ids
+   *
+   */
+  public static Set<Integer> getRecentlyViewed(int userID) throws SQLException{
+    String queryString = Queries.recentlyViewed();
+    Set<Integer> workouts = new HashSet<>();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer workoutID = res.getInt("workout_id");
+          workouts.add(workoutID);
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+    return workouts;
   }
 
   /**
@@ -415,7 +419,20 @@ public final class PostgresDatabase {
    * @param userID user id
    * @return username
    */
-  public static String getUserName(int userID) {
-    return null;
+  public static String getUserName(int userID) throws SQLException {
+    String queryString = Queries.getUsername();
+    String username = "";
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          username = res.getString("username");
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+    return username;
   }
 }
