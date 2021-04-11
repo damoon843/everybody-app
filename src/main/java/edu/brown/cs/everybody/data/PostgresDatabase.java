@@ -96,11 +96,11 @@ public final class PostgresDatabase {
   /**
    * Retrieves an existing user's information with username.
    * @param username username
-   * @return AppUser object
+   * @return list of user info
    */
-  public static AppUser getUserInfo(String username) throws SQLException {
+  public static List<Object> getUserInfo(String username) throws SQLException {
     String queryString = Queries.getUserInfo();
-    AppUser user = null;
+    List<Object> result = new ArrayList<>();
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
@@ -112,13 +112,15 @@ public final class PostgresDatabase {
           String workoutType = res.getString("workout_type");
           Integer workoutDuration = res.getInt("workout_duration");
 
-          // TODO: encapsulate all fields in AppUser object
-          user = new AppUser(null, firstName, lastName);
+          result.add(firstName);
+          result.add(lastName);
+          result.add(workoutType);
+          result.add(workoutDuration);
         }
       } catch (SQLException ex) {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       }
-      return user;
+      return result;
     }
   }
 

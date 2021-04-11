@@ -26,6 +26,7 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
 
       // Parse request from client
+      // TODO: verify info sent from frontend
       String fName = data.getString("firstName");
       String lName = data.getString("lastName");
       String createdAtStr = data.getString("createdAt");
@@ -61,10 +62,10 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
       String username = data.getString("username");
 
-      AppUser user = PostgresDatabase.getUserInfo(username);
+      List<Object> userInfo = PostgresDatabase.getUserInfo(username);
 
-      Map<String, Object> variables = ImmutableMap.of("firstName", user.getFirstName(), "lastName", user.getLastName(),
-      "workoutType", user.getWorkoutType(), "workoutDuration", user.getWorkoutDuration());
+      Map<String, Object> variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
+      "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
       return GSON.toJson(variables);
     }
   }
