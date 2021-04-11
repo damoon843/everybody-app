@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import edu.brown.cs.everybody.data.PostgresDatabase;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -28,7 +29,7 @@ public class KosarajusAlgorithm {
    * @param user userID we are interested in
    * @return list containing ID's of users in same strongly connected component in graph
    */
-  public List<Integer> findSCC(int user) {
+  public List<Integer> findSCC(int user) throws SQLException {
     // Data structures for Kosaraju's Algorithm.
     Map<Integer, List<Integer>> reverseRelations = new HashMap<>();
     Set<Integer> firstRun = new HashSet<>();
@@ -45,19 +46,17 @@ public class KosarajusAlgorithm {
     while (!queue.isEmpty()) {
       int startUser = queue.poll();
       List<Integer> following = PostgresDatabase.getFollowing(user);
-      if (following != null) {
-        for (int followingUser: following) {
-          if (!visited.contains(followingUser)) {
-            queue.add(followingUser);
-            visited.add(followingUser);
-            firstRun.add(followingUser);
-            if (reverseRelations.containsKey(followingUser)) {
-              reverseRelations.get(followingUser).add(startUser);
-            } else {
-              List<Integer> lst = new ArrayList<>();
-              lst.add(startUser);
-              reverseRelations.put(followingUser, lst);
-            }
+      for (int followingUser : following) {
+        if (!visited.contains(followingUser)) {
+          queue.add(followingUser);
+          visited.add(followingUser);
+          firstRun.add(followingUser);
+          if (reverseRelations.containsKey(followingUser)) {
+            reverseRelations.get(followingUser).add(startUser);
+          } else {
+            List<Integer> lst = new ArrayList<>();
+            lst.add(startUser);
+            reverseRelations.put(followingUser, lst);
           }
         }
       }

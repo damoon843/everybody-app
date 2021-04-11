@@ -36,7 +36,7 @@ public final class Queries {
       + "users.last_name, "
       + "prefs.workout_type, "
       + "prefs.workout_duration "
-      + "FROM users INNER JOIN user_preferences prefs ON users.id = prefs.user_id "
+      + "FROM users INNER JOIN user_preferences AS prefs ON users.id = prefs.user_id "
       + "WHERE users.username = ?";
   }
 
@@ -45,7 +45,7 @@ public final class Queries {
    * @return query string
    */
   public static String getWorkouts() {
-    return "SELECT description, workout_type, duration, media_link, total_likes, workout_name"
+    return "SELECT *"
       + " FROM workouts"
       + " WHERE username = ?;";
   }
@@ -101,5 +101,52 @@ public final class Queries {
    */
   public static String getFollowingQuery() {
     return "SELECT following_id FROM following WHERE user_id = ?";
+  }
+
+  /**
+   * Query to retrieve full user info.
+   * @return query string
+   */
+  public static String getUser() {
+    return "SELECT user.id, user.username, user.created_at, users.first_name, "
+        + "users.last_name, "
+        + "prefs.workout_type, "
+        + "prefs.workout_duration "
+        + "FROM users INNER JOIN user_preferences AS prefs ON users.id = prefs.user_id "
+        + "WHERE users.username = ?";
+  }
+
+  /**
+   * Query to retrieve id of username
+   * @return query string
+   */
+  public static String getUserID() {
+    return "SELECT id FROM users WHERE username = ?";
+  }
+
+  /**
+   * Query to retrieve recently viewed workouts of a user id.
+   * @return query string
+   */
+  public static String recentlyViewed() {
+    return "SELECT workout_id FROM viewed_workouts WHERE user_id = ?";
+  }
+
+  /**
+   * Query to insert a workout a user has been recommended to the viewed_workouts table.
+   * @return query string
+   */
+  public static String insertViewedWorkout() {
+    return "INSERT INTO viewed_workouts"
+        + " VALUES(?, ?);";
+  }
+
+  /**
+   * Query to insert a follow relationship to following.
+   * @return query string
+   */
+  public static String insertFollow() {
+    return "INSERT INTO following"
+        + " VALUES(?, ?);";
   }
 }

@@ -4,6 +4,7 @@ import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.KosarajusAlgorithm;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -21,10 +22,10 @@ public class AppUser {
   private PriorityQueue<Workout> workouts;
 
   // contains ID's of workouts already recommended on feed
-  private Set<Integer> recentlyViewedFeed = new HashSet<>();
+  private Set<Integer> recentlyViewedFeed;
 
   private String workoutType;
-  private String workoutDuration;
+  private Integer workoutDuration;
 
   /**
    * Constructor.
@@ -35,14 +36,16 @@ public class AppUser {
    * @param workoutType workout type preference
    * @param workoutDuration workout duration preference
    */
-  public AppUser(int id, Date timeCreated, String fName, String lName, String workoutType,
-                 String workoutDuration) {
+  public AppUser(int id, String username, Date timeCreated, String fName, String lName, String workoutType,
+                 Integer workoutDuration) throws SQLException {
     this.userID = id;
     this.createdAt = timeCreated;
+    this.username = username;
     this.firstName = fName;
     this.lastName = lName;
     this.following = PostgresDatabase.getFollowing(this.userID);
-    this.workouts = PostgresDatabase.getWorkouts(this.userID);
+    this.workouts = PostgresDatabase.getUserWorkouts(this.username);
+    this.recentlyViewedFeed = PostgresDatabase.getRecentlyViewed(this.userID);
     this.workoutType = workoutType;
     this.workoutDuration = workoutDuration;
   }
@@ -92,6 +95,7 @@ public class AppUser {
    * @return priority queue of workouts ordered by recency posted
    */
   public PriorityQueue<Workout> getWorkouts() {
+    // TODO
     return this.workouts;
   }
 
@@ -100,6 +104,7 @@ public class AppUser {
    * @param w workout to add
    */
   public void addWorkout(Workout w) {
+    // TODO
     this.workouts.add(w);
   }
 
@@ -115,7 +120,7 @@ public class AppUser {
    * Adds a workout to recently viewed set.
    * @param i workout ID to add.
    */
-  public void addRecentlyViewed(int i) {
+  public void addRecentlyViewed(int i) throws SQLException {
     this.recentlyViewedFeed.add(i);
     PostgresDatabase.addRecentlyViewed(this.userID, i);
   }
@@ -124,7 +129,8 @@ public class AppUser {
    * Gets users the user is following; used in home feed recommendation algorithm.
    * @return List of user ID's who user follows
    */
-  public List<Integer> getFollowing() {
+  public List<Integer> getFollowing() throws SQLException {
+    this.following = PostgresDatabase.getFollowing(this.userID);
     return this.following;
   }
 
@@ -142,7 +148,7 @@ public class AppUser {
   /**
    * Recalculates the strongly connected component of user using Kosaraju's algorithm.
    */
-  private void updateStronglyConnected() {
+  private void updateStronglyConnected() throws SQLException {
     this.following = PostgresDatabase.getFollowing(this.userID);
     this.stronglyConnected = new KosarajusAlgorithm().findSCC(this.userID);
   }
@@ -151,7 +157,7 @@ public class AppUser {
    * Used in home feed algorithm to find strongly connected users.
    * @return List of user ID's
    */
-  public List<Integer> getStronglyConnected() {
+  public List<Integer> getStronglyConnected() throws SQLException {
     updateStronglyConnected();
     return this.stronglyConnected;
   }
@@ -168,7 +174,7 @@ public class AppUser {
    * Gets workout duration preference.
    * @return workout duration
    */
-  public String getWorkoutDuration() {
+  public Integer getWorkoutDuration() {
     return this.workoutDuration;
   }
 

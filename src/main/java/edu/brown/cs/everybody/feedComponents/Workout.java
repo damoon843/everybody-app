@@ -1,11 +1,9 @@
 package edu.brown.cs.everybody.feedComponents;
 
-
-
 import edu.brown.cs.everybody.data.PostgresDatabase;
-import edu.brown.cs.everybody.userComponents.AppUser;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,30 +16,27 @@ import java.util.Objects;
  */
 public class Workout {
   private int workout_id;
-  private String name;
-  private int user_id;
   private Date created_at;
-  private String description;
-  private Double duration;
+  private int duration;
   private URL media_link;
-  private Long like_count;
-  private String type;
+  private int like_count;
+  private String description;
+  private String username;
+  private String workout_name;
 
   /**
    * Constructor for Workout
    * @param builder hydrated builder object
    */
   public Workout(WorkoutBuilder builder) {
-    // TODO: remove workout_id
     this.workout_id = builder._workout_id;
-    this.name = builder._name;
-    this.user_id = builder._user_id;
+    this.username = builder._username;
+    this.workout_name = builder._workout_name;
     this.created_at = builder._created_at;
     this.description = builder._description;
     this.duration = builder._duration;
     this.media_link = builder._media_link;
     this.like_count = builder._like_count;
-    this.type = builder._type;
   }
 
   /**
@@ -53,11 +48,19 @@ public class Workout {
   }
 
   /**
-   * Getter for user ID that posted workout.
-   * @return user ID
+   * Getter for name of workout.
+   * @return username
    */
-  public int getUserId() {
-    return this.user_id;
+  public String workoutName() {
+    return this.workout_name;
+  }
+
+  /**
+   * Getter for username that posted workout.
+   * @return username
+   */
+  public String getUsername() {
+    return this.username;
   }
 
   /**
@@ -80,7 +83,7 @@ public class Workout {
    * Getter for workout duration
    * @return duration
    */
-  public Double getDuration() {
+  public int getDuration() {
     return this.duration;
   }
 
@@ -96,16 +99,8 @@ public class Workout {
    * Getter for like count.
    * @return like count
    */
-  public Long getLikeCount() {
+  public int getLikeCount() {
     return this.like_count;
-  }
-
-  /**
-   * Getter for workout type.
-   * @return workout type
-   */
-  public String getType() {
-    return this.type;
   }
 
   /**
@@ -113,12 +108,10 @@ public class Workout {
    * @return - a map from string to string, where the keys are the field names and the values
    * are the field values as strings.
    */
-  public Map<String, String> toMap() {
+  public Map<String, String> toMap() throws SQLException {
     Map<String, String> map = new HashMap<>();
     map.put("workout_id", Integer.toString(this.workout_id));
-    if (PostgresDatabase.getUserName(this.user_id) != null) {
-      map.put("posting_user", PostgresDatabase.getUserName(this.user_id));
-    }
+    map.put("posting_user",this.username);
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String strDate = dateFormat.format(this.created_at);
     map.put("created_at", strDate);
@@ -126,7 +119,6 @@ public class Workout {
     map.put("duration", Double.toString(this.duration));
     map.put("media_link", this.media_link.toString());
     map.put("like_count", Long.toString(this.like_count));
-    map.put("type", this.type);
     return map;
   }
 
@@ -134,7 +126,7 @@ public class Workout {
   public int hashCode() {
     return Objects.hash(
         workout_id,
-        user_id);
+        username);
   }
 
   @Override
@@ -151,15 +143,14 @@ public class Workout {
    * Inner builder class for Workouts. Uses the Builder Design pattern.
    */
   public static class WorkoutBuilder {
-    private String _name;
     private int _workout_id;
-    private int _user_id;
     private Date _created_at;
-    private String _description;
-    private Double _duration;
+    private int _duration;
     private URL _media_link;
-    private Long _like_count;
-    private String _type;
+    private int _like_count;
+    private String _description;
+    private String _username;
+    private String _workout_name;
 
     /* Empty constructor */
     public WorkoutBuilder() {}
@@ -187,18 +178,18 @@ public class Workout {
      * @param workout_name name of workout
      * @return WorkoutBuilder object
      */
-    public WorkoutBuilder name(String workout_name) {
-      this._name = workout_name;
+    public WorkoutBuilder workout_name(String workout_name) {
+      this._workout_name = workout_name;
       return this;
     }
 
     /**
      * Sets user id field.
-     * @param id user id
+     * @param user username
      * @return WorkoutBuilder object
      */
-    public WorkoutBuilder user_id(int id) {
-      this._user_id  = id;
+    public WorkoutBuilder username(String user) {
+      this._username  = user;
       return this;
     }
 
@@ -227,7 +218,7 @@ public class Workout {
      * @param length workout length
      * @return WorkoutBuilder object
      */
-    public WorkoutBuilder duration(Double length) {
+    public WorkoutBuilder duration(int length) {
       this._duration  = length;
       return this;
     }
@@ -247,18 +238,8 @@ public class Workout {
      * @param count likes
      * @return WorkoutBuilder object
      */
-    public WorkoutBuilder like_count(Long count) {
+    public WorkoutBuilder like_count(int count) {
       this._like_count  = count;
-      return this;
-    }
-
-    /**
-     * Sets workout type field.
-     * @param workout_type type of workout
-     * @return WorkoutBuilder object
-     */
-    public WorkoutBuilder type(String workout_type) {
-      this._type = workout_type;
       return this;
     }
   }

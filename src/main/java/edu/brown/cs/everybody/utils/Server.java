@@ -69,6 +69,7 @@ public class Server {
     Spark.get("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
     Spark.get("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
+    Spark.post("/follow", new UserHandlers.FollowHandler());
 
   }
 
