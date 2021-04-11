@@ -98,6 +98,7 @@ public class Workout {
     Map<String, String> map = new HashMap<>();
     map.put("workout_id", Integer.toString(this.workout_id));
     // TODO: FINISH
+    // ADD USERNAME INSTEAD OF USER_ID
     map.put("duration", Double.toString(this.duration));
     return map;
   }
