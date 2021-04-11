@@ -12,7 +12,28 @@ export const getRecommendations = async (username) => {
     }
   }
   await axios.get(
-    "http://localhost:3000/getRecommendations/" + username,
+    "https://everybody-app.herokuapp.com/getRecommendations/" + username,
+    config
+  )
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+// gets workouts for a specific user
+// username
+export const getWorkouts = async (username) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.get(
+    "https://everybody-app.herokuapp.com/getWorkouts/" + username,
     config
   )
   .then(response => {
@@ -33,7 +54,7 @@ export const getWorkout = async (id) => {
     }
   }
   await axios.get(
-      "http://localhost:3000/getWorkout/" + id,
+      "https://everybody-app.herokuapp.com/getWorkout/" + id,
       config
   )
   .then(response => {
@@ -62,7 +83,7 @@ export const postWorkout = async (data) => {
   }
   await axios.post(
     // fix this address/endpoint
-    "http://localhost:3000/postWorkout",
+    "https://everybody-app.herokuapp.com/postWorkout",
     toSend,
     config
   )
