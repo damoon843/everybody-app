@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './ProfilePage.css';
-import ExpandedUserProfile from "./ExpandedUserProfile/ExpandedUserProfile";
+import ExpandedUserProfile from "./components/ExpandedUserProfile/ExpandedUserProfile";
 import Main from "../HomePage/components/Main/Main";
 import {Button} from "react-bootstrap";
 import { getWorkouts } from "../../api";
 import Workout from '../../components/Workout/Workout';
+import Profile from './components/Profile/Profile';
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
@@ -36,6 +37,7 @@ function ProfilePage(props){
         <div className="profile-workouts">
         {workouts}
         </div>
+        <Profile/>
     </div>
   );
 }
