@@ -1,5 +1,6 @@
 package edu.brown.cs.everybody.utils;
 
+import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.userComponents.AppUser;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public final class Main {
   private static final int DEFAULT_PORT = 4567;
   private final String[] args;
   private static Map<Integer, AppUser> users = new HashMap<>();
+
 
   private Main(String[] args) {
     this.args = args;
@@ -28,7 +30,7 @@ public final class Main {
   }
 
   private void run() throws Exception {
-
+    PostgresDatabase.getInstance();
     // Begin the server
     Server server = new Server(DEFAULT_PORT);
     System.out.println("THIS IS THE BEST APP EVER!");
