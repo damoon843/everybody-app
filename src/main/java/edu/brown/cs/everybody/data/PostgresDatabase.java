@@ -146,8 +146,9 @@ public final class PostgresDatabase {
           String workoutType = res.getString("workout_type");
           String description = res.getString("description");
 
-          temp = new Workout.WorkoutBuilder().name(workoutName).like_count(likes).
-            media_link(mediaLink).duration(duration).type(workoutType).description(description).buildWorkout();
+//          temp = new Workout.WorkoutBuilder().name(workoutName).like_count(likes).
+//            media_link(mediaLink).duration(duration).type(workoutType).description(description).buildWorkout();
+          temp = null;
 
           workouts.add(temp);
         }
@@ -170,11 +171,11 @@ public final class PostgresDatabase {
     List<Integer> exerciseIds = new ArrayList<>();
 
     // Retrieve order of exercise IDs
-    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-      stmt.setString(1, username);
-      stmt.setString(2, workoutName);
+    try (PreparedStatement stmt1 = dbConn.prepareStatement(queryString)) {
+      stmt1.setString(1, username);
+      stmt1.setString(2, workoutName);
 
-      try (ResultSet res = stmt.executeQuery()) {
+      try (ResultSet res = stmt1.executeQuery()) {
         while (res.next()) {
           Integer exerciseId = res.getInt("exercise_id");
           exerciseIds.add(exerciseId);
@@ -186,11 +187,11 @@ public final class PostgresDatabase {
       // Retrieve each exercise's details
       queryString = Queries.getExerciseInfo();
 
-      try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      try (PreparedStatement stmt2 = dbConn.prepareStatement(queryString)) {
         for (int id : exerciseIds) {
-          stmt.setInt(1, id);
+          stmt2.setInt(1, id);
 
-          try (ResultSet res = stmt.executeQuery()) {
+          try (ResultSet res = stmt2.executeQuery()) {
             while (res.next()) {
               String exerciseName = res.getString("exercise_name");
               String mediaLink = res.getString("media_link");
@@ -216,21 +217,83 @@ public final class PostgresDatabase {
   /**
    * Inserts an uploaded exercise
    * @param username username
-   *
-   *
-   *
-   * @return exercise ID (to be stored in frontend)
+   * @param exerciseName exercise name
+   * @param mediaLink media URL
+   * @param duration length of exercise (seconds)
+   * @param targetArea exercise target area
+   * @param type exercise type
+   * @param description description
+   * @param createdAt exercise creation timestamp
    */
-  public static Integer insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
+  public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
                                            String targetArea, String type, String description, Date createdAt) {
     String insertString = Queries.insertExercise();
 
     // Insert into exercises table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setDate(1, createdAt);
+      stmt.setInt(2, duration);
+      stmt.setString(3, mediaLink);
+      stmt.setString(4, description);
+      stmt.setString(5, targetArea);
+      stmt.setString(6, type);
+      stmt.setString(7, username);
+      stmt.setString(8, exerciseName);
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+    }
+  }
+
+  /**
+   * Helper method for insertUserWorkout. Retrieves exercise ID.
+   */
+  public static Integer getExerciseId(String username, String exerciseName){
+    String queryString = Queries.getExerciseId();
+    Integer exerciseId = 0;
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
-      stmt.setString(2, (String) data.get(1));
-      stmt.setDate(3, (Date) data.get(2));
-      stmt.setString(4, (String) data.get(3));
+      stmt.setString(2, exerciseName);
+
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer exerciseID = res.getInt("exercise_id");
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+    }
+
+    return exerciseId;
+  }
+
+
+  /**
+   * Inserts an uploaded workout.
+   * @param createdAt uploaded timestamp
+   * @param duration length of workout
+   * @param mediaLink media link
+   * @param totalLikes likes of workout
+   * @param description description of workout
+   * @param username username of poster
+   * @param workoutName workout name
+   * @param exerciseIds list of exercises in the workout
+   */
+  public static void insertUserWorkout(Date createdAt, Integer duration, String mediaLink, Integer totalLikes,
+                                       String description, String username, String workoutName, List<Integer> exerciseIds) {
+    String insertString = Queries.insertWorkout();
+
+    // Insert into workouts table
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setDate(1, createdAt);
+      stmt.setInt(2, duration);
+      stmt.setString(3, mediaLink);
+      stmt.setInt(4, totalLikes);
+      stmt.setArray(5, (Array) exerciseIds);
+      stmt.setString(6, description);
+      stmt.setString(7, username);
+      stmt.setString(8, workoutName);
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);

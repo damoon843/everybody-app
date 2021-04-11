@@ -70,10 +70,17 @@ public final class Queries {
   }
 
   public static String insertExercise() {
-    return "";
+    return "INSERT INTO exercises"
+      + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
   }
 
   public static String insertWorkout() {
-    return "";
+    return "INSERT INTO workouts"
+      + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+  }
+
+  public static String getExerciseId() {
+    return "SELECT exercise_id FROM exercises"
+      + " WHERE username = ? AND exercise_name = ?;";
   }
 }

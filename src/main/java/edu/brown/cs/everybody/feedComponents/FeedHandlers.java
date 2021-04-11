@@ -1,10 +1,9 @@
-package edu.brown.cs.everybody.userComponents;
+package edu.brown.cs.everybody.feedComponents;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.PostgresDatabase;
-import edu.brown.cs.everybody.feedComponents.Exercise;
-import edu.brown.cs.everybody.feedComponents.Workout;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
@@ -37,28 +36,51 @@ public class FeedHandlers {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       Date createdAt = sdf.parse(createdAtStr);
 
-      PostgresDatabase.insertUserExercise();
+      PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, exerciseTargetArea,
+        exerciseType, description, (java.sql.Date) createdAt);
 
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
-      return GSON.toJson(variables);
+      return null;
     }
   }
 
   public static class UploadWorkoutHandler implements Route {
-    // TODO: frontend should have stored exercise IDs as an array
-    // TODO: update workout_id for each exercise
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
+      List<Integer> exerciseIds = new ArrayList<>(); // To store a workout's exercise IDs
 
+      // TODO: verify JSONObject array (with username, exerciseName elements)
 
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
-      return GSON.toJson(variables);
+      JSONArray jsonObjects = data.getJSONArray("exerciseList");
+      for (int i = 0; i < jsonObjects.length(); i++) {
+        JSONObject temp = (JSONObject) jsonObjects.get(i);
+        String username = temp.getString("username");
+        String exerciseName = temp.getString("exerciseName");
+        Integer exerciseId = PostgresDatabase.getExerciseId(username, exerciseName);
+        exerciseIds.add(exerciseId);
+      }
+
+      String createdAtStr = data.getString("createdAt");
+      Integer duration = data.getInt("duration");
+      String mediaLink = data.getString("mediaLink");
+      Integer totalLikes = 0;
+      String description = data.getString("description");
+      String username = data.getString("username");
+      String workoutName = data.getString("workoutName");
+
+      // TODO: verify date format
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      Date createdAt = sdf.parse(createdAtStr);
+
+      PostgresDatabase.insertUserWorkout((java.sql.Date) createdAt, duration, mediaLink, totalLikes,
+        description, username, workoutName, exerciseIds);
+
+      return null;
     }
   }
 
   /**
-   * Retrieves all workouts posted by a user.
+   * Retrieves all workouts posted by a user (for profile).
    */
   public static class GetWorkoutsHandler implements Route {
     @Override
@@ -76,7 +98,7 @@ public class FeedHandlers {
   }
 
   /**
-   * Retrieves all exercises within a workout posted by a user.
+   * Retrieves all exercises within a workout posted by a user (for profile).
    */
   public static class GetExercisesHandler implements Route {
     @Override
