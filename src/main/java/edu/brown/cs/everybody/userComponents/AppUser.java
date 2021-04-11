@@ -1,12 +1,10 @@
 package edu.brown.cs.everybody.userComponents;
 
 import edu.brown.cs.everybody.data.PostgresDatabase;
+import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.KosarajusAlgorithm;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents an app user.
@@ -20,12 +18,14 @@ public class AppUser {
 
   private List<Integer> following;
   private List<Integer> stronglyConnected;
+  private PriorityQueue<Workout> workouts;
 
   // contains ID's of workouts already recommended on feed
   private Set<Integer> recentlyViewedFeed = new HashSet<>();
 
-  // TODO: review these preferences
+  // TODO: review these preferences (ADD DURATION?)
   private String workoutType;
+
 
   public AppUser(int id, Date timeCreated, String fName, String lName) {
     this.userID = id;
@@ -33,6 +33,7 @@ public class AppUser {
     this.firstName = fName;
     this.lastName = lName;
     this.following = PostgresDatabase.getFollowing(this.userID); // CHANGE?
+    this.workouts = PostgresDatabase.getWorkouts(this.userID);
     // TODO: add user preferences fields here
   }
 
@@ -55,6 +56,23 @@ public class AppUser {
 
   public String getLastName() {
     return this.lastName;
+  }
+
+  public PriorityQueue<Workout> getWorkouts() {
+    return this.workouts;
+  }
+
+  public void addWorkout(Workout w) {
+    this.workouts.add(w);
+  }
+
+  public Set<Integer> getRecentlyViewed() {
+    return this.recentlyViewedFeed;
+  }
+
+  public void addRecentlViewed(int i) {
+    this.recentlyViewedFeed.add(i);
+    PostgresDatabase.addRecentlyViewed(i);
   }
 
   // used in home feed recommendation when not enough people in stronglyConnectedComponent
@@ -81,5 +99,24 @@ public class AppUser {
 
   public String getWorkoutType() {
     return this.workoutType;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      userID,
+      createdAt,
+      firstName,
+      lastName);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof AppUser) {
+      AppUser user = (AppUser) obj;
+      return user.userID == this.userID;
+    } else {
+      return false;
+    }
   }
 }
