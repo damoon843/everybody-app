@@ -110,7 +110,7 @@ public class FeedHandlers {
 
       List<Exercise> exercises = PostgresDatabase.getUserExercises(username, workoutName);
 
-      // TODO: convert Exercise objects attributes into list
+      // TODO: convert Exercise objects attributes into list of maps
 
       Map<String, Object> variables = ImmutableMap.of("foo", "bar");
       return GSON.toJson(variables);

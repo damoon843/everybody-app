@@ -7,11 +7,10 @@ public final class Queries {
 
   /** Empty constructor to prevent instantiation. */
   private Queries() {
-
   }
 
   /**
-   * Query to insert user
+   * Query to insert user.
    * @return query string
    */
   public static String insertUserQuery() {
@@ -20,7 +19,7 @@ public final class Queries {
   }
 
   /**
-   * Query to insert user preferences
+   * Query to insert user preferences.
    * @return query string
    */
   public static String insertUserPreferencesQuery() {
@@ -42,7 +41,7 @@ public final class Queries {
   }
 
   /**
-   * Query to retrieve a user's workouts
+   * Query to retrieve a user's workouts.
    * @return query string
    */
   public static String getWorkouts() {
@@ -52,7 +51,7 @@ public final class Queries {
   }
 
   /**
-   * Query to retrieve a user's exercises (within a workout)
+   * Query to retrieve a user's exercises (within a workout).
    * @return query string
    */
   public static String getExercisesFromWorkout() {
@@ -61,7 +60,7 @@ public final class Queries {
   }
 
   /**
-   * Query to retrieve info about an exercise
+   * Query to retrieve info about an exercise.
    * @return query string
    */
   public static String getExerciseInfo() {
@@ -69,18 +68,38 @@ public final class Queries {
       + " FROM exercises WHERE exercise_id = ?;";
   }
 
+  /**
+   * Query to insert an exercise to the database.
+   * @return query string
+   */
   public static String insertExercise() {
     return "INSERT INTO exercises"
       + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
   }
 
+  /**
+   * Query to insert a workout to the database.
+   * @return query string
+   */
   public static String insertWorkout() {
     return "INSERT INTO workouts"
       + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
   }
 
+  /**
+   * Query to retrieve the exercise ID from an exercise
+   * @return query string
+   */
   public static String getExerciseId() {
     return "SELECT exercise_id FROM exercises"
       + " WHERE username = ? AND exercise_name = ?;";
+  }
+
+  /**
+   * Query to retrieve id's followed by a given input id.
+   * @return query string
+   */
+  public static String getFollowingQuery() {
+    return "SELECT following_id FROM following WHERE user_id = ?";
   }
 }

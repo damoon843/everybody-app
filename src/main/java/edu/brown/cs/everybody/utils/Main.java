@@ -13,7 +13,6 @@ public final class Main {
 
   private static final int DEFAULT_PORT = 4567;
   private final String[] args;
-  private static Map<Integer, AppUser> users = new HashMap<>();
 
 
   private Main(String[] args) {
@@ -30,26 +29,10 @@ public final class Main {
   }
 
   private void run() throws Exception {
-    PostgresDatabase.getInstance();
+    PostgresDatabase.setUpConnection();
     // Begin the server
     Server server = new Server(DEFAULT_PORT);
     System.out.println("THIS IS THE BEST APP EVER!");
   }
 
-  /**
-   * Getter for static users map.
-   * @return Map of user IDs to users already created.
-   */
-  public static Map<Integer, AppUser> getUsers() {
-    return Main.users;
-  }
-
-  /**
-   * Adds one AppUser to users map.
-   * @param id id of user
-   * @param user AppUser object to add
-   */
-  public static void addUser(int id, AppUser user) {
-    Main.users.put(id, user);
-  }
 }

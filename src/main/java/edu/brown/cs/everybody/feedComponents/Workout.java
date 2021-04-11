@@ -2,10 +2,16 @@ package edu.brown.cs.everybody.feedComponents;
 
 
 
+import edu.brown.cs.everybody.data.PostgresDatabase;
+import edu.brown.cs.everybody.userComponents.AppUser;
+
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Encapsulates a workout object.
@@ -110,10 +116,35 @@ public class Workout {
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("workout_id", Integer.toString(this.workout_id));
-    // TODO: FINISH
-    // ADD USERNAME INSTEAD OF USER_ID
+    if (PostgresDatabase.getUserName(this.user_id) != null) {
+      map.put("posting_user", PostgresDatabase.getUserName(this.user_id));
+    }
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String strDate = dateFormat.format(this.created_at);
+    map.put("created_at", strDate);
+    map.put("description", this.description);
     map.put("duration", Double.toString(this.duration));
+    map.put("media_link", this.media_link.toString());
+    map.put("like_count", Long.toString(this.like_count));
+    map.put("type", this.type);
     return map;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        workout_id,
+        user_id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Workout) {
+      Workout workout = (Workout) obj;
+      return workout.getWorkoutId() == this.workout_id;
+    } else {
+      return false;
+    }
   }
 
   /**

@@ -6,7 +6,8 @@ import java.util.*;
 
 /**
  * Implements Kosaraju's algorithm to determine strongly connected users containing a given user in a graph.
- * https://stackoverflow.com/questions/47996115/finding-a-strongly-connected-component-with-a-desired-node-in-it#:~:text=To%20find%20the%20strongly%20connected,which%20x%20can%20be%20reached.
+ * https://stackoverflow.com/questions/47996115/finding-a-strongly-connected-component-with-a-desired-node-in-
+ * it#:~:text=To%20find%20the%20strongly%20connected,which%20x%20can%20be%20reached.
  */
 public class KosarajusAlgorithm {
 
@@ -88,9 +89,3 @@ public class KosarajusAlgorithm {
     return new ArrayList<>(firstRun);
   }
 }
-// home feed based off following first, then SCC later (prioritize)
-// main.java concurrency (stretch feature)
-// cache of users, getFollowers query called in constructor so also cached?,
-// CACHE in the frontend??, cache the actions (like maps tiles),
-// if speed is reasonable, don't worry about cache
-
