@@ -11,35 +11,40 @@ import java.util.Map;
  * Encapsulates a workout object.
  */
 public class Workout {
-  private int workout_id;
+ // private int workout_id;
+  private String name;
   private int user_id;
   private Date created_at;
   private String description;
   private Double duration;
   private URL media_link;
   private Long like_count;
+  private String type;
 
   /**
    * Constructor for Workout
    * @param builder hydrated builder object
    */
   public Workout(WorkoutBuilder builder) {
-    this.workout_id = builder._workout_id;
+    // TODO: remove workout_id
+    // this.workout_id = builder._workout_id;
+    this.name = builder._name;
     this.user_id = builder._user_id;
     this.created_at = builder._created_at;
     this.description = builder._description;
     this.duration = builder._duration;
     this.media_link = builder._media_link;
     this.like_count = builder._like_count;
+    this.type = builder._type;
   }
 
-  /**
-   * Getter for workout ID.
-   * @return workout ID
-   */
-  public int getWorkoutId() {
-    return this.workout_id;
-  }
+//  /**
+//   * Getter for workout ID.
+//   * @return workout ID
+//   */
+//  public int getWorkoutId() {
+//    return this.workout_id;
+//  }
 
   /**
    * Getter for user ID that posted workout.
@@ -90,6 +95,13 @@ public class Workout {
   }
 
   /**
+   * Getter for workout type.
+   * @return workout type
+   */
+  public String getType() {
+    return this.type;
+  }
+
    * Method to convert the Workout into a string to string Map.
    * @return - a map from string to string, where the keys are the field names and the values
    * are the field values as strings.
@@ -106,6 +118,7 @@ public class Workout {
    * Inner builder class for Workouts. Uses the Builder Design pattern.
    */
   public static class WorkoutBuilder {
+    private String _name;
     private int _workout_id;
     private int _user_id;
     private Date _created_at;
@@ -113,6 +126,7 @@ public class Workout {
     private Double _duration;
     private URL _media_link;
     private Long _like_count;
+    private String _type;
 
     /* Empty constructor */
     public WorkoutBuilder() {}
@@ -132,6 +146,16 @@ public class Workout {
      */
     public WorkoutBuilder workout_id(int id) {
       this._workout_id  = id;
+      return this;
+    }
+
+    /**
+     * Sets workout_name field.
+     * @param workout_name name of workout
+     * @return WorkoutBuilder object
+     */
+    public WorkoutBuilder name(String workout_name) {
+      this._name = workout_name;
       return this;
     }
 
@@ -187,11 +211,21 @@ public class Workout {
 
     /**
      * Sets like count field.
-     * @param count workout type
+     * @param count likes
      * @return WorkoutBuilder object
      */
     public WorkoutBuilder like_count(Long count) {
       this._like_count  = count;
+      return this;
+    }
+
+    /**
+     * Sets workout type field.
+     * @param workout_type type of workout
+     * @return WorkoutBuilder object
+     */
+    public WorkoutBuilder type(String workout_type) {
+      this._type = workout_type;
       return this;
     }
   }

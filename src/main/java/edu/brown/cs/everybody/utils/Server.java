@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.userComponents.FeedHandlers;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import org.json.JSONObject;
@@ -54,6 +55,16 @@ public class Server {
 
     // For user creation
     Spark.get("/newUser", new UserHandlers.NewUserHandler());
+    // For user information
+    Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
+    // For uploading an exercise
+    Spark.post("/uploadExercise", new FeedHandlers.UploadExerciseHandler());
+    // For uploading a workout
+    Spark.get("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
+    // For retrieving a user's uploaded workouts
+    Spark.post("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
+    // For retrieving a user's uploaded exercises (within a workout)
+    Spark.post("/userExercises", new FeedHandlers.GetExercisesHandler());
     // For user deletion
     Spark.get("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
