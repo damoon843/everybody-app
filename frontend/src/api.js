@@ -33,7 +33,7 @@ export const getWorkouts = async (username) => {
     }
   }
   await axios.get(
-    "https://everybody-app.herokuapp.com/getWorkouts/" + username,
+    "https://everybody-app.herokuapp.com/userWorkouts/" + username,
     config
   )
   .then(response => {
@@ -65,8 +65,7 @@ export const getWorkout = async (id) => {
   });
 }
 
-// gets an existing workout
-// id: the workout's unique ID
+// gets all exercises in the database, regardless of user
 export const getAllExercises = async () => {
   let config = {
     headers: {

@@ -9,3 +9,8 @@
 .prof-card{
   margin-top: 0;
 }
+
+.profile-workouts {
+  display: flex;
+  flex-wrap: wrap;
+}
