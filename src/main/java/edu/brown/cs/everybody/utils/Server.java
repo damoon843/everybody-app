@@ -2,7 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import edu.brown.cs.everybody.userComponents.FeedHandlers;
+import edu.brown.cs.everybody.feedComponents.FeedHandlers;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import org.json.JSONObject;
