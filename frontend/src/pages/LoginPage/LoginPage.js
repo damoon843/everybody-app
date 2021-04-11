@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; 
 import {Link} from 'react-router-dom';
 import {Tabs, Tab, Form, Col, Row, Card} from 'react-bootstrap';
+import LoginButton from './components/LoginButton';
 import './LoginPage.css';
 
 function LoginPage(){
@@ -15,6 +16,7 @@ function LoginPage(){
           <p>Fitness curated by all, for all.</p>
         </div>
         <div className="login-card">
+          <LoginButton/>
           <Tabs className="login-tabs" defaultActiveKey="login">
             <Tab eventKey="login" title="Login">
               <Form className="login-form">

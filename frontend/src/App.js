@@ -7,35 +7,38 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import WorkoutPage from './pages/WorkoutPage/WorkoutPage';
 import Toolbar from './components/Toolbar/Toolbar';
+import { Auth0Provider } from "@auth0/auth0-react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
+  const home = window.location.origin + "/home"
   return (
-    <Router>
-        <Switch>
-          <Route path="/workout/:id">
-            <Toolbar />
-            <WorkoutPage />
-          </Route>
-          <Route path="/exercises">
-            <Toolbar />
-            <ExercisePage />
-          </Route>
-          <Route path="/profile">
-            <Toolbar />
-            <ProfilePage />
-          </Route>
-          <Route path="/home">
-            <Toolbar />
-            <HomePage />
-          </Route>
-          <Route path="/">
-            <LoginPage />
-          </Route>
-        </Switch>
-    </Router>
-
+    <Auth0Provider domain="hidden-truth-6529.us.auth0.com" clientId="KBV5chpfuBUCgg6sFzIkjZUVbsFqxQ5b" redirectUri={home}>
+      <Router>
+          <Switch>
+            <Route path="/workout/:id">
+              <Toolbar />
+              <WorkoutPage />
+            </Route>
+            <Route path="/exercises">
+              <Toolbar />
+              <ExercisePage />
+            </Route>
+            <Route path="/profile">
+              <Toolbar />
+              <ProfilePage />
+            </Route>
+            <Route path="/home">
+              <Toolbar />
+              <HomePage />
+            </Route>
+            <Route path="/">
+              <LoginPage />
+            </Route>
+          </Switch>
+      </Router>
+    </Auth0Provider>
   );
 }
 
