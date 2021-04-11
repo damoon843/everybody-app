@@ -1,0 +1,17 @@
+.active-nav {
+  border-bottom: 3px solid #13A3b8;
+}
+
+.item {
+  margin: 0.5rem 1rem;
+  padding: 0.25rem;
+  color: white;
+  text-decoration: none;
+}
+
+.item:hover {
+  cursor: pointer;
+  color: white;
+  border-bottom: 3px solid #13A3b8;
+  text-decoration: none;
+}

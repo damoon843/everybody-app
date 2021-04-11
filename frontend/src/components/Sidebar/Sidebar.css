@@ -1,0 +1,26 @@
+.filters{
+    width: 19rem;
+    height: 48rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
+    margin: 4rem 2rem;
+    background-color: white;
+}
+.type-tag {
+    list-style-type: none;
+    columns: 2 ;
+}
+.body-tag{
+    list-style-type: none;
+    columns: 2;
+
+}
+.ratings{
+    list-style-type: none;
+    columns: 1;
+
+
+}

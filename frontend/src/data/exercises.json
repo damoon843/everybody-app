@@ -1,0 +1,57 @@
+[
+  {
+    "exercise_id": 1,
+    "workout_id": 1,
+    "user_id": 1,
+    "created_at": 1572428388,
+    "description": "15-minute high-intensity exercise focusing on arms",
+    "exercise_type_tag": "cardio",
+    "body_part_tag": "arms",
+    "duration": "00:15:00",
+    "media": "http://google.com"
+  },
+  {
+    "exercise_id": 2,
+    "workout_id": 2,
+    "user_id": 2,
+    "created_at": 1572428600,
+    "description": "30-minute low-intensity ab cruncher",
+    "exercise_type_tag": "bodyweight",
+    "body_part_tag": "abs",
+    "duration": "00:30:00",
+    "media": "http://google.com"
+  },
+  {
+    "exercise_id": 3,
+    "workout_id": 1,
+    "user_id": 1,
+    "created_at": 1572429900,
+    "description": "5-minute high-intensity leg burner",
+    "exercise_type_tag": "bodyweight",
+    "body_part_tag": "legs",
+    "duration": "00:05:00",
+    "media": "http://google.com"
+  },
+  {
+    "exercise_id": 4,
+    "workout_id": 2,
+    "user_id": 2,
+    "created_at": 1572429999,
+    "description": "15-minute high-intensity exercise for arms",
+    "exercise_type_tag": "cardio",
+    "body_part_tag": "arms",
+    "duration": "00:15:00",
+    "media": "http://google.com"
+  },
+  {
+    "exercise_id": 5,
+    "workout_id": 1,
+    "user_id": 1,
+    "created_at": 1572430000,
+    "description": "30-minute low-intensity leg exercise",
+    "exercise_type_tag": "bodyweight",
+    "body_part_tag": "legs",
+    "duration": "00:30:00",
+    "media": "http://google.com"
+  }
+]

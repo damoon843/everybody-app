@@ -1,0 +1,11 @@
+.exercise-page{
+    display:flex;
+    flex-direction: row;
+}
+.sidebar{
+    width: 40vw;
+
+}
+.exercises{
+    width:80vw;
+}

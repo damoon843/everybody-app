@@ -5,33 +5,37 @@ import ExercisePage from './pages/ExercisePage/ExercisePage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import SubmissionPage from './pages/SubmissionPage/SubmissionPage';
-import Header from './components/Header/Header';
+import WorkoutPage from './pages/WorkoutPage/WorkoutPage';
+import Toolbar from './components/Toolbar/Toolbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   return (
     <Router>
-        <Header />
         <Switch>
-          <Route path="">
-            <HomePage />
+          <Route path="/workout/:id">
+            <Toolbar />
+            <WorkoutPage />
           </Route>
-          <Route path="/exercise">
-            {/* TODO: figure out how to render specific exercises */}
+          <Route path="/exercises">
+            <Toolbar />
             <ExercisePage />
           </Route>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
           <Route path="/profile">
+            <Toolbar />
             <ProfilePage />
           </Route>
-          <Route path="/submit">
-            <SubmissionPage />
+          <Route path="/home">
+            <Toolbar />
+            <HomePage />
+          </Route>
+          <Route path="/">
+            <LoginPage />
           </Route>
         </Switch>
     </Router>
+
   );
 }
 
