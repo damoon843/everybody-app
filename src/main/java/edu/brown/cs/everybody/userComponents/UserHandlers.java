@@ -68,10 +68,13 @@ public class UserHandlers {
       List<Object> userInfo = PostgresDatabase.getUserInfo(username);
 
       Map<String, Object> variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
-          "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+        "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+
+
       return GSON.toJson(variables);
     }
   }
+
 
     /**
      * Handles requests made for home feed recommendations.
