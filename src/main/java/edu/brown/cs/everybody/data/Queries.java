@@ -50,4 +50,30 @@ public final class Queries {
       + " FROM workouts"
       + " WHERE username = ?;";
   }
+
+  /**
+   * Query to retrieve a user's exercises (within a workout)
+   * @return query string
+   */
+  public static String getExercisesFromWorkout() {
+    return "SELECT exercises"
+      + " FROM workouts WHERE username = ? AND workout_name = ?;";
+  }
+
+  /**
+   * Query to retrieve info about an exercise
+   * @return query string
+   */
+  public static String getExerciseInfo() {
+    return "SELECT exercise_name, media_link, duration, exercise_type, exercise_target_area, description"
+      + " FROM exercises WHERE exercise_id = ?;";
+  }
+
+  public static String insertExercise() {
+    return "";
+  }
+
+  public static String insertWorkout() {
+    return "";
+  }
 }

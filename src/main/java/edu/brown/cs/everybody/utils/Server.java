@@ -55,9 +55,13 @@ public class Server {
     Spark.get("/newUser", new UserHandlers.NewUserHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
-    // For retrieving a user's workouts
+    // For uploading an exercise
+    Spark.post("/uploadExercise", new FeedHandlers.UploadExerciseHandler());
+    // For uploading a workout
+    Spark.get("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
+    // For retrieving a user's uploaded workouts
     Spark.post("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
-    // For retrieving a user's exercises (within a workout)
+    // For retrieving a user's uploaded exercises (within a workout)
     Spark.post("/userExercises", new FeedHandlers.GetExercisesHandler());
     // For user deletion
     Spark.get("deleteUser", new UserHandlers.DeleteUserHandler());

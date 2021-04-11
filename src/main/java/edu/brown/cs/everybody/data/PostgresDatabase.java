@@ -129,7 +129,7 @@ public final class PostgresDatabase {
    */
   public static List<Workout> getUserWorkouts(String username) throws SQLException {
     String queryString = Queries.getWorkouts();
-    List<Workout> workouts = null;
+    List<Workout> workouts = new ArrayList<>();
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
@@ -162,9 +162,77 @@ public final class PostgresDatabase {
    * @param workoutName workout name
    * @return list of Exercise objects
    */
-  public static List<Exercise> getUserExercises(String username, String workoutName) {
-    // TODO
-    return null;
+  public static List<Exercise> getUserExercises(String username, String workoutName) throws SQLException {
+    String queryString = Queries.getExercisesFromWorkout();
+    List<Exercise> exercises = new ArrayList<>();
+    List<Integer> exerciseIds = new ArrayList<>();
+
+    // Retrieve order of exercise IDs
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, username);
+      stmt.setString(2, workoutName);
+
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer exerciseId = res.getInt("exercise_id");
+          exerciseIds.add(exerciseId);
+        }
+      } catch (SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      }
+
+      // Retrieve each exercise's details
+      queryString = Queries.getExerciseInfo();
+
+      try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+        for (int id : exerciseIds) {
+          stmt.setInt(1, id);
+
+          try (ResultSet res = stmt.executeQuery()) {
+            while (res.next()) {
+              String exerciseName = res.getString("exercise_name");
+              String mediaLink = res.getString("media_link");
+              Integer duration = res.getInt("duration");
+              String exerciseType = res.getString("exercise_type");
+              String targetArea = res.getString("exercise_target_area");
+              String description = res.getString("description");
+
+              // TODO: create Exercise object
+              Exercise temp = null;
+              exercises.add(temp);
+              }
+            }
+          }
+        } catch (SQLException ex) {
+          System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        }
+
+      return exercises;
+    }
+  }
+
+  /**
+   * Inserts an uploaded exercise
+   * @param username username
+   *
+   *
+   *
+   * @return exercise ID (to be stored in frontend)
+   */
+  public static Integer insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
+                                           String targetArea, String type, String description, Date createdAt) {
+    String insertString = Queries.insertExercise();
+
+    // Insert into exercises table
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setString(1, username);
+      stmt.setString(2, (String) data.get(1));
+      stmt.setDate(3, (Date) data.get(2));
+      stmt.setString(4, (String) data.get(3));
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+    }
   }
 
   /**
