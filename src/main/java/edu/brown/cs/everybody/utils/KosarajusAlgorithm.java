@@ -23,7 +23,7 @@ public class KosarajusAlgorithm {
   // return set1.retainAll(set2)
 
   /**
-   * Finds the strongly connected component in the graph in database the given user id is part of
+   * Finds the strongly connected component in the graph in database the given user id is part of.
    * @param user userID we are interested in
    * @return list containing ID's of users in same strongly connected component in graph
    */

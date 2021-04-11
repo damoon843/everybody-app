@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import org.json.JSONObject;
 import spark.*;
@@ -9,13 +10,14 @@ import spark.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.Map;
+
 
 /**
  * Class encapsulating server-side logic.
  */
 public class Server {
   private static final Gson GSON = new Gson();
+
 
   public Server(int port) throws Exception {
     // Run server
@@ -53,7 +55,10 @@ public class Server {
     // For user creation
     Spark.get("/newUser", new UserHandlers.NewUserHandler());
     // For user deletion
-    Spark.get("deleteUser", new UserHandlers.DeleteUserHandler());
+    Spark.get("/deleteUser", new UserHandlers.DeleteUserHandler());
+    // For home feed recommendations
+    Spark.get("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
+
   }
 
   /**
