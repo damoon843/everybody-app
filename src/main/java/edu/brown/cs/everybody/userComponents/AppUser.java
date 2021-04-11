@@ -129,7 +129,8 @@ public class AppUser {
    * Gets users the user is following; used in home feed recommendation algorithm.
    * @return List of user ID's who user follows
    */
-  public List<Integer> getFollowing() {
+  public List<Integer> getFollowing() throws SQLException {
+    this.following = PostgresDatabase.getFollowing(this.userID);
     return this.following;
   }
 

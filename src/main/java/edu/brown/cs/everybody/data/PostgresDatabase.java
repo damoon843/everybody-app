@@ -415,24 +415,41 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Gets user name associated with a user id.
-   * @param userID user id
-   * @return username
+   * Gets user id associated with a username.
+   * @param username username
+   * @return userID
    */
-  public static String getUserName(int userID) throws SQLException {
-    String queryString = Queries.getUsername();
-    String username = "";
+  public static int getUserID(String username) throws SQLException {
+    String queryString = Queries.getUserID();
+    int userID = -1;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-      stmt.setInt(1, userID);
+      stmt.setString(1, username);
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
-          username = res.getString("username");
+          userID = res.getInt("id");
         }
       }
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
-    return username;
+    return userID;
+  }
+
+  /**
+   * Adds a following relationship to following table.
+   * @param username user
+   * @param following new user to follow
+   */
+  public static void insertFollow(String username, String following) throws SQLException {
+    String insertString = Queries.insertFollow();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, getUserID(username));
+      stmt.setInt(2, getUserID(following));
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
   }
 }

@@ -117,11 +117,11 @@ public final class Queries {
   }
 
   /**
-   * Query to retrieve username of user id
+   * Query to retrieve id of username
    * @return query string
    */
-  public static String getUsername() {
-    return "SELECT username FROM users WHERE id = ?";
+  public static String getUserID() {
+    return "SELECT id FROM users WHERE username = ?";
   }
 
   /**
@@ -138,6 +138,15 @@ public final class Queries {
    */
   public static String insertViewedWorkout() {
     return "INSERT INTO viewed_workouts"
+        + " VALUES(?, ?);";
+  }
+
+  /**
+   * Query to insert a follow relationship to following.
+   * @return query string
+   */
+  public static String insertFollow() {
+    return "INSERT INTO following"
         + " VALUES(?, ?);";
   }
 }

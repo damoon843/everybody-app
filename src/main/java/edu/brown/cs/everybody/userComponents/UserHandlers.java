@@ -158,5 +158,19 @@ public class UserHandlers {
       return GSON.toJson(variables);
     }
   }
+
+  /**
+   * Handles requests made for a new follow relation.
+   */
+  public static class FollowHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("user");
+      String following = data.getString("following");
+      PostgresDatabase.insertFollow(username, following);
+      return null;
+    }
+  }
 }
 
