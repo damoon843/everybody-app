@@ -1,51 +1,14 @@
-.workout-container {
+.home-main {
   display: flex;
   flex-direction: column;
-  width: 22rem;
-  height: 17rem;
-  box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-  margin: 1rem;
-  background-color: white;
+  justify-self: center;
 }
 
-.workout-text {
-  margin: 1rem 0 1rem 1rem;
-}
-
-.workout-btn {
-  width: 90%;
-  align-self: center;
-  margin: -1rem 0 0 0;
-  border: none;
-  color: white;
-  background-color: #34A2B8;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-
-.workout-btn:hover {
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  background-color: #49b5ca;
-}
-
-.workout-info {
-  color: grey;
-}
-
-.workout-image {
-  width: 22rem;
-  height: 8rem;
-  object-fit: cover;
-}
-
-#grid-anchor {
+.home-recs {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  margin: 2rem;
 }
 
 #recommendations {
-  margin: 2rem 3rem -1rem 3rem;
+  margin: 2rem 3rem 0rem 1rem;
 }

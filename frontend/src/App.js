@@ -18,9 +18,6 @@ function App() {
             <Toolbar />
             <WorkoutPage />
           </Route>
-
-          <Route path="/exercise"></Route>
-            {/* TODO: figure out how to render specific exercises */}
           <Route path="/exercises">
             <Toolbar />
             <ExercisePage />
@@ -32,15 +29,10 @@ function App() {
             <Toolbar />
             <ProfilePage />
           </Route>
-
           <Route path="/">
             <Toolbar />
             <HomePage />
           </Route>
-          {/* <Route path="">
-            <Toolbar />
-            <ExercisePage />
-          </Route> */}
         </Switch>
     </Router>
 
