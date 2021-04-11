@@ -4,12 +4,14 @@ import edu.brown.cs.everybody.feedComponents.Exercise;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.utils.ErrorConstants;
+import edu.brown.cs.everybody.utils.WorkoutComparator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Singleton class wrapping PostgreSQL DB and
@@ -19,6 +21,7 @@ public final class PostgresDatabase {
   private static PostgresDatabase singleInstance = null;
   private static Connection dbConn = null;
 
+  // TODO: cache getUser?
   /* Hidden constructor to avoid instantiation */
   private PostgresDatabase() {
   }
@@ -311,7 +314,7 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Queries database for the user specified by input id
+   * Queries database for the user specified by input id and adds it to Map of users in Main.
    * @param id user ID
    * @return AppUser object containing info about user with given id
    */
@@ -319,5 +322,14 @@ public final class PostgresDatabase {
     return null;
   }
 
+  /**
+   * Queries database for all workouts created by the user specified by the input id.
+   * @param id user ID
+   * @return PQ of workouts user has created ordered by date created
+   */
+  public static PriorityQueue<Workout> getWorkouts(int id) {
+    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+    return null;
+  }
 
 }

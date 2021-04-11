@@ -4,6 +4,8 @@ package edu.brown.cs.everybody.feedComponents;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Encapsulates a workout object.
@@ -98,6 +100,18 @@ public class Workout {
    */
   public String getType() {
     return this.type;
+  }
+
+   * Method to convert the Workout into a string to string Map.
+   * @return - a map from string to string, where the keys are the field names and the values
+   * are the field values as strings.
+   */
+  public Map<String, String> toMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("workout_id", Integer.toString(this.workout_id));
+    // TODO: FINISH
+    map.put("duration", Double.toString(this.duration));
+    return map;
   }
 
   /**
