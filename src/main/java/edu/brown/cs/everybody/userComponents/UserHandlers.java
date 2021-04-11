@@ -11,6 +11,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -28,14 +29,21 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
 
       // Parse request from client
-      String username = data.getString("username");
+      // TODO: verify info sent from frontend
       String fName = data.getString("firstName");
       String lName = data.getString("lastName");
-      String createdAt = data.getString("createdAt");
-      // TODO: convert createdAt str to Date obj
-      // TODO: add user preferences fields
+      String createdAtStr = data.getString("createdAt");
+      String username = data.getString("username");
+      String workoutType = data.getString("workoutType");
+      Integer workoutDuration = data.getInt("workoutDuration");
 
-      PostgresDatabase.insertUser(null);
+      // Format date
+      // TODO: verify date format
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      Date createdAt = sdf.parse(createdAtStr);
+
+      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, createdAt, username, workoutType, workoutDuration));
+      PostgresDatabase.insertUser(listData);
       return null;
     }
   }
@@ -50,6 +58,18 @@ public class UserHandlers {
       return GSON.toJson(variables);
     }
   }
+
+  public static class GetUserInfoHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("username");
+
+      List<Object> userInfo = PostgresDatabase.getUserInfo(username);
+
+      Map<String, Object> variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
+      "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+    }
 
   /**
    * Handles requests made for home feed recommendations.
@@ -136,7 +156,6 @@ public class UserHandlers {
       while (finalWorkout != null) {
         output.add(finalWorkout.toMap());
       }
-
       Map<String, Object> variables = ImmutableMap.of("output", output);
       return GSON.toJson(variables);
     }

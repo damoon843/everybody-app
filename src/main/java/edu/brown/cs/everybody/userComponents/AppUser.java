@@ -25,7 +25,7 @@ public class AppUser {
 
   // TODO: review these preferences (ADD DURATION?)
   private String workoutType;
-
+  private String workoutDuration;
 
   public AppUser(int id, Date timeCreated, String fName, String lName) {
     this.userID = id;
@@ -99,6 +99,10 @@ public class AppUser {
 
   public String getWorkoutType() {
     return this.workoutType;
+  }
+
+  public String getWorkoutDuration() {
+    return this.workoutDuration;
   }
 
   @Override
