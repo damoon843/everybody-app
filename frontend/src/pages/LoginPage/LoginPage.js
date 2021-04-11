@@ -26,7 +26,7 @@ function LoginPage(){
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Enter password" />
                 </Form.Group>
-                <Link to="/" className="btn submit-btn" id="login-btn">
+                <Link to="/home" className="btn submit-btn" id="login-btn">
                   Login
                 </Link>
               </Form>
@@ -49,7 +49,7 @@ function LoginPage(){
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Enter password" />
                 </Form.Group>
-                <Link to="/" className="btn submit-btn" id="signup-btn">
+                <Link to="/home" className="btn submit-btn" id="signup-btn">
                   Sign up
                 </Link>
               </Form>

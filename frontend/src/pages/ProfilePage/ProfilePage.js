@@ -4,9 +4,6 @@ import ExpandedUserProfile from "./ExpandedUserProfile/ExpandedUserProfile";
 import Main from "../HomePage/components/Main/Main";
 import {Button} from "react-bootstrap";
 
-
-
-
 function ProfilePage(props){
   return (
     <div className="profile-page">

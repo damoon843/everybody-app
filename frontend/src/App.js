@@ -22,16 +22,16 @@ function App() {
             <Toolbar />
             <ExercisePage />
           </Route>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
           <Route path="/profile">
             <Toolbar />
             <ProfilePage />
           </Route>
-          <Route path="/">
+          <Route path="/home">
             <Toolbar />
             <HomePage />
+          </Route>
+          <Route path="/">
+            <LoginPage />
           </Route>
         </Switch>
     </Router>

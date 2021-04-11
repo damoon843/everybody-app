@@ -8,10 +8,10 @@ function Toolbar(props){
   return (
       <div>
           <Navbar bg="dark" variant="dark" fixed="top">
-              <Navbar.Brand href="/">everyBODY</Navbar.Brand>
+              <Navbar.Brand href="/home">everyBODY</Navbar.Brand>
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavLink exact className="item" activeClassName="active-nav" to="/">
+                    <NavLink exact className="item" activeClassName="active-nav" to="/home">
                         Home
                     </NavLink>
                     <NavLink className="item" activeClassName="active-nav" to="/profile">
