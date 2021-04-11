@@ -20,6 +20,21 @@
   <!-- Dependencies section for libraries put all of your libraries in here -->
   <dependencies>
 
+    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+    <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>3.15.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.auth0/jwks-rsa -->
+    <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>jwks-rsa</artifactId>
+        <version>0.17.0</version>
+    </dependency>
+
+
     <!--
         jopt-simple is a command line parser.
         https://pholser.github.io/jopt-simple/.
