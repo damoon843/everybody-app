@@ -11,7 +11,7 @@ import java.util.Map;
  * Encapsulates a workout object.
  */
 public class Workout {
- // private int workout_id;
+  private int workout_id;
   private String name;
   private int user_id;
   private Date created_at;
@@ -27,7 +27,7 @@ public class Workout {
    */
   public Workout(WorkoutBuilder builder) {
     // TODO: remove workout_id
-    // this.workout_id = builder._workout_id;
+    this.workout_id = builder._workout_id;
     this.name = builder._name;
     this.user_id = builder._user_id;
     this.created_at = builder._created_at;
@@ -38,13 +38,13 @@ public class Workout {
     this.type = builder._type;
   }
 
-//  /**
-//   * Getter for workout ID.
-//   * @return workout ID
-//   */
-//  public int getWorkoutId() {
-//    return this.workout_id;
-//  }
+  /**
+   * Getter for workout ID.
+   * @return workout ID
+   */
+  public int getWorkoutId() {
+    return this.workout_id;
+  }
 
   /**
    * Getter for user ID that posted workout.
@@ -102,6 +102,7 @@ public class Workout {
     return this.type;
   }
 
+  /**
    * Method to convert the Workout into a string to string Map.
    * @return - a map from string to string, where the keys are the field names and the values
    * are the field values as strings.

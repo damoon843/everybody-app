@@ -68,8 +68,11 @@ public class UserHandlers {
       List<Object> userInfo = PostgresDatabase.getUserInfo(username);
 
       Map<String, Object> variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
-      "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+        "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+
+      return GSON.toJson(variables);
     }
+  }
 
   /**
    * Handles requests made for home feed recommendations.
@@ -87,12 +90,12 @@ public class UserHandlers {
       // Parse request from client and extract user info
       int userID = Integer.parseInt(data.getString("userID"));
       AppUser user;
-      if(Main.getUsers().containsKey(userID)) {
+      if (Main.getUsers().containsKey(userID)) {
         user = Main.getUsers().get(userID);
       } else {
         user = PostgresDatabase.getUser(userID);
         // TODO: instead of checking for null, catch the exception
-        if(user == null) {
+        if (user == null) {
           Map<String, Object> variables = ImmutableMap.of("error", "UserID Not Found.");
           return GSON.toJson(variables);
         }
@@ -110,7 +113,7 @@ public class UserHandlers {
         AppUser followingUser = PostgresDatabase.getUser(followingUserID);
         // TODO: catch exceptions
         PriorityQueue<Workout> followingUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
-        if(followingUser.getWorkouts() != null) {
+        if (followingUser.getWorkouts() != null) {
           followingUserWorkouts.addAll(followingUser.getWorkouts());
         }
         Workout recentPost = followingUserWorkouts.poll();
@@ -137,7 +140,7 @@ public class UserHandlers {
         AppUser connectedUser = PostgresDatabase.getUser(connectedUserID);
         // TODO: catch exceptions
         PriorityQueue<Workout> connectedUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
-        if(connectedUser.getWorkouts() != null) {
+        if (connectedUser.getWorkouts() != null) {
           connectedUserWorkouts.addAll(connectedUser.getWorkouts());
         }
         Workout recentPost = connectedUserWorkouts.poll();
