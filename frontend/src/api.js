@@ -85,6 +85,27 @@ export const getAllExercises = async () => {
   });
 }
 
+// gets user data
+export const getUser = async () => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.get(
+    "https://localhost:3000/userInfo",
+    config
+  )
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+
 /** POST REQUESTS */
 
 // posts a new workout
