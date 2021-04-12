@@ -12,12 +12,12 @@ export const getRecommendations = async (username) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
-  let params = {
+  const toSend = {
     username: username
   };
-  await axios.get(
+  await axios.post(
     "http://localhost:4567/getRecommendations",
-    params,
+    toSend,
     config,
   )
   .then(response => {
@@ -37,12 +37,12 @@ export const getWorkouts = async (username) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
-  let params = {
+  const toSend = {
     username: username
   };
-  await axios.get(
+  await axios.post(
     "http://localhost:4567/userWorkouts",
-    params,
+    toSend,
     config
   )
   .then(response => {
