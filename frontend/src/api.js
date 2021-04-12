@@ -1,4 +1,5 @@
 import axios from 'axios';
+import userSession from './userSession.js'
 
 /** GET REQUESTS */
 
@@ -108,6 +109,10 @@ export const getUser = async () => {
 
 /** POST REQUESTS */
 
+/*
+
+ */
+
 // posts a new workout
 // data: information about the workout
 export const createWorkout = async (data) => {
@@ -186,6 +191,15 @@ export const createUser = async (toSend) => {
     config
   )
   .then(response => {
+    /*
+    if(response.data){
+      session.user= toSend.username
+    }
+    hard code it to work for only one indivudal; when logged
+     in, it shows all the data for that on individual
+     by modifying some "personal.js" or some component that
+     uses hooks,useeffects,etc. and other variables
+     */
     return response.data;
   })
   .catch(function (error) {
@@ -196,7 +210,7 @@ export const createUser = async (toSend) => {
 
 // logs in a user
 // toSend: information about the user
-export const loginUser = async (toSend) => {
+export const login = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
@@ -210,6 +224,10 @@ export const loginUser = async (toSend) => {
   )
   .then(response => {
     return response.data;
+    /*
+
+     */
+    userSession.setSession(response.data)
   })
   .catch(function (error) {
     console.log(error);
