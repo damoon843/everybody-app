@@ -113,8 +113,12 @@ export const getUser = async (username) => {
 // data: information about the workout
 export const createWorkout = async (data) => {
   const toSend = {
-    title: data.title,
+    exerciseList: data.exerciseList,//{"username": ?, "exerciseName": ?,
+    duration : data.duration,
+    mediaLink: data.mediaLink,
     description: data.description,
+    username: data.username,
+    workoutName: data.workoutName,
     exercises: data.exercises
   };
   let config = {
