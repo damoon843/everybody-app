@@ -452,4 +452,42 @@ public final class PostgresDatabase {
       throw new SQLException(ex.getMessage());
     }
   }
+
+
+  /**
+   * Retrieves exercises for exercises page (100 at a time)
+   * @return list of exercises to display
+   */
+  public static Map<Integer, List<Object>> getExercises() throws SQLException {
+    String queryString = Queries.getPublicExercises();
+    Map<Integer, List<Object>>  results = new HashMap<>();
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer exerciseID = res.getInt("exercise_id");
+          Date createdAt = res.getDate("created_at");
+          Integer duration = res.getInt("duration");
+          String mediaLink = res.getString("mediaLink");
+          String description = res.getString("description");
+          String exerciseType = res.getString("exercise_type");
+          String targetArea = res.getString("exercise_target_area");
+          String username = res.getString("username");
+          String exerciseName = res.getString("exercise_name");
+
+          // Convert Date obj to milliseconds
+          Long time = createdAt.getTime();
+
+          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, exerciseType,
+            targetArea, username, exerciseName));
+          results.put(exerciseID, tempList);
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+
+    return results;
+  }
 }
