@@ -12,9 +12,13 @@ export const getRecommendations = async (username) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let params = {
+    username: username
+  };
   await axios.get(
-    "http://localhost:4567/getRecommendations/" + username,
-    config
+    "http://localhost:4567/getRecommendations",
+    params,
+    config,
   )
   .then(response => {
     return response.data;
