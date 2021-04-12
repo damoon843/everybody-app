@@ -1,4 +1,5 @@
 import axios from 'axios';
+import userSession from './userSession.js'
 
 /** GET REQUESTS */
 
@@ -19,7 +20,7 @@ export const getRecommendations = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -40,7 +41,7 @@ export const getWorkouts = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -61,7 +62,7 @@ export const getWorkout = async (id) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -81,7 +82,7 @@ export const getAllExercises = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -101,12 +102,16 @@ export const getUser = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
 
 /** POST REQUESTS */
+
+/*
+
+ */
 
 // posts a new workout
 // data: information about the workout
@@ -135,7 +140,7 @@ export const createWorkout = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -167,7 +172,7 @@ export const createExercise = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -180,23 +185,33 @@ export const createUser = async (toSend) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let data = JSON.stringify(toSend);
   await axios.post(
     "http://localhost:4567/newUser",
-    toSend,
+    data,
     config
   )
   .then(response => {
+    /*
+    if(response.data){
+      session.user= toSend.username
+    }
+    hard code it to work for only one indivudal; when logged
+     in, it shows all the data for that on individual
+     by modifying some "personal.js" or some component that
+     uses hooks,useeffects,etc. and other variables
+     */
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
 
 // logs in a user
 // toSend: information about the user
-export const loginUser = async (toSend) => {
+export const login = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
@@ -210,9 +225,13 @@ export const loginUser = async (toSend) => {
   )
   .then(response => {
     return response.data;
+    /*
+
+     */
+    userSession.setSession(response.data)
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -234,7 +253,7 @@ export const followUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -256,7 +275,7 @@ export const unfollowUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
