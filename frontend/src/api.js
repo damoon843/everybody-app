@@ -12,7 +12,7 @@ export const getRecommendations = async (username) => {
     }
   }
   await axios.get(
-    "https://localhost:3000/getRecommendations/" + username,
+    "https://localhost:4567/getRecommendations/" + username,
     config
   )
   .then(response => {
@@ -33,7 +33,7 @@ export const getWorkouts = async (username) => {
     }
   }
   await axios.get(
-    "https://localhost:3000/userWorkouts/" + username,
+    "https://localhost:4567/userWorkouts/" + username,
     config
   )
   .then(response => {
@@ -54,7 +54,7 @@ export const getWorkout = async (id) => {
     }
   }
   await axios.get(
-      "https://localhost:3000/getWorkout/" + id,
+      "https://localhost:4567/getWorkout/" + id,
       config
   )
   .then(response => {
@@ -74,7 +74,7 @@ export const getAllExercises = async () => {
     }
   }
   await axios.get(
-    "https://localhost:3000/exercises",
+    "https://localhost:4567/exercises",
     config
   )
   .then(response => {
@@ -94,7 +94,7 @@ export const getUser = async () => {
     }
   }
   await axios.get(
-    "https://localhost:3000/userInfo",
+    "https://localhost:4567/userInfo",
     config
   )
   .then(response => {
@@ -123,7 +123,7 @@ export const createWorkout = async (data) => {
     }
   }
   await axios.post(
-    "https://localhost:3000/uploadWorkout",
+    "https://localhost:4567/uploadWorkout",
     toSend,
     config
   )
@@ -151,7 +151,7 @@ export const createExercise = async (data) => {
     }
   }
   await axios.post(
-    "https://localhost:3000/uploadExercise",
+    "https://localhost:4567/uploadExercise",
     toSend,
     config
   )
@@ -173,7 +173,7 @@ export const createUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://localhost:3000/newUser",
+    "https://localhost:4567/newUser",
     toSend,
     config
   )
@@ -196,7 +196,7 @@ export const loginUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://localhost:3000/login",
+    "https://localhost:4567/login",
     toSend,
     config
   )
