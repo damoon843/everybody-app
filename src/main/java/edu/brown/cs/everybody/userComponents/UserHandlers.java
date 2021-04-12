@@ -5,12 +5,14 @@ import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
+import org.json.JSONException;
 import org.json.JSONObject;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +28,7 @@ public class UserHandlers {
    */
   public static class NewUserHandler implements Route {
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handle(Request request, Response response) throws JSONException {
       JSONObject data = new JSONObject(request.body());
 
       // Parse request from client
@@ -43,8 +45,8 @@ public class UserHandlers {
       try {
         PostgresDatabase.insertUser(listData);
         variables = ImmutableMap.of("isValid", true);
-      } catch (SQLException e) {
-        variables = ImmutableMap.of("isValid", false);
+      } catch (SQLException | URISyntaxException e) {
+        variables = ImmutableMap.of("error", e.getMessage());
       }
 //      // TODO: CHANGE
 //      request.session().attribute("username", username);
@@ -206,9 +208,9 @@ public class UserHandlers {
       int output = PostgresDatabase.loginUser(username, password);
       if (output == 1) {
         // TODO: CHANGE
-        request.session().attribute("username", username);
-        response.redirect("/home");
-        Map<String, Object> variables = ImmutableMap.of("username", "Failed to login.");
+        //request.session().attribute("username", username);
+        //response.redirect("/home");
+        Map<String, Object> variables = ImmutableMap.of("isValid", true);
         return GSON.toJson(variables);
       }
       Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");

@@ -44,7 +44,7 @@ public final class PostgresDatabase {
       String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
       dbConn = DriverManager.getConnection(dbUrl, username, password);
     } catch (Exception ex) {
-      System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
+      System.out.println(ex.getMessage());
     }
   }
 
@@ -56,7 +56,7 @@ public final class PostgresDatabase {
       try {
         dbConn.close();
       } catch(SQLException ex) {
-        System.out.println(ErrorConstants.ERROR_DATABASE_CLOSE);
+        System.out.println(ex.getMessage());
       }
     }
   }
@@ -125,7 +125,7 @@ public final class PostgresDatabase {
           result.add(workoutDuration);
         }
       } catch (SQLException ex) {
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -160,7 +160,7 @@ public final class PostgresDatabase {
           pq.add(workout);
         }
       } catch (SQLException ex) {
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -221,12 +221,12 @@ public final class PostgresDatabase {
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
-            System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+            System.out.println(ex.getMessage());
             throw new SQLException(ex.getMessage());
           }
         }
       } catch (SQLException ex) {
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -258,7 +258,7 @@ public final class PostgresDatabase {
       stmt.setArray(6, (Array) tags);
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -282,7 +282,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -317,7 +317,7 @@ public final class PostgresDatabase {
       stmt.setString(7, workoutName);
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -347,7 +347,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -377,7 +377,7 @@ public final class PostgresDatabase {
           user = new AppUser(userID, username, created_at, firstName, lastName, workoutType, workoutDuration);
         }
       } catch (SQLException ex) {
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -398,7 +398,7 @@ public final class PostgresDatabase {
       stmt.setInt(2, workout);
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -423,7 +423,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -447,7 +447,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -467,7 +467,7 @@ public final class PostgresDatabase {
       stmt.setInt(2, getUserID(following));
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -507,7 +507,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -529,7 +529,7 @@ public final class PostgresDatabase {
       stmt.execute();
       tearDownConnection();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
   }
@@ -555,7 +555,7 @@ public final class PostgresDatabase {
       tearDownConnection();
       return -1;
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
   }
@@ -594,7 +594,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
