@@ -10,7 +10,8 @@ function ExercisePage() {
     const exercisesTemp = {
         //map {id: [object]} where [object] = [exerciseName, mediaLink, duration, tags, description, time]
         "id1" : ['exerciseName', 'mediaLink', 'duration', ["abs", "chest"], "description", "time"],
-        "id2" : ['exerciseName', 'mediaLink', 'duration', ["chest"], "description", "time"]
+        "id2" : ['exerciseName', 'mediaLink', 'duration', ["chest"], "description", "time"],
+        "id3" : ['exerciseName', 'mediaLink', 'duration', ["arms"], "description", "time"]
 
     }
 
@@ -26,6 +27,8 @@ function ExercisePage() {
 
        */
   }, []);
+
+
   const updateExercises = (e) => {
       console.log("clicked")
       console.log(exercises)
@@ -48,13 +51,19 @@ function ExercisePage() {
 
   };
 
+  const resetEx=()=>{
+      console.log("resetting")
+      setExercises(exercisesTemp);
+
+  };
+
   return (
     <div className="exercise-page">
       <div className = "sidebar">
         <Sidebar updateExercises = {updateExercises} />
       </div>
       <div className = "exercises">
-        <Exercise exercises={exercises}/>
+        <Exercise resetEx = {resetEx} exercises={exercises}/>
       </div>
     </div>
   );

@@ -65,7 +65,7 @@ function Sidebar(props){
       </ul>
       <hr/>
 
-          <Button variant ="outline-dark">Apply Filters</Button>
+      <Button onClick={props.resetEx} variant ="outline-dark">Reset</Button>
       </div>
   );
 }
