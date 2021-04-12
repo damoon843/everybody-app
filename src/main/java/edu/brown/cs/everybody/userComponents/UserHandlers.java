@@ -48,6 +48,7 @@ public class UserHandlers {
     }
   }
 
+  // TODO: FINISH
   public static class DeleteUserHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -87,11 +88,11 @@ public class UserHandlers {
       List<Map<String, String>> output = new ArrayList<>();
 
       // Parse request from client and extract user info
-      int userID = Integer.parseInt(data.getString("userID"));
-      AppUser user = PostgresDatabase.getUser(userID);
+      String username = data.getString("username");
+      AppUser user = PostgresDatabase.getUser(PostgresDatabase.getUserID(username));
       // TODO: instead of checking for null, catch the exception
       if (user == null) {
-        Map<String, Object> variables = ImmutableMap.of("error", "UserID Not Found.");
+        Map<String, Object> variables = ImmutableMap.of("error", "Username Not Found.");
         return GSON.toJson(variables);
       }
 
@@ -169,6 +170,20 @@ public class UserHandlers {
       String username = data.getString("user");
       String following = data.getString("following");
       PostgresDatabase.insertFollow(username, following);
+      return null;
+    }
+  }
+
+  /**
+   * Handles request made to unfollow a user.
+   */
+  public static class UnfollowHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("user");
+      String following = data.getString("following");
+      PostgresDatabase.removeFollow(username, following);
       return null;
     }
   }
