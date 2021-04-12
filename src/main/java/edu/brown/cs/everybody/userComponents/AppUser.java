@@ -4,6 +4,7 @@ import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.KosarajusAlgorithm;
 
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class AppUser {
    * @param workoutDuration workout duration preference
    */
   public AppUser(int id, String username, Date timeCreated, String fName, String lName, String workoutType,
-                 Integer workoutDuration) throws SQLException {
+                 Integer workoutDuration) throws SQLException, URISyntaxException {
     this.userID = id;
     this.createdAt = timeCreated;
     this.username = username;

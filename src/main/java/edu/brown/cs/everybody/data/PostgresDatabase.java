@@ -514,12 +514,40 @@ public final class PostgresDatabase {
    * @param following user currently being followed's username
    * @throws SQLException
    */
-  public static void removeFollow(String username, String following) throws SQLException {
+  public static void removeFollow(String username, String following) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.removeFollow();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, getUserID(username));
       stmt.setInt(2, getUserID(following));
       stmt.execute();
+      tearDownConnection();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+  }
+
+  /**
+   * Checks if users table contains user with input username and password.
+   * @param username username
+   * @param password password
+   * @return -1 if false, 1 if true
+   */
+  public static int loginUser(String username, String password) throws SQLException, URISyntaxException {
+    setUpConnection();
+    String queryString = Queries.checkLogin();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1,username);
+      stmt.setString(2, password);
+      try (ResultSet res = stmt.executeQuery()) {
+        if (res.next()) {
+          tearDownConnection();
+          return 1;
+        }
+      }
+      tearDownConnection();
+      return -1;
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
