@@ -64,8 +64,8 @@ public final class Queries {
    * @return query string
    */
   public static String getExerciseInfo() {
-    return "SELECT exercise_name, media_link, duration, exercise_type,"
-      + " exercise_target_area, description, created_at"
+    return "SELECT exercise_name, media_link, duration,"
+      + " tags, description, created_at"
       + " FROM exercises WHERE exercise_id = ?;";
   }
 
@@ -75,7 +75,7 @@ public final class Queries {
    */
   public static String insertExercise() {
     return "INSERT INTO exercises"
-      + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+      + " VALUES(?, ?, ?, ?, ?, ?, ?);";
   }
 
   /**
