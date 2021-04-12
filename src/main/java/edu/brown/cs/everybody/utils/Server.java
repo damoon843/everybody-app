@@ -56,7 +56,7 @@ public class Server {
 
     // For user creation
     Spark.post("/newUser", new UserHandlers.NewUserHandler());
-
+    // For user login
     Spark.post("/login", new UserHandlers.LoginHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());

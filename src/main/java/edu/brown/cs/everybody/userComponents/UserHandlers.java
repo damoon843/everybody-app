@@ -89,21 +89,21 @@ public class UserHandlers {
   public static class GetRecommendationsHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      // TODO: filter out workouts which don't match preferences in the for loops
+      // TODO: filter out workouts which don't match preferences in the for loop
       JSONObject data = new JSONObject(request.body());
-
-      System.out.println(data);
       // List of Workouts to return to frontend
       List<Map<String, String>> output = new ArrayList<>();
-      System.out.println(output);
 
       // Parse request from client and extract user info
       String username = data.getString("username");
-      System.out.println(username);
-      AppUser user = PostgresDatabase.getUser(PostgresDatabase.getUserID(username));
-      // TODO: instead of checking for null, catch the exception
-      if (user == null) {
-        Map<String, Object> variables = ImmutableMap.of("error", "Username Not Found.");
+      // TODO DELETE
+      username = "aguo";
+      AppUser user;
+      try {
+        int userid = PostgresDatabase.getUserID(username);
+        user = PostgresDatabase.getUser(userid);
+      } catch (Exception e) {
+        Map<String, Object> variables = ImmutableMap.of("error", "User Not Found.");
         return GSON.toJson(variables);
       }
 
@@ -111,26 +111,28 @@ public class UserHandlers {
       PriorityQueue<Workout> finalSortedWorkouts = new PriorityQueue<>(new WorkoutComparator());
       int counter = 0;
       List<Integer> following = user.getFollowing();
-      Collections.shuffle(following);
-      for (int followingUserID : following) {
-        if (counter == 10) {
-          break;
-        }
-        AppUser followingUser = PostgresDatabase.getUser(followingUserID);
-        // TODO: catch exceptions
-        PriorityQueue<Workout> followingUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
-        if (followingUser.getWorkouts() != null) {
-          followingUserWorkouts.addAll(followingUser.getWorkouts());
-        }
-        Workout recentPost = followingUserWorkouts.poll();
-        while (recentPost != null) {
-          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
-            user.addRecentlyViewed(recentPost.getWorkoutId());
-            finalSortedWorkouts.add(recentPost);
-            counter++;
+      if (!following.isEmpty()) {
+        Collections.shuffle(following);
+        for (int followingUserID : following) {
+          if (counter == 10) {
             break;
-          } else {
-            recentPost = followingUserWorkouts.poll();
+          }
+          AppUser followingUser = PostgresDatabase.getUser(followingUserID);
+          // TODO: catch exceptions
+          PriorityQueue<Workout> followingUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
+          if (followingUser.getWorkouts() != null) {
+            followingUserWorkouts.addAll(followingUser.getWorkouts());
+          }
+          Workout recentPost = followingUserWorkouts.poll();
+          while (recentPost != null) {
+            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
+              user.addRecentlyViewed(recentPost.getWorkoutId());
+              finalSortedWorkouts.add(recentPost);
+              counter++;
+              break;
+            } else {
+              recentPost = followingUserWorkouts.poll();
+            }
           }
         }
       }
@@ -138,35 +140,39 @@ public class UserHandlers {
       // inserts 4 workouts from strongly connected users into output
       counter = 0;
       List<Integer> scc = user.getStronglyConnected();
-      Collections.shuffle(scc);
-      for (int connectedUserID : scc) {
-        if (counter == 4) {
-          break;
-        }
-        AppUser connectedUser = PostgresDatabase.getUser(connectedUserID);
-        // TODO: catch exceptions
-        PriorityQueue<Workout> connectedUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
-        if (connectedUser.getWorkouts() != null) {
-          connectedUserWorkouts.addAll(connectedUser.getWorkouts());
-        }
-        Workout recentPost = connectedUserWorkouts.poll();
-        while (recentPost != null) {
-          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
-            user.addRecentlyViewed(recentPost.getWorkoutId());
-            finalSortedWorkouts.add(recentPost);
-            counter++;
+      if (!scc.isEmpty()) {
+        Collections.shuffle(scc);
+        for (int connectedUserID : scc) {
+          if (counter == 4) {
             break;
-          } else {
-            recentPost = connectedUserWorkouts.poll();
+          }
+          AppUser connectedUser = PostgresDatabase.getUser(connectedUserID);
+          // TODO: catch exceptions
+          PriorityQueue<Workout> connectedUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
+          if (connectedUser.getWorkouts() != null) {
+            connectedUserWorkouts.addAll(connectedUser.getWorkouts());
+          }
+          Workout recentPost = connectedUserWorkouts.poll();
+          while (recentPost != null) {
+            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
+              user.addRecentlyViewed(recentPost.getWorkoutId());
+              finalSortedWorkouts.add(recentPost);
+              counter++;
+              break;
+            } else {
+              recentPost = connectedUserWorkouts.poll();
+            }
           }
         }
       }
+
       Workout finalWorkout = finalSortedWorkouts.poll();
       while (finalWorkout != null) {
         output.add(finalWorkout.toMap());
         finalWorkout = finalSortedWorkouts.poll();
       }
       Map<String, Object> variables = ImmutableMap.of("workouts", output);
+      System.out.println(output);
       return GSON.toJson(variables);
     }
   }

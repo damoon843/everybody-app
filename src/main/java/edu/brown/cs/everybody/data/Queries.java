@@ -119,12 +119,8 @@ public final class Queries {
    * @return query string
    */
   public static String getUser() {
-    return "SELECT user.id, user.username, user.created_at, users.first_name, "
-        + "users.last_name, "
-        + "prefs.workout_type, "
-        + "prefs.workout_duration "
-        + "FROM everybody_app.users INNER JOIN everybody_app.user_preferences AS prefs ON users.id = prefs.user_id "
-        + "WHERE users.username = ?;";
+    return "SELECT * FROM everybody_app.users JOIN everybody_app.user_preferences ON users.id = user_preferences.user_id "
+        + "WHERE users.id = ?;";
   }
 
   /**

@@ -7,8 +7,9 @@ function Workout(props){
 
   const follow = () => {
     const toSend = {
-      user: props.user,
-      following: props.postUser
+      // TODO: remove hard coding
+      user: "user",
+      following: "aguo"
     };
     console.log(toSend)
     followUser(toSend).then(result => {
