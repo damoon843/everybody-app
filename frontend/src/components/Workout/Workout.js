@@ -11,7 +11,9 @@ function Workout(props){
       following: props.postUser
     };
     console.log(toSend)
-    followUser(toSend);
+    followUser(toSend).then(result => {
+      console.log("user followed!")
+    })
   }
 
   return(

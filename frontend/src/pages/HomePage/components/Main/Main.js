@@ -16,9 +16,15 @@ function Main(props) {
 
   // makes an api request and sets initial state variable
   const getWorkouts = async () => {
+
     const recs = getRecommendations("aguo");
     setWorkouts(recs);
     setWorkouts(sampleData);
+
+    getRecommendations(props.user).then(result => {
+      console.log("got recommendations!")
+      setWorkouts(result);
+    });
   }
 
   // sets state variable
