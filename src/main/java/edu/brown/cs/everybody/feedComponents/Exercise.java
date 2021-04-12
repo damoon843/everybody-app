@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.feedComponents;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -14,12 +15,9 @@ public class Exercise {
   private int user_id;
   private Date created_at;
   private String description;
-  private String exercise_type;
-  private String target_area;
+  private ArrayList<String> tags;
   private Double duration;
   private URL media_link;
-  // TODO: need this?
-  private int next; // Stores ID of next exercise (in workout)
 
   /**
    * Constructor for Exercise
@@ -32,11 +30,9 @@ public class Exercise {
     this.user_id = builder._user_id;
     this.created_at = builder._created_at;
     this.description = builder._description;
-    this.exercise_type = builder._exercise_type;
-    this.target_area = builder._target_area;
+    this.tags = builder._tags;
     this.duration = builder._duration;
     this.media_link = builder._media_link;
-    this.next = builder._next;
   }
 
   /**
@@ -85,21 +81,11 @@ public class Exercise {
   }
 
   /**
-   * Getter for exercise type.
-   *
-   * @return exercise type
+   * Getter for exercise tags.
+   * @return tags
    */
-  public String getExerciseType() {
-    return this.exercise_type;
-  }
-
-  /**
-   * Getter for exercise target area
-   *
-   * @return exercise target area
-   */
-  public String getExerciseTargetArea() {
-    return this.target_area;
+  public ArrayList<String> getTags() {
+    return this.tags;
   }
 
   /**
@@ -121,15 +107,6 @@ public class Exercise {
   }
 
   /**
-   * Getter for ID of next exercise (in workout).
-   *
-   * @return next exercise ID (null if no next)
-   */
-  public int getNext() {
-    return this.next;
-  }
-
-  /**
    * Inner builder class for Exercises. Uses the Builder Design pattern.
    */
   public static class ExerciseBuilder {
@@ -137,12 +114,10 @@ public class Exercise {
     private int _workout_id;
     private int _user_id;
     private Date _created_at;
+    private ArrayList<String> _tags;
     private String _description;
-    private String _exercise_type;
-    private String _target_area;
     private Double _duration;
     private URL _media_link;
-    private int _next;
 
     /* Empty constructor */
     public ExerciseBuilder() {
@@ -213,28 +188,6 @@ public class Exercise {
     }
 
     /**
-     * Sets exercise type field.
-     *
-     * @param type exercise type
-     * @return ExerciseBuilder object
-     */
-    public ExerciseBuilder exercise_type(String type) {
-      this._exercise_type = type;
-      return this;
-    }
-
-    /**
-     * Sets target area field.
-     *
-     * @param target target area
-     * @return ExerciseBuilder object
-     */
-    public ExerciseBuilder target_area(String target) {
-      this._target_area = target;
-      return this;
-    }
-
-    /**
      * Sets duration field.
      *
      * @param length exercise length
@@ -257,13 +210,12 @@ public class Exercise {
     }
 
     /**
-     * Sets next (exercise ID) field
-     *
-     * @param id next exercise ID
+     * Sets tags field
+     * @param tagList list of tags
      * @return ExerciseBuilder object
      */
-    public ExerciseBuilder next(int id) {
-      this._next = id;
+    public ExerciseBuilder tags(ArrayList<String> tagList) {
+      this._tags = tagList;
       return this;
     }
   }
