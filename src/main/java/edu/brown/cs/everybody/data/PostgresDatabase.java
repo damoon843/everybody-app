@@ -30,52 +30,43 @@ public final class PostgresDatabase {
   private PostgresDatabase() {
   }
 
-//  /**
-//   * Singleton getter for PostgresDatabase and sets up DB connection.
-//   * @return single instance of PostgresDatabase.
-//   */
-//  public static PostgresDatabase getInstance() throws URISyntaxException, SQLException {
-//    if (singleInstance == null) {
-//      singleInstance = new PostgresDatabase();
-//      if (setUpConnection() == null) {
-//        System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
-//      }
-//    }
-//    return singleInstance;
-//  }
-
   /**
    * Establishes connection to pg DB.
-   * @return connection to DB if successful, null if failed
    * @throws URISyntaxException when given improper URI
    * @throws SQLException when driver cannot retrieve conn
    */
-  public static Connection setUpConnection() throws URISyntaxException, SQLException {
-    // TODO: encode these details elsewhere
-    String tempURI = "postgres://roifqtuewetfej:7d514e978ce5f83a75ca408a356cb5e5324a3657960f95a3533aeb93622c5" +
-      "906@ec2-52-7-115-250.compute-1.amazonaws.com:5432/d97rt21a1m7m9k\n";
-
-    URI dbUri = new URI(System.getenv(tempURI));
+  public static void setUpConnection() throws URISyntaxException, SQLException {
+    URI dbUri = new URI(System.getenv("DATABASE_URL"));
     String username = dbUri.getUserInfo().split(":")[0];
     String password = dbUri.getUserInfo().split(":")[1];
     String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 
-    dbConn = DriverManager.getConnection(dbUrl, username, password);
-    return dbConn;
+    try {
+      dbConn = DriverManager.getConnection(dbUrl, username, password);
+    } catch (Exception ex) {
+      System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
+    }
   }
 
   /**
-   * Tears down connection ot pg DB.
+   * Tears down connection to pg DB.
    */
   public static void tearDownConnection() {
-    // TODO: fill this out.
+    if (dbConn != null) {
+      try {
+        dbConn.close();
+      } catch(SQLException ex) {
+        System.out.println(ErrorConstants.ERROR_DATABASE_CLOSE);
+      }
+    }
   }
 
   /**
    * Inserts a new user into the users table (sign-up).
    * @param data list of user-related data to insert
    */
-  public static void insertUser(List<Object> data) throws SQLException {
+  public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.insertUserQuery();
 
     // Insert into users table
@@ -100,6 +91,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
   }
 
   /**
@@ -107,7 +99,8 @@ public final class PostgresDatabase {
    * @param username username
    * @return list of user info
    */
-  public static List<Object> getUserInfo(String username) throws SQLException {
+  public static List<Object> getUserInfo(String username) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getUserInfo();
     List<Object> result = new ArrayList<>();
 
@@ -130,6 +123,7 @@ public final class PostgresDatabase {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
+      tearDownConnection();
       return result;
     }
   }
@@ -139,7 +133,8 @@ public final class PostgresDatabase {
    * @param username username
    * @return list of Workout objects
    */
-  public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException {
+  public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -163,6 +158,7 @@ public final class PostgresDatabase {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
+      tearDownConnection();
       return pq;
     }
   }
@@ -173,7 +169,8 @@ public final class PostgresDatabase {
    * @param workoutName workout name
    * @return list of Exercise objects
    */
-  public static Map<Integer, List<Object>> getUserExercises(String username, String workoutName) throws SQLException {
+  public static Map<Integer, List<Object>> getUserExercises(String username, String workoutName) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getExercisesFromWorkout();
     List<Exercise> exercises = new ArrayList<>();
     List<Integer> exerciseIds = new ArrayList<>();
@@ -227,6 +224,7 @@ public final class PostgresDatabase {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
+      tearDownConnection();
       return results;
     }
   }
@@ -243,7 +241,8 @@ public final class PostgresDatabase {
    * @param createdAt exercise creation timestamp
    */
   public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
-                                           String targetArea, String type, String description, Date createdAt) throws SQLException {
+                                           String targetArea, String type, String description, Date createdAt) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.insertExercise();
 
     // Insert into exercises table
@@ -261,12 +260,14 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
   }
 
   /**
    * Helper method for insertUserWorkout. Retrieves exercise ID.
    */
-  public static Integer getExerciseId(String username, String exerciseName) throws SQLException {
+  public static Integer getExerciseId(String username, String exerciseName) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getExerciseId();
     Integer exerciseId = 0;
 
@@ -283,7 +284,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
-
+    tearDownConnection();
     return exerciseId;
   }
 
@@ -300,7 +301,8 @@ public final class PostgresDatabase {
    * @param exerciseIds list of exercises in the workout
    */
   public static void insertUserWorkout(Date createdAt, Integer duration, String mediaLink, Integer totalLikes,
-                                       String description, String username, String workoutName, List<Integer> exerciseIds) throws SQLException {
+                                       String description, String username, String workoutName, List<Integer> exerciseIds) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.insertWorkout();
 
     // Insert into workouts table
@@ -318,6 +320,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
   }
 
   /**
@@ -331,7 +334,8 @@ public final class PostgresDatabase {
    * @param id input user ID.
    * @return list of user ID's.
    */
-  public static List<Integer> getFollowing(int id) throws SQLException {
+  public static List<Integer> getFollowing(int id) throws SQLException, URISyntaxException {
+    setUpConnection();
     String getString = Queries.getFollowingQuery();
     List<Integer> following = new ArrayList<>();
     try (PreparedStatement stmt = dbConn.prepareStatement(getString)) {
@@ -346,6 +350,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
     return following;
   }
 
@@ -354,7 +359,8 @@ public final class PostgresDatabase {
    * @param id user ID
    * @return AppUser object containing info about user with given id
    */
-  public static AppUser getUser(int id) throws SQLException {
+  public static AppUser getUser(int id) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getUser();
     AppUser user = null;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -374,6 +380,7 @@ public final class PostgresDatabase {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
+      tearDownConnection();
       return user;
     }
   }
@@ -383,7 +390,8 @@ public final class PostgresDatabase {
    * @param user user id
    * @param workout workout id
    */
-  public static void addRecentlyViewed(int user, int workout) throws SQLException {
+  public static void addRecentlyViewed(int user, int workout) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.insertViewedWorkout();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, user);
@@ -393,6 +401,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
   }
 
   /**
@@ -401,7 +410,8 @@ public final class PostgresDatabase {
    * @return set of workout ids
    *
    */
-  public static Set<Integer> getRecentlyViewed(int userID) throws SQLException{
+  public static Set<Integer> getRecentlyViewed(int userID) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.recentlyViewed();
     Set<Integer> workouts = new HashSet<>();
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -416,6 +426,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
     return workouts;
   }
 
@@ -424,7 +435,8 @@ public final class PostgresDatabase {
    * @param username username
    * @return userID
    */
-  public static int getUserID(String username) throws SQLException {
+  public static int getUserID(String username) throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getUserID();
     int userID = -1;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -438,6 +450,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
     return userID;
   }
 
@@ -446,7 +459,8 @@ public final class PostgresDatabase {
    * @param username user
    * @param following new user to follow
    */
-  public static void insertFollow(String username, String following) throws SQLException {
+  public static void insertFollow(String username, String following) throws SQLException, URISyntaxException {
+    setUpConnection();
     String insertString = Queries.insertFollow();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, getUserID(username));
@@ -456,6 +470,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
   }
 
 
@@ -463,7 +478,8 @@ public final class PostgresDatabase {
    * Retrieves exercises for exercises page (100 at a time)
    * @return list of exercises to display
    */
-  public static Map<Integer, List<Object>> getExercises() throws SQLException {
+  public static Map<Integer, List<Object>> getExercises() throws SQLException, URISyntaxException {
+    setUpConnection();
     String queryString = Queries.getPublicExercises();
     Map<Integer, List<Object>>  results = new HashMap<>();
 
@@ -492,7 +508,7 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
-
+    tearDownConnection();
     return results;
   }
 }
