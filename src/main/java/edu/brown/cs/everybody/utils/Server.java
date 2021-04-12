@@ -70,6 +70,8 @@ public class Server {
     // For home feed recommendations
     Spark.get("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
     Spark.post("/follow", new UserHandlers.FollowHandler());
+    // TODO: post vs get
+    Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
 
   }
 
