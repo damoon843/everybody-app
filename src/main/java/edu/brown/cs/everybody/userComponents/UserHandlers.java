@@ -47,7 +47,7 @@ public class UserHandlers {
 
         // Query execute properly, encode session ID in cookie
         Session session = request.session(true);
-        // response.cookie("sessionID", request.session().id());
+        response.cookie("sessionID", request.session().id());
 
         // Set session attributes
         request.session().attribute("username", username);
@@ -186,9 +186,14 @@ public class UserHandlers {
       String username = data.getString("user");
       String following = data.getString("following");
 
+      System.out.println(request.cookies());
       Session session = request.session(false);
       System.out.println(session);
-      System.out.println((char[]) session.attribute("username"));
+
+      if (session != null) {
+        // Session retrieved, get username
+        System.out.println((char[]) session.attribute("username"));
+      }
 
       PostgresDatabase.insertFollow(username, following);
       Map<String, Object> variables = ImmutableMap.of("isValid", true);
@@ -227,11 +232,11 @@ public class UserHandlers {
 
         // Query execution success
         if (output == 1) {
-          // Login success
+          // Login success -> create new session
           Session session = request.session(true);
-
-          // Set session attributes
+          // Set session attributes and response cookie
           request.session().attribute("username", username);
+          response.cookie("sessionID", request.session().id());
 
           variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
         } else {
@@ -241,7 +246,6 @@ public class UserHandlers {
       } catch (SQLException ex) {
         // Query execution failed
         variables = ImmutableMap.of("queryStatus", ex.getMessage(), "loginStatus", "failed");
-
       }
       return GSON.toJson(variables);
     }
