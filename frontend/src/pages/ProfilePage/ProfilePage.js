@@ -1,8 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import './ProfilePage.css';
 import ExpandedUserProfile from "./components/ExpandedUserProfile/ExpandedUserProfile";
+
+import Main from "../HomePage/components/Main/Main";
+import {Button} from "react-bootstrap";
+import {getAllExercises, getWorkouts} from "../../api";
+import { getUser } from "../../api";
 import Workout from '../../components/Workout/Workout';
 import Profile from './components/Profile/Profile';
+import { getUser } from '../../api';
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
@@ -12,18 +18,22 @@ function ProfilePage(props){
   // sets state variable
   const renderWorkouts = () => {
     setWorkouts(sampleData.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+
   }
+
 
   useEffect(() => {
     // getWorkouts();
     renderWorkouts();
-  }, []);
+
+  },[]);
 
   return (
     <div className="profile-page">
         <div id = "prof-card">
             <ExpandedUserProfile/>
         </div>
+        <p>{props.user}</p>
         <div className="profile-workouts">
         {workouts}
         </div>
