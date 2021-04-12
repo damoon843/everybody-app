@@ -20,7 +20,7 @@ export const getRecommendations = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -41,7 +41,7 @@ export const getWorkouts = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -62,7 +62,7 @@ export const getWorkout = async (id) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -82,7 +82,7 @@ export const getAllExercises = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -102,7 +102,7 @@ export const getUser = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -140,7 +140,7 @@ export const createWorkout = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -172,7 +172,7 @@ export const createExercise = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -185,9 +185,10 @@ export const createUser = async (toSend) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let data = JSON.stringify(toSend);
   await axios.post(
     "http://localhost:4567/newUser",
-    toSend,
+    data,
     config
   )
   .then(response => {
@@ -203,7 +204,7 @@ export const createUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -230,7 +231,7 @@ export const loginUser = async (toSend) => {
     userSession.setSession(response.data)
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -252,7 +253,7 @@ export const followUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -274,7 +275,7 @@ export const unfollowUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
