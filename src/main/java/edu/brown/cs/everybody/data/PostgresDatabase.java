@@ -68,27 +68,32 @@ public final class PostgresDatabase {
   public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
     setUpConnection();
     String insertString = Queries.insertUserQuery();
-
+    int id = -1;
     // Insert into users table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));
       stmt.setString(2, (String) data.get(1));
       stmt.setString(3, (String) data.get(2));
       stmt.setString(4, (String) data.get(3));
-      stmt.execute();
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          id = res.getInt("id");
+        }
+      }
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
 
     // Insert into user_preferences table
     insertString = Queries.insertUserPreferencesQuery();
-    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setString(1, (String) data.get(4));
-      stmt.setInt(2, (Integer) data.get(5));
-      stmt.execute();
+    try (PreparedStatement stmt2 = dbConn.prepareStatement(insertString)) {
+      stmt2.setInt(1, id);
+      stmt2.setString(2, (String) data.get(4));
+      stmt2.setInt(3, (Integer) data.get(5));
+      stmt2.execute();
     } catch (SQLException ex) {
-      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();

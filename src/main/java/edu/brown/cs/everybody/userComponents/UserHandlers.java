@@ -11,6 +11,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -38,9 +39,17 @@ public class UserHandlers {
 
       Integer duration = Integer.parseInt(workoutDuration);
       List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, password, workoutType, duration));
-
-      PostgresDatabase.insertUser(listData);
-      return null;
+      Map<String, Object> variables;
+      try {
+        PostgresDatabase.insertUser(listData);
+        variables = ImmutableMap.of("isValid", true);
+      } catch (SQLException e) {
+        variables = ImmutableMap.of("isValid", false);
+      }
+//      // TODO: CHANGE
+//      request.session().attribute("username", username);
+//      response.redirect("/home");
+      return GSON.toJson(variables);
     }
   }
 
