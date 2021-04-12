@@ -22,11 +22,6 @@ public class Server {
 
 
   public Server(int port) throws Exception {
-    // Set up DB connection
-    if (PostgresDatabase.setUpConnection() == null) {
-      System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
-    }
-
     // Run server
     runSparkServer(port);
   }
