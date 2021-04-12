@@ -211,7 +211,7 @@ export const createUser = async (toSend) => {
 
 // logs in a user
 // toSend: information about the user
-export const login = async (toSend) => {
+export const loginUser = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
