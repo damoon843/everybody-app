@@ -44,8 +44,9 @@ function WorkoutModal(props){
     // let duration = document.getElementById('exercise-duration').value;
     // let newDuration = duration * 60;
     let exerciseList = [{username: "chrissy", exerciseName: 'exercise1'}, {username: "chrissy", exerciseName: 'exercise2'}, {username: "chrissy", exerciseName: 'exercise3'}];
+    let newExerciseList = [1, 2, 3];
     const toSend = {
-      exerciseList: exerciseList,
+      exerciseList: newExerciseList,
       duration : 60,
       mediaLink: "google.com",
       description: desc,
