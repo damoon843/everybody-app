@@ -79,6 +79,8 @@ public class Server {
     Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
+    // TODO: post vs get
+    Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
 
   }
 
