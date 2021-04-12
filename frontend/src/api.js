@@ -12,7 +12,7 @@ export const getRecommendations = async (username) => {
     }
   }
   await axios.get(
-    "https://localhost:4567/getRecommendations/" + username,
+    "http://localhost:4567/getRecommendations/" + username,
     config
   )
   .then(response => {
@@ -33,7 +33,7 @@ export const getWorkouts = async (username) => {
     }
   }
   await axios.get(
-    "https://localhost:4567/userWorkouts/" + username,
+    "http://localhost:4567/userWorkouts/" + username,
     config
   )
   .then(response => {
@@ -54,7 +54,7 @@ export const getWorkout = async (id) => {
     }
   }
   await axios.get(
-      "https://localhost:4567/getWorkout/" + id,
+      "http://localhost:4567/getWorkout/" + id,
       config
   )
   .then(response => {
@@ -74,7 +74,7 @@ export const getAllExercises = async () => {
     }
   }
   await axios.get(
-    "https://localhost:4567/exercises",
+    "http://localhost:4567/exercises",
     config
   )
   .then(response => {
@@ -94,7 +94,7 @@ export const getUser = async () => {
     }
   }
   await axios.get(
-    "https://localhost:4567/userInfo",
+    "http://localhost:4567/userInfo",
     config
   )
   .then(response => {
@@ -127,7 +127,7 @@ export const createWorkout = async (data) => {
     }
   }
   await axios.post(
-    "https://localhost:4567/uploadWorkout",
+    "http://localhost:4567/uploadWorkout",
     toSend,
     config
   )
@@ -159,7 +159,7 @@ export const createExercise = async (data) => {
     }
   }
   await axios.post(
-    "https://localhost:4567/uploadExercise",
+    "http://localhost:4567/uploadExercise",
     toSend,
     config
   )
@@ -181,7 +181,7 @@ export const createUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://localhost:4567/newUser",
+    "http://localhost:4567/newUser",
     toSend,
     config
   )
@@ -204,7 +204,7 @@ export const loginUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://localhost:4567/login",
+    "http://localhost:4567/login",
     toSend,
     config
   )
@@ -232,7 +232,7 @@ export const followUser = async (data) => {
     }
   }
   await axios.post(
-      "https://everybody-app.herokuapp.com/follow",
+      "http://everybody-app.herokuapp.com/follow",
       toSend,
       config
   )
@@ -260,7 +260,7 @@ export const unfollowUser = async (data) => {
     }
   }
   await axios.post(
-      "https://everybody-app.herokuapp.com/unfollow",
+      "http://everybody-app.herokuapp.com/unfollow",
       toSend,
       config
   )

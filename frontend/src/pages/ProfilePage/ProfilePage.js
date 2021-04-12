@@ -8,7 +8,6 @@ import {getAllExercises, getWorkouts} from "../../api";
 import { getUser } from "../../api";
 import Workout from '../../components/Workout/Workout';
 import Profile from './components/Profile/Profile';
-import { getUser } from '../../api';
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
