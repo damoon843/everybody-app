@@ -139,23 +139,16 @@ public class FeedHandlers {
    * Retrieves 20 similar exercise names as user query.
    */
   // TODO
-//  public static class SearchExercisesHandler implements Route {
-//    @Override
-//    public Object handle(Request request, Response response) throws Exception {
-//      JSONObject data = new JSONObject(request.body());
-//      List<Map<String, String>> output = new ArrayList<>();
-//
-//      String query = data.getString("query");
-//      List<Exercise> exercises = PostgresDatabase.getSimilarExercises(query);
-//
-//      // TODO:
-//      for(Exercise ex: exercises) {
-//        output.add(ex.toMap());
-//      }
-//
-//      Map<String, Object> variables = ImmutableMap.of("exercises", output);
-//      return GSON.toJson(variables);
-//    }
+  public static class SearchExercisesHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String query = data.getString("query");
+
+      Map<Integer, List<Object>> exercises = PostgresDatabase.getSimilarExercises(query);
+      Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
+      return GSON.toJson(variables);
+    }
   }
 
 
