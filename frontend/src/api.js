@@ -112,8 +112,12 @@ export const getUser = async () => {
 // data: information about the workout
 export const createWorkout = async (data) => {
   const toSend = {
-    title: data.title,
+    exerciseList: data.exerciseList,//{"username": ?, "exerciseName": ?,
+    duration : data.duration,
+    mediaLink: data.mediaLink,
     description: data.description,
+    username: data.username,
+    workoutName: data.workoutName,
     exercises: data.exercises
   };
   let config = {
@@ -139,10 +143,14 @@ export const createWorkout = async (data) => {
 // data: information about the workout
 export const createExercise = async (data) => {
   const toSend = {
-    title: data.title,
-    description: data.description,
-    exercises: data.tags,
-    media: data.media
+    username: data.username,
+    exerciseName:data.exerciseName,
+    mediaLink: data.mediaLink,
+    duration: data.duration,
+    tags: data.tags,
+    description: data.description
+
+
   };
   let config = {
     headers: {
@@ -207,3 +215,60 @@ export const loginUser = async (toSend) => {
     console.log(error);
   });
 }
+
+// follows a user
+// data: information about the user and following
+export const followUser = async (data) => {
+  const toSend = {
+    user: data.username,
+    following: data.following
+
+
+  };
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+      "https://everybody-app.herokuapp.com/follow",
+      toSend,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
+// follows a user
+// data: information about the user and following
+export const unfollowUser = async (data) => {
+  const toSend = {
+    user: data.username,
+    following: data.following
+
+
+  };
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+      "https://everybody-app.herokuapp.com/unfollow",
+      toSend,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+

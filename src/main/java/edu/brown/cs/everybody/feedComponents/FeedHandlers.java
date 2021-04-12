@@ -29,7 +29,7 @@ public class FeedHandlers {
       String description = data.getString("description");
 
       // Extract tags from JSONArray
-      List<String> tags  = new ArrayList<>();
+      List<String> tags = new ArrayList<>();
       for (int i = 0; i < tagsJSON.length(); i++) {
         tags.add((String) tagsJSON.get(i));
       }
@@ -150,4 +150,5 @@ public class FeedHandlers {
       return GSON.toJson(variables);
     }
   }
+}
 
