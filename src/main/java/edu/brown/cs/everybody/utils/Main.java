@@ -29,10 +29,7 @@ public final class Main {
   }
 
   private void run() throws Exception {
-    PostgresDatabase.setUpConnection();
     // Begin the server
     Server server = new Server(DEFAULT_PORT);
-    System.out.println("THIS IS THE BEST APP EVER!");
   }
-
 }

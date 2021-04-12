@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.utils;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.FeedHandlers;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
@@ -21,6 +22,11 @@ public class Server {
 
 
   public Server(int port) throws Exception {
+    // Set up DB connection
+    if (PostgresDatabase.setUpConnection() == null) {
+      System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
+    }
+
     // Run server
     runSparkServer(port);
   }
