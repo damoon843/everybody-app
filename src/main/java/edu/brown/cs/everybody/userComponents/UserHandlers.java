@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
-import edu.brown.cs.everybody.utils.Main;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 import org.json.JSONObject;
 import spark.Request;
@@ -29,20 +28,13 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
 
       // Parse request from client
-      // TODO: verify info sent from frontend
       String fName = data.getString("firstName");
       String lName = data.getString("lastName");
-      String createdAtStr = data.getString("createdAt");
       String username = data.getString("username");
       String workoutType = data.getString("workoutType");
       Integer workoutDuration = data.getInt("workoutDuration");
 
-      // Format date
-      // TODO: verify date format
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      Date createdAt = sdf.parse(createdAtStr);
-
-      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, createdAt, username, workoutType, workoutDuration));
+      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, workoutType, workoutDuration));
       PostgresDatabase.insertUser(listData);
       return null;
     }

@@ -1,6 +1,5 @@
 package edu.brown.cs.everybody.data;
 
-import edu.brown.cs.everybody.feedComponents.Exercise;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.utils.ErrorConstants;
@@ -73,8 +72,7 @@ public final class PostgresDatabase {
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));
       stmt.setString(2, (String) data.get(1));
-      stmt.setDate(3, (Date) data.get(2));
-      stmt.setString(4, (String) data.get(3));
+      stmt.setString(3, (String) data.get(2));
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -172,7 +170,6 @@ public final class PostgresDatabase {
   public static Map<Integer, List<Object>> getUserExercises(String username, String workoutName) throws SQLException, URISyntaxException {
     setUpConnection();
     String queryString = Queries.getExercisesFromWorkout();
-    List<Exercise> exercises = new ArrayList<>();
     List<Integer> exerciseIds = new ArrayList<>();
 
     // Retrieve order of exercise IDs
@@ -241,19 +238,18 @@ public final class PostgresDatabase {
    * @param createdAt exercise creation timestamp
    */
   public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
-                                        List<String> tags, String description, Date createdAt) throws SQLException, URISyntaxException {
+                                        List<String> tags, String description) throws SQLException, URISyntaxException {
     setUpConnection();
     String insertString = Queries.insertExercise();
 
     // Insert into exercises table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setDate(1, createdAt);
-      stmt.setInt(2, duration);
-      stmt.setString(3, mediaLink);
-      stmt.setString(4, description);
-      stmt.setArray(5, (Array) tags);
-      stmt.setString(6, username);
-      stmt.setString(7, exerciseName);
+      stmt.setInt(1, duration);
+      stmt.setString(2, mediaLink);
+      stmt.setString(3, description);
+      stmt.setString(4, username);
+      stmt.setString(5, exerciseName);
+      stmt.setArray(6, (Array) tags);
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -290,7 +286,6 @@ public final class PostgresDatabase {
 
   /**
    * Inserts an uploaded workout.
-   * @param createdAt uploaded timestamp
    * @param duration length of workout
    * @param mediaLink media link
    * @param totalLikes likes of workout
@@ -299,21 +294,21 @@ public final class PostgresDatabase {
    * @param workoutName workout name
    * @param exerciseIds list of exercises in the workout
    */
-  public static void insertUserWorkout(Date createdAt, Integer duration, String mediaLink, Integer totalLikes,
-                                       String description, String username, String workoutName, List<Integer> exerciseIds) throws SQLException, URISyntaxException {
+  public static void insertUserWorkout(Integer duration, String mediaLink, Integer totalLikes,
+                                       String description, String username, String workoutName,
+                                       List<Integer> exerciseIds) throws SQLException, URISyntaxException {
     setUpConnection();
     String insertString = Queries.insertWorkout();
 
     // Insert into workouts table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setDate(1, createdAt);
-      stmt.setInt(2, duration);
-      stmt.setString(3, mediaLink);
-      stmt.setInt(4, totalLikes);
-      stmt.setArray(5, (Array) exerciseIds);
-      stmt.setString(6, description);
-      stmt.setString(7, username);
-      stmt.setString(8, workoutName);
+      stmt.setInt(1, duration);
+      stmt.setString(2, mediaLink);
+      stmt.setInt(3, totalLikes);
+      stmt.setArray(4, (Array) exerciseIds);
+      stmt.setString(5, description);
+      stmt.setString(6, username);
+      stmt.setString(7, workoutName);
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
