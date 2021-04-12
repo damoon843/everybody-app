@@ -15,7 +15,7 @@ public final class Queries {
    */
   public static String insertUserQuery() {
     return "INSERT INTO everybody_app.users(first_name, last_name, created_at, username, password)"
-      + " VALUES(?,?,CURRENT_TIMESTAMP,?, ?);";
+      + " VALUES(?,?,CURRENT_TIMESTAMP,?, ?) RETURNING id;";
   }
 
   /**
@@ -23,8 +23,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertUserPreferencesQuery() {
-    return "INSERT INTO everybody_app.user_preferences(workout_type, workout_duration)"
-      + " VALUES(?,?);";
+    return "INSERT INTO everybody_app.user_preferences(user_id, workout_type, workout_duration)"
+      + " VALUES(?,?,?);";
   }
 
   /**
@@ -36,7 +36,7 @@ public final class Queries {
       + "users.last_name, "
       + "prefs.workout_type, "
       + "prefs.workout_duration "
-      + "FROM users INNER JOIN user_preferences prefs ON users.id = prefs.user_id "
+      + "FROM everybody_app.users INNER JOIN everybody_app.user_preferences prefs ON users.id = prefs.user_id "
       + "WHERE users.username = ?";
   }
 
@@ -46,7 +46,7 @@ public final class Queries {
    */
   public static String getWorkouts() {
     return "SELECT *"
-      + " FROM workouts"
+      + " FROM everybody_app.workouts"
       + " WHERE username = ?;";
   }
 
@@ -56,7 +56,7 @@ public final class Queries {
    */
   public static String getExercisesFromWorkout() {
     return "SELECT exercises"
-      + " FROM workouts WHERE username = ? AND workout_name = ?;";
+      + " FROM everybody_app.workouts WHERE username = ? AND workout_name = ?;";
   }
 
   /**
@@ -66,7 +66,7 @@ public final class Queries {
   public static String getExerciseInfo() {
     return "SELECT exercise_name, media_link, duration,"
       + " tags, description, created_at"
-      + " FROM exercises WHERE exercise_id = ?;";
+      + " FROM everybody_app.exercises WHERE exercise_id = ?;";
   }
 
   /**
@@ -92,7 +92,7 @@ public final class Queries {
    * @return query string
    */
   public static String getExerciseId() {
-    return "SELECT exercise_id FROM exercises"
+    return "SELECT exercise_id FROM everybody_app.exercises"
       + " WHERE username = ? AND exercise_name = ?;";
   }
 
@@ -101,7 +101,7 @@ public final class Queries {
    * @return query string
    */
   public static String getFollowingQuery() {
-    return "SELECT following_id FROM following WHERE user_id = ?;";
+    return "SELECT following_id FROM everybody_app.following WHERE user_id = ?;";
   }
 
   /**
@@ -109,7 +109,7 @@ public final class Queries {
    * @return query string
    */
   public static String getPublicExercises() {
-    return "SELECT * FROM exercises"
+    return "SELECT * FROM everybody_app.exercises"
       + " ORDER BY created_at DESC"
       + " LIMIT 100;";
   }
@@ -123,7 +123,7 @@ public final class Queries {
         + "users.last_name, "
         + "prefs.workout_type, "
         + "prefs.workout_duration "
-        + "FROM users INNER JOIN user_preferences AS prefs ON users.id = prefs.user_id "
+        + "FROM everybody_app.users INNER JOIN everybody_app.user_preferences AS prefs ON users.id = prefs.user_id "
         + "WHERE users.username = ?;";
   }
 
@@ -132,7 +132,7 @@ public final class Queries {
    * @return query string
    */
   public static String getUserID() {
-    return "SELECT id FROM users WHERE username = ?;";
+    return "SELECT id FROM everybody_app.users WHERE username = ?;";
   }
 
   /**
@@ -140,7 +140,7 @@ public final class Queries {
    * @return query string
    */
   public static String recentlyViewed() {
-    return "SELECT workout_id FROM viewed_workouts WHERE user_id = ?;";
+    return "SELECT workout_id FROM everybody_app.viewed_workouts WHERE user_id = ?;";
   }
 
   /**
@@ -148,7 +148,7 @@ public final class Queries {
    * @return query string
    */
   public static String insertViewedWorkout() {
-    return "INSERT INTO viewed_workouts"
+    return "INSERT INTO everybody_app.viewed_workouts"
         + " VALUES(?, ?);";
   }
 
@@ -157,7 +157,7 @@ public final class Queries {
    * @return query string
    */
   public static String insertFollow() {
-    return "INSERT INTO following"
+    return "INSERT INTO everybody_app.following"
         + " VALUES(?, ?);";
   }
 
@@ -166,7 +166,7 @@ public final class Queries {
    * @return query string
    */
   public static String removeFollow() {
-    return "DELETE FROM following WHERE user_id = ? AND following_id = ?;";
+    return "DELETE FROM everybody_app.following WHERE user_id = ? AND following_id = ?;";
   }
 
   /**
@@ -174,7 +174,7 @@ public final class Queries {
    * @return query string
    */
   public static String checkLogin() {
-    return "SELECT username FROM users WHERE id = ? AND password = ?;";
+    return "SELECT username FROM everybody_app.users WHERE username = ? AND password = ?;";
   }
 
   /**
@@ -182,7 +182,7 @@ public final class Queries {
    * @return query string
    */
   public static String getSimilarExercises() {
-    return "SELECT * FROM exercises"
+    return "SELECT * FROM everybody_app.exercises"
         + " WHERE exercise_name LIKE %?% ORDER BY created_at DESC"
         + " LIMIT 20;";
   }
