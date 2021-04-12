@@ -193,9 +193,11 @@ public class UserHandlers {
 
       int output = PostgresDatabase.loginUser(username, password);
       if (output == 1) {
-        request.session().attribute(username);
+        // TODO: CHANGE
+        request.session().attribute("username", username);
         response.redirect("/home");
-        return null;
+        Map<String, Object> variables = ImmutableMap.of("username", "Failed to login.");
+        return GSON.toJson(variables);
       }
       Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");
       return GSON.toJson(variables);

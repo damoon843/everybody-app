@@ -169,7 +169,21 @@ public final class Queries {
     return "DELETE FROM following WHERE user_id = ? AND following_id = ?;";
   }
 
+  /**
+   * Query to see if login info matches existing user.
+   * @return query string
+   */
   public static String checkLogin() {
     return "SELECT username FROM users WHERE id = ? AND password = ?;";
+  }
+
+  /**
+   * Query to retrieve 20 exercise names similar to some string input.
+   * @return query string
+   */
+  public static String getSimilarExercises() {
+    return "SELECT * FROM exercises"
+        + " WHERE exercise_name LIKE %?% ORDER BY created_at DESC"
+        + " LIMIT 20;";
   }
 }

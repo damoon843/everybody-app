@@ -235,7 +235,6 @@ public final class PostgresDatabase {
    * @param duration length of exercise (seconds)
    * @param tags list of tags
    * @param description description
-   * @param createdAt exercise creation timestamp
    */
   public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
                                         List<String> tags, String description) throws SQLException, URISyntaxException {
@@ -552,5 +551,46 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
     }
+  }
+
+  /**
+   * Retrieves exercises which are similar to a query (up to 20).
+   * @return list of exercises to display
+   */
+  public static Map<Integer, List<Object>> getSimilarExercises(String query) throws SQLException, URISyntaxException {
+    setUpConnection();
+    String queryString = Queries.getSimilarExercises();//add query to string
+    Map<Integer, List<Object>>  results = new HashMap<>();
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1,query);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          Integer exerciseID = res.getInt("exercise_id");
+          Date createdAt = res.getDate("created_at");
+          Integer duration = res.getInt("duration");
+          String mediaLink = res.getString("mediaLink");
+          String description = res.getString("description");
+          Array sqlTags = res.getArray("tags");
+          String username = res.getString("username");
+          String exerciseName = res.getString("exercise_name");
+
+          // Convert Date obj to milliseconds
+          Long time = createdAt.getTime();
+
+          // Cast java.sql array to java.utils array
+          String[] tags = (String[]) sqlTags.getArray();
+
+          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
+              username, exerciseName));
+          results.put(exerciseID, tempList);
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return results;
   }
 }
