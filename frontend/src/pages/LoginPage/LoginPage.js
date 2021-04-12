@@ -5,7 +5,7 @@ import './LoginPage.css';
 
 let user = "";
 
-function LoginPage() {
+function LoginPage(props) {
 
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
@@ -36,6 +36,7 @@ function LoginPage() {
     };
     console.log(toSend)
     user = createUser(toSend);
+    props.setUsername(user)
   }
 
   const login = (e) => {
@@ -48,6 +49,7 @@ function LoginPage() {
     };
     console.log(toSend)
     user = loginUser(toSend);
+    props.setUsername(user)
   }
 
   return (

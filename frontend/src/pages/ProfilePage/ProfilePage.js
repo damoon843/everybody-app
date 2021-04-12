@@ -3,6 +3,7 @@ import './ProfilePage.css';
 import ExpandedUserProfile from "./components/ExpandedUserProfile/ExpandedUserProfile";
 import Workout from '../../components/Workout/Workout';
 import Profile from './components/Profile/Profile';
+import { getUser } from '../../api';
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
@@ -24,6 +25,7 @@ function ProfilePage(props){
         <div id = "prof-card">
             <ExpandedUserProfile/>
         </div>
+        <p>{props.user}</p>
         <div className="profile-workouts">
         {workouts}
         </div>

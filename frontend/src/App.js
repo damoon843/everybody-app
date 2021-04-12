@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ExercisePage from './pages/ExercisePage/ExercisePage';
@@ -13,6 +13,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   const home = window.location.origin + "/home"
+  const [user, setUser] = useState("");
+
+  const setUsername = (username) => {
+    setUser(username)
+    console.log(user)
+  }
+
   return (
     <Auth0Provider domain="hidden-truth-6529.us.auth0.com" clientId="KBV5chpfuBUCgg6sFzIkjZUVbsFqxQ5b" redirectUri={home}>
       <Router>
@@ -27,14 +34,14 @@ function App() {
             </Route>
             <Route path="/profile">
               <Toolbar />
-              <ProfilePage />
+              <ProfilePage user={user} />
             </Route>
             <Route path="/home">
               <Toolbar />
               <HomePage />
             </Route>
             <Route path="/">
-              <LoginPage />
+              <LoginPage setUsername={setUsername} />
             </Route>
           </Switch>
       </Router>
