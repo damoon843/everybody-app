@@ -69,6 +69,7 @@ public final class PostgresDatabase {
     setUpConnection();
     String insertString = Queries.insertUserQuery();
     int id = -1;
+
     // Insert into users table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));

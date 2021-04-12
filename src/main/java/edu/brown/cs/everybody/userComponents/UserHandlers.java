@@ -7,11 +7,10 @@ import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 import org.json.JSONException;
 import org.json.JSONObject;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import spark.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -42,15 +41,25 @@ public class UserHandlers {
       Integer duration = Integer.parseInt(workoutDuration);
       List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, password, workoutType, duration));
       Map<String, Object> variables;
+
       try {
         PostgresDatabase.insertUser(listData);
-        variables = ImmutableMap.of("isValid", true);
+
+        // Query execute properly, encode session ID in cookie
+        Session session = request.session(true);
+        // response.cookie("sessionID", request.session().id());
+
+        // Set session attributes
+        request.session().attribute("username", username);
+
+        // Redirect to home page
+        response.redirect("/home");
+
+        variables = ImmutableMap.of("queryStatus", "success");
       } catch (SQLException | URISyntaxException e) {
-        variables = ImmutableMap.of("error", e.getMessage());
+        // Query failed to execute
+        variables = ImmutableMap.of("queryStatus", e.getMessage());
       }
-//      // TODO: CHANGE
-//      request.session().attribute("username", username);
-//      response.redirect("/home");
       return GSON.toJson(variables);
     }
   }
