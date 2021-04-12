@@ -8,7 +8,7 @@ function Workout(props){
   const follow = () => {
     const toSend = {
       // TODO: remove hard coding
-      user: "user",
+      user: "ntim",
       following: "aguo"
     };
     console.log(toSend)

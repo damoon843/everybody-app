@@ -103,7 +103,7 @@ public class UserHandlers {
       // Parse request from client and extract user info
       String username = data.getString("username");
       // TODO DELETE
-      username = "aguo";
+      username = "ntim";
       AppUser user;
       try {
         int userid = PostgresDatabase.getUserID(username);

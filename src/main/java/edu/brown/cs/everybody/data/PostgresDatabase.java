@@ -237,7 +237,7 @@ public final class PostgresDatabase {
 
   /**
    * Inserts an uploaded exercise
-   * @param username username
+   * @param username username who posted
    * @param exerciseName exercise name
    * @param mediaLink media URL
    * @param duration length of exercise (seconds)
@@ -256,7 +256,8 @@ public final class PostgresDatabase {
       stmt.setString(3, description);
       stmt.setString(4, username);
       stmt.setString(5, exerciseName);
-      stmt.setArray(6, (Array) tags);
+      Object[] arr = tags.toArray();
+      stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
@@ -279,7 +280,7 @@ public final class PostgresDatabase {
 
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
-          Integer exerciseID = res.getInt("exercise_id");
+          exerciseId = res.getInt("exercise_id");
         }
       }
     } catch (SQLException ex) {
@@ -312,7 +313,8 @@ public final class PostgresDatabase {
       stmt.setInt(1, duration);
       stmt.setString(2, mediaLink);
       stmt.setInt(3, totalLikes);
-      stmt.setArray(4, (Array) exerciseIds);
+      Object[] arr = exerciseIds.toArray();
+      stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
       stmt.setString(5, description);
       stmt.setString(6, username);
       stmt.setString(7, workoutName);

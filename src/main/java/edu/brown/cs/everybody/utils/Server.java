@@ -61,7 +61,9 @@ public class Server {
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
+
     Spark.post("/uploadExercise", new FeedHandlers.UploadExerciseHandler());
+
     // For uploading a workout
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts

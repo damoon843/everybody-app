@@ -37,7 +37,8 @@ public class FeedHandlers {
       PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, tags,
         description);
 
-      return null;
+      Map<String, Object> variables = ImmutableMap.of("message", "success");
+      return GSON.toJson(variables);
     }
   }
 
@@ -48,14 +49,9 @@ public class FeedHandlers {
       List<Integer> exerciseIds = new ArrayList<>(); // To store a workout's exercise IDs
 
       JSONArray jsonObjects = data.getJSONArray("exerciseList");
-      for (int i = 0; i < jsonObjects.length(); i++) {
-        JSONObject temp = (JSONObject) jsonObjects.get(i);
-        String username = temp.getString("username");
-        String exerciseName = temp.getString("exerciseName");
-        Integer exerciseId = PostgresDatabase.getExerciseId(username, exerciseName);
-        exerciseIds.add(exerciseId);
+      for (int i=0; i<jsonObjects.length(); i++) {
+        exerciseIds.add(jsonObjects.getInt(i));
       }
-
       Integer duration = data.getInt("duration");
       String mediaLink = data.getString("mediaLink");
       Integer totalLikes = 0; // 0 likes upon initial upload
@@ -66,7 +62,8 @@ public class FeedHandlers {
       PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
         description, username, workoutName, exerciseIds);
 
-      return null;
+      Map<String, Object> variables = ImmutableMap.of("message", "success");
+      return GSON.toJson(variables);
     }
   }
 
