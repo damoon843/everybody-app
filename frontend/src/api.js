@@ -37,8 +37,12 @@ export const getWorkouts = async (username) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let params = {
+    username: username
+  };
   await axios.get(
-    "http://localhost:4567/userWorkouts/" + username,
+    "http://localhost:4567/userWorkouts",
+    params,
     config
   )
   .then(response => {
