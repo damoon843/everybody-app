@@ -121,7 +121,7 @@ public class AppUser {
    * Adds a workout to recently viewed set.
    * @param i workout ID to add.
    */
-  public void addRecentlyViewed(int i) throws SQLException {
+  public void addRecentlyViewed(int i) throws SQLException, URISyntaxException {
     this.recentlyViewedFeed.add(i);
     PostgresDatabase.addRecentlyViewed(this.userID, i);
   }
@@ -130,7 +130,7 @@ public class AppUser {
    * Gets users the user is following; used in home feed recommendation algorithm.
    * @return List of user ID's who user follows
    */
-  public List<Integer> getFollowing() throws SQLException {
+  public List<Integer> getFollowing() throws SQLException, URISyntaxException {
     this.following = PostgresDatabase.getFollowing(this.userID);
     return this.following;
   }
@@ -149,7 +149,7 @@ public class AppUser {
   /**
    * Recalculates the strongly connected component of user using Kosaraju's algorithm.
    */
-  private void updateStronglyConnected() throws SQLException {
+  private void updateStronglyConnected() throws SQLException, URISyntaxException {
     this.following = PostgresDatabase.getFollowing(this.userID);
     this.stronglyConnected = new KosarajusAlgorithm().findSCC(this.userID);
   }
@@ -158,7 +158,7 @@ public class AppUser {
    * Used in home feed algorithm to find strongly connected users.
    * @return List of user ID's
    */
-  public List<Integer> getStronglyConnected() throws SQLException {
+  public List<Integer> getStronglyConnected() throws SQLException, URISyntaxException {
     updateStronglyConnected();
     return this.stronglyConnected;
   }
