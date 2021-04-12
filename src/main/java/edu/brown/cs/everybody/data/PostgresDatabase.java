@@ -495,4 +495,22 @@ public final class PostgresDatabase {
 
     return results;
   }
+
+  /**
+   * Removes a following relation from following table.
+   * @param username user's username
+   * @param following user currently being followed's username
+   * @throws SQLException
+   */
+  public static void removeFollow(String username, String following) throws SQLException {
+    String insertString = Queries.removeFollow();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, getUserID(username));
+      stmt.setInt(2, getUserID(following));
+      stmt.execute();
+    } catch (SQLException ex) {
+      System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+      throw new SQLException(ex.getMessage());
+    }
+  }
 }

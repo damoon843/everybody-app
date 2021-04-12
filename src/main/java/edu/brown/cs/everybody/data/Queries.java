@@ -160,4 +160,12 @@ public final class Queries {
     return "INSERT INTO following"
         + " VALUES(?, ?);";
   }
+
+  /**
+   * Query to unfollow a user.
+   * @return query string
+   */
+  public static String removeFollow() {
+    return "DELETE FROM following WHERE user_id = ? AND following_id = ?";
+  }
 }
