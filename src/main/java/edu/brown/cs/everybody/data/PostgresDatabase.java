@@ -203,16 +203,17 @@ public final class PostgresDatabase {
               String exerciseName = res.getString("exercise_name");
               String mediaLink = res.getString("media_link");
               Integer duration = res.getInt("duration");
-              String exerciseType = res.getString("exercise_type");
-              String targetArea = res.getString("exercise_target_area");
+              Array tagArray = res.getArray("tags");
               String description = res.getString("description");
               Date createdAt = res.getDate("created_at");
 
               // Convert Date obj to milliseconds
               Long time = createdAt.getTime();
 
-              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, exerciseType,
-                targetArea, description, time));
+              // Cast java.sql array to java.utils array
+              String[] tags = (String[]) tagArray.getArray();
+
+              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags, description, time));
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
@@ -235,13 +236,12 @@ public final class PostgresDatabase {
    * @param exerciseName exercise name
    * @param mediaLink media URL
    * @param duration length of exercise (seconds)
-   * @param targetArea exercise target area
-   * @param type exercise type
+   * @param tags list of tags
    * @param description description
    * @param createdAt exercise creation timestamp
    */
   public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
-                                           String targetArea, String type, String description, Date createdAt) throws SQLException, URISyntaxException {
+                                        List<String> tags, String description, Date createdAt) throws SQLException, URISyntaxException {
     setUpConnection();
     String insertString = Queries.insertExercise();
 
@@ -251,10 +251,9 @@ public final class PostgresDatabase {
       stmt.setInt(2, duration);
       stmt.setString(3, mediaLink);
       stmt.setString(4, description);
-      stmt.setString(5, targetArea);
-      stmt.setString(6, type);
-      stmt.setString(7, username);
-      stmt.setString(8, exerciseName);
+      stmt.setArray(5, (Array) tags);
+      stmt.setString(6, username);
+      stmt.setString(7, exerciseName);
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -491,16 +490,18 @@ public final class PostgresDatabase {
           Integer duration = res.getInt("duration");
           String mediaLink = res.getString("mediaLink");
           String description = res.getString("description");
-          String exerciseType = res.getString("exercise_type");
-          String targetArea = res.getString("exercise_target_area");
+          Array sqlTags = res.getArray("tags");
           String username = res.getString("username");
           String exerciseName = res.getString("exercise_name");
 
           // Convert Date obj to milliseconds
           Long time = createdAt.getTime();
 
-          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, exerciseType,
-            targetArea, username, exerciseName));
+          // Cast java.sql array to java.utils array
+          String[] tags = (String[]) sqlTags.getArray();
+
+          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
+            username, exerciseName));
           results.put(exerciseID, tempList);
         }
       }

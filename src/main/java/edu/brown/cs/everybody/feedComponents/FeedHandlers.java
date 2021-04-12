@@ -27,8 +27,7 @@ public class FeedHandlers {
       String exerciseName = data.getString("exerciseName");
       String mediaLink = data.getString("mediaLink");
       Integer duration = data.getInt("duration");
-      String exerciseTargetArea = data.getString("targetArea");
-      String exerciseType = data.getString("exerciseType");
+      JSONArray tagsJSON = data.getJSONArray("tags");
       String description = data.getString("description");
       String createdAtStr = data.getString("createdAt");
 
@@ -36,8 +35,14 @@ public class FeedHandlers {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       Date createdAt = sdf.parse(createdAtStr);
 
-      PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, exerciseTargetArea,
-        exerciseType, description, (java.sql.Date) createdAt);
+      // Extract tags from JSONArray
+      List<String> tags  = new ArrayList<>();
+      for (int i = 0; i < tagsJSON.length(); i++) {
+        tags.add((String) tagsJSON.get(i));
+      }
+
+      PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, tags,
+        description, (java.sql.Date) createdAt);
 
       return null;
     }
