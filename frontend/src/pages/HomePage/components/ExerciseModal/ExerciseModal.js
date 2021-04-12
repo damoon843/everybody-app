@@ -1,12 +1,59 @@
 import React, { useState } from 'react';
 import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
+import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
 
-function ExerciseModal(){
+function ExerciseModal(props){
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const getRadioVal = (element) => {
+    const options = document.getElementsByName(element);
+    let val = "";
+    options.forEach(elt => {
+      if (elt.checked) {
+        val = elt.value;
+      }
+    })
+    return val;
+  }
+
+  const getCheckedVals = (element) => {
+    let result = []
+    let markedCheckbox = document.getElementsByName(element);  
+    for (let checkbox of markedCheckbox) {  
+      if (checkbox.checked) {
+        result.push(checkbox.value)
+      }
+    }  
+    return result;
+  }
+
+  const submitExercise = (e) => {
+    e.preventDefault();
+    const title = document.getElementById('exercise-title').value;
+    const desc = document.getElementById('exercise-description').value;
+    let duration = document.getElementById('exercise-duration').value;
+    let newDuration = duration * 60;
+    let type = getRadioVal('exercise-type-pref');
+    let checkedVals = getCheckedVals('body-tags');
+    checkedVals.push(type);
+
+    const toSend = {
+      username: props.user,
+      exerciseName: title,
+      mediaLink: "google.com",
+      duration: newDuration,
+      tags: checkedVals,
+      description: desc
+    };
+    console.log(toSend)
+    createExercise(toSend).then(result => {
+      setShow(false);
+    });
+  }
 
   return (
     <div className="exercise-modal">
@@ -19,71 +66,55 @@ function ExerciseModal(){
           <Modal.Title>Upload Exercise</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="exercise-form">
-            <Form.Group controlId="exerciseTitle">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter exercise title" />
-            </Form.Group>
+          <form action="/uploadExercise" className="exercise-form">
+            <label>Title</label>
+            <input id="exercise-title" type="text" placeholder="Enter exercise title" />
+            <label>Description</label>
+            <input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
+            <label>Duration</label>
+            <input id="exercise-duration" type="number" placeholder="Enter exercise duration" />
+              <div>
+                <p>Exercise Type</p>
+                <div className="exercise-radio-row">
+                  <input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required checked/>
+                  <label className="radio-label" for="cardio-exercise">Cardio</label>
+                </div>
+                <div className="exercise-radio-row">
+                  <input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>
+                  <label className="radio-label" for="bodyweight-exercise">Bodyweight</label>
+                </div>
+              </div>
 
-            <Form.Group controlId="exerciseDesc">
-              <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
-            </Form.Group>
+              <div>
+                <p>Body Area Tags</p>
+                <div className="login-radio-row">
+                  <input type="checkbox" id="arms" name="body-tags" value="arms" required/>
+                  <label className="check-label" for="cardio-pref">Arms</label>
+                </div>
+                <div className="login-radio-row">
+                  <input type="checkbox" id="legs" name="body-tags" value="legs"/>
+                  <label className="check-label" for="bodyweight-pref">Legs</label>
+                </div>
+                <div className="login-radio-row">
+                  <input type="checkbox" id="chest" name="body-tags" value="chest"/>
+                  <label className="check-label" for="bodyweight-pref">Chest</label>
+                </div>
+                <div className="login-radio-row">
+                  <input type="checkbox" id="abs" name="body-tags" value="abs"/>
+                  <label className="check-label" for="bodyweight-pref">Abs</label>
+                </div>
+              </div>
 
-            <Form.Label>Tags</Form.Label>
-              <Form.Group as={Row} controlId="exerciseTags">
-                <Col>
-                  <Form.Check
-                    type="checkbox"
-                    label="Cardio"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios1"
-                  />
-                  <Form.Check
-                    type="checkbox"
-                    label="Bodyweight"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios2"
-                  />
-                  <Form.Check
-                    type="checkbox"
-                    label="Another Label"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
-                  />
-                </Col>
-                <Col>
-                  <Form.Check
-                    type="checkbox"
-                    label="Legs"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios1"
-                  />
-                  <Form.Check
-                    type="checkbox"
-                    label="Arms"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios2"
-                  />
-                  <Form.Check
-                    type="checkbox"
-                    label="Abs"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
-                  />
-                </Col>
-              </Form.Group>
-
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.File id="exerciseMedia" label="Upload exercise video" />
-              </Form.Group>
-            </Form>
+              </Form.Group> */}
+            </form>
         </Modal.Body>
         <Modal.Footer>
           <button onClick={handleClose}>
             Close
           </button>
-          <a href="/uploadExercise"><button onClick={handleClose}>Upload Exercise</button></a>
+          <button onClick={submitExercise}>Upload Exercise</button>
         </Modal.Footer>
       </Modal>
     </div>
