@@ -183,6 +183,10 @@ public class UserHandlers {
       String username = data.getString("user");
       String following = data.getString("following");
 
+      Session session = request.session(false);
+      System.out.println(session);
+      System.out.println((char[]) session.attribute("username"));
+
       PostgresDatabase.insertFollow(username, following);
       Map<String, Object> variables = ImmutableMap.of("isValid", true);
       return GSON.toJson(variables);
@@ -233,7 +237,8 @@ public class UserHandlers {
         }
       } catch (SQLException ex) {
         // Query execution failed
-        variables = ImmutableMap.of("queryStatus", ex.getMessage());
+        variables = ImmutableMap.of("queryStatus", ex.getMessage(), "loginStatus", "failed");
+
       }
       return GSON.toJson(variables);
     }
