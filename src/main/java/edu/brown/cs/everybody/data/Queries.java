@@ -101,7 +101,7 @@ public final class Queries {
    * @return query string
    */
   public static String getFollowingQuery() {
-    return "SELECT following_id FROM following WHERE user_id = ?";
+    return "SELECT following_id FROM following WHERE user_id = ?;";
   }
 
   /**
@@ -124,7 +124,7 @@ public final class Queries {
         + "prefs.workout_type, "
         + "prefs.workout_duration "
         + "FROM users INNER JOIN user_preferences AS prefs ON users.id = prefs.user_id "
-        + "WHERE users.username = ?";
+        + "WHERE users.username = ?;";
   }
 
   /**
@@ -132,7 +132,7 @@ public final class Queries {
    * @return query string
    */
   public static String getUserID() {
-    return "SELECT id FROM users WHERE username = ?";
+    return "SELECT id FROM users WHERE username = ?;";
   }
 
   /**
@@ -140,7 +140,7 @@ public final class Queries {
    * @return query string
    */
   public static String recentlyViewed() {
-    return "SELECT workout_id FROM viewed_workouts WHERE user_id = ?";
+    return "SELECT workout_id FROM viewed_workouts WHERE user_id = ?;";
   }
 
   /**
@@ -166,6 +166,10 @@ public final class Queries {
    * @return query string
    */
   public static String removeFollow() {
-    return "DELETE FROM following WHERE user_id = ? AND following_id = ?";
+    return "DELETE FROM following WHERE user_id = ? AND following_id = ?;";
+  }
+
+  public static String checkLogin() {
+    return "SELECT username FROM users WHERE id = ? AND password = ?;";
   }
 }

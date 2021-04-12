@@ -56,6 +56,7 @@ public class Server {
 
     // For user creation
     Spark.get("/newUser", new UserHandlers.NewUserHandler());
+    Spark.post("/login", new UserHandlers.LoginHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
@@ -75,7 +76,7 @@ public class Server {
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
     // TODO: post vs get
-    Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
+    //Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
     // unfollows
     Spark.post("/unfollow", new UserHandlers.UnfollowHandler());
   }

@@ -7,6 +7,7 @@ import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.Main;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 import org.json.JSONObject;
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -185,6 +186,27 @@ public class UserHandlers {
       String following = data.getString("following");
       PostgresDatabase.removeFollow(username, following);
       return null;
+    }
+  }
+
+  /**
+   * Handles user login.
+   */
+  public static class LoginHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("username");
+      String password = data.getString("password");
+
+      int output = PostgresDatabase.loginUser(username, password);
+      if (output == 1) {
+        request.session().attribute(username);
+        response.redirect("/home");
+        return null;
+      }
+      Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");
+      return GSON.toJson(variables);
     }
   }
 }
