@@ -7,12 +7,22 @@ function Exercise(props){
         {description: "This is an short, intensive exercise focused on the core",title: "Crunches", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
 
     // let exercises = ExerciseData;
-    console.log(exercises);
+    //console.log(exercises);
 
     useEffect(() => {
         getWorkouts();
         renderWorkouts();
     });
+    /*
+    return this.props.movies.map((movie) => (
+        <MovieItem
+            key={movie.id}
+            movie={movie}
+            genres={this.getGenres(movie.genre_ids, this.props.genres)}
+        />
+    ));
+
+     */
 
     // TODO: fill this out with a GET request
     const getWorkouts = () => {
@@ -21,7 +31,7 @@ function Exercise(props){
     const renderWorkouts = () => {
         const anchor = document.getElementById("ex-grid-anchor")
         if (exercises) {
-            exercises.forEach(exercise => {
+            exercises.forEach(exercise => {//this would be done by props.exercise or something
                 const container = document.createElement("div")
                 const text = document.createElement("div")
                 const title = document.createElement("h5")

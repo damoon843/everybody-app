@@ -85,6 +85,28 @@ export const getAllExercises = async () => {
   });
 }
 
+
+// gets specific user info
+// username: the user's username
+export const getUser = async (username) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.get(
+      "https://everybody-app.herokuapp.com/userInfo/" + username,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
 /** POST REQUESTS */
 
 // posts a new workout
