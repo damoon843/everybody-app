@@ -122,6 +122,20 @@ public class FeedHandlers {
     }
   }
 
+  /**
+   * Retrieves exercises for the public exercises page.
+   */
+  public static class GetPublicExercisesHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+
+      Map<Integer, List<Object>> exercises = PostgresDatabase.getExercises();
+      Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
+      return GSON.toJson(variables);
+    }
+  }
+
   public static class DeleteUserHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {

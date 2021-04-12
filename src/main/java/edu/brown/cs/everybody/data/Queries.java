@@ -36,7 +36,7 @@ public final class Queries {
       + "users.last_name, "
       + "prefs.workout_type, "
       + "prefs.workout_duration "
-      + "FROM users INNER JOIN user_preferences AS prefs ON users.id = prefs.user_id "
+      + "FROM users INNER JOIN user_preferences prefs ON users.id = prefs.user_id "
       + "WHERE users.username = ?";
   }
 
@@ -45,7 +45,7 @@ public final class Queries {
    * @return query string
    */
   public static String getWorkouts() {
-    return "SELECT *"
+    return "SELECT description, workout_type, duration, media_link, total_likes, workout_name"
       + " FROM workouts"
       + " WHERE username = ?;";
   }
@@ -101,6 +101,16 @@ public final class Queries {
    */
   public static String getFollowingQuery() {
     return "SELECT following_id FROM following WHERE user_id = ?";
+  }
+
+  /**
+   * Query to retrieve 100 exercises for public exercises page.
+   * @return query string
+   */
+  public static String getPublicExercises() {
+    return "SELECT * FROM exercises"
+      + " ORDER BY created_at DESC"
+      + " LIMIT 100;";
   }
 
   /**
