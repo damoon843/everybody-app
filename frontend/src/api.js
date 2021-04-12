@@ -152,7 +152,7 @@ export const createUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://everybody-app.herokuapp.com/uploadExercise",
+    "https://everybody-app.herokuapp.com/newUser",
     toSend,
     config
   )
@@ -175,7 +175,7 @@ export const loginUser = async (toSend) => {
     }
   }
   await axios.post(
-    "https://everybody-app.herokuapp.com/uploadExercise",
+    "https://everybody-app.herokuapp.com/login",
     toSend,
     config
   )
