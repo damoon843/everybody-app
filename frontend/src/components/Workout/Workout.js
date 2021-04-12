@@ -10,6 +10,7 @@ function Workout(props){
       user: props.user,
       following: props.postUser
     };
+    console.log(toSend)
     followUser(toSend);
   }
 
