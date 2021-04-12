@@ -5,10 +5,10 @@ import ExerciseModal from './components/ExerciseModal/ExerciseModal'
 import WorkoutModal from './components/WorkoutModal/WorkoutModal'
 import './HomePage.css';
 
-function Home() {
+function Home(props) {
   return (
     <div className="home">
-      <Main />
+      <Main user={props.user} />
       <div className="upload">
         <h3>Upload</h3>
         <ExerciseModal id="exercise-modal"/>

@@ -38,7 +38,7 @@ function App() {
             </Route>
             <Route path="/home">
               <Toolbar />
-              <HomePage />
+              <HomePage user={user} />
             </Route>
             <Route path="/">
               <LoginPage setUsername={setUsername} />
