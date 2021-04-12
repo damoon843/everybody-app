@@ -173,7 +173,7 @@ public final class PostgresDatabase {
    * @param workoutName workout name
    * @return list of Exercise objects
    */
-  public static List<Exercise> getUserExercises(String username, String workoutName) throws SQLException {
+  public static Map<Integer, List<Object>> getUserExercises(String username, String workoutName) throws SQLException {
     String queryString = Queries.getExercisesFromWorkout();
     List<Exercise> exercises = new ArrayList<>();
     List<Integer> exerciseIds = new ArrayList<>();
@@ -195,6 +195,7 @@ public final class PostgresDatabase {
 
       // Retrieve each exercise's details
       queryString = Queries.getExerciseInfo();
+      Map<Integer, List<Object>> results = new HashMap<>();
 
       try (PreparedStatement stmt2 = dbConn.prepareStatement(queryString)) {
         for (int id : exerciseIds) {
@@ -208,10 +209,14 @@ public final class PostgresDatabase {
               String exerciseType = res.getString("exercise_type");
               String targetArea = res.getString("exercise_target_area");
               String description = res.getString("description");
+              Date createdAt = res.getDate("created_at");
 
-              // TODO: create Exercise object
-              Exercise temp = null;
-              exercises.add(temp);
+              // Convert Date obj to milliseconds
+              Long time = createdAt.getTime();
+
+              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, exerciseType,
+                targetArea, description, time));
+              results.put(id, tempList);
             }
           } catch (SQLException ex) {
             System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -222,7 +227,7 @@ public final class PostgresDatabase {
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
-      return exercises;
+      return results;
     }
   }
 
