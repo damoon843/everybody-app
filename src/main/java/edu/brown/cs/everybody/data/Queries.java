@@ -15,7 +15,7 @@ public final class Queries {
    */
   public static String insertUserQuery() {
     return "INSERT INTO everybody_app.users(first_name, last_name, created_at, username, password)"
-      + " VALUES(?,?,CURRENT_TIMESTAMP,?, ?);";
+      + " VALUES(?,?,CURRENT_TIMESTAMP,?, ?) RETURNING id;";
   }
 
   /**
@@ -23,8 +23,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertUserPreferencesQuery() {
-    return "INSERT INTO everybody_app.user_preferences(workout_type, workout_duration)"
-      + " VALUES(?,?);";
+    return "INSERT INTO everybody_app.user_preferences(user_id, workout_type, workout_duration)"
+      + " VALUES(?,?,?);";
   }
 
   /**
