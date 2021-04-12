@@ -97,11 +97,14 @@ public class UserHandlers {
     public Object handle(Request request, Response response) throws Exception {
       // TODO: filter out workouts which don't match preferences in the for loops
       JSONObject data = new JSONObject(request.body());
+      System.out.println(data);
       // List of Workouts to return to frontend
       List<Map<String, String>> output = new ArrayList<>();
+      System.out.println(output);
 
       // Parse request from client and extract user info
       String username = data.getString("username");
+      System.out.println(username);
       AppUser user = PostgresDatabase.getUser(PostgresDatabase.getUserID(username));
       // TODO: instead of checking for null, catch the exception
       if (user == null) {
