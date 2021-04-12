@@ -141,3 +141,48 @@ export const createExercise = async (data) => {
     console.log(error);
   });
 }
+
+// creates a new user
+// toSend: information about the user
+export const createUser = async (toSend) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+    "https://everybody-app.herokuapp.com/newUser",
+    toSend,
+    config
+  )
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+
+// logs in a user
+// toSend: information about the user
+export const loginUser = async (toSend) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+    "https://everybody-app.herokuapp.com/login",
+    toSend,
+    config
+  )
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}

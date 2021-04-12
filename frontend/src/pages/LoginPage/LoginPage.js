@@ -1,9 +1,55 @@
 import React, { useState } from 'react'; 
-import {Link} from 'react-router-dom';
-import {Tabs, Tab, Form, Col, Row, Card} from 'react-bootstrap';
+import {Tabs, Tab} from 'react-bootstrap';
+import { createUser, loginUser } from '../../api';
 import './LoginPage.css';
 
-function LoginPage(){
+let user = "";
+
+function LoginPage() {
+
+  const getRadioVal = (element) => {
+    const options = document.getElementsByName(element);
+    let val = "";
+    options.forEach(elt => {
+      if (elt.checked) {
+        val = elt.value;
+      }
+    })
+    return val;
+  }
+
+  const signUp = (e) => {
+    e.preventDefault();
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const newUsername = document.getElementById('newUsername').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const workoutType = getRadioVal('type-pref');
+    const workoutDuration = getRadioVal('duration-pref');
+    const toSend = {
+      firstName: firstName,
+      lastName: lastName,
+      username: newUsername,
+      password: newPassword,
+      workoutType: workoutType,
+      workoutDuration: workoutDuration
+    };
+    console.log(toSend)
+    user = createUser(toSend);
+  }
+
+  const login = (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const toSend = {
+      username: username,
+      password: password,
+    };
+    console.log(toSend)
+    user = loginUser(toSend);
+  }
+
   return (
     <div className="login-page row">
       <div className="login-section login-image">
@@ -17,42 +63,70 @@ function LoginPage(){
         <div className="login-card">
           <Tabs className="login-tabs" defaultActiveKey="login">
             <Tab eventKey="login" title="Login">
-              <Form className="login-form">
-                <Form.Group controlId="username">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" />
-                </Form.Group>
-                <Form.Group controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Enter password" />
-                </Form.Group>
-                <Link to="/home" className="btn submit-btn" id="login-btn">
-                  Login
-                </Link>
-              </Form>
+              <form className="login-form">
+                <div className="login-form-section">
+                  <label for="username">Username</label>
+                  <input id="username" name="username" type="text" placeholder="Enter username" required/>
+                </div>
+                <div className="login-form-section">
+                  <label for="password">Password</label>
+                  <input id="password" name="password" type="password" placeholder="Enter password" required/>
+                </div>
+                <button to="/home" className="btn submit-btn" id="login-btn" onClick={login}>
+                  Log in
+                </button>
+              </form>
             </Tab>
             <Tab eventKey="signup" title="Sign up">
-              <Form className="signup-form">
-                <Form.Group controlId="first-name">
-                  <Form.Label>First name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter first name" />
-                </Form.Group>
-                <Form.Group controlId="last-name">
-                  <Form.Label>Last name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter last name" />
-                </Form.Group>
-                <Form.Group controlId="username">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" />
-                </Form.Group>
-                <Form.Group controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Enter password" />
-                </Form.Group>
-                <Link to="/home" className="btn submit-btn" id="signup-btn">
-                  Sign up
-                </Link>
-              </Form>
+              <form className="signup-form">
+                <div className="login-form-section">
+                  <label for="firstName">First name</label>
+                  <input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/>
+                </div>
+                <div className="login-form-section">
+                  <label for="lastName">Last name</label>
+                  <input id="lastName" name="lastName" type="text" placeholder="Enter last name" required/>
+                </div>
+                <div className="login-form-section">
+                  <label for="newUsername">Username</label>
+                  <input id="newUsername" name="newUsername" type="text" placeholder="Enter username" required/>
+                </div>
+                <div className="login-form-section">
+                  <label for="newPassword">Password</label>
+                  <input id="newPassword" name="newPassword" type="password" placeholder="Enter password" required/>
+                </div>
+                <div className="login-form-row">
+                  <div className="login-form-section">
+                    <p>Type Preference</p>
+                    <div className="login-radio-row">
+                      <input type="radio" id="cardio-pref" name="type-pref" value="cardio" required checked/>
+                      <label className="radio-label" for="cardio-pref">Cardio</label>
+                    </div>
+                    <div className="login-radio-row">
+                      <input type="radio" id="bodyweight-pref" name="type-pref" value="bodyweight"/>
+                      <label className="radio-label" for="bodyweight-pref">Bodyweight</label>
+                    </div>
+                  </div>
+                  <div className="login-form-section">
+                    <p>Duration Preference</p>
+                    <div className="login-radio-row">
+                      <input type="radio" id="duration-1" name="duration-pref" value="duration-1" required checked/>
+                      <label className="radio-label" for="duration-1">0-30 minutes</label>
+                    </div>
+                    <div className="login-radio-row">
+                      <input type="radio" id="duration-2" name="duration-pref" value="duration-2"/>
+                      <label className="radio-label" for="duration-2">30-60 minutes</label>
+                    </div>
+                    <div className="login-radio-row">
+                      <input type="radio" id="duration-3" name="duration-pref" value="duration-3"/>
+                      <label className="radio-label" for="duration-3">60+ minutes</label>
+                    </div>
+                  </div>
+                </div>
+                <button to="/home" className="btn submit-btn" id="signup-btn" onClick={signUp}>
+                  Sign Up
+                </button>
+              </form>
             </Tab>
           </Tabs>
         </div>

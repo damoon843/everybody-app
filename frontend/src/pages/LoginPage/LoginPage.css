@@ -18,6 +18,27 @@
   align-items: center;
 }
 
+.login-form-section {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+
+.login-form-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.login-radio-row {
+  display: flex;
+  align-items: flex-start;
+  margin: 0 0 0.5rem 0;
+}
+
+.radio-label {
+  margin: -0.25rem 1rem;
+}
+
 .login-card {
   background-color: white;
   width: 30rem;
@@ -27,7 +48,7 @@
 }
 
 .login-form, .signup-form {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 #login-btn, #signup-btn {

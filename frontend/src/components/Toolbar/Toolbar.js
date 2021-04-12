@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {Navbar, Button, Form, FormControl, Nav} from "react-bootstrap";
 import './Toolbar.css';
-import ExerciseModal from '../ExerciseModal/ExerciseModal';
+import LogoutButton from '../../pages/LoginPage/components/LogoutButton';
 
 function Toolbar(props){
   return (
@@ -21,6 +21,7 @@ function Toolbar(props){
                         Exercises
                     </NavLink>
                 </Nav>
+                <LogoutButton/>
               </Navbar.Collapse>
           </Navbar>
       </div>
