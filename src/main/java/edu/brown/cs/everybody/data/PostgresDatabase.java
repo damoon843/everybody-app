@@ -547,14 +547,17 @@ public final class PostgresDatabase {
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1,username);
       stmt.setString(2, password);
+
       try (ResultSet res = stmt.executeQuery()) {
         if (res.next()) {
+          // Login successful (user exists in DB)
           tearDownConnection();
           return 1;
+        } else {
+          // Login failed (user does not exist in DB)
+          return -1;
         }
       }
-      tearDownConnection();
-      return -1;
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());

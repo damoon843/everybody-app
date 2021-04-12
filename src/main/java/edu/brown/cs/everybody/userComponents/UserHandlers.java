@@ -217,13 +217,17 @@ public class UserHandlers {
       String username = data.getString("username");
       String password = data.getString("password");
 
-      int output = PostgresDatabase.loginUser(username, password);
-      if (output == 1) {
-        // TODO: CHANGE
-        //request.session().attribute("username", username);
-        //response.redirect("/home");
-        Map<String, Object> variables = ImmutableMap.of("isValid", true);
-        return GSON.toJson(variables);
+      try {
+        int output = PostgresDatabase.loginUser(username, password);
+        if (output == 1) {
+          // TODO: CHANGE
+          //request.session().attribute("username", username);
+          //response.redirect("/home");
+          Map<String, Object> variables = ImmutableMap.of("isValid", true);
+          return GSON.toJson(variables);
+        }
+      } catch (Exception ex) {
+        Map<String, Object> variables = ImmutableMap.of("queryStatus", e.getMessage());
       }
       Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");
       return GSON.toJson(variables);
