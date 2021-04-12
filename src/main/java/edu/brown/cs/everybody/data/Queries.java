@@ -64,7 +64,8 @@ public final class Queries {
    * @return query string
    */
   public static String getExerciseInfo() {
-    return "SELECT exercise_name, media_link, duration, exercise_type, exercise_target_area, description"
+    return "SELECT exercise_name, media_link, duration, exercise_type,"
+      + " exercise_target_area, description, created_at"
       + " FROM exercises WHERE exercise_id = ?;";
   }
 

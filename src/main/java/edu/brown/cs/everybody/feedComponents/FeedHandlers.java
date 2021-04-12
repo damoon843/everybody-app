@@ -104,7 +104,6 @@ public class FeedHandlers {
   /**
    * Retrieves all exercises within a workout posted by a user (for profile).
    */
-  // TODO
   public static class GetExercisesHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -113,11 +112,9 @@ public class FeedHandlers {
       String username = data.getString("username");
       String workoutName = data.getString("workoutName");
 
-      List<Exercise> exercises = PostgresDatabase.getUserExercises(username, workoutName);
+      Map<Integer, List<Object>> exercises = PostgresDatabase.getUserExercises(username, workoutName);
+      Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
 
-      // TODO: convert Exercise objects attributes into list of maps
-
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
       return GSON.toJson(variables);
     }
   }
