@@ -36,7 +36,7 @@ function ExercisePage() {
           let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[3].includes(e.target.name)));
 
 
-
+          setExercises(filtered)
           console.log(filtered)
           //tags = exercises[3]
           //const newState = exercises.filter(exercise => exercise.exercise_target_area.includes(parseInt(e.target.name)));
