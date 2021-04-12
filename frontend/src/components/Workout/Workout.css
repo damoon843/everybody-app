@@ -9,13 +9,13 @@
 }
 
 .workout-text {
-  margin: 1rem 0 1rem 1rem;
+  margin: 1rem 0 0rem 1rem;
 }
 
 .workout-btn {
   width: 90%;
   align-self: center;
-  margin: -1rem 0 0 1rem;
+  margin: 0 0 0 1rem;
   border: none;
   color: white;
   background-color: #34A2B8;
@@ -37,4 +37,20 @@
   width: 22rem;
   height: 8rem;
   object-fit: cover;
+}
+
+.workout-row {
+  display: flex;
+}
+
+#follow-btn {
+  background-color: #afafaf;
+  padding: 0 0.5rem;
+  margin: 0 0.5rem;
+  height: 1.5rem;
+}
+
+#follow-btn:hover {
+  background-color: #c0c0c0;
+  cursor: pointer;
 }

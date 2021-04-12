@@ -218,13 +218,7 @@ export const loginUser = async (toSend) => {
 
 // follows a user
 // data: information about the user and following
-export const followUser = async (data) => {
-  const toSend = {
-    user: data.username,
-    following: data.following
-
-
-  };
+export const followUser = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
@@ -232,27 +226,21 @@ export const followUser = async (data) => {
     }
   }
   await axios.post(
-      "http://everybody-app.herokuapp.com/follow",
+      "http://localhost:4567/follow",
       toSend,
       config
   )
-      .then(response => {
-        return response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 }
 
 // follows a user
 // data: information about the user and following
-export const unfollowUser = async (data) => {
-  const toSend = {
-    user: data.username,
-    following: data.following
-
-
-  };
+export const unfollowUser = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
@@ -260,15 +248,15 @@ export const unfollowUser = async (data) => {
     }
   }
   await axios.post(
-      "http://everybody-app.herokuapp.com/unfollow",
-      toSend,
-      config
+    "http://localhost:4567/unfollow",
+    toSend,
+    config
   )
-      .then(response => {
-        return response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 }
 
