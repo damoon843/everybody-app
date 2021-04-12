@@ -36,9 +36,10 @@ function LoginPage(props) {
       workoutDuration: workoutDuration
     };
     console.log(toSend)
-    user = createUser(toSend);
-    props.setUsername(user);
-    props.history.push('/home');
+    createUser(toSend).then(result => {
+      props.setUsername(newUsername);
+      props.history.push('/home');
+    });
   }
 
   const login = (e) => {
@@ -50,9 +51,10 @@ function LoginPage(props) {
       password: password,
     };
     console.log(toSend)
-    user = loginUser(toSend);
-    props.setUsername(user);
-    props.history.push('/home');
+    loginUser(toSend).then(result => {
+      props.setUsername(username);
+      props.history.push('/home');
+    });
   }
 
   return (
