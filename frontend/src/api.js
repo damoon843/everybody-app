@@ -123,16 +123,7 @@ export const getUser = async () => {
 
 // posts a new workout
 // data: information about the workout
-export const createWorkout = async (data) => {
-  const toSend = {
-    exerciseList: data.exerciseList,//{"username": ?, "exerciseName": ?,
-    duration : data.duration,
-    mediaLink: data.mediaLink,
-    description: data.description,
-    username: data.username,
-    workoutName: data.workoutName,
-    exercises: data.exercises
-  };
+export const createWorkout = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",

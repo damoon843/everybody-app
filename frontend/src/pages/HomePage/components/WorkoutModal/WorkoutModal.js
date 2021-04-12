@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
+import {Modal, Tabs, Tab, form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
 import axios from 'axios';
 import './WorkoutModal.css';
 import Select from 'react-select';
+import { createWorkout } from '../../../../api';
 
 const sampleData = [{label: "exercise 1", duration: "00:15:00", value: 1}, {label: "exercise 2", duration: "00:20:00", value: 2}, {label: "exercise 3", duration: "00:10:00", value: 3}]
 
-function WorkoutModal(){
+const dummy = [{
+
+}];
+
+function WorkoutModal(props){
   const [show, setShow] = useState(false);
   const [exercises, setExercises] = useState([]);
 
@@ -32,6 +37,27 @@ function WorkoutModal(){
     setExercises(selected)
   }
 
+  const submitWorkout = (e) => {
+    e.preventDefault();
+    const title = document.getElementById('workout-title').value;
+    const desc = document.getElementById('workout-description').value;
+    // let duration = document.getElementById('exercise-duration').value;
+    // let newDuration = duration * 60;
+    let exerciseList = [{username: "chrissy", exerciseName: 'exercise1'}, {username: "chrissy", exerciseName: 'exercise2'}, {username: "chrissy", exerciseName: 'exercise3'}];
+    const toSend = {
+      exerciseList: exerciseList,
+      duration : 60,
+      mediaLink: "google.com",
+      description: desc,
+      username: props.user,
+      workoutName: title,
+    };
+    console.log(toSend)
+    createWorkout(toSend).then(result => {
+      setShow(false);
+    });
+  }
+
   useEffect(() => {
     // renderExercises();
   }, []);
@@ -47,36 +73,29 @@ function WorkoutModal(){
           <Modal.Title>Create Workout</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="exercise-form">
-            <Form.Group controlId="exerciseTitle">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter workout title" />
-            </Form.Group>
+          <form action="/uploadWorkout" className="exercise-form">
+            <label>Title</label>
+            <input id="workout-title" type="text" placeholder="Enter workout title" />
+            <label>Description</label>
+            <input id="workout-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
+            <label>Select Exercises</label>
 
-            <Form.Group controlId="exerciseDesc">
-              <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
-            </Form.Group>
-
-            <Form.Group controlId="exercises">
-              <Form.Label>Select Exercises</Form.Label>
-              <Select
-                isMulti
-                name="colors"
-                options={sampleData}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={handleChange}
-              />
-            </Form.Group>
+            <Select
+              isMulti
+              name="colors"
+              options={sampleData}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={handleChange}
+            />
             <p id="form-msg"></p>
-          </Form>
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <button onClick={handleClose}>
             Close
           </button>
-          <a href="/uploadWorkout"><button onClick={handleClose}>Create workout</button></a>
+          <button onClick={submitWorkout}>Create workout</button>
         </Modal.Footer>
       </Modal>
     </div>
