@@ -74,7 +74,11 @@ export const getAllExercises = async () => {
     }
   }
   await axios.get(
+<<<<<<< HEAD
     "https://localhost:3000/exercises",
+=======
+    "https://everybody-app.herokuapp.com/publicExercises",
+>>>>>>> filtering
     config
   )
   .then(response => {
@@ -85,14 +89,40 @@ export const getAllExercises = async () => {
   });
 }
 
+
+// gets specific user info
+// username: the user's username
+export const getUser = async (username) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.get(
+      "https://everybody-app.herokuapp.com/userInfo/" + username,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
 /** POST REQUESTS */
 
 // posts a new workout
 // data: information about the workout
 export const createWorkout = async (data) => {
   const toSend = {
-    title: data.title,
+    exerciseList: data.exerciseList,//{"username": ?, "exerciseName": ?,
+    duration : data.duration,
+    mediaLink: data.mediaLink,
     description: data.description,
+    username: data.username,
+    workoutName: data.workoutName,
     exercises: data.exercises
   };
   let config = {
@@ -118,10 +148,14 @@ export const createWorkout = async (data) => {
 // data: information about the workout
 export const createExercise = async (data) => {
   const toSend = {
-    title: data.title,
-    description: data.description,
-    exercises: data.tags,
-    media: data.media
+    username: data.username,
+    exerciseName:data.exerciseName,
+    mediaLink: data.mediaLink,
+    duration: data.duration,
+    tags: data.tags,
+    description: data.description
+
+
   };
   let config = {
     headers: {
@@ -186,3 +220,60 @@ export const loginUser = async (toSend) => {
     console.log(error);
   });
 }
+
+// follows a user
+// data: information about the user and following
+export const followUser = async (data) => {
+  const toSend = {
+    user: data.username,
+    following: data.following
+
+
+  };
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+      "https://everybody-app.herokuapp.com/follow",
+      toSend,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
+// follows a user
+// data: information about the user and following
+export const unfollowUser = async (data) => {
+  const toSend = {
+    user: data.username,
+    following: data.following
+
+
+  };
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  await axios.post(
+      "https://everybody-app.herokuapp.com/unfollow",
+      toSend,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+
