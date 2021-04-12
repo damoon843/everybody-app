@@ -91,6 +91,7 @@ public class UserHandlers {
     public Object handle(Request request, Response response) throws Exception {
       // TODO: filter out workouts which don't match preferences in the for loops
       JSONObject data = new JSONObject(request.body());
+
       System.out.println(data);
       // List of Workouts to return to frontend
       List<Map<String, String>> output = new ArrayList<>();
