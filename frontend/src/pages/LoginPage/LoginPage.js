@@ -1,6 +1,7 @@
 import React, { useState } from 'react'; 
 import {Tabs, Tab} from 'react-bootstrap';
 import { createUser, loginUser } from '../../api';
+import { withRouter } from 'react-router-dom';
 import './LoginPage.css';
 
 let user = "";
@@ -36,7 +37,8 @@ function LoginPage(props) {
     };
     console.log(toSend)
     user = createUser(toSend);
-    props.setUsername(user)
+    props.setUsername(user);
+    props.history.push('/home');
   }
 
   const login = (e) => {
@@ -49,7 +51,8 @@ function LoginPage(props) {
     };
     console.log(toSend)
     user = loginUser(toSend);
-    props.setUsername(user)
+    props.setUsername(user);
+    props.history.push('/home');
   }
 
   return (
@@ -65,7 +68,7 @@ function LoginPage(props) {
         <div className="login-card">
           <Tabs className="login-tabs" defaultActiveKey="login">
             <Tab eventKey="login" title="Login">
-              <form className="login-form">
+              <form action="/home" className="login-form">
                 <div className="login-form-section">
                   <label for="username">Username</label>
                   <input id="username" name="username" type="text" placeholder="Enter username" required/>
@@ -74,13 +77,13 @@ function LoginPage(props) {
                   <label for="password">Password</label>
                   <input id="password" name="password" type="password" placeholder="Enter password" required/>
                 </div>
-                <button to="/home" className="btn submit-btn" id="login-btn" onClick={login}>
+                <button className="btn submit-btn" id="login-btn" onClick={login}>
                   Log in
                 </button>
               </form>
             </Tab>
             <Tab eventKey="signup" title="Sign up">
-              <form className="signup-form">
+              <form action="/home" className="signup-form">
                 <div className="login-form-section">
                   <label for="firstName">First name</label>
                   <input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/>
@@ -125,7 +128,7 @@ function LoginPage(props) {
                     </div>
                   </div>
                 </div>
-                <button to="/home" className="btn submit-btn" id="signup-btn" onClick={signUp}>
+                <button className="btn submit-btn" id="signup-btn" onClick={signUp}>
                   Sign Up
                 </button>
               </form>
@@ -136,4 +139,5 @@ function LoginPage(props) {
     </div>
   );
 }
-export default LoginPage
+
+export default withRouter(LoginPage);
