@@ -8,8 +8,6 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,11 +27,6 @@ public class FeedHandlers {
       Integer duration = data.getInt("duration");
       JSONArray tagsJSON = data.getJSONArray("tags");
       String description = data.getString("description");
-      String createdAtStr = data.getString("createdAt");
-
-      // TODO: verify date format
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      Date createdAt = sdf.parse(createdAtStr);
 
       // Extract tags from JSONArray
       List<String> tags  = new ArrayList<>();
@@ -42,7 +35,7 @@ public class FeedHandlers {
       }
 
       PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, tags,
-        description, (java.sql.Date) createdAt);
+        description);
 
       return null;
     }
@@ -54,8 +47,6 @@ public class FeedHandlers {
       JSONObject data = new JSONObject(request.body());
       List<Integer> exerciseIds = new ArrayList<>(); // To store a workout's exercise IDs
 
-      // TODO: verify JSONObject array (with username, exerciseName elements)
-
       JSONArray jsonObjects = data.getJSONArray("exerciseList");
       for (int i = 0; i < jsonObjects.length(); i++) {
         JSONObject temp = (JSONObject) jsonObjects.get(i);
@@ -65,19 +56,14 @@ public class FeedHandlers {
         exerciseIds.add(exerciseId);
       }
 
-      String createdAtStr = data.getString("createdAt");
       Integer duration = data.getInt("duration");
       String mediaLink = data.getString("mediaLink");
-      Integer totalLikes = 0;
+      Integer totalLikes = 0; // 0 likes upon initial upload
       String description = data.getString("description");
       String username = data.getString("username");
       String workoutName = data.getString("workoutName");
 
-      // TODO: verify date format
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      Date createdAt = sdf.parse(createdAtStr);
-
-      PostgresDatabase.insertUserWorkout((java.sql.Date) createdAt, duration, mediaLink, totalLikes,
+      PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
         description, username, workoutName, exerciseIds);
 
       return null;

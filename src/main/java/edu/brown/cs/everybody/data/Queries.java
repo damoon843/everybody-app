@@ -14,8 +14,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertUserQuery() {
-    return "INSERT INTO users(first_name, last_name, created_at, username)"
-      + " VALUES(?,?,?,?);";
+    return "INSERT INTO everybody_app.users(first_name, last_name, created_at, username)"
+      + " VALUES(?,?,CURRENT_TIMESTAMP,?);";
   }
 
   /**
@@ -23,7 +23,7 @@ public final class Queries {
    * @return query string
    */
   public static String insertUserPreferencesQuery() {
-    return "INSERT INTO user_preferences(workout_type, workout_duration)"
+    return "INSERT INTO everybody_app.user_preferences(workout_type, workout_duration)"
       + " VALUES(?,?);";
   }
 
@@ -74,8 +74,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertExercise() {
-    return "INSERT INTO exercises"
-      + " VALUES(?, ?, ?, ?, ?, ?, ?);";
+    return "INSERT INTO everybody_app.exercises(created_at, duration, media_link, description, username, exercise_name, tags)"
+      + " VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?);";
   }
 
   /**
@@ -83,8 +83,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertWorkout() {
-    return "INSERT INTO workouts"
-      + " VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+    return "INSERT INTO everybody_app.workouts(created_at, duration, media_link, total_likes, exercises, descriptions, username, workout_name)"
+      + " VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?);";
   }
 
   /**
