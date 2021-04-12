@@ -73,7 +73,7 @@ function LoginPage() {
                   <input id="password" name="password" type="password" placeholder="Enter password" required/>
                 </div>
                 <button to="/home" className="btn submit-btn" id="login-btn" onClick={login}>
-                  Sign Up
+                  Log in
                 </button>
               </form>
             </Tab>
@@ -97,29 +97,29 @@ function LoginPage() {
                 </div>
                 <div className="login-form-row">
                   <div className="login-form-section">
-                    <p>Type</p>
+                    <p>Type Preference</p>
                     <div className="login-radio-row">
                       <input type="radio" id="cardio-pref" name="type-pref" value="cardio" required checked/>
-                      <label for="cardio-pref">Cardio</label>
+                      <label className="radio-label" for="cardio-pref">Cardio</label>
                     </div>
                     <div className="login-radio-row">
                       <input type="radio" id="bodyweight-pref" name="type-pref" value="bodyweight"/>
-                      <label for="bodyweight-pref">Bodyweight</label>
+                      <label className="radio-label" for="bodyweight-pref">Bodyweight</label>
                     </div>
                   </div>
                   <div className="login-form-section">
-                    <p>Duration</p>
+                    <p>Duration Preference</p>
                     <div className="login-radio-row">
                       <input type="radio" id="duration-1" name="duration-pref" value="duration-1" required checked/>
-                      <label for="duration-1">0-30 minutes</label>
+                      <label className="radio-label" for="duration-1">0-30 minutes</label>
                     </div>
                     <div className="login-radio-row">
                       <input type="radio" id="duration-2" name="duration-pref" value="duration-2"/>
-                      <label for="duration-2">30-60 minutes</label>
+                      <label className="radio-label" for="duration-2">30-60 minutes</label>
                     </div>
                     <div className="login-radio-row">
                       <input type="radio" id="duration-3" name="duration-pref" value="duration-3"/>
-                      <label for="duration-3">60+ minutes</label>
+                      <label className="radio-label" for="duration-3">60+ minutes</label>
                     </div>
                   </div>
                 </div>
