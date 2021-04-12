@@ -31,7 +31,7 @@ function ExpandedUserProfile() {
           <h5 id="workout-ct">{userInfo.workoutCount}</h5>
         </div>
       </div>
-      <Button variant ="outline-dark">Edit Profile</Button>
+      {/* <Button variant ="outline-dark">Edit Profile</Button> */}
     </div>
   );
 }
