@@ -314,7 +314,7 @@ public final class PostgresDatabase {
       stmt.setString(2, mediaLink);
       stmt.setInt(3, totalLikes);
       Object[] arr = exerciseIds.toArray();
-      stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
+      stmt.setArray(4, dbConn.createArrayOf("integer", arr));
       stmt.setString(5, description);
       stmt.setString(6, username);
       stmt.setString(7, workoutName);
@@ -605,5 +605,32 @@ public final class PostgresDatabase {
     }
     tearDownConnection();
     return results;
+  }
+
+  /**
+   * Retrieves duration of an exercise.
+   * @param exerciseId exercise id
+   * @return duration
+   * @throws URISyntaxException
+   * @throws SQLException
+   */
+  public static int getDuration(int exerciseId) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getDuration();
+    int duration = 0;
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, exerciseId);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          duration += res.getInt("duration");
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return duration;
+
   }
 }

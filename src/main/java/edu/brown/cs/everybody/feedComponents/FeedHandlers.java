@@ -16,6 +16,9 @@ import java.util.*;
 public class FeedHandlers {
   private static final Gson GSON = new Gson();
 
+  /**
+   * Handler for uploading exercises.
+   */
   public static class UploadExerciseHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -42,6 +45,9 @@ public class FeedHandlers {
     }
   }
 
+  /**
+   * Handler for uploading workouts.
+   */
   public static class UploadWorkoutHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -52,7 +58,10 @@ public class FeedHandlers {
       for (int i=0; i<jsonObjects.length(); i++) {
         exerciseIds.add(jsonObjects.getInt(i));
       }
-      Integer duration = data.getInt("duration");
+      int duration = 0;
+      for(int id: exerciseIds) {
+        duration += PostgresDatabase.getDuration(id);
+      }
       String mediaLink = data.getString("mediaLink");
       Integer totalLikes = 0; // 0 likes upon initial upload
       String description = data.getString("description");
