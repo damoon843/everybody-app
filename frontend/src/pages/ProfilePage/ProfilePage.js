@@ -25,9 +25,9 @@ function ProfilePage(props){
   }
 
   useEffect(() => {
-    getWorkouts();
+    // getWorkouts();
     renderWorkouts();
-  });
+  }, []);
 
   return (
     <div className="profile-page">
