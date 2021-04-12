@@ -150,4 +150,5 @@ public class FeedHandlers {
       return GSON.toJson(variables);
     }
   }
+}
 
