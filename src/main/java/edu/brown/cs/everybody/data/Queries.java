@@ -14,8 +14,8 @@ public final class Queries {
    * @return query string
    */
   public static String insertUserQuery() {
-    return "INSERT INTO everybody_app.users(first_name, last_name, created_at, username)"
-      + " VALUES(?,?,CURRENT_TIMESTAMP,?);";
+    return "INSERT INTO everybody_app.users(first_name, last_name, created_at, username, password)"
+      + " VALUES(?,?,CURRENT_TIMESTAMP,?, ?);";
   }
 
   /**

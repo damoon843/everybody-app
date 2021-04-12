@@ -73,6 +73,7 @@ public final class PostgresDatabase {
       stmt.setString(1, (String) data.get(0));
       stmt.setString(2, (String) data.get(1));
       stmt.setString(3, (String) data.get(2));
+      stmt.setString(4, (String) data.get(3));
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -80,10 +81,10 @@ public final class PostgresDatabase {
     }
 
     // Insert into user_preferences table
-    insertString = Queries.insertUserQuery();
+    insertString = Queries.insertUserPreferencesQuery();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setString(1, (String) data.get(3));
-      stmt.setString(2, (String) data.get(4));
+      stmt.setString(1, (String) data.get(4));
+      stmt.setString(2, (String) data.get(5));
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
@@ -559,7 +560,7 @@ public final class PostgresDatabase {
    */
   public static Map<Integer, List<Object>> getSimilarExercises(String query) throws SQLException, URISyntaxException {
     setUpConnection();
-    String queryString = Queries.getSimilarExercises();//add query to string
+    String queryString = Queries.getSimilarExercises();
     Map<Integer, List<Object>>  results = new HashMap<>();
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
