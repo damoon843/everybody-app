@@ -52,9 +52,6 @@ public class UserHandlers {
         // Set session attributes
         request.session().attribute("username", username);
 
-        // Redirect to home page
-        response.redirect("/home");
-
         variables = ImmutableMap.of("queryStatus", "success");
       } catch (SQLException | URISyntaxException e) {
         // Query failed to execute
@@ -216,20 +213,28 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
       String username = data.getString("username");
       String password = data.getString("password");
+      Map<String, Object> variables = null;
 
       try {
         int output = PostgresDatabase.loginUser(username, password);
+
+        // Query execution success
         if (output == 1) {
-          // TODO: CHANGE
-          //request.session().attribute("username", username);
-          //response.redirect("/home");
-          Map<String, Object> variables = ImmutableMap.of("isValid", true);
-          return GSON.toJson(variables);
+          // Login success
+          Session session = request.session(true);
+
+          // Set session attributes
+          request.session().attribute("username", username);
+
+          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
+        } else {
+          // Login failed
+          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "failed");
         }
-      } catch (Exception ex) {
-        Map<String, Object> variables = ImmutableMap.of("queryStatus", e.getMessage());
+      } catch (SQLException ex) {
+        // Query execution failed
+        variables = ImmutableMap.of("queryStatus", ex.getMessage());
       }
-      Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");
       return GSON.toJson(variables);
     }
   }
