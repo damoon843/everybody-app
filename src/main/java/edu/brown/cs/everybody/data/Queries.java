@@ -45,7 +45,7 @@ public final class Queries {
    * @return query string
    */
   public static String getWorkouts() {
-    return "SELECT description, workout_type, duration, media_link, total_likes, workout_name"
+    return "SELECT *"
       + " FROM workouts"
       + " WHERE username = ?;";
   }
