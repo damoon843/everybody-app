@@ -8,7 +8,6 @@ import './HomePage.css';
 function Home() {
   return (
     <div className="home">
-      {/* <UserProfile /> */}
       <Main />
       <div className="upload">
         <h3>Upload</h3>
