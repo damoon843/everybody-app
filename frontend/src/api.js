@@ -19,7 +19,7 @@ export const getRecommendations = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -40,7 +40,7 @@ export const getWorkouts = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -61,7 +61,7 @@ export const getWorkout = async (id) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -81,7 +81,7 @@ export const getAllExercises = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -101,7 +101,7 @@ export const getUser = async () => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -135,7 +135,7 @@ export const createWorkout = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -167,7 +167,7 @@ export const createExercise = async (data) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -213,7 +213,7 @@ export const loginUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -235,7 +235,7 @@ export const followUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
@@ -257,7 +257,7 @@ export const unfollowUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
