@@ -67,8 +67,6 @@ public final class PostgresDatabase {
    */
   public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
     setUpConnection();
-    System.out.println(dbConn);
-    System.out.println("IN INSERTUSER");
     String insertString = Queries.insertUserQuery();
 
     // Insert into users table
@@ -78,7 +76,6 @@ public final class PostgresDatabase {
       stmt.setString(3, (String) data.get(2));
       stmt.setString(4, (String) data.get(3));
       stmt.execute();
-      System.out.println("EXECUTED INSERT QUERY");
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
@@ -88,9 +85,8 @@ public final class PostgresDatabase {
     insertString = Queries.insertUserPreferencesQuery();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(4));
-      stmt.setString(2, (String) data.get(5));
+      stmt.setInt(2, (Integer) data.get(5));
       stmt.execute();
-      System.out.println("EXECUTED PREFERENCES QUERY");
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
