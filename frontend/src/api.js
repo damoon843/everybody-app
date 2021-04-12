@@ -180,16 +180,17 @@ export const createUser = async (toSend) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let data = JSON.stringify(toSend);
   await axios.post(
     "http://localhost:4567/newUser",
-    toSend,
+    data,
     config
   )
   .then(response => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(error.response.data);
   });
 }
 
