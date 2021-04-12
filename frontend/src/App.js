@@ -17,7 +17,6 @@ function App() {
 
   const setUsername = (username) => {
     setUser(username)
-    console.log(user)
   }
 
   return (
