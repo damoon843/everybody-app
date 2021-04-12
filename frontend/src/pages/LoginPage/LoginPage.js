@@ -112,15 +112,15 @@ function LoginPage(props) {
                   <div className="login-form-section">
                     <p>Duration Preference</p>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-1" name="duration-pref" value="duration-1" required checked/>
+                      <input type="radio" id="duration-1" name="duration-pref" value="0" required checked/>
                       <label className="radio-label" for="duration-1">0-30 minutes</label>
                     </div>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-2" name="duration-pref" value="duration-2"/>
+                      <input type="radio" id="duration-2" name="duration-pref" value="1"/>
                       <label className="radio-label" for="duration-2">30-60 minutes</label>
                     </div>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-3" name="duration-pref" value="duration-3"/>
+                      <input type="radio" id="duration-3" name="duration-pref" value="2"/>
                       <label className="radio-label" for="duration-3">60+ minutes</label>
                     </div>
                   </div>
