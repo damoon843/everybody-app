@@ -74,7 +74,7 @@ export const getAllExercises = async () => {
     }
   }
   await axios.get(
-    "https://everybody-app.herokuapp.com/exercises",
+    "https://everybody-app.herokuapp.com/publicExercises",
     config
   )
   .then(response => {

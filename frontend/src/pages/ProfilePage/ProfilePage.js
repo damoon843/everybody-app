@@ -3,7 +3,8 @@ import './ProfilePage.css';
 import ExpandedUserProfile from "./components/ExpandedUserProfile/ExpandedUserProfile";
 import Main from "../HomePage/components/Main/Main";
 import {Button} from "react-bootstrap";
-import { getWorkouts } from "../../api";
+import {getAllExercises, getWorkouts} from "../../api";
+import { getUser } from "../../api";
 import Workout from '../../components/Workout/Workout';
 import Profile from './components/Profile/Profile';
 
@@ -22,12 +23,20 @@ function ProfilePage(props){
   // sets state variable
   const renderWorkouts = () => {
     setWorkouts(sampleData.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+
   }
 
+
   useEffect(() => {
-    getWorkouts();
+    //getWorkouts();
     renderWorkouts();
-  });
+
+      const ex = getUser()
+      ex.then(function(result) {
+          console.log(result) // "Some User token"
+      })
+
+  },[]);
 
   return (
     <div className="profile-page">
