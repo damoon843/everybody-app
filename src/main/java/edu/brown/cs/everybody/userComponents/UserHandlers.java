@@ -176,8 +176,10 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
       String username = data.getString("user");
       String following = data.getString("following");
+
       PostgresDatabase.insertFollow(username, following);
-      return null;
+      Map<String, Object> variables = ImmutableMap.of("isValid", true);
+      return GSON.toJson(variables);
     }
   }
 
@@ -191,6 +193,7 @@ public class UserHandlers {
       String username = data.getString("user");
       String following = data.getString("following");
       PostgresDatabase.removeFollow(username, following);
+
       return null;
     }
   }
