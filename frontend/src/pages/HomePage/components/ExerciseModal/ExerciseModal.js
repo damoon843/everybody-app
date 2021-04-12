@@ -10,7 +10,7 @@ function ExerciseModal(){
 
   return (
     <div className="exercise-modal">
-      <button className="submit-btn" onClick={handleShow}>
+      <button id="exercise-modal-btn" className="submit-btn" onClick={handleShow}>
         Upload Exercise
       </button>
 
