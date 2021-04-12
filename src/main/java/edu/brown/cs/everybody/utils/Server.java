@@ -65,13 +65,13 @@ public class Server {
     // For uploading a workout
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts
-    Spark.post("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
+    Spark.get("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
     // For retrieving a user's uploaded exercises (within a workout)
     Spark.post("/userExercises", new FeedHandlers.GetExercisesHandler());
     // For user deletion
     Spark.post("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
-    Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
+    Spark.get("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
     // For exercises page
     Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
