@@ -74,11 +74,10 @@ export const getAllExercises = async () => {
     }
   }
   await axios.get(
-<<<<<<< HEAD
+
     "https://localhost:3000/exercises",
-=======
-    "https://everybody-app.herokuapp.com/publicExercises",
->>>>>>> filtering
+
+    //"https://everybody-app.herokuapp.com/publicExercises",
     config
   )
   .then(response => {
