@@ -18,6 +18,22 @@
   align-items: center;
 }
 
+.login-form-section {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+
+.login-form-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.login-radio-row {
+  display: flex;
+  align-items: flex-start;
+}
+
 .login-card {
   background-color: white;
   width: 30rem;
