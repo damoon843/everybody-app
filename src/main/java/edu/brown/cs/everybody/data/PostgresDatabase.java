@@ -41,7 +41,11 @@ public final class PostgresDatabase {
     String password = dbUri.getUserInfo().split(":")[1];
     String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 
-    dbConn = DriverManager.getConnection(dbUrl, username, password);
+    try {
+      dbConn = DriverManager.getConnection(dbUrl, username, password);
+    } catch (Exception ex) {
+      System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
+    }
   }
 
   /**
