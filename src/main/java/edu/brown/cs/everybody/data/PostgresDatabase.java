@@ -69,6 +69,7 @@ public final class PostgresDatabase {
     setUpConnection();
     String insertString = Queries.insertUserQuery();
     int id = -1;
+
     // Insert into users table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));
@@ -546,14 +547,17 @@ public final class PostgresDatabase {
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1,username);
       stmt.setString(2, password);
+
       try (ResultSet res = stmt.executeQuery()) {
         if (res.next()) {
+          // Login successful (user exists in DB)
           tearDownConnection();
           return 1;
+        } else {
+          // Login failed (user does not exist in DB)
+          return -1;
         }
       }
-      tearDownConnection();
-      return -1;
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());

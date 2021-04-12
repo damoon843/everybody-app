@@ -200,6 +200,8 @@ export const createUser = async (toSend) => {
     config
   )
   .then(response => {
+
+    console.log(response.data)
     /*
     if(response.data){
       session.user= toSend.username
@@ -232,11 +234,12 @@ export const loginUser = async (toSend) => {
     config
   )
   .then(response => {
+    console.log(response.data)
     return response.data;
     /*
 
      */
-    userSession.setSession(response.data)
+    // userSession.setSession(response.data)
   })
   .catch(function (error) {
     console.log(error.response.data);

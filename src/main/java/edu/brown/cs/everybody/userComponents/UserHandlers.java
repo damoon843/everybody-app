@@ -7,11 +7,10 @@ import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 import org.json.JSONException;
 import org.json.JSONObject;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import spark.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -42,15 +41,22 @@ public class UserHandlers {
       Integer duration = Integer.parseInt(workoutDuration);
       List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, password, workoutType, duration));
       Map<String, Object> variables;
+
       try {
         PostgresDatabase.insertUser(listData);
-        variables = ImmutableMap.of("isValid", true);
+
+        // Query execute properly, encode session ID in cookie
+        Session session = request.session(true);
+        response.cookie("sessionID", request.session().id());
+
+        // Set session attributes
+        request.session().attribute("username", username);
+
+        variables = ImmutableMap.of("queryStatus", "success");
       } catch (SQLException | URISyntaxException e) {
-        variables = ImmutableMap.of("error", e.getMessage());
+        // Query failed to execute
+        variables = ImmutableMap.of("queryStatus", e.getMessage());
       }
-//      // TODO: CHANGE
-//      request.session().attribute("username", username);
-//      response.redirect("/home");
       return GSON.toJson(variables);
     }
   }
@@ -181,6 +187,15 @@ public class UserHandlers {
       String username = data.getString("user");
       String following = data.getString("following");
 
+      System.out.println(request.cookies());
+      Session session = request.session(false);
+      System.out.println(session);
+
+      if (session != null) {
+        // Session retrieved, get username
+        System.out.println((char[]) session.attribute("username"));
+      }
+
       PostgresDatabase.insertFollow(username, following);
       Map<String, Object> variables = ImmutableMap.of("isValid", true);
       return GSON.toJson(variables);
@@ -211,16 +226,28 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
       String username = data.getString("username");
       String password = data.getString("password");
+      Map<String, Object> variables = null;
 
-      int output = PostgresDatabase.loginUser(username, password);
-      if (output == 1) {
-        // TODO: CHANGE
-        //request.session().attribute("username", username);
-        //response.redirect("/home");
-        Map<String, Object> variables = ImmutableMap.of("isValid", true);
-        return GSON.toJson(variables);
+      try {
+        int output = PostgresDatabase.loginUser(username, password);
+
+        // Query execution success
+        if (output == 1) {
+          // Login success -> create new session
+          Session session = request.session(true);
+          // Set session attributes and response cookie
+          request.session().attribute("username", username);
+          response.cookie("sessionID", request.session().id());
+
+          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
+        } else {
+          // Login failed
+          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "failed");
+        }
+      } catch (SQLException ex) {
+        // Query execution failed
+        variables = ImmutableMap.of("queryStatus", ex.getMessage(), "loginStatus", "failed");
       }
-      Map<String, Object> variables = ImmutableMap.of("error", "Failed to login.");
       return GSON.toJson(variables);
     }
   }
