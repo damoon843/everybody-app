@@ -21,6 +21,7 @@ public final class PostgresDatabase {
   private static Connection dbConn = null;
 
   // TODO: cache getUser?
+  // TODO: look into connection pooling
   // main.java concurrency (stretch feature)
   // cache of users, getUser/getFollowers query called in constructor so also cached?
 
@@ -35,12 +36,14 @@ public final class PostgresDatabase {
    * @throws SQLException when driver cannot retrieve conn
    */
   public static void setUpConnection() throws URISyntaxException, SQLException {
-    URI dbUri = new URI(System.getenv("DATABASE_URL"));
-    String username = dbUri.getUserInfo().split(":")[0];
-    String password = dbUri.getUserInfo().split(":")[1];
-    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-
     try {
+      URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+      System.out.println(dbUri);
+
+      String username = dbUri.getUserInfo().split(":")[0];
+      String password = dbUri.getUserInfo().split(":")[1];
+      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
       dbConn = DriverManager.getConnection(dbUrl, username, password);
     } catch (Exception ex) {
       System.out.println(ErrorConstants.ERROR_DATABASE_SETUP);
@@ -66,6 +69,8 @@ public final class PostgresDatabase {
    */
   public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
     setUpConnection();
+    System.out.println(dbConn);
+    System.out.println("IN INSERTUSER");
     String insertString = Queries.insertUserQuery();
 
     // Insert into users table
@@ -75,6 +80,7 @@ public final class PostgresDatabase {
       stmt.setString(3, (String) data.get(2));
       stmt.setString(4, (String) data.get(3));
       stmt.execute();
+      System.out.println("EXECUTED INSERT QUERY");
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());
@@ -86,6 +92,7 @@ public final class PostgresDatabase {
       stmt.setString(1, (String) data.get(4));
       stmt.setString(2, (String) data.get(5));
       stmt.execute();
+      System.out.println("EXECUTED PREFERENCES QUERY");
     } catch (SQLException ex) {
       System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
       throw new SQLException(ex.getMessage());

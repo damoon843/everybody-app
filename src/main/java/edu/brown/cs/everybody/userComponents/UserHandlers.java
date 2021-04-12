@@ -34,10 +34,11 @@ public class UserHandlers {
       String username = data.getString("username");
       String password = data.getString("password");
       String workoutType = data.getString("workoutType");
-      Integer workoutDuration = data.getInt("workoutDuration");
+      String workoutDuration = data.getString("workoutDuration");
 
+      Integer duration = Integer.parseInt(workoutDuration);
+      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, password, workoutType, duration));
 
-      List<Object> listData = new ArrayList<>(Arrays.asList(fName, lName, username, password, workoutType, workoutDuration));
       PostgresDatabase.insertUser(listData);
       return null;
     }

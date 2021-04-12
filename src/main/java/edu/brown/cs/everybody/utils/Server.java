@@ -55,7 +55,8 @@ public class Server {
     Spark.exception(Exception.class, new ExceptionPrinter());
 
     // For user creation
-    Spark.get("/newUser", new UserHandlers.NewUserHandler());
+    Spark.post("/newUser", new UserHandlers.NewUserHandler());
+
     Spark.post("/login", new UserHandlers.LoginHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
