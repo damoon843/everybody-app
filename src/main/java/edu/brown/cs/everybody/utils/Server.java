@@ -75,7 +75,7 @@ public class Server {
     // For home feed recommendations
     Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
     // For exercises page
-    Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
+    Spark.get("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
     // TODO: post vs get
