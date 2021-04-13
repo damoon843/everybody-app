@@ -285,6 +285,14 @@ export const unfollowUser = async (toSend) => {
       'Access-Control-Allow-Origin': '*',
     }
   }
+  let res = await axios.post(
+      "http://localhost:4567/unfollow",
+      toSend,
+      config
+
+  )
+  return res.data
+  /*
   await axios.post(
     "http://localhost:4567/unfollow",
     toSend,
@@ -296,5 +304,7 @@ export const unfollowUser = async (toSend) => {
   .catch(function (error) {
     console.log(error.response.data);
   });
+
+   */
 }
 

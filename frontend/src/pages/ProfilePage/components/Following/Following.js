@@ -8,16 +8,20 @@ import {unfollowUser} from "../../../../api";
 import ExerciseItem from "../../../HomePage/components/WorkoutModal/ExerciseItem";
 
 function Following(props) {
-    const [following, setFollowing] = useState([]);
+    //const [following, setFollowing] = useState(props.following);
+    let following = props.following
     const sampleData = [{id: 1, title: "Workout 1", duration: "15 min", user: "chrissy", thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {id: 2, title: "Workout 2", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
         {id: 3, title: "Workout 3", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
-
+    //const anchor = document.getElementById("following")
+    //setFollowing(props.following)
     useEffect(() => {
-        getAllFollowing()
+        //getAllFollowing()
+        console.log(props.following)
         renderFollowing()
 
 
-    }, []);//maybe update some according some
+
+    });//maybe update some according some
     // sort of boolean variable that changes when a user clicks unfollow
     //props.user
     const unfollow = (user) => {
@@ -33,9 +37,10 @@ function Following(props) {
 
     const renderFollowing=()=>{
         const anchor = document.getElementById("anchor")
-        anchor.innerHTML = '';
+        //anchor.innerHTML = '';
         if (following){
             following.forEach(user => {
+                console.log(user)
                 const container = document.createElement("div")
                 const name = document.createElement("p")
                 const followBtn = document.createElement("button")
@@ -43,7 +48,9 @@ function Following(props) {
                 container.className = "f-container"
                 name.className = "n-container"
                 followBtn.innerText = "unfollow"
-                followBtn.onclick = unfollow(user)
+                followBtn.onclick = () =>{
+                    unfollow(user)
+                }
                 followBtn.value = "unfollow"
                 name.innerText = user
                 container.append(name)
@@ -60,11 +67,12 @@ function Following(props) {
 
 
      //*/
+    /*
     const getAllFollowing = async () => {
         console.log(props.user)
         getFollowing(props.user).then(result => {
             console.log(result)
-            /*
+            //
             const data = Object.values(result)
             const keys = Object.keys(result)
             let exerciseList = [];
@@ -74,12 +82,17 @@ function Following(props) {
                 exerciseList.push(opt)
             }
             console.log(exerciseList)
+            //
 
-             */
             //assuming it returns an array of usernames
             setFollowing(result)
+            renderFollowing()
+
         });
     }
+
+     */
+
 
     /*
 
