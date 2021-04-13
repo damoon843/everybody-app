@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import './WorkoutModal.css';
-import { createWorkout } from '../../../../api';
+import { createWorkout, getAllExercises } from '../../../../api';
 import ExerciseItem from './ExerciseItem';
 
 function WorkoutModal(props){
@@ -13,7 +13,7 @@ function WorkoutModal(props){
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    getAllExercises()
+    newGetAllExercises()
   }, []);
 
   const getSelected = (element) => {
@@ -27,30 +27,18 @@ function WorkoutModal(props){
     return selected;
   }
 
-  const getAllExercises = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      }
-    }
-    await axios.get(
-      "http://localhost:4567/publicExercises",
-      config
-    )
-    .then(response => {
-      const data = Object.values(response.data)
-      const keys = Object.keys(response.data)
-      let result = [];
+  const newGetAllExercises = async () => {
+    getAllExercises().then(result => {
+      const data = Object.values(result)
+      const keys = Object.keys(result)
+      let exerciseList = [];
       for (let i = 0; i < keys.length; i++) {
         // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
         const opt = <option value={keys[i]}>{data[i][6]}</option>
-        result.push(opt)
+        exerciseList.push(opt)
       }
-      setExercises(result)
-    })
-    .catch(function (error) {
-      console.log(error.response.data);
+      console.log(exerciseList)
+      setExercises(exerciseList)
     });
   }
 
