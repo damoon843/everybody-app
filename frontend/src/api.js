@@ -210,6 +210,7 @@ export const loginUser = async (toSend) => {
     config
   )
   .then(response => {
+    console.log(document.cookie)
     console.log(response.data)
     return response.data;
     /*
@@ -229,6 +230,7 @@ export const followUser = async (toSend) => {
     headers: {
       "Content-Type": "application/json",
       'Access-Control-Allow-Origin': '*',
+      "withCredentials": "true"
     }
   }
   await axios.post(
@@ -237,6 +239,7 @@ export const followUser = async (toSend) => {
       config
   )
   .then(response => {
+    console.log(document.cookie)
     return response.data;
   })
   .catch(function (error) {
