@@ -190,16 +190,17 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String username = data.getString("user");
+      String username = "";
+      // String username = data.getString("user");
       String following = data.getString("following");
 
-      System.out.println(request.cookies());
+      // Retrieve session
       Session session = request.session(false);
-      System.out.println(session);
 
       if (session != null) {
-        // Session retrieved, get username
-        System.out.println((char[]) session.attribute("username"));
+        // Retrieval successful, get username
+        username = session.attribute("username");
+        System.out.println(username);
       }
 
       PostgresDatabase.insertFollow(username, following);
