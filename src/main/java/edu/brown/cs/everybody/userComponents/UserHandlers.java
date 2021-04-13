@@ -239,12 +239,10 @@ public class UserHandlers {
 
         // Query execution success
         if (output == 1) {
-          // Login success -> create new session
+          // Login success -> create new session and set response cookie
           Session session = request.session(true);
-          // Set session attributes and response cookie
           request.session().attribute("username", username);
-          response.cookie("sessionID", request.session().id());
-
+          response.cookie(".localhost:3000.", "/", "sessionID", request.session().id(), 3600, false, false);
           variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
         } else {
           // Login failed

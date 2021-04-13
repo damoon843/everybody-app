@@ -51,7 +51,9 @@ public class Server {
     });
 
     // Setup Spark Routes
-    Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+    Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "http://localhost:3000"));
+    Spark.before((request, response) -> response.header("Access-Control-Allow-Credentials", "true"));
+
     Spark.exception(Exception.class, new ExceptionPrinter());
 
     // For user creation
