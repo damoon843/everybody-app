@@ -45,9 +45,9 @@ function Exercise(props){
                 // const thumbnail = document.createElement("img")
                 // const btn = document.createElement("button")
 
-                title.innerText = values[0]//exercise.title;
-                info.innerText = keys + " | " + values[2]
-                description.innerText = values[4]
+                title.innerText = values[6]//exercise.title;
+                info.innerText = keys + " | " + values[5]
+                description.innerText = values[3]
                 // thumbnail.src = workout.thumbnail
                 // btn.value = "View Exercise"
                 followBtn.value = "follow"

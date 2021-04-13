@@ -18,10 +18,35 @@ function ExercisePage() {
     }
 
 
+    const newGetAllExercises = async () => {
+        getAllExercises().then(result => {
+
+            const data = Object.values(result)
+            const keys = Object.keys(result)
+            /*
+            let exerciseList = [];
+            for (let i = 0; i < keys.length; i++) {
+                // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
+                const opt = <option value={keys[i]}>{data[i][6]}</option>
+                exerciseList.push(opt)
+            }
+            console.log(exerciseList)
+
+             */
+            console.log(result)
+            console.log(keys)
+            console.log(data)
+            setExercises(result)//(exerciseList)
+        });
+    }
+
+
+
 
   useEffect(() => {
       //console.log()
-    setExercises(exercisesTemp);
+      newGetAllExercises()
+    //setExercises(exercisesTemp);
       /*
       const ex = getAllExercises()
       ex.then(function(result) {
@@ -39,7 +64,7 @@ function ExercisePage() {
       if (e.target.checked) {
           //const currState = [...this.state.movies];
           //console.log(exercises)
-          let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[3].includes(e.target.name)));
+          let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[4].includes(e.target.name)));
 
 
           setExercises(filtered)
@@ -55,18 +80,22 @@ function ExercisePage() {
   };
 
   const resetEx=()=>{
+      newGetAllExercises()
+      /*
       console.log("resetting")
       setExercises(exercisesTemp);
+
+       */
 
   };
 
   return (
     <div className="exercise-page">
       <div className = "sidebar">
-        <Sidebar updateExercises = {updateExercises} />
+        <Sidebar resetEx = {resetEx} updateExercises = {updateExercises} />
       </div>
       <div className = "exercises">
-        <Exercise resetEx = {resetEx} exercises={exercises}/>
+        <Exercise  exercises={exercises}/>
       </div>
     </div>
   );
