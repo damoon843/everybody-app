@@ -3,11 +3,14 @@ package edu.brown.cs.everybody.feedComponents;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.PostgresDatabase;
+import edu.brown.cs.everybody.utils.ErrorConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
+
 import java.util.*;
 
 /**
@@ -24,12 +27,22 @@ public class FeedHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
 
-      String username = data.getString("username");
+      String username = "";
       String exerciseName = data.getString("exerciseName");
       String mediaLink = data.getString("mediaLink");
       Integer duration = data.getInt("duration");
       JSONArray tagsJSON = data.getJSONArray("tags");
       String description = data.getString("description");
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
 
       // Extract tags from JSONArray
       List<String> tags = new ArrayList<>();
@@ -65,8 +78,18 @@ public class FeedHandlers {
       String mediaLink = data.getString("mediaLink");
       Integer totalLikes = 0; // 0 likes upon initial upload
       String description = data.getString("description");
-      String username = data.getString("username");
+      String username = "";
       String workoutName = data.getString("workoutName");
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
 
       PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
         description, username, workoutName, exerciseIds);
@@ -84,8 +107,18 @@ public class FeedHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
       List<Map<String, String>> output = new ArrayList<>();
+      String username = "";
 
-      String username = data.getString("username");
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
+
       PriorityQueue<Workout> workouts = PostgresDatabase.getUserWorkouts(username);
 
       Workout finalWorkout = workouts.poll();
@@ -106,8 +139,18 @@ public class FeedHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
 
-      String username = data.getString("username");
+      String username = "";
       String workoutName = data.getString("workoutName");
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
 
       Map<Integer, List<Object>> exercises = PostgresDatabase.getUserExercises(username, workoutName);
       Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
@@ -142,7 +185,6 @@ public class FeedHandlers {
   /**
    * Retrieves 20 similar exercise names as user query.
    */
-  // TODO
   public static class SearchExercisesHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {

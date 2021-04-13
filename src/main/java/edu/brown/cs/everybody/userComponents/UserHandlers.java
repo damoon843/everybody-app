@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
+import edu.brown.cs.everybody.utils.ErrorConstants;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,12 +46,10 @@ public class UserHandlers {
       try {
         PostgresDatabase.insertUser(listData);
 
-        // Query execute properly, encode session ID in cookie
+        // Sign-up success -> create new session and set response cookie
         Session session = request.session(true);
-        response.cookie("sessionID", request.session().id());
-
-        // Set session attributes
         request.session().attribute("username", username);
+        response.cookie(".localhost:3000.", "/", "sessionID", request.session().id(), 3600, false, false);
 
         variables = ImmutableMap.of("queryStatus", "success");
       } catch (SQLException | URISyntaxException e) {
@@ -77,7 +76,17 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String username = data.getString("username");
+      String username = "";
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
 
       List<Object> userInfo = PostgresDatabase.getUserInfo(username);
 
@@ -104,6 +113,7 @@ public class UserHandlers {
       String username = data.getString("username");
       // TODO DELETE
       username = "aguo";
+
       AppUser user;
       try {
         int userid = PostgresDatabase.getUserID(username);
@@ -191,16 +201,18 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String username = data.getString("user");
+      String username = "";
       String following = data.getString("following");
 
-      System.out.println(request.cookies());
+      // Retrieve session
       Session session = request.session(false);
-      System.out.println(session);
 
       if (session != null) {
-        // Session retrieved, get username
-        System.out.println((char[]) session.attribute("username"));
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
       }
 
       PostgresDatabase.insertFollow(username, following);
@@ -216,8 +228,19 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String username = data.getString("user");
+      String username = "";
       String following = data.getString("following");
+
+      // Retrieve session
+      Session session = request.session(false);
+
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
       PostgresDatabase.removeFollow(username, following);
 
       return null;
@@ -240,12 +263,10 @@ public class UserHandlers {
 
         // Query execution success
         if (output == 1) {
-          // Login success -> create new session
+          // Login success -> create new session and set response cookie
           Session session = request.session(true);
-          // Set session attributes and response cookie
           request.session().attribute("username", username);
-          response.cookie("sessionID", request.session().id());
-
+          response.cookie(".localhost:3000.", "/", "sessionID", request.session().id(), 3600, false, false);
           variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
         } else {
           // Login failed
@@ -266,7 +287,19 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String username = data.getString("username");
+      String username = "";
+
+      // Retrieve session
+      Session session = request.session(false);
+
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+      }
+
       List<String> following = PostgresDatabase.getAllFollowing(username);
       Map<String, Object> variables = ImmutableMap.of("following", following);
       return GSON.toJson(variables);
