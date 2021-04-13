@@ -122,8 +122,6 @@ public class FeedHandlers {
   public static class GetPublicExercisesHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
-
       Map<Integer, List<Object>> exercises = PostgresDatabase.getExercises();
       Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
       return GSON.toJson(variables);
