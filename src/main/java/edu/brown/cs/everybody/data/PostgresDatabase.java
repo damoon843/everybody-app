@@ -492,7 +492,7 @@ public final class PostgresDatabase {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
           Integer duration = res.getInt("duration");
-          String mediaLink = res.getString("mediaLink");
+          String mediaLink = res.getString("media_link");
           String description = res.getString("description");
           Array sqlTags = res.getArray("tags");
           String username = res.getString("username");
