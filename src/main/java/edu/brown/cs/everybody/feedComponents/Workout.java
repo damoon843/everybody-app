@@ -1,8 +1,5 @@
 package edu.brown.cs.everybody.feedComponents;
 
-import edu.brown.cs.everybody.data.PostgresDatabase;
-
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,7 +15,7 @@ public class Workout {
   private int workout_id;
   private Date created_at;
   private int duration;
-  private URL media_link;
+  private String media_link;
   private int like_count;
   private String description;
   private String username;
@@ -91,7 +88,7 @@ public class Workout {
    * Getter for media link.
    * @return media link
    */
-  public URL getMediaLink() {
+  public String getMediaLink() {
     return this.media_link;
   }
 
@@ -146,7 +143,7 @@ public class Workout {
     private int _workout_id;
     private Date _created_at;
     private int _duration;
-    private URL _media_link;
+    private String _media_link;
     private int _like_count;
     private String _description;
     private String _username;
@@ -228,7 +225,7 @@ public class Workout {
      * @param link URL to workout thumbnail
      * @return WorkoutBuilder object
      */
-    public WorkoutBuilder media_link(URL link) {
+    public WorkoutBuilder media_link(String link) {
       this._media_link = link;
       return this;
     }
