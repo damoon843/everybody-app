@@ -11,7 +11,7 @@ function Exercise(props){
     //console.log(exercises);
 
     useEffect(() => {
-        getWorkouts();
+        //getWorkouts();
         renderWorkouts();
     });
     /*
@@ -26,8 +26,7 @@ function Exercise(props){
      */
 
     // TODO: fill this out with a GET request
-    const getWorkouts = () => {
-    }
+
 
     const renderWorkouts = () => {
 

@@ -30,7 +30,7 @@ export const getRecommendations = async (username) => {
 
 // gets the "Following" list for a specific user
 // username: the user's username
-export const getWorkouts = async (username) => {
+export const getFollowing = async (username) => {
   let config = {
     headers: {
       "Content-Type": "application/json",

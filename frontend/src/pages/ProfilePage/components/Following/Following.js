@@ -3,7 +3,7 @@ import {getAllExercises, getRecommendations} from '../../../../api';
 import Workout from '../../../../components/Workout/Workout';
 import './Following.css';
 import axios from "axios";
-import {getFollowing}  from "../../../../api.js"
+import {getFollowing} from '../../../../api'
 import ExerciseItem from "../../../HomePage/components/WorkoutModal/ExerciseItem";
 
 function Following(props) {
@@ -12,13 +12,14 @@ function Following(props) {
         {id: 3, title: "Workout 3", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
 
     useEffect(() => {
-        //getAllFollowing()
+        getAllFollowing()
         //renderFollowing()
 
 
     }, []);//maybe update some according some
     // sort of boolean variable that changes when a user clicks unfollow
     //props.user
+    /*
     const renderFollowing=()=>{
         const anchor = document.getElementById("following")
         anchor.innerHTML = '';
@@ -40,8 +41,12 @@ function Following(props) {
         }
 
     }
+
+     */
     const getAllFollowing = async () => {
-        getFollowing().then(result => {
+        console.log(props.user)
+        getFollowing(props.user).then(result => {
+            console.log(result)
             /*
             const data = Object.values(result)
             const keys = Object.keys(result)
@@ -55,7 +60,7 @@ function Following(props) {
 
              */
             //assuming it returns an array of usernames
-            setFollowing(result)
+            //setFollowing(result)
         });
     }
 

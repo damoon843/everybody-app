@@ -23,7 +23,7 @@ function ProfilePage(props){
   // splice the user from displayFollowing and rerender the component with displayFollowing
 
   useEffect(() => {
-    getWorkouts();
+    //getWorkouts();
     renderWorkouts();
   },[]);
 
