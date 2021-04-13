@@ -28,6 +28,32 @@ export const getRecommendations = async (username) => {
   });
 }
 
+// gets the "Following" list for a specific user
+// username: the user's username
+export const getWorkouts = async (username) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+    }
+  }
+  const toSend = {
+    username: username
+  };
+  await axios.post(
+      "http://localhost:4567/allFollowing",
+      toSend,
+      config
+  )
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error.response.data);
+      });
+}
+
+
 // gets workouts for a specific user
 // username: the user's username
 export const getWorkouts = async (username) => {
