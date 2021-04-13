@@ -82,6 +82,8 @@ public class Server {
     Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
     // unfollows
     Spark.post("/unfollow", new UserHandlers.UnfollowHandler());
+
+    Spark.post("/allFollowing", new UserHandlers.GetAllFollowing());
   }
 
   /**

@@ -190,4 +190,20 @@ public final class Queries {
   public static String getDuration() {
     return "SELECT duration FROM everybody_app.exercises WHERE exercise_id = ?";
   }
+
+  /**
+   * Query to get all users a user follows.
+   * @return query string
+   */
+  public static String getAllFollowing() {
+    return "SELECT following_id FROM everybody_app.following WHERE user.id = ?;";
+  }
+
+  /**
+   * Gets username of an id.
+   * @return query string
+   */
+  public static String getUsername() {
+    return "SELECT username FROM everybody_app.users WHERE user.id = ?;";
+  }
 }
