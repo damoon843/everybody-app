@@ -9,8 +9,8 @@ function Main(props) {
   {id: 3, title: "Workout 3", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
 
   useEffect(() => {
-    // getWorkouts();
-    // renderWorkouts();
+    getWorkouts();
+    renderWorkouts();
   }, []);
 
   // makes an api request and sets initial state variable
