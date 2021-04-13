@@ -103,7 +103,7 @@ public class UserHandlers {
       // Parse request from client and extract user info
       String username = data.getString("username");
       // TODO DELETE
-      username = "ntim";
+      username = "aguo";
       AppUser user;
       try {
         int userid = PostgresDatabase.getUserID(username);
@@ -171,13 +171,14 @@ public class UserHandlers {
           }
         }
       }
-
+      // todo, if less than 14 workouts, find top 14 rated community workouts
       Workout finalWorkout = finalSortedWorkouts.poll();
       while (finalWorkout != null) {
         output.add(finalWorkout.toMap());
         finalWorkout = finalSortedWorkouts.poll();
       }
       Map<String, Object> variables = ImmutableMap.of("workouts", output);
+
       System.out.println(output);
       return GSON.toJson(variables);
     }
@@ -254,6 +255,20 @@ public class UserHandlers {
         // Query execution failed
         variables = ImmutableMap.of("queryStatus", ex.getMessage(), "loginStatus", "failed");
       }
+      return GSON.toJson(variables);
+    }
+  }
+
+  /**
+   * Gets all users current user is following.
+   */
+  public static class GetAllFollowing implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String username = data.getString("username");
+      List<String> following = PostgresDatabase.getAllFollowing(username);
+      Map<String, Object> variables = ImmutableMap.of("following", following);
       return GSON.toJson(variables);
     }
   }
