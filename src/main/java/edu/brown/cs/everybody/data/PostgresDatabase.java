@@ -7,7 +7,6 @@ import edu.brown.cs.everybody.utils.WorkoutComparator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -150,7 +149,7 @@ public final class PostgresDatabase {
           String workoutName = res.getString("workout_name");
           Date created = res.getDate("created_at");
           int likes = res.getInt("total_likes");
-          URL mediaLink = res.getURL("media_link");
+          String mediaLink = res.getString("media_link");
           int duration = res.getInt("duration");
           String createrUsername = res.getString("username");
           String description = res.getString("description");
@@ -338,6 +337,7 @@ public final class PostgresDatabase {
     setUpConnection();
     String getString = Queries.getFollowingQuery();
     List<Integer> following = new ArrayList<>();
+    setUpConnection();
     try (PreparedStatement stmt = dbConn.prepareStatement(getString)) {
       stmt.setInt(1, id);
       try (ResultSet res = stmt.executeQuery()) {
