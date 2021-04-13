@@ -22,13 +22,13 @@ function ProfilePage(props){
   // splice the user from displayFollowing and rerender the component with displayFollowing
 
   useEffect(() => {
-    getWorkouts();
+    getUserWorkouts();
     renderWorkouts();
   },[]);
 
   // sets state variable
   const renderWorkouts = () => {
-    setWorkouts(sampleData.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+    setWorkouts(workouts.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
   }
 
   // makes an api request and sets initial state variable
