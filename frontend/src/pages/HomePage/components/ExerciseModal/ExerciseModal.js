@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
 
@@ -40,7 +40,6 @@ function ExerciseModal(props){
     let type = getRadioVal('exercise-type-pref');
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
-
     const toSend = {
       username: props.user,
       exerciseName: title,
