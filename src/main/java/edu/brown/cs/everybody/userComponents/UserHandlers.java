@@ -146,6 +146,7 @@ public class UserHandlers {
       // inserts 4 workouts from strongly connected users into output
       counter = 0;
       List<Integer> scc = user.getStronglyConnected();
+      scc.remove(Integer.valueOf(user.getUserID()));
       if (!scc.isEmpty()) {
         Collections.shuffle(scc);
         for (int connectedUserID : scc) {
@@ -178,7 +179,7 @@ public class UserHandlers {
         finalWorkout = finalSortedWorkouts.poll();
       }
       Map<String, Object> variables = ImmutableMap.of("workouts", output);
-
+      System.out.println("HERE");
       System.out.println(output);
       return GSON.toJson(variables);
     }
