@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import spark.Session;
+
 import java.util.*;
 
 /**
@@ -24,12 +26,22 @@ public class FeedHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
 
-      String username = data.getString("username");
+      String username = "";
+      //String username = data.getString("username");
       String exerciseName = data.getString("exerciseName");
       String mediaLink = data.getString("mediaLink");
       Integer duration = data.getInt("duration");
       JSONArray tagsJSON = data.getJSONArray("tags");
       String description = data.getString("description");
+
+      // Retrieve session
+      Session session = request.session(false);
+
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+        System.out.println(username);
+      }
 
       // Extract tags from JSONArray
       List<String> tags = new ArrayList<>();
