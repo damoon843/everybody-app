@@ -7,7 +7,6 @@ import edu.brown.cs.everybody.utils.WorkoutComparator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
@@ -82,6 +81,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -94,6 +94,7 @@ public final class PostgresDatabase {
       stmt2.setInt(3, (Integer) data.get(5));
       stmt2.execute();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -126,11 +127,16 @@ public final class PostgresDatabase {
           result.add(workoutDuration);
         }
       } catch (SQLException ex) {
+        tearDownConnection();
         System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return result;
+    } catch (Exception ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
     }
   }
 
@@ -151,7 +157,7 @@ public final class PostgresDatabase {
           String workoutName = res.getString("workout_name");
           Date created = res.getDate("created_at");
           int likes = res.getInt("total_likes");
-          URL mediaLink = res.getURL("media_link");
+          String mediaLink = res.getString("media_link");
           int duration = res.getInt("duration");
           String createrUsername = res.getString("username");
           String description = res.getString("description");
@@ -161,6 +167,7 @@ public final class PostgresDatabase {
           pq.add(workout);
         }
       } catch (SQLException ex) {
+        tearDownConnection();
         System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
@@ -191,6 +198,7 @@ public final class PostgresDatabase {
           exerciseIds.add(exerciseId);
         }
       } catch (SQLException ex) {
+        tearDownConnection();
         System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
         throw new SQLException(ex.getMessage());
       }
@@ -222,11 +230,13 @@ public final class PostgresDatabase {
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
+            tearDownConnection();
             System.out.println(ex.getMessage());
             throw new SQLException(ex.getMessage());
           }
         }
       } catch (SQLException ex) {
+        tearDownConnection();
         System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
@@ -260,6 +270,7 @@ public final class PostgresDatabase {
       stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
       stmt.execute();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -284,6 +295,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -320,6 +332,7 @@ public final class PostgresDatabase {
       stmt.setString(7, workoutName);
       stmt.execute();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -333,7 +346,7 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Gets all the users the input user follows.
+   * Gets all the users the input user follows for Kosaraju's.
    * @param id input user ID.
    * @return list of user ID's.
    */
@@ -350,6 +363,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -380,11 +394,16 @@ public final class PostgresDatabase {
           user = new AppUser(userID, username, created_at, firstName, lastName, workoutType, workoutDuration);
         }
       } catch (SQLException ex) {
+        tearDownConnection();
         System.out.println(ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return user;
+    } catch (Exception e) {
+      tearDownConnection();
+      System.out.println(e.getMessage());
+      throw new SQLException(e.getMessage());
     }
   }
 
@@ -401,6 +420,7 @@ public final class PostgresDatabase {
       stmt.setInt(2, workout);
       stmt.execute();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -426,6 +446,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -450,6 +471,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -470,6 +492,7 @@ public final class PostgresDatabase {
       stmt.setInt(2, getUserID(following));
       stmt.execute();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -510,6 +533,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -532,6 +556,7 @@ public final class PostgresDatabase {
       stmt.execute();
       tearDownConnection();
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -557,10 +582,12 @@ public final class PostgresDatabase {
           return 1;
         } else {
           // Login failed (user does not exist in DB)
+          tearDownConnection();
           return -1;
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -600,6 +627,7 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
@@ -626,11 +654,64 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
     return duration;
 
+  }
+
+  /**
+   * Retrieves all users a user follows.
+   * @param username username of current user
+   * @return List of all following usernames
+   */
+  public static List<String> getAllFollowing(String username) throws URISyntaxException, SQLException {
+    String queryString = Queries.getAllFollowing();
+    List<String> following = new ArrayList<>();
+    int userID = getUserID(username);
+    setUpConnection();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          String name = getUsername(res.getInt("following_id"));
+          following.add(name);
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return following;
+  }
+
+  /**
+   * Converts a user ID to username.
+   * @param id user id
+   * @return username
+   */
+  private static String getUsername(int id) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getUsername();
+    String name = "";
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, id);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          name = res.getString("username");
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return name;
   }
 }

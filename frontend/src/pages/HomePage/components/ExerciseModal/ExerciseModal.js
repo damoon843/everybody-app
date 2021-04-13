@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
 import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
+import S3 from "react-aws-s3";
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
+  const inputFile = useRef();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -40,10 +42,32 @@ function ExerciseModal(props){
     let type = getRadioVal('exercise-type-pref');
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
+    const media = document.getElementById('exercise-media').value;
+
+    let file = inputFile.current.files[0]
+    let filename = file.name
+
+    const config = {
+      bucketName: "mybucket",
+      region: "eu-west-1",
+      accessKeyId: "key",
+      secretAccessKey: "chinatown"
+    }
+
+    const s3Client = new S3(config);
+    s3Client.uploadFile(file, filename).then(data => {
+      console.log(data)
+      if (data.status === 204) {
+        console.log("yay")
+      } else {
+        console.log("aw shucks")
+      }
+    })
+
     const toSend = {
       username: props.user,
       exerciseName: title,
-      mediaLink: "google.com",
+      mediaLink: media,
       duration: newDuration,
       tags: checkedVals,
       description: desc
@@ -51,6 +75,9 @@ function ExerciseModal(props){
     console.log(toSend)
     createExercise(toSend).then(result => {
       setShow(false);
+      console.log(props.render)
+      props.rerender(title);
+      // window.location.reload();
     });
   }
 
@@ -71,42 +98,40 @@ function ExerciseModal(props){
             <label>Description</label>
             <input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
             <label>Duration</label>
-            <input id="exercise-duration" type="number" placeholder="Enter exercise duration" />
-              <div>
-                <p>Exercise Type</p>
-                <div className="exercise-radio-row">
-                  <input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required checked/>
-                  <label className="radio-label" for="cardio-exercise">Cardio</label>
-                </div>
-                <div className="exercise-radio-row">
-                  <input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>
-                  <label className="radio-label" for="bodyweight-exercise">Bodyweight</label>
-                </div>
+            <input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" />
+            <div>
+              <p>Exercise Type</p>
+              <div className="exercise-radio-row">
+                <input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required checked/>
+                <label className="radio-label" for="cardio-exercise">Cardio</label>
               </div>
-
-              <div>
-                <p>Body Area Tags</p>
-                <div className="login-radio-row">
-                  <input type="checkbox" id="arms" name="body-tags" value="arms" required/>
-                  <label className="check-label" for="cardio-pref">Arms</label>
-                </div>
-                <div className="login-radio-row">
-                  <input type="checkbox" id="legs" name="body-tags" value="legs"/>
-                  <label className="check-label" for="bodyweight-pref">Legs</label>
-                </div>
-                <div className="login-radio-row">
-                  <input type="checkbox" id="chest" name="body-tags" value="chest"/>
-                  <label className="check-label" for="bodyweight-pref">Chest</label>
-                </div>
-                <div className="login-radio-row">
-                  <input type="checkbox" id="abs" name="body-tags" value="abs"/>
-                  <label className="check-label" for="bodyweight-pref">Abs</label>
-                </div>
+              <div className="exercise-radio-row">
+                <input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>
+                <label className="radio-label" for="bodyweight-exercise">Bodyweight</label>
               </div>
+            </div>
 
-              {/* <Form.Group>
-                <Form.File id="exerciseMedia" label="Upload exercise video" />
-              </Form.Group> */}
+            <div>
+              <p>Body Area Tags</p>
+              <div className="login-radio-row">
+                <input type="checkbox" id="arms" name="body-tags" value="arms" required/>
+                <label className="check-label" for="cardio-pref">Arms</label>
+              </div>
+              <div className="login-radio-row">
+                <input type="checkbox" id="legs" name="body-tags" value="legs"/>
+                <label className="check-label" for="bodyweight-pref">Legs</label>
+              </div>
+              <div className="login-radio-row">
+                <input type="checkbox" id="chest" name="body-tags" value="chest"/>
+                <label className="check-label" for="bodyweight-pref">Chest</label>
+              </div>
+              <div className="login-radio-row">
+                <input type="checkbox" id="abs" name="body-tags" value="abs"/>
+                <label className="check-label" for="bodyweight-pref">Abs</label>
+              </div>
+            </div>
+            <label>Upload media</label>
+            <input type="file" id="exercise-media" name="exercise-media" ref={inputFile} />
             </form>
         </Modal.Body>
         <Modal.Footer>
