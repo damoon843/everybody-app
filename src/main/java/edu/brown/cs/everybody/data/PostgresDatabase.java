@@ -643,8 +643,9 @@ public final class PostgresDatabase {
     setUpConnection();
     String queryString = Queries.getAllFollowing();
     List<String> following = new ArrayList<>();
+    int userID = getUserID(username);
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-      stmt.setString(1, username);
+      stmt.setInt(1, userID);
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
           String name = getUsername(res.getInt("following_id"));
