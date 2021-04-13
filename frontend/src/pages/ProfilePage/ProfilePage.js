@@ -8,6 +8,7 @@ import {getAllExercises, getWorkouts} from "../../api";
 import { getUser } from "../../api";
 import Workout from '../../components/Workout/Workout';
 import Profile from './components/Profile/Profile';
+import Following from "./components/Following/Following";
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
@@ -41,13 +42,19 @@ function ProfilePage(props){
 
   return (
     <div className="profile-page">
-        <div id = "prof-card">
-            <ExpandedUserProfile/>
+        <div id = "leftside">
+            <div id = "prof-card">
+                <ExpandedUserProfile/>
+            </div>
+            <p>{props.user}</p>
+            <div className="profile-workouts">
+            {workouts}
+            </div>
         </div>
-        <p>{props.user}</p>
-        <div className="profile-workouts">
-        {workouts}
+        <div id = "rightside">
+            <Following user = {props.user}></Following>
         </div>
+
         <Profile/>
     </div>
   );

@@ -3,6 +3,8 @@ import './ExercisePage.css';
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Exercise from "./components/Exercise";
 import { getAllExercises } from "../../api";
+import axios from "axios";
+import ExerciseItem from "../HomePage/components/WorkoutModal/ExerciseItem";
 
 function ExercisePage() {
   const [exercises, setExercises] = useState({});
@@ -14,6 +16,7 @@ function ExercisePage() {
         "id3" : ['exerciseName', 'mediaLink', 'duration', ["arms"], "description", "time"]
 
     }
+
 
 
   useEffect(() => {
