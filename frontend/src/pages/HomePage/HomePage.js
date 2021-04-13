@@ -10,8 +10,8 @@ function Home(props) {
     <div className="home">
       <div className="upload">
         <h5>Upload Activities</h5>
-        <ExerciseModal id="exercise-modal"/>
-        <WorkoutModal id="workout-modal"/>
+        <ExerciseModal user={props.user} id="exercise-modal"/>
+        <WorkoutModal user={props.user} id="workout-modal"/>
       </div>
       <Main user={props.user} />
     </div>

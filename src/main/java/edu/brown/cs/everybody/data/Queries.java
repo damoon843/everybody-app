@@ -83,7 +83,7 @@ public final class Queries {
    * @return query string
    */
   public static String insertWorkout() {
-    return "INSERT INTO everybody_app.workouts(created_at, duration, media_link, total_likes, exercises, descriptions, username, workout_name)"
+    return "INSERT INTO everybody_app.workouts(created_at, duration, media_link, total_likes, exercises, description, username, workout_name)"
       + " VALUES(CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?);";
   }
 
@@ -119,12 +119,8 @@ public final class Queries {
    * @return query string
    */
   public static String getUser() {
-    return "SELECT user.id, user.username, user.created_at, users.first_name, "
-        + "users.last_name, "
-        + "prefs.workout_type, "
-        + "prefs.workout_duration "
-        + "FROM everybody_app.users INNER JOIN everybody_app.user_preferences AS prefs ON users.id = prefs.user_id "
-        + "WHERE users.username = ?;";
+    return "SELECT * FROM everybody_app.users JOIN everybody_app.user_preferences ON users.id = user_preferences.user_id "
+        + "WHERE users.id = ?;";
   }
 
   /**
@@ -185,5 +181,13 @@ public final class Queries {
     return "SELECT * FROM everybody_app.exercises"
         + " WHERE exercise_name LIKE %?% ORDER BY created_at DESC"
         + " LIMIT 20;";
+  }
+
+  /**
+   * Query to retrieve exercise duration.
+   * @return query string
+   */
+  public static String getDuration() {
+    return "SELECT duration FROM everybody_app.exercises WHERE exercise_id = ?";
   }
 }

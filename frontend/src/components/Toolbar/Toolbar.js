@@ -21,7 +21,6 @@ function Toolbar(props){
                         Exercises
                     </NavLink>
                 </Nav>
-                <LogoutButton/>
               </Navbar.Collapse>
           </Navbar>
       </div>

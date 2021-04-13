@@ -69,6 +69,7 @@ public final class PostgresDatabase {
     setUpConnection();
     String insertString = Queries.insertUserQuery();
     int id = -1;
+
     // Insert into users table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));
@@ -236,7 +237,7 @@ public final class PostgresDatabase {
 
   /**
    * Inserts an uploaded exercise
-   * @param username username
+   * @param username username who posted
    * @param exerciseName exercise name
    * @param mediaLink media URL
    * @param duration length of exercise (seconds)
@@ -255,7 +256,8 @@ public final class PostgresDatabase {
       stmt.setString(3, description);
       stmt.setString(4, username);
       stmt.setString(5, exerciseName);
-      stmt.setArray(6, (Array) tags);
+      Object[] arr = tags.toArray();
+      stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
       stmt.execute();
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
@@ -278,7 +280,7 @@ public final class PostgresDatabase {
 
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
-          Integer exerciseID = res.getInt("exercise_id");
+          exerciseId = res.getInt("exercise_id");
         }
       }
     } catch (SQLException ex) {
@@ -311,7 +313,8 @@ public final class PostgresDatabase {
       stmt.setInt(1, duration);
       stmt.setString(2, mediaLink);
       stmt.setInt(3, totalLikes);
-      stmt.setArray(4, (Array) exerciseIds);
+      Object[] arr = exerciseIds.toArray();
+      stmt.setArray(4, dbConn.createArrayOf("integer", arr));
       stmt.setString(5, description);
       stmt.setString(6, username);
       stmt.setString(7, workoutName);
@@ -489,7 +492,7 @@ public final class PostgresDatabase {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
           Integer duration = res.getInt("duration");
-          String mediaLink = res.getString("mediaLink");
+          String mediaLink = res.getString("media_link");
           String description = res.getString("description");
           Array sqlTags = res.getArray("tags");
           String username = res.getString("username");
@@ -546,14 +549,17 @@ public final class PostgresDatabase {
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1,username);
       stmt.setString(2, password);
+
       try (ResultSet res = stmt.executeQuery()) {
         if (res.next()) {
+          // Login successful (user exists in DB)
           tearDownConnection();
           return 1;
+        } else {
+          // Login failed (user does not exist in DB)
+          return -1;
         }
       }
-      tearDownConnection();
-      return -1;
     } catch (SQLException ex) {
       System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
@@ -599,5 +605,32 @@ public final class PostgresDatabase {
     }
     tearDownConnection();
     return results;
+  }
+
+  /**
+   * Retrieves duration of an exercise.
+   * @param exerciseId exercise id
+   * @return duration
+   * @throws URISyntaxException
+   * @throws SQLException
+   */
+  public static int getDuration(int exerciseId) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getDuration();
+    int duration = 0;
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, exerciseId);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          duration += res.getInt("duration");
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return duration;
+
   }
 }

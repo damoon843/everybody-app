@@ -16,6 +16,9 @@ import java.util.*;
 public class FeedHandlers {
   private static final Gson GSON = new Gson();
 
+  /**
+   * Handler for uploading exercises.
+   */
   public static class UploadExerciseHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -37,10 +40,14 @@ public class FeedHandlers {
       PostgresDatabase.insertUserExercise(username, exerciseName, mediaLink, duration, tags,
         description);
 
-      return null;
+      Map<String, Object> variables = ImmutableMap.of("message", "success");
+      return GSON.toJson(variables);
     }
   }
 
+  /**
+   * Handler for uploading workouts.
+   */
   public static class UploadWorkoutHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
@@ -48,15 +55,13 @@ public class FeedHandlers {
       List<Integer> exerciseIds = new ArrayList<>(); // To store a workout's exercise IDs
 
       JSONArray jsonObjects = data.getJSONArray("exerciseList");
-      for (int i = 0; i < jsonObjects.length(); i++) {
-        JSONObject temp = (JSONObject) jsonObjects.get(i);
-        String username = temp.getString("username");
-        String exerciseName = temp.getString("exerciseName");
-        Integer exerciseId = PostgresDatabase.getExerciseId(username, exerciseName);
-        exerciseIds.add(exerciseId);
+      for (int i=0; i<jsonObjects.length(); i++) {
+        exerciseIds.add(jsonObjects.getInt(i));
       }
-
-      Integer duration = data.getInt("duration");
+      int duration = 0;
+      for(int id: exerciseIds) {
+        duration += PostgresDatabase.getDuration(id);
+      }
       String mediaLink = data.getString("mediaLink");
       Integer totalLikes = 0; // 0 likes upon initial upload
       String description = data.getString("description");
@@ -66,7 +71,8 @@ public class FeedHandlers {
       PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
         description, username, workoutName, exerciseIds);
 
-      return null;
+      Map<String, Object> variables = ImmutableMap.of("message", "success");
+      return GSON.toJson(variables);
     }
   }
 
@@ -116,8 +122,6 @@ public class FeedHandlers {
   public static class GetPublicExercisesHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
-
       Map<Integer, List<Object>> exercises = PostgresDatabase.getExercises();
       Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
       return GSON.toJson(variables);

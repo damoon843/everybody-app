@@ -1,40 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import {Modal, Tabs, Tab, Form, Col, Row, ToggleButtonGroup, ToggleButton, ButtonGroup, Button} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import './WorkoutModal.css';
-import Select from 'react-select';
+import { createWorkout } from '../../../../api';
+import ExerciseItem from './ExerciseItem';
 
-const sampleData = [{label: "exercise 1", duration: "00:15:00", value: 1}, {label: "exercise 2", duration: "00:20:00", value: 2}, {label: "exercise 3", duration: "00:10:00", value: 3}]
-
-function WorkoutModal(){
+function WorkoutModal(props){
   const [show, setShow] = useState(false);
   const [exercises, setExercises] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // converts exercises into readable format for selecting (title -> label, id -> value)
-  const convertData = (data) => {
-    let result = [];
-    data.forEach(exercise => {
-      let newObj = { label: exercise.title, value: exercise.id, duration: exercise.duration }
-      result.push(newObj)
-    })
-    return result;
-  }
-
-  // TODO: make this async
-  // const renderExercises = () => {
-  //   setExercises(sampleData.map((exercise) => <WorkoutItem title={exercise.title} duration={exercise.duration} />));
-  // }
-
-  const handleChange = (selected) => {
-    setExercises(selected)
-  }
-
   useEffect(() => {
-    // renderExercises();
+    getAllExercises()
   }, []);
+
+  const getAllExercises = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.get(
+      "http://localhost:4567/publicExercises",
+      config
+    )
+    .then(response => {
+      const data = Object.values(response.data)
+      const keys = Object.keys(response.data)
+      let result = [];
+      for (let i = 0; i < keys.length; i++) {
+        const item = <ExerciseItem key={keys[i]} data={data[i]}/>
+        result.push(item)
+      }
+      setExercises(result)
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+  }
+
+  const submitWorkout = (e) => {
+    e.preventDefault();
+    const title = document.getElementById('workout-title').value;
+    const desc = document.getElementById('workout-description').value;
+    let newExerciseList = [1, 2, 3];
+    const toSend = {
+      exerciseList: newExerciseList,
+      mediaLink: "google.com",
+      description: desc,
+      username: props.user,
+      workoutName: title,
+    };
+    console.log(toSend)
+    createWorkout(toSend).then(result => {
+      setShow(false);
+    });
+  }
 
   return (
     <div className="exercise-modal">
@@ -47,36 +71,30 @@ function WorkoutModal(){
           <Modal.Title>Create Workout</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form className="exercise-form">
-            <Form.Group controlId="exerciseTitle">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter workout title" />
-            </Form.Group>
+          <form action="/uploadWorkout" className="exercise-form">
+            <label>Title</label>
+            <input id="workout-title" type="text" placeholder="Enter workout title" />
+            <label>Description</label>
+            <input id="workout-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
+            <label>Select Exercises</label>
 
-            <Form.Group controlId="exerciseDesc">
-              <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
-            </Form.Group>
-
-            <Form.Group controlId="exercises">
-              <Form.Label>Select Exercises</Form.Label>
-              <Select
-                isMulti
-                name="colors"
-                options={sampleData}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                onChange={handleChange}
-              />
-            </Form.Group>
+            {/* <Select
+              isMulti
+              name="colors"
+              options={sampleData}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={handleChange}
+            /> */}
             <p id="form-msg"></p>
-          </Form>
+          </form>
+          <div>{exercises}</div>
         </Modal.Body>
         <Modal.Footer>
           <button onClick={handleClose}>
             Close
           </button>
-          <a href="/uploadWorkout"><button onClick={handleClose}>Create workout</button></a>
+          <button onClick={submitWorkout}>Create workout</button>
         </Modal.Footer>
       </Modal>
     </div>

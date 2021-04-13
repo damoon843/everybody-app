@@ -56,12 +56,14 @@ public class Server {
 
     // For user creation
     Spark.post("/newUser", new UserHandlers.NewUserHandler());
-
+    // For user login
     Spark.post("/login", new UserHandlers.LoginHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
+
     Spark.post("/uploadExercise", new FeedHandlers.UploadExerciseHandler());
+
     // For uploading a workout
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts
@@ -73,7 +75,7 @@ public class Server {
     // For home feed recommendations
     Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
     // For exercises page
-    Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
+    Spark.get("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
     // TODO: post vs get

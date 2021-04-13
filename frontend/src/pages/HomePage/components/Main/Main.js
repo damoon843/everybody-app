@@ -12,6 +12,8 @@ function Main(props) {
     //getRecommendations("aguo")
     getWorkouts("aguo");
     renderWorkouts();
+    // getWorkouts();
+    // renderWorkouts();
   }, []);
 
   // makes an api request and sets initial state variable
