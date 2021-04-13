@@ -75,24 +75,25 @@ export const getWorkout = async (id) => {
 }
 
 // gets all exercises in the database, regardless of user
-export const getAllExercises = async () => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.get(
-    "http://localhost:4567/exercises",
-    config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
-}
+// export const getAllExercises = async () => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   await axios.get(
+//     "http://localhost:4567/publicExercises",
+//     config
+//   )
+//   .then(response => {
+//     console.log(response.data)
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error.response.data);
+//   });
+// }
 
 // gets user data
 export const getUser = async () => {
