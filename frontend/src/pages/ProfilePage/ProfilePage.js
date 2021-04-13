@@ -28,13 +28,13 @@ function ProfilePage(props){
     //getWorkouts();
     //allFollowing = getAllFollowing()
     getAllFollowing();
-    getUserWorkouts();
+    //getUserWorkouts();
     renderWorkouts();
   },[]);
 
   // sets state variable
   const renderWorkouts = () => {
-    //setWorkouts(workouts.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+    setWorkouts(sampleData.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
   }
 
   // makes an api request and sets initial state variable
@@ -89,7 +89,7 @@ function ProfilePage(props){
 
   return (
     <div className="profile-page">
-      <div id = "leftside">
+      <div id = "left-side">
         <div id = "prof-card">
           <ExpandedUserProfile/>
         </div>
@@ -98,7 +98,7 @@ function ProfilePage(props){
           {workouts}
         </div>
       </div>
-        <div id = "rightside">
+        <div id = "right-side">
             <Following user = {props.user} following = {following}></Following>
         </div>
 
