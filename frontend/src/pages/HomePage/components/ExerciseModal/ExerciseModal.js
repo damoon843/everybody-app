@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
 import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
+import S3 from "react-aws-s3";
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
+  const inputFile = useRef();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -41,6 +43,27 @@ function ExerciseModal(props){
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
     const media = document.getElementById('exercise-media').value;
+
+    let file = inputFile.current.files[0]
+    let filename = file.name
+
+    const config = {
+      bucketName: "mybucket",
+      region: "eu-west-1",
+      accessKeyId: "key",
+      secretAccessKey: "chinatown"
+    }
+
+    const s3Client = new S3(config);
+    s3Client.uploadFile(file, filename).then(data => {
+      console.log(data)
+      if (data.status === 204) {
+        console.log("yay")
+      } else {
+        console.log("aw shucks")
+      }
+    })
+
     const toSend = {
       username: props.user,
       exerciseName: title,
@@ -108,7 +131,7 @@ function ExerciseModal(props){
               </div>
             </div>
             <label>Upload media</label>
-            <input type="file" id="exercise-media" name="exercise-media"></input>
+            <input type="file" id="exercise-media" name="exercise-media" ref={inputFile} />
             </form>
         </Modal.Body>
         <Modal.Footer>
