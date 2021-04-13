@@ -40,17 +40,23 @@ export const getFollowing = async (username) => {
   const toSend = {
     username: username
   };
-  await axios.post(
+  let res = await axios.post(
       "http://localhost:4567/allFollowing",
       toSend,
       config
+
   )
+  return res.data.following
+  /*
       .then(response => {
-        return response.data;
+
+        console.log(response)
+        return response.data.following;
       })
       .catch(function (error) {
         console.log(error.response.data);
       });
+      */
 }
 
 

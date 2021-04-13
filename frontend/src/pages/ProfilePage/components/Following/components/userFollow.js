@@ -1,13 +1,16 @@
+
+
+
+/*
 import React, {useEffect, useState} from 'react';
 import {getAllExercises, getRecommendations} from '../../../../api';
 import Workout from '../../../../components/Workout/Workout';
-import './Following.css';
+import './userFollow.css';
 import axios from "axios";
-import {getFollowing} from '../../../../api'
-import {unfollowUser} from "../../../../api";
+//import {getFollowing} from '../../../../api'
 import ExerciseItem from "../../../HomePage/components/WorkoutModal/ExerciseItem";
 
-function Following(props) {
+function userFollow(props) { //props will be a name
     const [following, setFollowing] = useState([]);
     const sampleData = [{id: 1, title: "Workout 1", duration: "15 min", user: "chrissy", thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {id: 2, title: "Workout 2", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
         {id: 3, title: "Workout 3", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
@@ -20,19 +23,9 @@ function Following(props) {
     }, []);//maybe update some according some
     // sort of boolean variable that changes when a user clicks unfollow
     //props.user
-    const unfollow = (user) => {
-        
-        unfollowUser(user).then(result=>{
-                console.log("unfollowed")
-        }
-
-
-        )
-
-    }
-
+    /*
     const renderFollowing=()=>{
-        const anchor = document.getElementById("anchor")
+        const anchor = document.getElementById("following")
         anchor.innerHTML = '';
         if (following){
             following.forEach(user => {
@@ -42,9 +35,7 @@ function Following(props) {
 
                 container.className = "f-container"
                 name.className = "n-container"
-                followBtn.innerText = "unfollow"
-                followBtn.onclick = unfollow(user)
-                followBtn.value = "unfollow"
+                followBtn.value = "follow"
                 name.innerText = user
                 container.append(name)
                 container.append(followBtn)
@@ -57,9 +48,9 @@ function Following(props) {
 
     }
 
+     */
 
-
-     //*/
+    //*/
     const getAllFollowing = async () => {
         console.log(props.user)
         getFollowing(props.user).then(result => {
@@ -108,21 +99,23 @@ function Following(props) {
             });
     }
 
-     */
+
 
 
     // sets state variable
 
 
     return (
-        <div className = "following-pane" >
-            <div id = "anchor">
+        <div className="following-pane">
             <h3 >FOLLOWING</h3>
-            <div id="following"></div>
-            </div>
+            <div id="following">
 
+            </div>
         </div>
     );
 }
 
-export default Following;
+
+export default userFollow;
+
+     */

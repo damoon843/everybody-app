@@ -9,3 +9,20 @@
     margin: 4rem 2rem;
     background-color: white;
 }
+
+#following {
+    display: flex;
+    flex-direction:column;
+
+    margin: 2rem;
+}
+.f-container{
+    display: flex;
+    flex-direction: row;
+    width: 4rem;
+    height: 3rem;
+    box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
+    margin: 1rem;
+    margin-bottom: 1rem;
+    background-color: grey;
+}
