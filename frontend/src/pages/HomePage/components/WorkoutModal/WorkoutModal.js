@@ -16,6 +16,17 @@ function WorkoutModal(props){
     getAllExercises()
   }, []);
 
+  const getSelected = (element) => {
+    let selected = []
+    for (let option of document.getElementById(element).options) {
+      if (option.selected) {
+        selected.push(option.value);
+      }
+    }
+    console.log(selected)
+    return selected;
+  }
+
   const getAllExercises = async () => {
     let config = {
       headers: {
@@ -32,8 +43,9 @@ function WorkoutModal(props){
       const keys = Object.keys(response.data)
       let result = [];
       for (let i = 0; i < keys.length; i++) {
-        const item = <ExerciseItem key={keys[i]} data={data[i]}/>
-        result.push(item)
+        // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
+        const opt = <option value={keys[i]}>{data[i][6]}</option>
+        result.push(opt)
       }
       setExercises(result)
     })
@@ -46,9 +58,9 @@ function WorkoutModal(props){
     e.preventDefault();
     const title = document.getElementById('workout-title').value;
     const desc = document.getElementById('workout-description').value;
-    let newExerciseList = [1, 2, 3];
+    const exerciseList = getSelected('select-exercises');
     const toSend = {
-      exerciseList: newExerciseList,
+      exerciseList: exerciseList,
       mediaLink: "google.com",
       description: desc,
       username: props.user,
@@ -88,7 +100,10 @@ function WorkoutModal(props){
             /> */}
             <p id="form-msg"></p>
           </form>
-          <div>{exercises}</div>
+          <select name="exercises" id="select-exercises" multiple>
+            {exercises}
+          </select>
+          {/* <div>{exercises}</div> */}
         </Modal.Body>
         <Modal.Footer>
           <button onClick={handleClose}>
