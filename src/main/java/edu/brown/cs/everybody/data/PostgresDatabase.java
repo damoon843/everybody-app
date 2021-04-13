@@ -633,4 +633,53 @@ public final class PostgresDatabase {
     return duration;
 
   }
+
+  /**
+   * Retrieves all users a user follows.
+   * @param username username of current user
+   * @return List of all following usernames
+   */
+  public static List<String> getAllFollowing(String username) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getAllFollowing();
+    List<String> following = new ArrayList<>();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, username);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          String name = getUsername(res.getInt("following_id"));
+          following.add(name);
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return following;
+  }
+
+  /**
+   * Converts a user ID to username.
+   * @param id user id
+   * @return username
+   */
+  private static String getUsername(int id) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getUsername();
+    String name = "";
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, id);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          name = res.getString("username");
+        }
+      }
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return name;
+  }
 }

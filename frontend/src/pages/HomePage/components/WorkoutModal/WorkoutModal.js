@@ -13,7 +13,7 @@ function WorkoutModal(props){
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    newGetAllExercises()
+    // newGetAllExercises()
   }, []);
 
   const getSelected = (element) => {
@@ -27,20 +27,20 @@ function WorkoutModal(props){
     return selected;
   }
 
-  const newGetAllExercises = async () => {
-    getAllExercises().then(result => {
-      const data = Object.values(result)
-      const keys = Object.keys(result)
-      let exerciseList = [];
-      for (let i = 0; i < keys.length; i++) {
-        // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
-        const opt = <option value={keys[i]}>{data[i][6]}</option>
-        exerciseList.push(opt)
-      }
-      console.log(exerciseList)
-      setExercises(exerciseList)
-    });
-  }
+  // const newGetAllExercises = async () => {
+  //   getAllExercises().then(result => {
+  //     const data = Object.values(result)
+  //     const keys = Object.keys(result)
+  //     let exerciseList = [];
+  //     for (let i = 0; i < keys.length; i++) {
+  //       // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
+  //       const opt = <option value={keys[i]}>{data[i][6]}</option>
+  //       exerciseList.push(opt)
+  //     }
+  //     console.log(exerciseList)
+  //     setExercises(exerciseList)
+  //   });
+  // }
 
   const submitWorkout = (e) => {
     e.preventDefault();
@@ -89,7 +89,7 @@ function WorkoutModal(props){
             <p id="form-msg"></p>
           </form>
           <select name="exercises" id="select-exercises" multiple>
-            {exercises}
+            {props.exercises}
           </select>
           {/* <div>{exercises}</div> */}
         </Modal.Body>
