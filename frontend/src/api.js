@@ -82,16 +82,11 @@ export const getAllExercises = async () => {
       'Access-Control-Allow-Origin': '*',
     }
   }
-  await axios.get(
-    "http://localhost:4567/exercises",
+  let res = await axios.get(
+    "http://localhost:4567/publicExercises",
     config
   )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
+  return res.data
 }
 
 // gets user data
