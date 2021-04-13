@@ -10,10 +10,12 @@ function Main(props) {
 
   useEffect(() => {
     //getRecommendations("aguo")
-    getWorkouts("aguo");
+    //getWorkouts("aguo");
     renderWorkouts();
     // getWorkouts();
     // renderWorkouts();
+
+
   }, []);
 
   // makes an api request and sets initial state variable

@@ -196,7 +196,7 @@ public final class Queries {
    * @return query string
    */
   public static String getAllFollowing() {
-    return "SELECT following_id FROM everybody_app.following WHERE user.id = ?;";
+    return "SELECT following_id FROM everybody_app.following WHERE user_id = ?;";
   }
 
   /**
@@ -204,6 +204,6 @@ public final class Queries {
    * @return query string
    */
   public static String getUsername() {
-    return "SELECT username FROM everybody_app.users WHERE user.id = ?;";
+    return "SELECT username FROM everybody_app.users WHERE id = ?;";
   }
 }
