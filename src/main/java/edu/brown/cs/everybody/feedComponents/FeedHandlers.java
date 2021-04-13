@@ -42,6 +42,8 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       // Extract tags from JSONArray
@@ -89,6 +91,8 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
@@ -117,6 +121,8 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       PriorityQueue<Workout> workouts = PostgresDatabase.getUserWorkouts(username);
@@ -150,6 +156,8 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       Map<Integer, List<Object>> exercises = PostgresDatabase.getUserExercises(username, workoutName);
@@ -167,17 +175,6 @@ public class FeedHandlers {
     public Object handle(Request request, Response response) throws Exception {
       Map<Integer, List<Object>> exercises = PostgresDatabase.getExercises();
       Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
-      return GSON.toJson(variables);
-    }
-  }
-
-  public static class DeleteUserHandler implements Route {
-    @Override
-    public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
-
-
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
       return GSON.toJson(variables);
     }
   }

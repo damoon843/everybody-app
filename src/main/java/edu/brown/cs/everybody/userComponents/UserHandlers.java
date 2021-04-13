@@ -75,8 +75,7 @@ public class UserHandlers {
   public static class GetUserInfoHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
-      String username = "";
+      String username;
 
       // Retrieve session
       Session session = request.session(false);
@@ -86,6 +85,8 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       List<Object> userInfo = PostgresDatabase.getUserInfo(username);
@@ -104,15 +105,19 @@ public class UserHandlers {
   public static class GetRecommendationsHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      // TODO: filter out workouts which don't match preferences in the for loop
-      JSONObject data = new JSONObject(request.body());
-      // List of Workouts to return to frontend
-      List<Map<String, String>> output = new ArrayList<>();
+      String username = "";
 
-      // Parse request from client and extract user info
-      String username = data.getString("username");
-      // TODO DELETE
-      username = "aguo";
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
 
       AppUser user;
       try {
@@ -122,6 +127,22 @@ public class UserHandlers {
         Map<String, Object> variables = ImmutableMap.of("error", "User Not Found.");
         return GSON.toJson(variables);
       }
+
+      int lowBoundDuration;
+      int highBoundDuration;
+      if (user.getWorkoutDuration() == 0) {
+        lowBoundDuration = 0;
+        highBoundDuration = 30;
+      } else if (user.getWorkoutDuration() == 1) {
+        lowBoundDuration = 30;
+        highBoundDuration = 60;
+      } else {
+        lowBoundDuration = 60;
+        highBoundDuration = Integer.MAX_VALUE;
+      }
+
+      // TODO: INCORPORATE THIS
+      String tagPreference = user.getWorkoutType();
 
       // inserts 10 workouts from people user follows into finalSortedWorkouts
       PriorityQueue<Workout> finalSortedWorkouts = new PriorityQueue<>(new WorkoutComparator());
@@ -133,15 +154,24 @@ public class UserHandlers {
           if (counter == 10) {
             break;
           }
-          AppUser followingUser = PostgresDatabase.getUser(followingUserID);
-          // TODO: catch exceptions
-          PriorityQueue<Workout> followingUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
+          AppUser followingUser;
+          try {
+            followingUser = PostgresDatabase.getUser(followingUserID);
+          } catch (Exception e) {
+            Map<String, Object> variables = ImmutableMap.of("error", "Following User Not Found.");
+            return GSON.toJson(variables);
+          }
+          PriorityQueue<Workout> followingUserWorkouts;
           if (followingUser.getWorkouts() != null) {
-            followingUserWorkouts.addAll(followingUser.getWorkouts());
+            followingUserWorkouts = followingUser.getWorkouts();
+          } else {
+            followingUserWorkouts = new PriorityQueue<>();
           }
           Workout recentPost = followingUserWorkouts.poll();
+
           while (recentPost != null) {
-            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
+            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
+                (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
               user.addRecentlyViewed(recentPost.getWorkoutId());
               finalSortedWorkouts.add(recentPost);
               counter++;
@@ -154,27 +184,35 @@ public class UserHandlers {
       }
 
       // inserts 4 workouts from strongly connected users into output
-      counter = 0;
+      int counter2 = 0;
       List<Integer> scc = user.getStronglyConnected();
       scc.remove(Integer.valueOf(user.getUserID()));
       if (!scc.isEmpty()) {
         Collections.shuffle(scc);
         for (int connectedUserID : scc) {
-          if (counter == 4) {
+          if (counter2 == 4) {
             break;
           }
-          AppUser connectedUser = PostgresDatabase.getUser(connectedUserID);
-          // TODO: catch exceptions
-          PriorityQueue<Workout> connectedUserWorkouts = new PriorityQueue<>(new WorkoutComparator());
+          AppUser connectedUser;
+          try {
+            connectedUser = PostgresDatabase.getUser(connectedUserID);
+          } catch (Exception e) {
+            Map<String, Object> variables = ImmutableMap.of("error", "SCC User Not Found.");
+            return GSON.toJson(variables);
+          }
+          PriorityQueue<Workout> connectedUserWorkouts;
           if (connectedUser.getWorkouts() != null) {
-            connectedUserWorkouts.addAll(connectedUser.getWorkouts());
+            connectedUserWorkouts = connectedUser.getWorkouts();
+          } else {
+            connectedUserWorkouts = new PriorityQueue<>();
           }
           Workout recentPost = connectedUserWorkouts.poll();
           while (recentPost != null) {
-            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId())) {
+            if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
+                (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
               user.addRecentlyViewed(recentPost.getWorkoutId());
               finalSortedWorkouts.add(recentPost);
-              counter++;
+              counter2++;
               break;
             } else {
               recentPost = connectedUserWorkouts.poll();
@@ -182,15 +220,39 @@ public class UserHandlers {
           }
         }
       }
-      // todo, if less than 14 workouts, find top 14 rated community workouts
+
+      // Gets additional workouts if needed to reach 14 total workouts
+      int additionalWorkoutsNeeded = 14 - (counter + counter2);
+      PriorityQueue<Workout> additionalWorkouts;
+
+      // TODO: EDIT
+      while (additionalWorkoutsNeeded > 0) {
+        try {
+          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(additionalWorkoutsNeeded);
+          Workout recentPost = additionalWorkouts.poll();
+          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
+              (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
+            user.addRecentlyViewed(recentPost.getWorkoutId());
+            finalSortedWorkouts.add(recentPost);
+            additionalWorkoutsNeeded --;
+          } else {
+            recentPost = additionalWorkouts.poll();
+          }
+
+        } catch (Exception e) {
+          Map<String, Object> variables = ImmutableMap.of("error", "Could not get community workouts.");
+          return GSON.toJson(variables);
+        }
+      }
+
+      // List of Workouts to return to frontend
+      List<Map<String, String>> output = new ArrayList<>();
       Workout finalWorkout = finalSortedWorkouts.poll();
       while (finalWorkout != null) {
         output.add(finalWorkout.toMap());
         finalWorkout = finalSortedWorkouts.poll();
       }
       Map<String, Object> variables = ImmutableMap.of("workouts", output);
-      System.out.println("HERE");
-      System.out.println(output);
       return GSON.toJson(variables);
     }
   }
@@ -214,6 +276,8 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       PostgresDatabase.insertFollow(username, following);
@@ -241,9 +305,10 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
       PostgresDatabase.removeFollow(username, following);
-
       return null;
     }
   }
@@ -299,6 +364,8 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
 
       List<String> following = PostgresDatabase.getAllFollowing(username);

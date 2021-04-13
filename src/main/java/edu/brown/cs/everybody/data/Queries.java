@@ -206,4 +206,12 @@ public final class Queries {
   public static String getUsername() {
     return "SELECT username FROM everybody_app.users WHERE id = ?;";
   }
+
+  /**
+   * Gets certain number of additional workouts ranked on total like_count.
+   * @return query string
+   */
+  public static String getCommunityWorkouts() {
+    return "SELECT * FROM everybody_app.workouts ORDER BY workouts.total_likes DESC LIMIT ?;";
+  }
 }

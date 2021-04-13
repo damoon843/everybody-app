@@ -143,7 +143,7 @@ public final class PostgresDatabase {
   /**
    * Retrieves a user's uploaded workouts.
    * @param username username
-   * @return list of Workout objects
+   * @return pq of Workout objects
    */
   public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException, URISyntaxException {
     setUpConnection();
@@ -159,10 +159,10 @@ public final class PostgresDatabase {
           int likes = res.getInt("total_likes");
           String mediaLink = res.getString("media_link");
           int duration = res.getInt("duration");
-          String createrUsername = res.getString("username");
+          String creatorUsername = res.getString("username");
           String description = res.getString("description");
           Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
-              username(createrUsername).created_at(created).description(description)
+              username(creatorUsername).created_at(created).description(description)
               .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
           pq.add(workout);
         }
@@ -173,6 +173,10 @@ public final class PostgresDatabase {
       }
       tearDownConnection();
       return pq;
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
     }
   }
 
@@ -713,5 +717,45 @@ public final class PostgresDatabase {
     }
     tearDownConnection();
     return name;
+  }
+
+  /**
+   * Gets additional workouts based on highest like_count posted by any user.
+   * @param additionalWorkoutsNeeded number of workouts to obtain
+   * @return PQ of workouts
+   */
+  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getCommunityWorkouts();
+    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, additionalWorkoutsNeeded);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          int workoutID = res.getInt("workout_id");
+          String workoutName = res.getString("workout_name");
+          Date created = res.getDate("created_at");
+          int likes = res.getInt("total_likes");
+          String mediaLink = res.getString("media_link");
+          int duration = res.getInt("duration");
+          String creatorUsername = res.getString("username");
+          String description = res.getString("description");
+          Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
+              username(creatorUsername).created_at(created).description(description)
+              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+          pq.add(workout);
+        }
+      } catch (SQLException ex) {
+        tearDownConnection();
+        System.out.println(ex.getMessage());
+        throw new SQLException(ex.getMessage());
+      }
+      tearDownConnection();
+      return pq;
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
   }
 }

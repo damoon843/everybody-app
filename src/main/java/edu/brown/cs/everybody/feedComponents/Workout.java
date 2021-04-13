@@ -114,7 +114,7 @@ public class Workout {
     map.put("created_at", strDate);
     map.put("description", this.description);
     map.put("duration", Double.toString(this.duration));
-    map.put("media_link", this.media_link.toString());
+    map.put("media_link", this.media_link);
     map.put("like_count", Long.toString(this.like_count));
     return map;
   }
