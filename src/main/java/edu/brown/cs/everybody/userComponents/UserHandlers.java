@@ -253,6 +253,7 @@ public class UserHandlers {
         finalWorkout = finalSortedWorkouts.poll();
       }
       Map<String, Object> variables = ImmutableMap.of("workouts", output);
+      System.out.println(output);
       return GSON.toJson(variables);
     }
   }
