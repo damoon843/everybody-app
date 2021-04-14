@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ExercisePage from './pages/ExercisePage/ExercisePage';
@@ -14,6 +14,13 @@ function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   const home = window.location.origin + "/home"
   const [user, setUser] = useState("");
+
+  const userRef = useRef("");
+
+  const changeRef = (val) => {
+    userRef.current = val
+    console.log(userRef.current)
+  }
 
   const setUsername = (username) => {
     setUser(username)
@@ -40,7 +47,7 @@ function App() {
               <HomePage user={user} />
             </Route>
             <Route path="/">
-              <LoginPage setUsername={setUsername} />
+              <LoginPage setUsername={setUsername} userRef={userRef} changeRef={changeRef}/>
             </Route>
           </Switch>
       </Router>
