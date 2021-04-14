@@ -220,7 +220,16 @@ public final class Queries {
    * @return query string
    */
   public static String insertLike() {
-    return "INSERT INTO everybody_app.likes(workout_id, user_id) VALUES(?,?)";
+    return "INSERT INTO everybody_app.likes(workout_id, user_id) VALUES(?,?);";
+  }
+
+  /**
+   * Removes a like from a workout.
+   * @return query string
+   */
+  public static String removeLike() {
+    return "DELETE FROM ONLY everybody_app.likes"
+      + " WHERE workout_id = ? AND user_id = ?;";
   }
 
   /**

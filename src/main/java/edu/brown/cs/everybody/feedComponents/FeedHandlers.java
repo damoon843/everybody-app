@@ -211,7 +211,6 @@ public class FeedHandlers {
 
       // Retrieve session
       Session session = request.session(false);
-
       if (session != null) {
         // Retrieval successful, get username
         username = session.attribute("username");
@@ -249,10 +248,40 @@ public class FeedHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
-      String query = data.getString("query");
+      Map<String, Object> variables = null;
 
-      Map<Integer, List<Object>> exercises = PostgresDatabase.getSimilarExercises(query);
-      Map<Integer, List<Object>> variables = ImmutableMap.copyOf(exercises);
+      String username = "";
+      String workoutName = data.getString("workoutName");
+      String poster = data.getString("poster");
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+
+      // Retrieve workout ID
+      Integer workoutId = PostgresDatabase.getWorkoutId(workoutName, poster);
+
+      if (workoutId != null) {
+        try {
+          PostgresDatabase.removeLike(username, workoutId);
+        } catch(SQLException | URISyntaxException ex) {
+          // Failed to remove like
+          variables = ImmutableMap.of("isValid", ex);
+        }
+      } else {
+        // Failed to retrieve workout ID
+        System.out.println(ErrorConstants.ERROR_GET_WORKOUTID);
+        variables = ImmutableMap.of("isValid", ErrorConstants.ERROR_GET_WORKOUTID);
+      }
+      variables = ImmutableMap.of("isValid", true);
       return GSON.toJson(variables);
     }
   }
