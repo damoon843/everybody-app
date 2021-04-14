@@ -214,4 +214,21 @@ public final class Queries {
   public static String getCommunityWorkouts() {
     return "SELECT * FROM everybody_app.workouts ORDER BY workouts.total_likes DESC LIMIT ?;";
   }
+
+  /**
+   * Inserts a like on a workout.
+   * @return query string
+   */
+  public static String insertLike() {
+    return "INSERT INTO everybody_app.likes(workout_id, user_id) VALUES(?,?)";
+  }
+
+  /**
+   * Retrieves workout ID.
+   * @return query string
+   */
+  public static String getWorkoutId() {
+    return "SELECT workout_id FROM everybody_app.workouts"
+      + " WHERE workout_name = ? AND username = ?";
+  }
 }
