@@ -90,19 +90,29 @@ export const getAllExercises = async () => {
 }
 
 // gets user data
-export const getUser = async () => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  let res = await axios.get(
-    "http://localhost:4567/userInfo",
-    config
-  )
-  return res.data
-}
+// export const getUser = async (username) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   const toSend = {
+//     username: username
+//   };
+//   await axios.post(
+//     "http://localhost:4567/userInfo",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     console.log(response)
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 
 /** POST REQUESTS */
@@ -205,7 +215,6 @@ export const loginUser = async (toSend) => {
     config
   )
   .then(response => {
-    console.log(document.cookie)
     console.log(response.data)
     return response.data;
     /*

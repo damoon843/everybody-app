@@ -27,7 +27,7 @@ function ProfilePage(props){
   return (
     <div className="profile-page">
         <div id = "prof-card">
-            <ProfileCard/>
+          <ProfileCard user={props.user}/>
         </div>
         <p>{props.user}</p>
         <div className="profile-workouts">

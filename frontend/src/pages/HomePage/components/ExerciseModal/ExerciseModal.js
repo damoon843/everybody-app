@@ -47,22 +47,22 @@ function ExerciseModal(props){
     let file = inputFile.current.files[0]
     let filename = file.name
 
-    const config = {
-      bucketName: "mybucket",
-      region: "eu-west-1",
-      accessKeyId: "key",
-      secretAccessKey: "chinatown"
-    }
+    // const config = {
+    //   bucketName: "mybucket",
+    //   region: "eu-west-1",
+    //   accessKeyId: "key",
+    //   secretAccessKey: "chinatown"
+    // }
 
-    const s3Client = new S3(config);
-    s3Client.uploadFile(file, filename).then(data => {
-      console.log(data)
-      if (data.status === 204) {
-        console.log("yay")
-      } else {
-        console.log("aw shucks")
-      }
-    })
+    // const s3Client = new S3(config);
+    // s3Client.uploadFile(file, filename).then(data => {
+    //   console.log(data)
+    //   if (data.status === 204) {
+    //     console.log("yay")
+    //   } else {
+    //     console.log("aw shucks")
+    //   }
+    // })
 
     const toSend = {
       username: props.user,

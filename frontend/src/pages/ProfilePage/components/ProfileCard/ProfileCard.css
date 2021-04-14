@@ -1,36 +1,40 @@
-.expanded-user-profile {
-  width: 100rem;
-  height: 20rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.profile-card {
+  width: 80vw;
+  height: 10rem;
   padding: 2rem;
+  margin: 6rem 0;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-  margin: 4rem 2rem;
   background-color: white;
+  display: flex;
+  align-items: center;
 }
 
-#exp-profile-pic {
-  width: 6rem;
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-pic {
+  width: 7rem;
+  height: 7rem;
   height: auto;
   border-radius: 50%;
-
-  margin-top: 5px;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
+  margin: 0 1rem 0 0;
 }
 
-#exp-name {
-  padding: 1rem 0 0.5rem 0;
+.following-list {
+  /* background-color: #e0e0e0; */
+  border: 1px solid grey;
+  background-color: white;
+  /* border: none; */
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: grey;
+  transition: 0.2s ease-in-out;
 }
 
-.exp-follow-container {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.exp-follow-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 0.5rem;
+.following-list:hover {
+  background-color: #f0f0f0;
 }
