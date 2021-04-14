@@ -217,7 +217,7 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
@@ -262,7 +262,7 @@ public class FeedHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
