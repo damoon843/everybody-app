@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './Sidebar.css';
 import {Button} from "react-bootstrap";
 
@@ -8,12 +8,12 @@ function Sidebar(props){
   this way we can organize/display the keys
    */
 
-    const [abs, setAbs] = useState(false);
-    const [chest, setChest] = useState(false);
-    const [legs, setLegs] = useState(false);
+    // const [abs, setAbs] = useState(false);
+    // const [chest, setChest] = useState(false);
+    // const [legs, setLegs] = useState(false);
 
     const checkClick = (e)=> {
-        var {name, checked} = e.target
+        // var {name, checked} = e.target
 
         /*
 

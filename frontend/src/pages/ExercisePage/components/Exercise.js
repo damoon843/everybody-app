@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import './Exercise.css'
-import ExerciseData from "../../../data/exercises.json";
 
 function Exercise(props){
     //let exercises = [{title: "Mountain Climbers", duration: "15 min", user: "Tim Nelson", description: "This is an short, intensive exercise focused on the core",thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {description: "This is an short, intensive exercise focused on the core",title: "Planks", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
