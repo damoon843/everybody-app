@@ -17,13 +17,12 @@ function WorkoutSelf(props){
     })
   }
 
-  return(
+  return (
     <div className="workout-container">
-      <img alt="workout thumbnail" className="workout-image" src={props.thumbnail}/>
       <div className="workout-text">
-        <h5>{props.title}<span className="workout-info"> ({props.duration})</span></h5>
+        <h5>{props.workout_it}<span className="workout-info"> ({props.duration})</span></h5>
         <div className="workout-row">
-          <p className="workout-info">{props.postUser}</p>
+          <p className="workout-info">{props.like_count}</p>
         </div>
       </div>
       <a href={url}><button className="workout-btn">Start workout</button></a>

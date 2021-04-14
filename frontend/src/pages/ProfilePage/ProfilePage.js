@@ -6,10 +6,14 @@ import axios from 'axios';
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     getUserWorkouts();
-  }, [workouts]);
+    setWorkouts(data.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+  }, [data, workouts]);
+
+
 
   const getUserWorkouts = async () => {
     let config = {
@@ -27,8 +31,7 @@ function ProfilePage(props){
       config
     )
     .then(response => {
-      const data = response.data
-      setWorkouts(data.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
+      setData(response.data.workouts)
     })
     .catch(function (error) {
       console.log(error);
@@ -38,11 +41,9 @@ function ProfilePage(props){
   return (
     <div className="profile-page">
       <ProfileCard id="profile-card" user={props.user}/>
-      <div className="profile-workouts-container">
-        <h3 id="myWorkouts">My Workouts</h3>
-        <div className="profile-workouts">
-          {workouts}
-        </div>
+      <h3 id="myWorkouts">My Workouts</h3>
+      <div className="profile-workouts">
+        {workouts}
       </div>
     </div>
   );
