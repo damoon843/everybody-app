@@ -24,7 +24,7 @@ export const getRecommendations = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -49,7 +49,7 @@ export const getWorkouts = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -70,7 +70,7 @@ export const getWorkout = async (id) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -97,16 +97,11 @@ export const getUser = async () => {
       'Access-Control-Allow-Origin': '*',
     }
   }
-  await axios.get(
+  let res = await axios.get(
     "http://localhost:4567/userInfo",
     config
   )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
+  return res.data
 }
 
 
@@ -134,7 +129,7 @@ export const createWorkout = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -156,7 +151,7 @@ export const createExercise = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -190,7 +185,7 @@ export const createUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -219,7 +214,7 @@ export const loginUser = async (toSend) => {
     // userSession.setSession(response.data)
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -243,7 +238,7 @@ export const followUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -265,7 +260,7 @@ export const unfollowUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 

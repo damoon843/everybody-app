@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './ExercisePage.css';
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Exercise from "./components/Exercise";
-import { getAllExercises } from "../../api";
 
 function ExercisePage() {
   const [exercises, setExercises] = useState({});
@@ -26,7 +25,7 @@ function ExercisePage() {
       })
 
        */
-  }, []);
+  }, [exercisesTemp]);
 
 
   const updateExercises = (e) => {

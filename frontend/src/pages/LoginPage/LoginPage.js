@@ -1,10 +1,8 @@
-import React, { useState } from 'react'; 
+import React from 'react'; 
 import {Tabs, Tab} from 'react-bootstrap';
 import { createUser, loginUser } from '../../api';
 import { withRouter } from 'react-router-dom';
 import './LoginPage.css';
-
-let user = "";
 
 function LoginPage(props) {
 
@@ -60,7 +58,7 @@ function LoginPage(props) {
   return (
     <div className="login-page row">
       <div className="login-section login-image">
-        <img src="https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg" id="login-img" />
+        <img alt="login half page" src="https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg" id="login-img" />
       </div>
       <div className="login-section col">
         <div className="login-top">

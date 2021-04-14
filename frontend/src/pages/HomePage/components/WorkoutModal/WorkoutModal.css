@@ -2,12 +2,3 @@
   width: 16rem;
   margin: 0.5rem 0;
 }
-
-.exercise-item {
-  background-color: antiquewhite;
-}
-
-.exercise-item:hover {
-  cursor: pointer;
-  background-color: lightblue;
-}
