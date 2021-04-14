@@ -116,6 +116,7 @@ public class Workout {
     map.put("duration", Double.toString(this.duration));
     map.put("media_link", this.media_link);
     map.put("like_count", Long.toString(this.like_count));
+    map.put("workout_name", this.workout_name);
     return map;
   }
 
