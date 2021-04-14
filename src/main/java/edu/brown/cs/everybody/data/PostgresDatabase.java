@@ -29,25 +29,23 @@ public final class PostgresDatabase {
   private PostgresDatabase() {
   }
 
-  // TODO: deprecate this
-//  /**
-//   * Establishes connection to pg DB.
-//   * @throws URISyntaxException when given improper URI
-//   * @throws SQLException when driver cannot retrieve conn
-//   */
-//  public static void setUpConnection() throws URISyntaxException, SQLException {
-//    try {
-//      URI dbUri = new URI(System.getenv("DATABASE_URL"));
-//
-//      String username = dbUri.getUserInfo().split(":")[0];
-//      String password = dbUri.getUserInfo().split(":")[1];
-//      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-//      dbConn = DriverManager.getConnection(dbUrl, username, password);
-//    } catch (Exception ex) {
-//      System.out.println(ex.getMessage());
-//    }
-//  }
+  /**
+   * Establishes connection to pg DB.
+   * @throws URISyntaxException when given improper URI
+   * @throws SQLException when driver cannot retrieve conn
+   */
+  public static void setUpConnection() throws URISyntaxException, SQLException {
+    try {
+      URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
+      String username = dbUri.getUserInfo().split(":")[0];
+      String password = dbUri.getUserInfo().split(":")[1];
+      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+      dbConn = DriverManager.getConnection(dbUrl, username, password);
+    } catch (Exception ex) {
+      System.out.println(ex.getMessage());
+    }
+  }
 
   /**
    * Tears down connection to pg DB.
