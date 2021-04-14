@@ -401,6 +401,7 @@ public final class PostgresDatabase {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUser();
     AppUser user = null;
+
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setInt(1, id);
       try (ResultSet res = stmt.executeQuery()) {
@@ -415,9 +416,8 @@ public final class PostgresDatabase {
           user = new AppUser(userID, username, created_at, firstName, lastName, workoutType, workoutDuration);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT15");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_USERINFO);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -523,9 +523,8 @@ public final class PostgresDatabase {
       stmt.setInt(2, getUserID(following));
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println("RIGHT19");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_FOLLOW);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -665,9 +664,8 @@ public final class PostgresDatabase {
       stmt.execute();
       tearDownConnection();
     } catch (SQLException ex) {
-      System.out.println("RIGHT21");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_REMOVE_FOLLOW);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -691,15 +689,14 @@ public final class PostgresDatabase {
           tearDownConnection();
           return 1;
         } else {
-          // Login failed (user does not exist in DB)
+          // Login failed (user does not exist in DB) // incorrect credentials given
           tearDownConnection();
           return -1;
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT22");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_LOGIN_QUERY);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -795,9 +792,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT25");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_FOLLOWING);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();

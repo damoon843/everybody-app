@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import spark.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -76,6 +77,8 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       String username;
+      Map<String, Object> variables;
+      List<Object> userInfo;
 
       // Retrieve session
       Session session = request.session(false);
@@ -85,15 +88,20 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
-      List<Object> userInfo = PostgresDatabase.getUserInfo(username);
-
-      Map<String, Object> variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
+      try {
+        userInfo = PostgresDatabase.getUserInfo(username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USERINFO);
+        return GSON.toJson(variables);
+      }
+      variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
         "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
-
 
       return GSON.toJson(variables);
     }
@@ -106,6 +114,8 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       String username = "";
+      AppUser user;
+      Map<String, Object> variables;
 
       // Retrieve session
       Session session = request.session(false);
@@ -115,19 +125,21 @@ public class UserHandlers {
       } else {
         // Retrieval failed
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
-      AppUser user;
       try {
         int userid = PostgresDatabase.getUserID(username);
         user = PostgresDatabase.getUser(userid);
       } catch (Exception e) {
-        Map<String, Object> variables = ImmutableMap.of("error", "User Not Found.");
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USERID);
         return GSON.toJson(variables);
       }
 
+      // Determine workout duration range
       int lowBoundDuration;
       int highBoundDuration;
       if (user.getWorkoutDuration() == 0) {
@@ -158,7 +170,8 @@ public class UserHandlers {
           try {
             followingUser = PostgresDatabase.getUser(followingUserID);
           } catch (Exception e) {
-            Map<String, Object> variables = ImmutableMap.of("error", "Following User Not Found.");
+            response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USER);
             return GSON.toJson(variables);
           }
           PriorityQueue<Workout> followingUserWorkouts;
@@ -197,7 +210,8 @@ public class UserHandlers {
           try {
             connectedUser = PostgresDatabase.getUser(connectedUserID);
           } catch (Exception e) {
-            Map<String, Object> variables = ImmutableMap.of("error", "SCC User Not Found.");
+            response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USER);
             return GSON.toJson(variables);
           }
           PriorityQueue<Workout> connectedUserWorkouts;
@@ -238,9 +252,9 @@ public class UserHandlers {
           } else {
             recentPost = additionalWorkouts.poll();
           }
-
         } catch (Exception e) {
-          Map<String, Object> variables = ImmutableMap.of("error", "Could not get community workouts.");
+          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_ADDWORKOUTS);
           return GSON.toJson(variables);
         }
       }
@@ -252,7 +266,7 @@ public class UserHandlers {
         output.add(finalWorkout.toMap());
         finalWorkout = finalSortedWorkouts.poll();
       }
-      Map<String, Object> variables = ImmutableMap.of("workouts", output);
+      variables = ImmutableMap.of("workouts", output);
       System.out.println(output);
       return GSON.toJson(variables);
     }
@@ -266,23 +280,30 @@ public class UserHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
       String username = "";
+      Map<String, Object> variables;
       String following = data.getString("following");
 
       // Retrieve session
       Session session = request.session(false);
-
       if (session != null) {
         // Retrieval successful, get username
         username = session.attribute("username");
       } else {
         // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
-      PostgresDatabase.insertFollow(username, following);
-      Map<String, Object> variables = ImmutableMap.of("isValid", true);
+      try {
+        PostgresDatabase.insertFollow(username, following);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_INSERT_FOLLOW);
+        return GSON.toJson(variables);
+      }
+      variables = ImmutableMap.of("isValid", true);
       return GSON.toJson(variables);
     }
   }
@@ -295,22 +316,31 @@ public class UserHandlers {
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
       String username = "";
+      Map<String, Object> variables;
       String following = data.getString("following");
 
       // Retrieve session
       Session session = request.session(false);
-
       if (session != null) {
         // Retrieval successful, get username
         username = session.attribute("username");
       } else {
         // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-      PostgresDatabase.removeFollow(username, following);
-      return null;
+
+      try {
+        PostgresDatabase.removeFollow(username, following);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_REMOVE_FOLLOW);
+        return GSON.toJson(variables);
+      }
+      variables = ImmutableMap.of("isValid", true);
+      return GSON.toJson(variables);
     }
   }
 
@@ -323,7 +353,7 @@ public class UserHandlers {
       JSONObject data = new JSONObject(request.body());
       String username = data.getString("username");
       String password = data.getString("password");
-      Map<String, Object> variables = null;
+      Map<String, Object> variables;
 
       try {
         int output = PostgresDatabase.loginUser(username, password);
@@ -334,14 +364,17 @@ public class UserHandlers {
           Session session = request.session(true);
           request.session().attribute("username", username);
           response.cookie(".localhost:3000.", "/", "sessionID", request.session().id(), 3600, false, false);
-          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "success");
+          variables = ImmutableMap.of("status", ErrorConstants.LOGIN_SUCCESS);
         } else {
           // Login failed
-          variables = ImmutableMap.of("queryStatus", "success", "loginStatus", "failed");
+          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          variables = ImmutableMap.of("error", ErrorConstants.ERROR_LOGIN_FAILED);
+          return GSON.toJson(variables);
         }
       } catch (SQLException ex) {
         // Query execution failed
-        variables = ImmutableMap.of("queryStatus", ex.getMessage(), "loginStatus", "failed");
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_LOGIN_QUERY);
       }
       return GSON.toJson(variables);
     }
@@ -354,23 +387,32 @@ public class UserHandlers {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
+      Map<String, Object> variables;
       String username = "";
+      List<String> following;
 
       // Retrieve session
       Session session = request.session(false);
-
       if (session != null) {
         // Retrieval successful, get username
         username = session.attribute("username");
       } else {
         // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        Map<String, Object> variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
 
-      List<String> following = PostgresDatabase.getAllFollowing(username);
-      Map<String, Object> variables = ImmutableMap.of("following", following);
+      try {
+        following = PostgresDatabase.getAllFollowing(username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_FOLLOWING);
+        return GSON.toJson(variables);
+      }
+
+      variables = ImmutableMap.of("following", following);
       return GSON.toJson(variables);
     }
   }
