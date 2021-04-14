@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
