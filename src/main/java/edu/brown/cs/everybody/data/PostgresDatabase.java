@@ -531,6 +531,75 @@ public final class PostgresDatabase {
 
 
   /**
+   * Helper method to retrieve workout ID.
+   * @param workoutName name of workout
+   * @param username username
+   * @return workout id
+   */
+  public static Integer getWorkoutId(String workoutName, String username) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String queryString = Queries.getWorkoutId();
+    Integer workoutId = 0;
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, workoutName);
+      stmt.setString(2, username);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          workoutId = res.getInt("workout_id");
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return workoutId;
+  }
+
+  /**
+   * Registers a like on a workout
+   * @param username username (user liking post)
+   * @param workoutId workout ID
+   */
+  public static void insertLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String insertString = Queries.insertLike();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
+      stmt.setInt(2, getUserID(username));
+      stmt.execute();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+  }
+
+  /**
+   * Removes a like from a workout.
+   * @param username username (user unliking post)
+   * @param workoutId workout ID
+   */
+  public static void removeLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    setUpConnection();
+    String insertString = Queries.removeLike();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
+      stmt.setInt(2, getUserID(username));
+      stmt.execute();
+    } catch (SQLException | URISyntaxException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+  }
+
+
+  /**
    * Retrieves exercises for exercises page (100 at a time)
    * @return list of exercises to display
    */

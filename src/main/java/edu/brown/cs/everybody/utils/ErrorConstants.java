@@ -13,5 +13,6 @@ public final class ErrorConstants {
   public static final String ERROR_QUERY_EXCEPTION = "Error executing query.";
   public static final String ERROR_DATABASE_CLOSE = "Error closing database connection.";
   public static final String ERROR_NULL_SESSION = "Error retrieving session.";
+  public static final String ERROR_GET_WORKOUTID = "Error retrieving workout ID.";
 }
 
