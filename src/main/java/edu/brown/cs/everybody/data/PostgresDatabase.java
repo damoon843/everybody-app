@@ -85,9 +85,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT2");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_USER);
       throw new SQLException(ex.getMessage());
     }
 
@@ -99,9 +98,8 @@ public final class PostgresDatabase {
       stmt2.setInt(3, (Integer) data.get(5));
       stmt2.execute();
     } catch (SQLException ex) {
-      System.out.println("RIGHT3");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_USER);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();

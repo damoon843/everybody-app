@@ -51,11 +51,11 @@ public class UserHandlers {
         Session session = request.session(true);
         request.session().attribute("username", username);
         response.cookie(".localhost:3000.", "/", "sessionID", request.session().id(), 3600, false, false);
-
         variables = ImmutableMap.of("queryStatus", "success");
       } catch (SQLException | URISyntaxException e) {
         // Query failed to execute
-        variables = ImmutableMap.of("queryStatus", e.getMessage());
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_INSERT_USER);
       }
       return GSON.toJson(variables);
     }

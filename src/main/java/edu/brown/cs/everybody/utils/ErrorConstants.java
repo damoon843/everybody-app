@@ -22,6 +22,7 @@ public final class ErrorConstants {
   public static final String ERROR_REMOVE_FOLLOW = "Error unfollowing user.";
   public static final String ERROR_LOGIN_QUERY = "Error executing log-in query.";
   public static final String ERROR_GET_FOLLOWING= "Error retrieving all followers";
+  public static final String ERROR_INSERT_USER = "Error inserting user.";
 
   public static final String ERROR_LOGIN_FAILED = "Failed to log-in with given credentials.";
   public static final String LOGIN_SUCCESS = "Log-in succeeded.";
