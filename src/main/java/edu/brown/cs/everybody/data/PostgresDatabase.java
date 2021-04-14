@@ -57,8 +57,7 @@ public final class PostgresDatabase {
       try {
         dbConn.close();
       } catch(SQLException ex) {
-        System.out.println("RIGHT1");
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_DATABASE_CLOSE);
       }
     }
   }
@@ -131,17 +130,15 @@ public final class PostgresDatabase {
           result.add(workoutDuration);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT4");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_USERINFO);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return result;
     } catch (Exception ex) {
-      System.out.println("RIGHT5");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERINFO);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -173,17 +170,15 @@ public final class PostgresDatabase {
           pq.add(workout);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT6");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return pq;
     } catch (SQLException ex) {
-      System.out.println("RIGHT7");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -210,9 +205,8 @@ public final class PostgresDatabase {
           exerciseIds.add(exerciseId);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT8");
         tearDownConnection();
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
         throw new SQLException(ex.getMessage());
       }
 
@@ -243,16 +237,14 @@ public final class PostgresDatabase {
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
-            System.out.println("RIGHT9");
             tearDownConnection();
-            System.out.println(ex.getMessage());
+            System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
             throw new SQLException(ex.getMessage());
           }
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT10");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -285,9 +277,8 @@ public final class PostgresDatabase {
       stmt.setArray(6, dbConn.createArrayOf("varchar", arr));
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println("RIGHT11");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_EXERCISE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -311,9 +302,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT12");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_EXERCISEID);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -349,9 +339,8 @@ public final class PostgresDatabase {
       stmt.setString(7, workoutName);
       stmt.execute();
     } catch (SQLException ex) {
-      System.out.println("RIGHT13");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_WORKOUT);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -381,9 +370,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT14");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_FOLLOWING);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -421,9 +409,8 @@ public final class PostgresDatabase {
       tearDownConnection();
       return user;
     } catch (Exception e) {
-      System.out.println("RIGHT16");
       tearDownConnection();
-      System.out.println(e.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERINFO);
       throw new SQLException(e.getMessage());
     }
   }
@@ -468,9 +455,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT17");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_RECENT_WORKOUTIDS);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -493,15 +479,13 @@ public final class PostgresDatabase {
           userID = res.getInt("id");
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT30");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_USERID);
         throw new SQLException(ex.getMessage());
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT18");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERID);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -571,7 +555,7 @@ public final class PostgresDatabase {
       stmt.execute();
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_LIKE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -591,7 +575,7 @@ public final class PostgresDatabase {
       stmt.execute();
     } catch (SQLException | URISyntaxException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_REMOVE_LIKE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -631,15 +615,13 @@ public final class PostgresDatabase {
           results.put(exerciseID, tempList);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT29");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
         throw new SQLException(ex.getMessage());
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT20");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -733,9 +715,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT23");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_SIMILAR_EXERCISES);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -761,9 +742,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT24");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_EXERCISE_DURATION);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -815,9 +795,8 @@ public final class PostgresDatabase {
         }
       }
     } catch (SQLException ex) {
-      System.out.println("RIGHT26");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERNAME);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -851,17 +830,15 @@ public final class PostgresDatabase {
           pq.add(workout);
         }
       } catch (SQLException ex) {
-        System.out.println("RIGHT27");
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_ADDWORKOUTS);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return pq;
     } catch (SQLException ex) {
-      System.out.println("RIGHT28");
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_ADDWORKOUTS);
       throw new SQLException(ex.getMessage());
     }
   }
