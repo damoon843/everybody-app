@@ -33,7 +33,6 @@ function LoginPage(props) {
       workoutType: workoutType,
       workoutDuration: workoutDuration
     };
-    console.log(toSend)
     createUser(toSend).then(result => {
       props.setUsername(newUsername);
       props.history.push('/home');
@@ -48,7 +47,6 @@ function LoginPage(props) {
       username: username,
       password: password,
     };
-    console.log(toSend)
     loginUser(toSend).then(result => {
       props.setUsername(username);
       props.history.push('/home');
