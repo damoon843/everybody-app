@@ -10,20 +10,15 @@ import Toolbar from './components/Toolbar/Toolbar';
 import { Auth0Provider } from "@auth0/auth0-react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+let username = "";
+
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   const home = window.location.origin + "/home"
-  const [user, setUser] = useState("");
 
-  const userRef = useRef("");
-
-  const changeRef = (val) => {
-    userRef.current = val
-    console.log(userRef.current)
-  }
-
-  const setUsername = (username) => {
-    setUser(username)
+  const changeUsername = (newName) => {
+    username = newName;
+    console.log(username)
   }
 
   return (
@@ -40,14 +35,14 @@ function App() {
             </Route>
             <Route path="/profile">
               <Toolbar />
-              <ProfilePage user={user} />
+              <ProfilePage username={username}/>
             </Route>
             <Route path="/home">
               <Toolbar />
-              <HomePage user={user} />
+              <HomePage username={username} />
             </Route>
             <Route path="/">
-              <LoginPage setUsername={setUsername} userRef={userRef} changeRef={changeRef}/>
+              <LoginPage changeUsername={changeUsername}/>
             </Route>
           </Switch>
       </Router>

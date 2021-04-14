@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import './ProfileCard.css';
 
-function ProfileCard(props) {
-  const [user, setUser] = useState({});
+let userData = {}
 
+function ProfileCard(props) {
   useEffect(() => {
     getUser();
   }); 
@@ -17,7 +17,7 @@ function ProfileCard(props) {
       }
     }
     const toSend = {
-      username: props.user
+      username: props.username
     };
     await axios.post(
       "http://localhost:4567/userInfo",
@@ -25,16 +25,17 @@ function ProfileCard(props) {
       config
     )
     .then(response => {
-      setUser(response.data)
+      console.log(response.data)
+      userData = response.data
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
   }
 
   return (
     <div className="profile-card">
-      <h1>{user.firstName} {user.lastName}</h1>
+      <h1>{userData.firstName} {userData.lastName}</h1>
       <button className="following-list">View All Following</button>
     </div>
   );

@@ -34,8 +34,7 @@ function LoginPage(props) {
       workoutDuration: workoutDuration
     };
     createUser(toSend).then(result => {
-      props.changeRef(newUsername)
-      props.setUsername(newUsername);
+      props.changeUsername(newUsername)
       props.history.push('/home');
     });
   }
@@ -49,8 +48,7 @@ function LoginPage(props) {
       password: password,
     };
     loginUser(toSend).then(result => {
-      props.changeRef(username)
-      props.setUsername(username);
+      props.changeUsername(username)
       props.history.push('/home');
     });
   }
