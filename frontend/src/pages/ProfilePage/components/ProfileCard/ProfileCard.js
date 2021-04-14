@@ -34,13 +34,8 @@ function ProfileCard(props) {
 
   return (
     <div className="profile-card">
-      <div className="profile-img-container">
-        <img className="profile-pic" alt="user profile" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" />
-      </div>
-      <div className="user-info">
-        <h1>{user.firstName} {user.lastName}</h1>
-        <button className="following-list">View All Following</button>
-      </div>
+      <h1>{user.firstName} {user.lastName}</h1>
+      <button className="following-list">View All Following</button>
     </div>
   );
 }

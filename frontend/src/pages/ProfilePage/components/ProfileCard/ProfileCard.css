@@ -1,34 +1,18 @@
 .profile-card {
-  width: 80vw;
+  width: 90vw;
   height: 10rem;
-  padding: 2rem;
-  margin: 6rem 0;
-  box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-  background-color: white;
-  display: flex;
-  align-items: center;
-}
-
-.user-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.profile-pic {
-  width: 7rem;
-  height: 7rem;
-  height: auto;
-  border-radius: 50%;
+  padding: 2rem;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-  margin: 0 1rem 0 0;
+  margin: 2rem 2rem;
+  background-color: white;
 }
 
 .following-list {
-  /* background-color: #e0e0e0; */
   border: 1px solid grey;
   background-color: white;
-  /* border: none; */
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   color: grey;
