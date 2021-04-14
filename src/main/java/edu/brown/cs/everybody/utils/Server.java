@@ -80,12 +80,15 @@ public class Server {
     Spark.get("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
-    // TODO: post vs get
     Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
-    // unfollows
+    // For unfollow actions
     Spark.post("/unfollow", new UserHandlers.UnfollowHandler());
-
+    // Retrieves all users a particular user is following
     Spark.post("/allFollowing", new UserHandlers.GetAllFollowing());
+    // Registers a like (on a workout)
+    Spark.post("/registerLike", new FeedHandlers.LikeHandler());
+    // Registers an unlike (on a workout)
+    Spark.post("/registerUnlike", new FeedHandlers.UnlikeHandler());
   }
 
   /**
