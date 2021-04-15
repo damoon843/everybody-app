@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
-// import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
-// import S3 from "react-aws-s3";
+import S3 from 'react-aws-s3';
 import axios from 'axios';
 
 function ExerciseModal(props){
@@ -11,26 +10,6 @@ function ExerciseModal(props){
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  // const createExercise = async (toSend) => {
-  //   let config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       'Access-Control-Allow-Origin': '*',
-  //     }
-  //   }
-  //   await axios.post(
-  //     "http://localhost:4567/uploadExercise",
-  //     toSend,
-  //     config
-  //   )
-  //   .then(response => {
-  //     return response.data;
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  // }
 
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
@@ -69,31 +48,36 @@ function ExerciseModal(props){
     let newDuration = duration * 60;
     const media = document.getElementById('exercise-media').value;
 
-    // let file = inputFile.current.files[0]
-    // let filename = file.name
+    let file = inputFile.current.files[0]
+    let filename = file.name
+    console.log(file)
+    console.log(filename)
+    const config = {
+      bucketName: process.env.REACT_APP_BUCKET_NAME,
+      region: process.env.REACT_APP_REGION,
+      accessKeyId: process.env.REACT_APP_ACCESS_ID,
+      secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
+    };
 
-    // const config = {
-    //   bucketName: "mybucket",
-    //   region: "eu-west-1",
-    //   accessKeyId: "key",
-    //   secretAccessKey: "chinatown"
-    // }
+    console.log(config)
 
-    // const s3Client = new S3(config);
-    // s3Client.uploadFile(file, filename).then(data => {
-    //   console.log(data)
-    //   if (data.status === 204) {
-    //     console.log("yay")
-    //   } else {
-    //     console.log("aw shucks")
-    //   }
-    // })
+    const s3Client = new S3(config);
+    s3Client.uploadFile(file, filename).then(data => {
+      console.log(data)
+      if (data.status === 204) {
+        console.log("yay")
+      } else {
+        console.log("aw shucks")
+      }
+    }).catch(err => {
+      console.log(err)
+    })
 
     if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
         username: props.username.current,
         exerciseName: title,
-        mediaLink: media,
+        mediaLink: filename,
         duration: newDuration,
         tags: checkedVals,
         description: desc
