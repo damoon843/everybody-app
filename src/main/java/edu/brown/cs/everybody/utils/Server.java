@@ -1,6 +1,7 @@
 package edu.brown.cs.everybody.utils;
 
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.data.DataSourcePool;
 import edu.brown.cs.everybody.feedComponents.FeedHandlers;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import spark.*;
@@ -15,8 +16,9 @@ import java.io.StringWriter;
 public class Server {
   private static final Gson GSON = new Gson();
 
-
   public Server(int port) throws Exception {
+    // Configure BasicDataSource
+    DataSourcePool.configurePool();
     // Run server
     runSparkServer(port);
   }
