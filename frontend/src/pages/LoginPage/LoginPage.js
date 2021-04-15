@@ -38,7 +38,8 @@ function LoginPage(props) {
     e.preventDefault();
     let err = document.getElementById("err-msg-signup")
     err.innerText = ""
-    const toSend = JSON.stringify(getSignUpVals());
+    const data = getSignUpVals()
+    const toSend = JSON.stringify(data);
     let config = {
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +54,7 @@ function LoginPage(props) {
     )
     .then(response => {
       // TODO: check if returns true
-      props.changeUsername(toSend.newUsername)
+      props.changeUsername(data.username)
       props.history.push('/home');
       console.log(response.data)
     })
@@ -67,7 +68,8 @@ function LoginPage(props) {
     e.preventDefault()
     let err = document.getElementById("err-msg-login")
     err.innerText = ""
-    const toSend = JSON.stringify(getLoginVals());
+    const data = getLoginVals()
+    const toSend = JSON.stringify(data);
     let config = {
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +83,7 @@ function LoginPage(props) {
     )
     .then(response => {
       // TODO: check if returns true
-      props.changeUsername(toSend.username)
+      props.changeUsername(data.username)
       props.history.push('/home');
       console.log(response.data)
     })
