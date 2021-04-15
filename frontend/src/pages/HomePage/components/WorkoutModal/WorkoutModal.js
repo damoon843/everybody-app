@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
-import { createWorkout } from '../../../../api';
+// import { createWorkout } from '../../../../api';
+import axios from 'axios';
 
 function WorkoutModal(props){
   const [show, setShow] = useState(false);
@@ -35,6 +36,26 @@ function WorkoutModal(props){
     console.log(toSend)
     createWorkout(toSend).then(result => {
       setShow(false);
+    });
+  }
+
+  const createWorkout = async (toSend) => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.post(
+      "http://localhost:4567/uploadWorkout",
+      toSend,
+      config
+    )
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
 

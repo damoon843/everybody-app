@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
-import { createExercise } from '../../../../api';
+// import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
 // import S3 from "react-aws-s3";
+import axios from 'axios';
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
@@ -10,6 +11,26 @@ function ExerciseModal(props){
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const createExercise = async (toSend) => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.post(
+      "http://localhost:4567/uploadExercise",
+      toSend,
+      config
+    )
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
@@ -33,7 +54,7 @@ function ExerciseModal(props){
     return result;
   }
 
-  const submitExercise = (e) => {
+  const submitExercise = async (e) => {
     e.preventDefault();
     const title = document.getElementById('exercise-title').value;
     const desc = document.getElementById('exercise-description').value;
@@ -73,12 +94,34 @@ function ExerciseModal(props){
       description: desc
     };
     console.log(toSend)
-    createExercise(toSend).then(result => {
+
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.post(
+      "http://localhost:4567/uploadExercise",
+      toSend,
+      config
+    )
+    .then(response => {
+      console.log(response)
       setShow(false);
       console.log(props.render)
       props.rerender(title);
-      // window.location.reload();
+    })
+    .catch(function (error) {
+      console.log(error);
     });
+
+    // createExercise(toSend).then(result => {
+    //   setShow(false);
+    //   console.log(props.render)
+    //   props.rerender(title);
+    //   // window.location.reload();
+    // });
   }
 
   return (

@@ -58,7 +58,7 @@ function Home(props) {
   }, [render])
 
   return (
-    <div className="home">
+    <div className="home fade-in">
       <div className="upload">
         <h5>Upload Activities</h5>
         <ExerciseModal render={render} rerender={rerender} user={props.user} id="exercise-modal"/>
