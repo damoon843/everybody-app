@@ -9,6 +9,7 @@
 #myWorkouts {
   align-self: flex-start;
   margin: 0 0 0 5vw;
+  padding: 0 0 0 1rem;
 }
 
 .profile-workouts {
