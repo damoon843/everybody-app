@@ -3,6 +3,7 @@ package edu.brown.cs.everybody.utils;
 import com.google.gson.Gson;
 import edu.brown.cs.everybody.data.DataSourcePool;
 import edu.brown.cs.everybody.feedComponents.FeedHandlers;
+import edu.brown.cs.everybody.feedComponents.RecommendationHandler;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import spark.*;
 
@@ -70,7 +71,7 @@ public class Server {
     // For user deletion
     Spark.post("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
-    Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
+    Spark.post("/getRecommendations", new RecommendationHandler.Handler());
     // For exercises page
     Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
