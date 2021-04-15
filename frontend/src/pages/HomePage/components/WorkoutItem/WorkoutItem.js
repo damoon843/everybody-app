@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function WorkoutItem(props){
-  const [following, setFollowing] = useState(props.following)
+  const [following, setFollowing] = useState(props.workout.following)
   const [like, setLike] = useState(false)
-  const [likeCount, setLikeCount] = useState(parseInt(props.likeCount))
-  const url = "/workout/" + props.id
+  const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
+  const url = "/workout/" + props.workout.workout_id
 
   const followUser = async () => {
     let config = {
@@ -20,7 +20,7 @@ function WorkoutItem(props){
     }
     let toSend = {
       username: props.username.current,
-      following: props.postingUser
+      following: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/follow",
@@ -45,7 +45,7 @@ function WorkoutItem(props){
     }
     let toSend = {
       username: props.username.current,
-      following: props.postingUser
+      following: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/unfollow",
@@ -69,8 +69,8 @@ function WorkoutItem(props){
       }
     }
     let toSend = {
-      workoutName: props.name,
-      poster: props.postingUser
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/registerLike",
@@ -94,8 +94,8 @@ function WorkoutItem(props){
       }
     }
     let toSend = {
-      workoutName: props.name,
-      poster: props.postingUser
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/unregisterLike",
@@ -145,7 +145,7 @@ function WorkoutItem(props){
   return(
     <div className="workout-item">
       <div className="workout-title">
-        <h4>{props.name}</h4>
+        <h4>{props.workout.workout_name}</h4>
         <div className="workout-likes">
           <p className="like">{likeCount}</p>
           {like
@@ -155,14 +155,14 @@ function WorkoutItem(props){
       </div>
       
       <div className="workout-user">
-        <p className="workout-posting-user">{props.postingUser}</p>
+        <p className="workout-posting-user">{props.workout.posting_user}</p>
         <div>
         {following 
         ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
         </div>
       </div>
-      <p>Duration: {Math.floor(props.duration/60)} minutes</p>
-      <p>Description: {props.description}</p>
+      <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
+      <p>Description: {props.workout.description}</p>
       <a href={url} className="submit-btn start-workout-btn">Start workout</a>
     </div>
   );
