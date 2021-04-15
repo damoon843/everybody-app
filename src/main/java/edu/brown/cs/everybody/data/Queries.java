@@ -250,10 +250,18 @@ public final class Queries {
   }
 
   /**
-   * Wipes user from DB.
+   * Wipes user from DB. Note a cascade delete cannot be used as other foreign key relations (i.e. workout IDs in the
+   * viewed_workouts table) would result in objects not created by the user being wiped.
    * @return query string
    */
   public static String removeUser() {
-    return "";
+    return "DELETE FROM ONLY everybody_app.workouts WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.exercises WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.users WHERE id = ?;"
+      + " DELETE FROM ONLY everybody_app.user_preferences WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.viewed_workouts WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.likes WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE following_id = ?;";
   }
 }
