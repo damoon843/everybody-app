@@ -32,8 +32,6 @@ public class DataSourcePool {
     String password = dbUri.getUserInfo().split(":")[1];
     String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
 
-    System.out.println("HERE");
-
     // Configure DataSource
     // NOTE: Heroku Postgres free tier allows 20 connections max
     ds.setDriverClassName("org.postgresql.Driver");
@@ -46,6 +44,12 @@ public class DataSourcePool {
     ds.setRemoveAbandonedOnBorrow(true); // Remove abandoned connections
     ds.setRemoveAbandonedTimeout(10); // Timeout before abandoned connections removed
     ds.setMaxOpenPreparedStatements(30);
+
+    // Test connection before proceeding with action
+    ds.setTestOnBorrow(true);
+    ds.setTestOnReturn(true);
+    ds.setTestOnCreate(true);
+    ds.setValidationQuery("SELECT 1;");
   }
 
   /**

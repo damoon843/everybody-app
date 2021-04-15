@@ -163,22 +163,29 @@ public final class PostgresDatabase {
           String creatorUsername = res.getString("username");
           String description = res.getString("description");
           Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
-              username(creatorUsername).created_at(created).description(description)
-              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+            username(creatorUsername).created_at(created).description(description)
+            .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
           pq.add(workout);
         }
-      } catch (SQLException ex) {
-        tearDownConnection();
-        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
-        throw new SQLException(ex.getMessage());
+        System.out.println("NO WORKOUTS");
       }
-      tearDownConnection();
-      return pq;
+//      } catch (SQLException ex) {
+//        tearDownConnection();
+//        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
+//        System.out.println("ERROR 1");
+//        System.out.println(ex.getMessage());
+//        throw new SQLException(ex.getMessage());
+//      }
+//      tearDownConnection();
+//      System.out.println(pq.size());
+//      return pq;
     } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
+      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
+    return pq;
   }
 
   /**
