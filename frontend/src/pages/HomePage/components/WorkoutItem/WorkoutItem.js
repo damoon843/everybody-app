@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import './WorkoutItem.css';
-// import { followUser } from '../../../../api';
 import axios from 'axios';
 
 function WorkoutItem(props){
   const [following, setFollowing] = useState(props.following)
-  let followBtn = useRef(null)
 
   const followUser = async () => {
     let config = {
@@ -70,22 +68,18 @@ function WorkoutItem(props){
   }
 
   useEffect(() => {
-    if (following) {
-      followBtn.current = <button onClick={toggleFollowing}>following</button>
-    } else {
-      followBtn.current = <button onClick={toggleFollowing}>follow</button>
-    }
   }, [following])
 
   return(
     <div className="workout-item">
       <h4>{props.name}</h4>
-      <div className="workout-poster">
-        <h5>{props.postingUser}</h5>
-      </div>
+      <p>Duration: {Math.floor(props.duration/60)} minutes</p>
       <p>Description: {props.description}</p>
-      
-      {followBtn}
+      <p>Created at: {props.createdAt}</p>
+      <div>
+      {following 
+      ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+      </div>
     </div>
   );
 }

@@ -12,3 +12,30 @@
 .workout-poster {
   display: flex;
 }
+
+.follow-btn {
+  width: 6rem;
+  border: 1px solid grey;
+  padding: 0.25rem 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+}
+
+.follow-btn:hover {
+  cursor: pointer;
+}
+
+.following-btn {
+  width: 6rem;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  background-color: #9c9c9c;
+  color: white;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+}
+
+.following-btn:hover {
+  cursor: pointer;
+}

@@ -5,10 +5,9 @@ function WorkoutSelf(props){
   return (
     <div className="workout-self">
       <h4>{props.name}</h4>
-      <div className="workout-poster">
-        <h5>{props.postingUser}</h5>
-      </div>
+      <p>Duration: {Math.floor(props.duration/60)} minutes</p>
       <p>Description: {props.description}</p>
+      <p>Created at: {props.createdAt}</p>
     </div>
   );
 }
