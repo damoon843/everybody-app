@@ -33,9 +33,26 @@ public class PostgresDatabaseTest {
     return stmt;
   }
 
+  /**
+   * Helper method to disconnect from DB.
+   * @param stmt initialilzed statement
+   */
+  public void disconnect(Statement stmt) throws SQLException {
+    // Tear down resources
+    stmt.close();
+    PostgresDatabase.tearDownConnection();
+  }
+
   @BeforeClass
-  public static void setUp() {
+  public static void setUp() throws SQLException, URISyntaxException {
     DataSourcePool.configurePool();
+
+    // Insert data
+    List<Object> mockData = new ArrayList<>(Arrays.asList("mock", "name", "mock1", "123", "Cardio", 60));
+    PostgresDatabase.insertUser(mockData);
+    PostgresDatabase.insertUserExercise("mock1", "mockExercise1", "dummy",
+      15, new ArrayList<String>(Arrays.asList("body1", "body2")), "text");
+
   }
 
   @AfterClass
@@ -44,9 +61,11 @@ public class PostgresDatabaseTest {
     PostgresDatabase.setUpConnection();
     Statement stmt = PostgresDatabase.getConn().createStatement();
 
-    String query = "DELETE FROM everybody_app.users WHERE username = 'mock1';";
+    String query = "DELETE FROM everybody_app.exercises WHERE username = 'mock1' AND exercise_name = 'mockExercise1';";
     int rowsAffected = stmt.executeUpdate(query);
-    assertEquals(1, rowsAffected);
+    query = "DELETE FROM everybody_app.users WHERE username = 'mock1';";
+    rowsAffected = stmt.executeUpdate(query);
+
 
     stmt.close();
     PostgresDatabase.tearDownConnection();
@@ -65,10 +84,7 @@ public class PostgresDatabaseTest {
 
   @Test
   public void testInsertUser() throws SQLException, URISyntaxException {
-    List<Object> mockData = new ArrayList<>(Arrays.asList("mock", "name", "mock1", "123", "Cardio", 60));
     boolean status = false;
-
-    PostgresDatabase.insertUser(mockData);
     Statement stmt = connect();
 
     // Validate query
@@ -79,9 +95,7 @@ public class PostgresDatabaseTest {
     }
     assertTrue(status);
 
-    // Tear down resources
-    stmt.close();
-    PostgresDatabase.tearDownConnection();
+    disconnect(stmt);
   }
 
   @Test
@@ -91,4 +105,26 @@ public class PostgresDatabaseTest {
     assertEquals("name", results.get(1));
     assertEquals(60, results.get(3));
   }
+
+  @Test
+  public void testInsertUserExercise() throws SQLException, URISyntaxException {
+    boolean status = false;
+    Statement stmt = connect();
+
+    // Validate query
+    String query = "SELECT EXISTS(SELECT 1 FROM everybody_app.exercises WHERE username = 'mock1' AND exercise_name = 'mockExercise1');";
+    ResultSet result = stmt.executeQuery(query);
+    while(result.next()) {
+      status = result.getBoolean("exists");
+    }
+    assertTrue(status);
+
+    disconnect(stmt);
+  }
+
+//  @Test
+// public void testInsertWorkout() {
+//    PostgresDatabase.insertUserWorkout(60, "dummy", 0, "text", "mock1",
+//      "mockWorkout", 0);
+//  }
 }
