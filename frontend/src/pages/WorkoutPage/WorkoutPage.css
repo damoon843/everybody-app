@@ -1,0 +1,74 @@
+.workout-info {
+  margin: 6rem 4rem 2rem 4rem;
+}
+
+#workout-title {
+  font-weight: 800;
+}
+
+.workout-detail-user {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.workout-likes-detail {
+  display: flex;
+  align-items: flex-start;
+}
+
+.detail-follow-btn {
+  width: 6rem;
+  height: 2rem;
+  border: 1px solid grey;
+  padding: 0.1rem 0;
+  background-color: transparent;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+  margin: 0 1rem;
+}
+
+.detail-follow-btn:hover {
+  cursor: pointer;
+}
+
+.detail-following-btn {
+  width: 6rem;
+  height: 2rem;
+  border: none;
+  padding: 0.1rem 0;
+  background-color: #9c9c9c;
+  color: white;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+  margin: 0 1rem;
+}
+
+.detail-following-btn:hover {
+  cursor: pointer;
+}
+
+.workout-detail-title {
+  display: flex;
+  align-items: center;
+}
+
+.like-btn-detail {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 0.5rem 0 1rem;
+}
+
+.liked-detail {
+  width: 4rem;
+  color: #d10808;
+}
+
+.unliked-detail {
+  width: 4rem;
+  color: #9c9c9c;
+}
+
+.additional-details {
+  margin: 1rem 0;
+}

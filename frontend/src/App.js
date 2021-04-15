@@ -22,7 +22,7 @@ function App() {
       <Switch>
         <Route path="/workout/:id">
           <Toolbar />
-          <WorkoutPage />
+          <WorkoutPage username={username} />
         </Route>
         <Route path="/exercises">
           <Toolbar />
