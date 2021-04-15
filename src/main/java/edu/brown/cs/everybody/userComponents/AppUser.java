@@ -1,9 +1,12 @@
 package edu.brown.cs.everybody.userComponents;
 
+import com.google.common.collect.ImmutableMap;
 import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
+import edu.brown.cs.everybody.utils.ErrorConstants;
 import edu.brown.cs.everybody.utils.KosarajusAlgorithm;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.*;

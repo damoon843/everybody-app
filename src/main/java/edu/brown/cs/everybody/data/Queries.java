@@ -238,7 +238,7 @@ public final class Queries {
    */
   public static String getWorkoutId() {
     return "SELECT workout_id FROM everybody_app.workouts"
-      + " WHERE workout_name = ? AND username = ?";
+      + " WHERE workout_name = ? AND username = ?;";
   }
 
   /**
@@ -246,6 +246,6 @@ public final class Queries {
    * @return query string
    */
   public static String getRelation() {
-    return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?";
+    return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?;";
   }
 }

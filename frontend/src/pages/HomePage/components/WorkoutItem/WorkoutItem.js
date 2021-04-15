@@ -1,11 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import './WorkoutItem.css';
-// import { followUser } from '../../../../api';
 import axios from 'axios';
+import {Card, Button} from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-function Workout(props){
-  const [following, setFollowing] = useState(props.following)
-  let followBtn = useRef(null)
+function WorkoutItem(props){
+  const [following, setFollowing] = useState(props.workout.following)
+  const [like, setLike] = useState(false)
+  const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
+  const url = "/workout/" + props.workout.workout_id
 
   const followUser = async () => {
     let config = {
@@ -17,7 +21,7 @@ function Workout(props){
     }
     let toSend = {
       username: props.username.current,
-      following: props.postingUser
+      following: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/follow",
@@ -42,10 +46,60 @@ function Workout(props){
     }
     let toSend = {
       username: props.username.current,
-      following: props.postingUser
+      following: props.workout.posting_user
     }
     await axios.post(
         "http://localhost:4567/unfollow",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const likePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/registerLike",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const unlikePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/unregisterLike",
         toSend,
         config
     )
@@ -69,23 +123,76 @@ function Workout(props){
     }
   }
 
-  useEffect(() => {
-    if (following) {
-      followBtn.current = <button onClick={toggleFollowing}>following</button>
+  const toggleLike = () => {
+    if (like) {
+      unlikePost().then(response => {
+        setLike(false)
+        const newCount = likeCount - 1
+        setLikeCount(newCount)
+      })
     } else {
-      followBtn.current = <button onClick={toggleFollowing}>follow</button>
+      likePost().then(response => {
+        setLike(true)
+        const newCount = likeCount + 1
+        console.log(newCount)
+        setLikeCount(newCount)
+      })
     }
-  }, [following])
+  }
+
+  useEffect(() => {
+  }, [following, like, likeCount])
 
   return(
-    <div className="workout-container">
-      <h4>{props.name}</h4>
-      <div className="workout-poster">
-        <h5>{props.postingUser}</h5>
-      </div>
-      <p>Description: {props.description}</p>
-      {followBtn}
-    </div>
+
+    <Card className="workout-item">
+      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Body>
+        <Card.Text>
+        <div className="workout-title">
+            <h4>{props.workout.workout_name}</h4>
+            <div className="workout-likes">
+              <p className="like">{likeCount}</p>
+              {like
+              ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+              : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+            </div>
+          </div>
+          <div className="workout-user">
+            <p className="workout-posting-user">{props.workout.posting_user}</p>
+            <div>
+              {following 
+              ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+            </div>
+          </div>
+          <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
+          <a href={url}><button id="start-workout-btn" className="submit-btn" >Start workout</button></a>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+
+    // <div className="workout-item">
+    //   <div className="workout-title">
+    //     <h4>{props.workout.workout_name}</h4>
+    //     <div className="workout-likes">
+    //       <p className="like">{likeCount}</p>
+    //       {like
+    //       ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+    //       : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+    //     </div>
+    //   </div>
+      
+    //   <div className="workout-user">
+    //     <p className="workout-posting-user">{props.workout.posting_user}</p>
+    //     <div>
+    //     {following 
+    //     ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+    //     </div>
+    //   </div>
+    //   <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
+    //   <p>Description: {props.workout.description}</p>
+    //   <a href={url} className="submit-btn start-workout-btn">Start workout</a>
+    // </div>
   );
 }
-export default Workout
+export default WorkoutItem

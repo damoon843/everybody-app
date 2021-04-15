@@ -1,79 +1,178 @@
-import React, {useState, useEffect} from 'react'; 
-import WorkoutItem from './components/WorkoutItem/WorkoutItem';
+import React, { useState, useEffect } from 'react'; 
 import './WorkoutPage.css';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
-// fix this so that it shows workout title at top
-// and then individual exercises in iframe
-
-// replace all instances of [sampleWorkout] with [workout] state variable
-const sampleWorkout = {
-  title: "workout 1",
-  description: "this is a workout description.",
-  user: "tim nelson",
-  avatar: "https://cs.brown.edu/~tbn/timbw.png",
-  exercises: [
-    { title: "exercise 1", username: "tom doeppner", avatar: "https://cs.brown.edu/media/filer_public_thumbnails/filer_public/2014/10/08/twd.jpg__120x180_q85_crop_subject_location-1563%2C2501_subsampling-2_upscale.jpg", description: "this is the description for an exercise.", duration: "00:05:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-    { title: "exercise 2", username: "kathi fisler", avatar: "https://cs.brown.edu/~kfisler/Images/kathi-lab.jpg", description: "this is the description for an exercise.", duration: "00:03:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-    { title: "exercise 3", username: "tom doeppner", avatar: "https://cs.brown.edu/media/filer_public_thumbnails/filer_public/2014/10/08/twd.jpg__120x180_q85_crop_subject_location-1563%2C2501_subsampling-2_upscale.jpg", description: "this is the description for an exercise.", duration: "00:02:00", src: "https://www.youtube.com/embed/lTRiuFIWV54"  },
-    { title: "exercise 4", username: "tom doeppner", avatar: "https://cs.brown.edu/media/filer_public_thumbnails/filer_public/2014/10/08/twd.jpg__120x180_q85_crop_subject_location-1563%2C2501_subsampling-2_upscale.jpg", description: "this is the description for an exercise.", duration: "00:05:00", src: "https://www.youtube.com/embed/lTRiuFIWV54"  },
-    { title: "exercise 5", username: "jeff huang", avatar: "https://vivo.brown.edu/profile-images/532/017/d77/d4d/4d5/994/fb0/a57/2ba/5e9/16/jeffh_photo_.jpg", description: "this is the description for an exercise.", duration: "00:08:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-    { title: "exercise 6", username: "david laidlaw", avatar: "https://0.academia-photos.com/9364/3233/3204/s200_david_h..laidlaw.jpg", description: "this is the description for an exercise.", duration: "00:05:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-    { title: "exercise 7", username: "kathi fisler", avatar: "https://cs.brown.edu/~kfisler/Images/kathi-lab.jpg", description: "this is the description for an exercise.", duration: "00:06:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-    { title: "exercise 8", username: "tim nelson", avatar: "https://cs.brown.edu/~tbn/timbw.png", description: "this is the description for an exercise.", duration: "00:04:00", src: "https://www.youtube.com/embed/lTRiuFIWV54" },
-  ]}
+const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
 
 function WorkoutPage(props) {
-  // const [workout, setWorkout] = useState({});
-  const [exercises, setExercises] = useState([]);
-  // const [index, setIndex] = useState(0);
+  const [following, setFollowing] = useState(workout.following)
+  const [like, setLike] = useState(false)
+  const [likeCount, setLikeCount] = useState(parseInt(workout.like_count))
 
-  // render the workout's exercises in a listview
-  const renderExercises = () => {
-    setExercises(sampleWorkout.exercises.map((exercise, index) => <WorkoutItem key={index} title={exercise.title} duration={exercise.duration} username={exercise.username} avatar={exercise.avatar} description={exercise.description} src={exercise.src} />));
-    // setCurrExercise(exercises[0])
+  const followUser = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      username: props.username.current,
+      following: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/follow",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const unfollowUser = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      username: props.username.current,
+      following: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/unfollow",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const likePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/registerLike",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const unlikePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
+    }
+    await axios.post(
+        "http://localhost:4567/unregisterLike",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const toggleFollowing = () => {
+    if (following) {
+      unfollowUser().then(response => {
+        setFollowing(false)
+      })
+    } else {
+      followUser().then(response => {
+        setFollowing(true)
+      })
+    }
+  }
+
+  const toggleLike = () => {
+    if (like) {
+      unlikePost().then(response => {
+        setLike(false)
+        const newCount = likeCount - 1
+        setLikeCount(newCount)
+      })
+    } else {
+      likePost().then(response => {
+        setLike(true)
+        const newCount = likeCount + 1
+        console.log(newCount)
+        setLikeCount(newCount)
+      })
+    }
   }
 
   useEffect(() => {
-    // setWorkout(getWorkout(props.id))
-    renderExercises()
-  }, []);
+  }, [following, like, likeCount])
 
-  
-  
   return (
-    <div className="workout-page">
-      <div id="workout-info">
-        <h1>{sampleWorkout.title}</h1>
-        <div>
-          <div className="workout-user">
-            <div id="workout-user-info">
-              <img alt="workout info" src={sampleWorkout.avatar} id="workout-user-img" />
-              <p>{sampleWorkout.user}</p>
+    <div className="workout-page fade-in">
+      <div className="workout-page-container">
+        <div className="workout-info">
+          <div className="workout-detail-title">
+            <h1 id="workout-title">{workout.workout_name}</h1>
+            <div className="workout-likes-detail">
+              {like
+              ? <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="liked-detail" icon={faHeart} /></button>
+              : <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="unliked-detail" icon={faHeart} /></button>}
+              <h5 className="like">{likeCount}</h5>
             </div>
           </div>
-          <p>{sampleWorkout.description}</p>
-        </div>
-        <div id="workout-page-left">
-          <iframe id="workout-video" src="https://www.youtube.com/embed/5qap5aO4i9A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
-          <div id="exercise-text">
-            {/* <h3>{currExercise.props.title}</h3> */}
-            <div className="exercise-user">
-              <div id="exercise-user-info">
-                <img alt="workout user" src={sampleWorkout.avatar} id="workout-user-img" />
-                {/* <p>{currExercise.props.username}</p> */}
-              </div>
-            </div>
-            {/* <p>{currExercise.props.description}</p> */}
+          <h2>{workout.description}</h2>
+          <div className="workout-detail-user">
+            <h4 id="workout-detail-poster">{workout.posting_user}</h4>
+              {following 
+            ? <button className="detail-following-btn" onClick={toggleFollowing}>Following</button> : <button className="detail-follow-btn" onClick={toggleFollowing}>Follow</button>}
+          </div>
+          <div className="additional-details">
+            <p>Estimated duration: {Math.floor(workout.duration/60)} minutes <br></br> Created: {workout.created_at}</p>
           </div>
         </div>
-      </div>
-      <div className="workout-page-section">
-        <div id="workout-page-right">
-          <h3>Exercises</h3>
-          { exercises }
-        </div>
+        <hr></hr>
+        <h2 id="workout-subheading">Exercises</h2>
+        <ExerciseItem/>
       </div>
     </div>
   );
 }
+
 export default WorkoutPage

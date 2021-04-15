@@ -1,14 +1,89 @@
-.workout-container {
+.workout-item {
   display: flex;
   flex-direction: column;
   width: 22rem;
-  height: 17rem;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
   margin: 1rem;
   background-color: white;
-  padding: 1rem;
 }
 
-.workout-poster {
+.workout-posting-user {
+  font-size: 1.1rem;
+}
+
+.workout-user {
   display: flex;
+  align-items: flex-start;
+}
+
+.workout-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.like-btn {
+  background-color: white;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 0.75rem;
+}
+
+.liked {
+  width: 1.5rem;
+  color: #d10808;
+}
+
+.unliked {
+  width: 1.5rem;
+  color: #9c9c9c;
+}
+
+.like {
+  color: #9c9c9c;
+}
+
+.workout-likes {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: flex-start;
+}
+
+.follow-btn {
+  width: 6rem;
+  border: 1px solid grey;
+  padding: 0.1rem 0;
+  background-color: white;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+  margin: 0 0.25rem 0 0.5rem;
+}
+
+.follow-btn:hover {
+  cursor: pointer;
+}
+
+.following-btn {
+  width: 6rem;
+  border: none;
+  padding: 0.1rem 0;
+  background-color: #9c9c9c;
+  color: white;
+  border-radius: 4px;
+  transition: 0.2s ease-in-out;
+  margin: 0 0.25rem 0 0.5rem;
+}
+
+.following-btn:hover {
+  cursor: pointer;
+}
+
+#start-workout-btn {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+
+.start-workout-btn:hover {
+  text-decoration: none;
+  color: white;
 }

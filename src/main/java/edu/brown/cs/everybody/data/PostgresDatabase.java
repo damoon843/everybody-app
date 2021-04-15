@@ -386,7 +386,7 @@ public final class PostgresDatabase {
    * @param id user ID
    * @return AppUser object containing info about user with given id
    */
-  public static AppUser getUser(int id) throws SQLException, URISyntaxException {
+  public static AppUser getUser(int id) throws SQLException {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUser();
     AppUser user = null;
@@ -596,7 +596,6 @@ public final class PostgresDatabase {
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       try (ResultSet res = stmt.executeQuery()) {
-        System.out.println("At start of getExercises query");
         while (res.next()) {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
@@ -628,7 +627,6 @@ public final class PostgresDatabase {
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
-    System.out.println("Done with getExercises query");
     return results;
   }
 
@@ -853,9 +851,9 @@ public final class PostgresDatabase {
    * @return String form of boolean true if userID follows following, false otherwise
    */
   public static String getFollowingRelation(int userID, String following) throws SQLException, URISyntaxException {
-    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getRelation();
     int followingID = getUserID(following);
+    dbConn = DataSourcePool.getConnection();
     boolean relation = false;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setInt(1, userID);
