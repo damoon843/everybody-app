@@ -4,6 +4,9 @@ import edu.brown.cs.everybody.data.DataSourcePool;
 import static org.junit.Assert.*;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -14,9 +17,21 @@ import java.sql.Statement;
  * Tests DataSourcePool.
  */
 public class DataSourcePoolTest {
-  @Test
-  public void testConfigurePool() {
+  @BeforeClass
+  public static void setUp() throws SQLException {
     DataSourcePool.configurePool();
+    BasicDataSource ds = DataSourcePool.getDataSource();
+    ds.start();
+  }
+
+  @AfterClass
+  public static void tearDown() throws SQLException {
+    BasicDataSource ds = DataSourcePool.getDataSource();
+    ds.close();
+  }
+
+  @Test
+  public void testConfigurePool() throws SQLException {
     BasicDataSource ds = DataSourcePool.getDataSource();
 
     // Test data source properties
@@ -27,7 +42,6 @@ public class DataSourcePoolTest {
 
   @Test
   public void testPoolConnection() throws SQLException {
-    DataSourcePool.configurePool();
     BasicDataSource ds = DataSourcePool.getDataSource();
 
     // Test conn set-up
