@@ -867,6 +867,34 @@ public final class PostgresDatabase {
   }
 
   /**
+   * Returns usernames which are similar to input query.
+   * @param query query name
+   * @param currUser username of current user
+   * @return list of similar usernames
+   */
+  public static List<String> getMatching(String query, String currUser) throws SQLException, URISyntaxException {
+    int currID = getUserID(currUser);
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getMatching();
+    List<String> output = new ArrayList<>();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, query);
+      stmt.setInt(2, currID);
+      try (ResultSet res = stmt.executeQuery()) {
+        if (res.next()) {
+          output.add(res.getString("username"));
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_MATCHING);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return output;
+  }
+
+  /**
    * Completely wipes user and their posts/relations from DB.
    * @param username username of user to delete
    */

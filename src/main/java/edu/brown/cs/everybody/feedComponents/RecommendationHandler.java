@@ -157,7 +157,7 @@ public class RecommendationHandler {
 //      int additionalWorkoutsNeeded = 14 - (counter + counter2);
 //      PriorityQueue<Workout> additionalWorkouts;
 //
-//      // TODO: EDIT
+//      // TODO: EDIT USE QUERY TO JOIN RECENTLY VIEWED WITH WORKOUTS AND RETURN ONLY WORKOUTS WITH HIGHEST LIKES WHERE THE IDS DONT MATCH (SO NOT SEEN YET)
 //      while (additionalWorkoutsNeeded > 0) {
 //        try {
 //          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(additionalWorkoutsNeeded);

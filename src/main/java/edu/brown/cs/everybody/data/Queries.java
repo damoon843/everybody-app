@@ -250,8 +250,18 @@ public final class Queries {
   }
 
   /**
-   * Wipes user from DB. Note a cascade delete cannot be used as other foreign key relations (i.e. workout IDs in the
-   * viewed_workouts table) would result in objects not created by the user being wiped.
+
+   * Retrieves similar usernames to input string that current user doesn't follow.
+   * @return query string
+   */
+  public static String getMatching() {
+    return "SELECT id, username FROM everybody_app.users WHERE username LIKE '%?%' AND"
+    + " id NOT IN (SELECT following_id FROM everybody_app.following WHERE user_id = ?)";
+  }
+
+
+  /**
+   * Wipes user from DB.
    * @return query string
    */
   public static String removeUser() {

@@ -337,8 +337,44 @@ public class UserHandlers {
   /**
    * Handles search user requests.
    */
-  //public static class GetMatchingUsersHandler implements Route {
+  public static class GetMatchingUsersHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      String query = data.getString("query");
+      Map<String, Object> variables;
+      String username = "";
+      List<String> matching;
 
-  //}
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+      if (username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
+      try {
+        matching = PostgresDatabase.getMatching(query, username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_MATCHING);
+        return GSON.toJson(variables);
+      }
+
+      variables = ImmutableMap.of("matches", matching);
+      return GSON.toJson(variables);
+    }
+  }
 }
 
