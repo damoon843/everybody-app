@@ -208,11 +208,13 @@ public final class Queries {
   }
 
   /**
-   * Gets certain number of additional workouts ranked on total like_count.
+   * Gets certain number of additional workouts ranked on total like_count that the current user has not already seen.
    * @return query string
    */
-  public static String getCommunityWorkouts() {
-    return "SELECT * FROM everybody_app.workouts ORDER BY workouts.total_likes DESC LIMIT ?;";
+  public static String getAdditionalWorkouts() {
+    return "SELECT * FROM everybody_app.workouts WHERE workout_id NOT IN "
+        + "(SELECT workout_id FROM everybody_app.viewed_workouts WHERE everybody_app.user_id = ?) "
+        + "ORDER BY total_likes DESC LIMIT ?;";
   }
 
   /**
@@ -250,7 +252,6 @@ public final class Queries {
   }
 
   /**
-
    * Retrieves similar usernames to input string that current user doesn't follow.
    * @return query string
    */
@@ -258,7 +259,6 @@ public final class Queries {
     return "SELECT id, username FROM everybody_app.users WHERE username LIKE '%?%' AND"
     + " id NOT IN (SELECT following_id FROM everybody_app.following WHERE user_id = ?)";
   }
-
   
   /**
    * Wipes user from DB.

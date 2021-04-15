@@ -153,29 +153,33 @@ public class RecommendationHandler {
         }
       }
 
-//      // Gets additional workouts if needed to reach 14 total workouts
-//      int additionalWorkoutsNeeded = 14 - (counter + counter2);
-//      PriorityQueue<Workout> additionalWorkouts;
-//
-//      // TODO: EDIT USE QUERY TO JOIN RECENTLY VIEWED WITH WORKOUTS AND RETURN ONLY WORKOUTS WITH HIGHEST LIKES WHERE THE IDS DONT MATCH (SO NOT SEEN YET)
-//      while (additionalWorkoutsNeeded > 0) {
-//        try {
-//          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(additionalWorkoutsNeeded);
-//          Workout recentPost = additionalWorkouts.poll();
-//          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
-//              (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
-//            user.addRecentlyViewed(recentPost.getWorkoutId());
-//            finalSortedWorkouts.add(recentPost);
-//            additionalWorkoutsNeeded --;
-//          } else {
-//            recentPost = additionalWorkouts.poll();
-//          }
-//        } catch (Exception e) {
-//          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//          variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_ADDWORKOUTS);
-//          return GSON.toJson(variables);
-//        }
-//      }
+      // Gets additional workouts if needed to reach 14 total workouts
+      int additionalWorkoutsNeeded = 14 - (counter + counter2);
+      PriorityQueue<Workout> additionalWorkouts;
+
+      while (additionalWorkoutsNeeded > 0) {
+        try {
+          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(
+              additionalWorkoutsNeeded + 5, user.getUserID());
+          Workout recentPost = additionalWorkouts.poll();
+          while (recentPost != null) {
+            if (additionalWorkoutsNeeded <= 0) {
+              break;
+            } else if (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration) {
+              user.addRecentlyViewed(recentPost.getWorkoutId());
+              finalSortedWorkouts.add(recentPost);
+              additionalWorkoutsNeeded--;
+              recentPost = additionalWorkouts.poll();
+            } else {
+              recentPost = additionalWorkouts.poll();
+            }
+          }
+        } catch (Exception e) {
+          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_ADDWORKOUTS);
+          return GSON.toJson(variables);
+        }
+      }
 
       // List of Workouts to return to frontend
       List<Map<String, String>> output = new ArrayList<>();

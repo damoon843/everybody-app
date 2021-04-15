@@ -801,14 +801,16 @@ public final class PostgresDatabase {
   /**
    * Gets additional workouts based on highest like_count posted by any user.
    * @param additionalWorkoutsNeeded number of workouts to obtain
+   * @param userID current user id
    * @return PQ of workouts
    */
-  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded) throws URISyntaxException, SQLException {
+  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded, int userID) throws SQLException {
     dbConn = DataSourcePool.getConnection();
-    String queryString = Queries.getCommunityWorkouts();
+    String queryString = Queries.getAdditionalWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-      stmt.setInt(1, additionalWorkoutsNeeded);
+      stmt.setInt(1, userID);
+      stmt.setInt(2, additionalWorkoutsNeeded);
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
           int workoutID = res.getInt("workout_id");
