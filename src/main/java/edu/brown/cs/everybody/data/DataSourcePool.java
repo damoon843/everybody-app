@@ -44,6 +44,8 @@ public class DataSourcePool {
     ds.setRemoveAbandonedOnBorrow(true); // Remove abandoned connections
     ds.setRemoveAbandonedTimeout(10); // Timeout before abandoned connections removed
     ds.setMaxOpenPreparedStatements(30);
+    ds.setPoolPreparedStatements(true);
+    ds.setClearStatementPoolOnReturn(true); // Clear pool of statements when returning connection
 
     // Test connection before proceeding with action
     ds.setTestOnBorrow(true);
