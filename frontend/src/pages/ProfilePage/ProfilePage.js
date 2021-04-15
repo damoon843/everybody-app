@@ -3,15 +3,49 @@ import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
 import axios from 'axios';
+import Following from "./components/Following/Following";
 
 function ProfilePage(props){
   const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
+  const [following,setFollowing]=useState([])
+  const [followCount, setFollowCount]= useState(0)
+  const displayFollowing = []; // set to allFollowing
 
   useEffect(() => {
+    getAllFollowing();
     getUserWorkouts();
     getUser();
-  }, []);
+  }, [following]);
+
+  const getFollowing = async (username) => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    const toSend = {
+      username: username
+    };
+    let res = await axios.post(
+        "http://localhost:4567/allFollowing",
+        toSend,
+        config
+  
+    )
+    return res.data.following
+  }
+
+  const getAllFollowing = async () => {
+    console.log(props.user)
+    getFollowing(props.user).then(result => {
+      console.log(result)
+      setFollowing(result)
+      setFollowCount(result.length)
+      console.log(followCount)
+    });
+  }
 
   const getUser = async () => {
     let config = {
@@ -67,6 +101,7 @@ function ProfilePage(props){
       <div className="profile-workouts">
         {workouts}
       </div>
+      <Following user = {props.user} following = {following}></Following>
     </div>
   );
 }
