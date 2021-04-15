@@ -179,7 +179,7 @@ public final class Queries {
    */
   public static String getSimilarExercises() {
     return "SELECT * FROM everybody_app.exercises"
-        + " WHERE exercise_name LIKE %?% ORDER BY created_at DESC"
+        + " WHERE exercise_name LIKE '%?%' ORDER BY created_at DESC"
         + " LIMIT 20;";
   }
 
@@ -248,4 +248,15 @@ public final class Queries {
   public static String getRelation() {
     return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?;";
   }
+
+  /**
+   * Retrieves similar usernames to input string that current user doesn't follow.
+   * @return query string
+   */
+  public static String getMatching() {
+    return "SELECT id, username FROM everybody_app.users WHERE username LIKE '%?%' AND"
+    + " id NOT IN (SELECT following_id FROM everybody_app.following WHERE user_id = ?)";
+  }
+
+  
 }
