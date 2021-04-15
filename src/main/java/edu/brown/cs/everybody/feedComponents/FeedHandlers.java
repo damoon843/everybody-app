@@ -155,8 +155,6 @@ public class FeedHandlers {
         return GSON.toJson(variables);
       }
 
-      System.out.println(workouts);
-
       Workout finalWorkout = workouts.poll();
       while (finalWorkout != null) {
         output.add(finalWorkout.toMap());

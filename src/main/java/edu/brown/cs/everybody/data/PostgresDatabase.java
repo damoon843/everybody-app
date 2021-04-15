@@ -167,18 +167,7 @@ public final class PostgresDatabase {
             .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
           pq.add(workout);
         }
-        System.out.println("NO WORKOUTS");
       }
-//      } catch (SQLException ex) {
-//        tearDownConnection();
-//        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
-//        System.out.println("ERROR 1");
-//        System.out.println(ex.getMessage());
-//        throw new SQLException(ex.getMessage());
-//      }
-//      tearDownConnection();
-//      System.out.println(pq.size());
-//      return pq;
     } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
