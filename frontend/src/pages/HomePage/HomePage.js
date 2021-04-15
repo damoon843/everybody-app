@@ -55,14 +55,15 @@ function Home(props) {
 
   useEffect(() => {
     getExercises()
+    console.log(props.username)
   }, [render])
 
   return (
     <div className="home fade-in">
       <div className="upload">
         <h5>Upload Activities</h5>
-        <ExerciseModal render={render} rerender={rerender} user={props.user} id="exercise-modal"/>
-        <WorkoutModal user={props.user} exercises={exercises} id="workout-modal"/>
+        <ExerciseModal render={render} rerender={rerender} username={props.username} id="exercise-modal"/>
+        <WorkoutModal username={props.username} exercises={exercises} id="workout-modal"/>
       </div>
       <Main user={props.user} />
     </div>

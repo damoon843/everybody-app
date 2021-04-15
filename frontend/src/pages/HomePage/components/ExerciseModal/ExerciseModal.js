@@ -12,25 +12,25 @@ function ExerciseModal(props){
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const createExercise = async (toSend) => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      }
-    }
-    await axios.post(
-      "http://localhost:4567/uploadExercise",
-      toSend,
-      config
-    )
-    .then(response => {
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  // const createExercise = async (toSend) => {
+  //   let config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       'Access-Control-Allow-Origin': '*',
+  //     }
+  //   }
+  //   await axios.post(
+  //     "http://localhost:4567/uploadExercise",
+  //     toSend,
+  //     config
+  //   )
+  //   .then(response => {
+  //     return response.data;
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
 
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
@@ -56,13 +56,17 @@ function ExerciseModal(props){
 
   const submitExercise = async (e) => {
     e.preventDefault();
+
+    let msg = document.getElementById("exercise-form-msg")
+    msg.innerText = ""
+
     const title = document.getElementById('exercise-title').value;
     const desc = document.getElementById('exercise-description').value;
     let duration = document.getElementById('exercise-duration').value;
-    let newDuration = duration * 60;
     let type = getRadioVal('exercise-type-pref');
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
+    let newDuration = duration * 60;
     const media = document.getElementById('exercise-media').value;
 
     // let file = inputFile.current.files[0]
@@ -85,43 +89,50 @@ function ExerciseModal(props){
     //   }
     // })
 
-    const toSend = {
-      username: props.user,
-      exerciseName: title,
-      mediaLink: media,
-      duration: newDuration,
-      tags: checkedVals,
-      description: desc
-    };
-    console.log(toSend)
-
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
+    if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
+      const toSend = {
+        username: props.username.current,
+        exerciseName: title,
+        mediaLink: media,
+        duration: newDuration,
+        tags: checkedVals,
+        description: desc
+      };
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        }
       }
+      await axios.post(
+        "http://localhost:4567/uploadExercise",
+        toSend,
+        config
+      )
+      .then(response => {
+        if (response.status == 200) {
+          msg.innerText = "Exercise submitted successfully!";
+          setTimeout(function(){ 
+            props.rerender(title);
+            handleClose(); 
+          }, 1000);
+        }
+      })
+      .catch(function (error) {
+        msg.innerText = "Error: could not submit exercise.";
+        console.log(error);
+      });
+    } else {
+      console.log(props.username)
+      console.log(title)
+      console.log(media)
+      console.log(newDuration)
+      console.log(checkedVals)
+      console.log(desc)
+      msg.innerText = "Please fill out all fields.";
     }
-    await axios.post(
-      "http://localhost:4567/uploadExercise",
-      toSend,
-      config
-    )
-    .then(response => {
-      console.log(response)
-      setShow(false);
-      console.log(props.render)
-      props.rerender(title);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
 
-    // createExercise(toSend).then(result => {
-    //   setShow(false);
-    //   console.log(props.render)
-    //   props.rerender(title);
-    //   // window.location.reload();
-    // });
+
   }
 
   return (
@@ -132,56 +143,48 @@ function ExerciseModal(props){
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Upload Exercise</Modal.Title>
+          <Modal.Title className="modal-title">Upload Exercise</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form action="/uploadExercise" className="exercise-form">
-            <label>Title<input id="exercise-title" type="text" placeholder="Enter exercise title" /></label>
+            <label className="exercise-form-label"><h5>Title</h5><input id="exercise-title" type="text" placeholder="Enter exercise title" required/></label>
             
-            <label>Description<input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" /></label>
+            <label className="exercise-form-label"><h5>Description</h5><textarea id="exercise-description" rows={3} type="text" placeholder="Enter a description of your exercise" required/></label>
             
-            <label>Duration<input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" /></label>
-            
-            <div>
-              <p>Exercise Type</p>
-              <div className="exercise-radio-row">
-                
-                <label className="radio-label"><input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required defaultChecked/>Cardio</label>
-              </div>
-              <div className="exercise-radio-row">
-                
-                <label className="radio-label"><input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>Bodyweight</label>
-              </div>
-            </div>
+            <label className="exercise-form-label"><h5>Duration (number of minutes)</h5><input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" required/></label>
 
-            <div>
-              <p>Body Area Tags</p>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="arms" name="body-tags" value="arms" required/>Arms</label>
+            <label className="exercise-form-label"><h5>Upload media</h5><input type="file" id="exercise-media" name="exercise-media" ref={inputFile} required/></label>
+
+            <div className="exercise-form-row">
+              <div className="exercise-row-item">
+                <h5>Exercise Type</h5>
+                <div className="exercise-radio-row">
+                  
+                  <label className="exercise-radio-label"><input className="input-spacer" type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required defaultChecked/>Cardio</label>
+                  <label className="exercise-radio-label"><input className="input-spacer" type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>Bodyweight</label>
+                </div>
               </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="legs" name="body-tags" value="legs"/>Legs</label>
-              </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="chest" name="body-tags" value="chest"/>Chest</label>
-              </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="abs" name="body-tags" value="abs"/>Abs</label>
+
+              <div className="exercise-row-item">
+                <h5>Body Area Tags</h5>
+                <div className="exercise-check-row">
+                  
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="arms" name="body-tags" value="arms" required/>Arms</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="legs" name="body-tags" value="legs"/>Legs</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="chest" name="body-tags" value="chest"/>Chest</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="abs" name="body-tags" value="abs"/>Abs</label>
+                </div>
               </div>
             </div>
-            <label>Upload media<input type="file" id="exercise-media" name="exercise-media" ref={inputFile} /></label>
             
             </form>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={handleClose}>
+          <p id="exercise-form-msg"></p>
+          <button className="close-btn" onClick={handleClose}>
             Close
           </button>
-          <button onClick={submitExercise}>Upload Exercise</button>
+          <button className="submit-btn" onClick={submitExercise}>Upload Exercise</button>
         </Modal.Footer>
       </Modal>
     </div>
