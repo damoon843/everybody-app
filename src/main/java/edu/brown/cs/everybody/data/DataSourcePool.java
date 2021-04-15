@@ -62,4 +62,12 @@ public class DataSourcePool {
   public static Connection getConnection() throws SQLException {
     return ds.getConnection();
   }
+
+  /**
+   * Getter for BasicDataSource.
+   * @return BasicDataSource
+   */
+  public static BasicDataSource getDataSource() {
+    return ds;
+  }
 }
