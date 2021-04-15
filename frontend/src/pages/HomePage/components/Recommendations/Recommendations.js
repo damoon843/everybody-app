@@ -29,7 +29,7 @@ function Recommendations(props) {
     .then(response => {
       const data = response.data.workouts
       console.log(data)
-      setWorkouts(data.map((workout) => <Workout key={workout.id} id={workout.workout_id} name={workout.workout_name} createdAt={workout.created_at} description={workout.description} duration={workout.duration} postingUser={workout.posting_user} likeCount={workout.like_count} mediaLink={workout.media_link} username={props.username} following={workout.following}/>))
+      setWorkouts(data.map((workout) => <Workout key={workout.workout_id} id={workout.workout_id} name={workout.workout_name} createdAt={workout.created_at} description={workout.description} duration={workout.duration} postingUser={workout.posting_user} likeCount={workout.like_count} mediaLink={workout.media_link} username={props.username} following={workout.following}/>))
     })
     .catch(function (error) {
       console.log(error.response.data);
@@ -37,7 +37,7 @@ function Recommendations(props) {
   }
 
   useEffect(() => {
-    getRecommendations();
+    // getRecommendations();
   }, []);
 
   // makes an api request and sets initial state variable
