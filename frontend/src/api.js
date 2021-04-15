@@ -5,28 +5,28 @@ import axios from 'axios';
 
 // gets workout recommendations for a specific user
 // username: the user's username
-export const getRecommendations = async (username) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  const toSend = {
-    username: username
-  };
-  await axios.post(
-    "http://localhost:4567/getRecommendations",
-    toSend,
-    config,
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+// export const getRecommendations = async (username) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   const toSend = {
+//     username: username
+//   };
+//   await axios.post(
+//     "http://localhost:4567/getRecommendations",
+//     toSend,
+//     config,
+//   )
+//   .then(response => {
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // gets workouts for a specific user
 // username: the user's username

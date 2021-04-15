@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import Main from './components/Main/Main';
+import Recommendations from './components/Recommendations/Recommendations';
 import ExerciseModal from './components/ExerciseModal/ExerciseModal'
 import WorkoutModal from './components/WorkoutModal/WorkoutModal'
 import './HomePage.css';
@@ -65,7 +65,7 @@ function Home(props) {
         <ExerciseModal render={render} rerender={rerender} username={props.username} id="exercise-modal"/>
         <WorkoutModal username={props.username} exercises={exercises} id="workout-modal"/>
       </div>
-      <Main user={props.user} />
+      <Recommendations username={props.username} />
     </div>
   );
 }
