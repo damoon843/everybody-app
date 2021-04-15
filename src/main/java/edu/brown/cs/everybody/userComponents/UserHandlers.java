@@ -278,5 +278,12 @@ public class UserHandlers {
       return GSON.toJson(variables);
     }
   }
+
+  /**
+   * Handles search user requests.
+   */
+  //public static class GetMatchingUsersHandler implements Route {
+
+  //}
 }
 

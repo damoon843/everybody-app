@@ -86,6 +86,8 @@ public class Server {
     Spark.post("/registerLike", new FeedHandlers.LikeHandler());
     // Registers an unlike (on a workout)
     Spark.post("/registerUnlike", new FeedHandlers.UnlikeHandler());
+    // Returns all
+    //Spark.post("/getMatchingUsers", new UserHandlers.GetMatchingUsersHandler());
   }
 
   /**

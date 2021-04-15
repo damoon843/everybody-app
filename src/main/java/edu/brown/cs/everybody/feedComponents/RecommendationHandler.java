@@ -60,13 +60,14 @@ public class RecommendationHandler {
       int lowBoundDuration;
       int highBoundDuration;
       if (user.getWorkoutDuration() == 0) {
+        // bounds in seconds
         lowBoundDuration = 0;
-        highBoundDuration = 30;
+        highBoundDuration = 1800;
       } else if (user.getWorkoutDuration() == 1) {
-        lowBoundDuration = 30;
-        highBoundDuration = 60;
+        lowBoundDuration = 1800;
+        highBoundDuration = 3600;
       } else {
-        lowBoundDuration = 60;
+        lowBoundDuration = 3600;
         highBoundDuration = Integer.MAX_VALUE;
       }
 
