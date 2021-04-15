@@ -248,4 +248,12 @@ public final class Queries {
   public static String getRelation() {
     return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?;";
   }
+
+  /**
+   * Wipes user from DB.
+   * @return query string
+   */
+  public static String removeUser() {
+    return "";
+  }
 }

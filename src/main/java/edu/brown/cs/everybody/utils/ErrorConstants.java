@@ -38,5 +38,6 @@ public final class ErrorConstants {
   public static final String ERROR_SESSION_USERNAME = "Error retrieving session username.";
   public static final String ERROR_LOGIN_FAILED = "Failed to log-in with given credentials.";
   public static final String LOGIN_SUCCESS = "Log-in succeeded.";
+  public static final String ERROR_DELETE_USER =  "Error removing user from database.";
 }
 

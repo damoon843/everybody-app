@@ -63,14 +63,41 @@ public class UserHandlers {
     }
   }
 
-  // TODO: FINISH
   public static class DeleteUserHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
+      Map<String, Object> variables;
+      String username = "";
 
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+      if (username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
 
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
+      try {
+        PostgresDatabase.removeUser(username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_DELETE_USER);
+        return GSON.toJson(variables);
+      }
+
+      variables = ImmutableMap.of("foo", "bar");
       return GSON.toJson(variables);
     }
   }

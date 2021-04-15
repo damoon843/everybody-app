@@ -350,12 +350,6 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Deletes an existing user from the users table.
-   */
-  public static void deleteUser() {
-  }
-
-  /**
    * Gets all the users the input user follows for Kosaraju's.
    * @param id input user ID.
    * @return list of user ID's.
@@ -870,5 +864,34 @@ public final class PostgresDatabase {
     }
     tearDownConnection();
     return String.valueOf(relation);
+  }
+
+  /**
+   * Completely wipes user and their posts/relations from DB.
+   * @param username username of user to delete
+   */
+  public static void removeUser(String username) throws SQLException {
+    dbConn = DataSourcePool.getConnection();
+
+    // Retrieve id of user to delete
+    try {
+      int id = getUserID(username);
+    } catch(SQLException | URISyntaxException ex) {
+      System.out.println(ErrorConstants.ERROR_DELETE_USER);
+      return;
+    }
+
+    // Remove from all tables
+    String deleteQuery = Queries.removeUser();
+    try (PreparedStatement stmt = dbConn.prepareStatement(deleteQuery)) {
+//      stmt.setString(1, (String) data.get(0));
+//      stmt.setString(2, (String) data.get(1));
+      stmt.executeUpdate();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_DELETE_USER);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
   }
 }
