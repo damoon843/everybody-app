@@ -145,7 +145,7 @@ function WorkoutPage(props) {
   }, [following, like, likeCount])
 
   return (
-    <div className="workout-page">
+    <div className="workout-page fade-in">
       <div className="workout-page-container">
         <div className="workout-info">
           <div className="workout-detail-title">
