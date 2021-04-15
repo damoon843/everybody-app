@@ -588,7 +588,6 @@ public final class PostgresDatabase {
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       try (ResultSet res = stmt.executeQuery()) {
-        System.out.println("At start of getExercises query");
         while (res.next()) {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
@@ -620,7 +619,6 @@ public final class PostgresDatabase {
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
-    System.out.println("Done with getExercises query");
     return results;
   }
 
