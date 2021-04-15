@@ -73,13 +73,16 @@ function WorkoutItem(props){
   return(
     <div className="workout-item">
       <h4>{props.name}</h4>
+      <div className="workout-user">
+        <p className="workout-posting-user">{props.postingUser}</p>
+        <div>
+        {following 
+        ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+        </div>
+      </div>
       <p>Duration: {Math.floor(props.duration/60)} minutes</p>
       <p>Description: {props.description}</p>
       <p>Created at: {props.createdAt}</p>
-      <div>
-      {following 
-      ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
-      </div>
     </div>
   );
 }

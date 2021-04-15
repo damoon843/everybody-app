@@ -9,17 +9,23 @@
   padding: 1rem;
 }
 
-.workout-poster {
+.workout-posting-user {
+  font-size: 1.1rem;
+}
+
+.workout-user {
   display: flex;
+  align-items: flex-start;
 }
 
 .follow-btn {
   width: 6rem;
   border: 1px solid grey;
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0;
   background-color: white;
   border-radius: 4px;
   transition: 0.2s ease-in-out;
+  margin: 0 0.25rem 0 0.5rem;
 }
 
 .follow-btn:hover {
@@ -29,11 +35,12 @@
 .following-btn {
   width: 6rem;
   border: none;
-  padding: 0.25rem 0.5rem;
+  padding: 0.1rem 0;
   background-color: #9c9c9c;
   color: white;
   border-radius: 4px;
   transition: 0.2s ease-in-out;
+  margin: 0 0.25rem 0 0.5rem;
 }
 
 .following-btn:hover {
