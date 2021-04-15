@@ -5,9 +5,11 @@ package edu.brown.cs.everybody.utils;
  */
 public final class ErrorConstants {
 
+
   /** Empty constructor for the ErrorConstants class. */
   private ErrorConstants() { }
   public static final String ERROR_GET_RELATION = "Error retrieving following relation." ;
+  public static final String ERROR_DATABASE_QUERY = "Error querying database.";
   public static final String ERROR_DATABASE_SETUP = "Error setting up database connection.";
   public static final String ERROR_DATABASE_CLOSE = "Error closing database connection.";
   public static final String ERROR_NULL_SESSION = "Error retrieving session.";
