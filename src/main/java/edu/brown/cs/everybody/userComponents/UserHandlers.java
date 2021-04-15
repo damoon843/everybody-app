@@ -105,9 +105,16 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USERINFO);
         return GSON.toJson(variables);
       }
-      variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
-        "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
 
+      // Additional check to validate userInfo not empty
+      if (userInfo.size() != 0) {
+        variables = ImmutableMap.of("firstName", userInfo.get(0), "lastName", userInfo.get(1),
+          "workoutType", userInfo.get(2), "workoutDuration", userInfo.get(3));
+      } else {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_USERINFO);
+        return GSON.toJson(variables);
+      }
       return GSON.toJson(variables);
     }
   }
