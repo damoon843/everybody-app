@@ -78,3 +78,13 @@
 .following-btn:hover {
   cursor: pointer;
 }
+
+.start-workout-btn {
+  text-align: center;
+  text-decoration: none;
+}
+
+.start-workout-btn:hover {
+  text-decoration: none;
+  color: white;
+}

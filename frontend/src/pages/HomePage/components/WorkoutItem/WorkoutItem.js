@@ -8,6 +8,7 @@ function WorkoutItem(props){
   const [following, setFollowing] = useState(props.following)
   const [like, setLike] = useState(false)
   const [likeCount, setLikeCount] = useState(parseInt(props.likeCount))
+  const url = "/workout/" + props.id
 
   const followUser = async () => {
     let config = {
@@ -162,7 +163,7 @@ function WorkoutItem(props){
       </div>
       <p>Duration: {Math.floor(props.duration/60)} minutes</p>
       <p>Description: {props.description}</p>
-      <p>Created at: {props.createdAt}</p>
+      <a href={url} className="submit-btn start-workout-btn">Start workout</a>
     </div>
   );
 }
