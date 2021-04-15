@@ -240,4 +240,12 @@ public final class Queries {
     return "SELECT workout_id FROM everybody_app.workouts"
       + " WHERE workout_name = ? AND username = ?";
   }
+
+  /**
+   * Retrieves whether a user follows another.
+   * @return query string
+   */
+  public static String getRelation() {
+    return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?";
+  }
 }

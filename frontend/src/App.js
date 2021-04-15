@@ -7,7 +7,6 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import WorkoutPage from './pages/WorkoutPage/WorkoutPage';
 import Toolbar from './components/Toolbar/Toolbar';
-import { Auth0Provider } from "@auth0/auth0-react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

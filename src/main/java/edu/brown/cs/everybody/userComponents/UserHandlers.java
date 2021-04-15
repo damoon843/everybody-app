@@ -252,39 +252,40 @@ public class UserHandlers {
         }
       }
 
-      // Gets additional workouts if needed to reach 14 total workouts
-      int additionalWorkoutsNeeded = 14 - (counter + counter2);
-      PriorityQueue<Workout> additionalWorkouts;
-
-      // TODO: EDIT
-      while (additionalWorkoutsNeeded > 0) {
-        try {
-          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(additionalWorkoutsNeeded);
-          Workout recentPost = additionalWorkouts.poll();
-          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
-              (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
-            user.addRecentlyViewed(recentPost.getWorkoutId());
-            finalSortedWorkouts.add(recentPost);
-            additionalWorkoutsNeeded --;
-          } else {
-            recentPost = additionalWorkouts.poll();
-          }
-        } catch (Exception e) {
-          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-          variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_ADDWORKOUTS);
-          return GSON.toJson(variables);
-        }
-      }
+//      // Gets additional workouts if needed to reach 14 total workouts
+//      int additionalWorkoutsNeeded = 14 - (counter + counter2);
+//      PriorityQueue<Workout> additionalWorkouts;
+//
+//      // TODO: EDIT
+//      while (additionalWorkoutsNeeded > 0) {
+//        try {
+//          additionalWorkouts = PostgresDatabase.getAdditionalWorkouts(additionalWorkoutsNeeded);
+//          Workout recentPost = additionalWorkouts.poll();
+//          if (!user.getRecentlyViewed().contains(recentPost.getWorkoutId()) &&
+//              (recentPost.getDuration() >= lowBoundDuration && recentPost.getDuration() <= highBoundDuration)) {
+//            user.addRecentlyViewed(recentPost.getWorkoutId());
+//            finalSortedWorkouts.add(recentPost);
+//            additionalWorkoutsNeeded --;
+//          } else {
+//            recentPost = additionalWorkouts.poll();
+//          }
+//        } catch (Exception e) {
+//          response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//          variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_ADDWORKOUTS);
+//          return GSON.toJson(variables);
+//        }
+//      }
 
       // List of Workouts to return to frontend
       List<Map<String, String>> output = new ArrayList<>();
       Workout finalWorkout = finalSortedWorkouts.poll();
       while (finalWorkout != null) {
-        output.add(finalWorkout.toMap());
+        Map<String, String> wkout = finalWorkout.toMap();
+        wkout.put("following", PostgresDatabase.getFollowingRelation(user.getUserID(), finalWorkout.getUsername()));
+        output.add(wkout);
         finalWorkout = finalSortedWorkouts.poll();
       }
       variables = ImmutableMap.of("workouts", output);
-      System.out.println(output);
       return GSON.toJson(variables);
     }
   }
@@ -430,7 +431,7 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-      if(username.equals("")) {
+      if (username.equals("")) {
         System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
         response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
