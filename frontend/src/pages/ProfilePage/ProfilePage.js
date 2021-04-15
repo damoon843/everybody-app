@@ -53,7 +53,7 @@ function ProfilePage(props){
     )
     .then(response => {
       const data = response.data.workouts
-      setWorkouts(data.map((workout) => <WorkoutSelf key={workout.id} id={workout.workout_id} name={workout.workout_name} createdAt={workout.created_at} description={workout.description} duration={workout.duration} postingUser={workout.posting_user} likeCount={workout.like_count} mediaLink={workout.media_link} username={props.username}/>))
+      setWorkouts(data.map((workout) => <WorkoutSelf key={workout.workout_id} id={workout.workout_id} name={workout.workout_name} createdAt={workout.created_at} description={workout.description} duration={workout.duration} postingUser={workout.posting_user} likeCount={workout.like_count} mediaLink={workout.media_link} username={props.username}/>))
     })
     .catch(function (error) {
       console.log(error);
