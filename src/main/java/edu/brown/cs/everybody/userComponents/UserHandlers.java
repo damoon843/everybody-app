@@ -238,6 +238,32 @@ public class UserHandlers {
   }
 
   /**
+   * Handles user logout.
+   */
+  public static class LogoutHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      Map<String, Object> variables;
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, invalidate session
+        session.invalidate();
+        variables = ImmutableMap.of("isValid", true);
+      } else {
+        // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+      return GSON.toJson(variables);
+    }
+  }
+
+  /**
    * Gets all users current user is following.
    */
   public static class GetAllFollowing implements Route {
