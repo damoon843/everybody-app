@@ -150,6 +150,7 @@ public final class PostgresDatabase {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
       try (ResultSet res = stmt.executeQuery()) {
@@ -171,9 +172,9 @@ public final class PostgresDatabase {
     } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
-      System.out.println(ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
     return pq;
   }
 
