@@ -12,6 +12,7 @@ function Toolbar(props){
 
     const logout = async () => {
         let msg = document.getElementById('logout-msg')
+        msg.innerText = ""
         let config = {
             headers: {
                 "Content-Type": "application/json",
@@ -30,7 +31,7 @@ function Toolbar(props){
         })
         .catch(function (error) {
             msg.innerText = "Could not log out. Please try again."
-            console.log(error.response.data);
+            console.log(error);
         });
     }
 
@@ -59,14 +60,17 @@ function Toolbar(props){
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm action</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="modal-body-logout"><p id="logout-msg">Are you sure you want to log out?</p></Modal.Body>
-                <Modal.Footer>
-                <button className="close-btn" onClick={handleClose}>
-                    Cancel
-                </button>
-                <button className="submit-btn" onClick={logout}>
-                    Yes, log out
-                </button>
+                <Modal.Body className="modal-body-logout">Are you sure you want to log out?</Modal.Body>
+                <Modal.Footer className="modal-footer-btns">
+                <p id="logout-msg"></p>
+                <div className="modal-buttons">
+                    <button className="close-btn" onClick={handleClose}>
+                        Cancel
+                    </button>
+                    <button className="submit-btn logout-btn" onClick={logout}>
+                        Yes, log out
+                    </button>
+                </div>
                 </Modal.Footer>
             </Modal>
         </div>
