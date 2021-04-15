@@ -108,7 +108,7 @@ function WorkoutModal(props){
             <label className="workout-form-label"><h5>Title</h5><input id="workout-title" type="text" placeholder="Enter workout title" /></label>
             
             <label className="workout-form-label"><h5>Description</h5><textarea id="workout-description" rows={3} type="text" placeholder="Enter a description of your workout" /></label>
-            <label className="workout-form-label"><h5>Select Exercises</h5><select name="exercises" id="select-exercises" multiple>
+            <label className="workout-form-label"><h5>Select Exercises (cmd/ctrl + click)</h5><select name="exercises" id="select-exercises" multiple>
             {props.exercises}
           </select></label>
     
