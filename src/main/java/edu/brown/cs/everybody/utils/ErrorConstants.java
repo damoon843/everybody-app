@@ -32,7 +32,7 @@ public final class ErrorConstants {
   public static final String ERROR_GET_EXERCISE_DURATION  = "Error retrieving exercise duration.";
   public static final String ERROR_GET_USERNAME = "Error retrieving username.";
   public static final String ERROR_GET_RECENT_WORKOUTIDS = "Error retrieving recently viewed workout IDs.";
-
+  public static final String ERROR_SESSION_USERNAME = "Error retrieving session username.";
   public static final String ERROR_LOGIN_FAILED = "Failed to log-in with given credentials.";
   public static final String LOGIN_SUCCESS = "Log-in succeeded.";
 }
