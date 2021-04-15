@@ -1,5 +1,9 @@
-.workout-info {
+.workout-page-container {
   margin: 6rem 4rem 2rem 4rem;
+}
+
+.workout-info {
+  margin: 0 0 2rem 0;
 }
 
 #workout-title {
@@ -71,4 +75,8 @@
 
 .additional-details {
   margin: 1rem 0;
+}
+
+#workout-subheading {
+  margin: 2rem 0 1rem 0;
 }
