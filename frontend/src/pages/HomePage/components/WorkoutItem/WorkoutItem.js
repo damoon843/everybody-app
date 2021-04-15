@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'; 
 import './WorkoutItem.css';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function WorkoutItem(props){
   const [following, setFollowing] = useState(props.following)
+  const [like, setLike] = useState(false)
+  const [likeCount, setLikeCount] = useState(parseInt(props.likeCount))
 
   const followUser = async () => {
     let config = {
@@ -55,6 +59,56 @@ function WorkoutItem(props){
     });
   }
 
+  const likePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.name,
+      poster: props.postingUser
+    }
+    await axios.post(
+        "http://localhost:4567/registerLike",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const unlikePost = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      workoutName: props.name,
+      poster: props.postingUser
+    }
+    await axios.post(
+        "http://localhost:4567/unregisterLike",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
   const toggleFollowing = () => {
     if (following) {
       unfollowUser().then(response => {
@@ -67,12 +121,38 @@ function WorkoutItem(props){
     }
   }
 
+  const toggleLike = () => {
+    if (like) {
+      unlikePost().then(response => {
+        setLike(false)
+        const newCount = likeCount - 1
+        setLikeCount(newCount)
+      })
+    } else {
+      likePost().then(response => {
+        setLike(true)
+        const newCount = likeCount + 1
+        console.log(newCount)
+        setLikeCount(newCount)
+      })
+    }
+  }
+
   useEffect(() => {
-  }, [following])
+  }, [following, like, likeCount])
 
   return(
     <div className="workout-item">
-      <h4>{props.name}</h4>
+      <div className="workout-title">
+        <h4>{props.name}</h4>
+        <div className="workout-likes">
+          <p className="like">{likeCount}</p>
+          {like
+          ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+          : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+        </div>
+      </div>
+      
       <div className="workout-user">
         <p className="workout-posting-user">{props.postingUser}</p>
         <div>

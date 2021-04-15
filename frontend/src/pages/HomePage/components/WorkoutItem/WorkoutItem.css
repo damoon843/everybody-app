@@ -18,6 +18,38 @@
   align-items: flex-start;
 }
 
+.workout-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.like-btn {
+  background-color: white;
+  border: none;
+  padding: 0;
+  margin: 0 0 0 0.75rem;
+}
+
+.liked {
+  width: 1.5rem;
+  color: #d10808;
+}
+
+.unliked {
+  width: 1.5rem;
+  color: #9c9c9c;
+}
+
+.like {
+  color: #9c9c9c;
+}
+
+.workout-likes {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: flex-start;
+}
+
 .follow-btn {
   width: 6rem;
   border: 1px solid grey;
