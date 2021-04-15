@@ -66,7 +66,6 @@ public class UserHandlers {
   public static class DeleteUserHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
       Map<String, Object> variables;
       String username = "";
 
@@ -97,7 +96,7 @@ public class UserHandlers {
         return GSON.toJson(variables);
       }
 
-      variables = ImmutableMap.of("foo", "bar");
+      variables = ImmutableMap.of("success", "true");
       return GSON.toJson(variables);
     }
   }
