@@ -1,5 +1,5 @@
 import axios from 'axios';
-import userSession from './userSession.js'
+// import userSession from './userSession.js'
 
 /** GET REQUESTS */
 
@@ -167,65 +167,65 @@ export const createExercise = async (toSend) => {
 
 // creates a new user
 // toSend: information about the user
-export const createUser = async (toSend) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  let data = JSON.stringify(toSend);
-  await axios.post(
-    "http://localhost:4567/newUser",
-    data,
-    config
-  )
-  .then(response => {
+// export const createUser = async (toSend) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   let data = JSON.stringify(toSend);
+//   await axios.post(
+//     "http://localhost:4567/newUser",
+//     data,
+//     config
+//   )
+//   .then(response => {
 
-    console.log(response.data)
-    /*
-    if(response.data){
-      session.user= toSend.username
-    }
-    hard code it to work for only one indivudal; when logged
-     in, it shows all the data for that on individual
-     by modifying some "personal.js" or some component that
-     uses hooks,useeffects,etc. and other variables
-     */
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+//     console.log(response.data)
+//     /*
+//     if(response.data){
+//       session.user= toSend.username
+//     }
+//     hard code it to work for only one indivudal; when logged
+//      in, it shows all the data for that on individual
+//      by modifying some "personal.js" or some component that
+//      uses hooks,useeffects,etc. and other variables
+//      */
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 
 // logs in a user
 // toSend: information about the user
-export const loginUser = async (toSend) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.post(
-    "http://localhost:4567/login",
-    toSend,
-    config
-  )
-  .then(response => {
-    console.log(response.data)
-    return response.data;
-    /*
+// export const loginUser = async (toSend) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   await axios.post(
+//     "http://localhost:4567/login",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     console.log(response.data)
+//     return response.data;
+//     /*
 
-     */
-    // userSession.setSession(response.data)
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+//      */
+//     // userSession.setSession(response.data)
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // follows a user
 // data: information about the user and following

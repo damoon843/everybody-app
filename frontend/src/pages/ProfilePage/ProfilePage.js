@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect } from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import Workout from '../HomePage/components/Workout/Workout';

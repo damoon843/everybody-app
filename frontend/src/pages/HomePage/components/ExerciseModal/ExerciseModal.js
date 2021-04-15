@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
 import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
-import S3 from "react-aws-s3";
+// import S3 from "react-aws-s3";
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
@@ -44,8 +44,8 @@ function ExerciseModal(props){
     checkedVals.push(type);
     const media = document.getElementById('exercise-media').value;
 
-    let file = inputFile.current.files[0]
-    let filename = file.name
+    // let file = inputFile.current.files[0]
+    // let filename = file.name
 
     // const config = {
     //   bucketName: "mybucket",

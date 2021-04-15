@@ -1,10 +1,53 @@
 import React from 'react'; 
 import {Tabs, Tab} from 'react-bootstrap';
-import { createUser, loginUser } from '../../api';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios'
 import './LoginPage.css';
 
 function LoginPage(props) {
+
+  const loginUser = async (toSend) => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.post(
+      "http://localhost:4567/login",
+      toSend,
+      config
+    )
+    .then(response => {
+      console.log(response.data)
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const createUser = async (toSend) => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    let data = JSON.stringify(toSend);
+    await axios.post(
+      "http://localhost:4567/newUser",
+      data,
+      config
+    )
+    .then(response => {
+      console.log(response.data)
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
@@ -55,9 +98,9 @@ function LoginPage(props) {
 
   return (
     <div className="login-page row">
-      <div className="login-section login-image">
+      {/* <div className="login-section login-image">
         <img alt="login half page" src="https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg" id="login-img" />
-      </div>
+      </div> */}
       <div className="login-section col">
         <div className="login-top">
           <h1>everyBODY</h1>
@@ -68,12 +111,14 @@ function LoginPage(props) {
             <Tab eventKey="login" title="Login">
               <form action="/home" className="login-form">
                 <div className="login-form-section">
-                  <label for="username">Username</label>
-                  <input id="username" name="username" type="text" placeholder="Enter username" required/>
+                  <label>Username
+                    <input id="username" name="username" type="text" placeholder="Enter username" required/>
+                  </label>
                 </div>
                 <div className="login-form-section">
-                  <label for="password">Password</label>
+                  <label>Password
                   <input id="password" name="password" type="password" placeholder="Enter password" required/>
+                  </label>
                 </div>
                 <button className="btn submit-btn" id="login-btn" onClick={login}>
                   Log in
@@ -83,46 +128,46 @@ function LoginPage(props) {
             <Tab eventKey="signup" title="Sign up">
               <form action="/home" className="signup-form">
                 <div className="login-form-section">
-                  <label for="firstName">First name</label>
-                  <input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/>
+                  <label>First name<input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/></label>
+                  
                 </div>
                 <div className="login-form-section">
-                  <label for="lastName">Last name</label>
-                  <input id="lastName" name="lastName" type="text" placeholder="Enter last name" required/>
+                  <label>Last name<input id="lastName" name="lastName" type="text" placeholder="Enter last name" required/></label>
+                  
                 </div>
                 <div className="login-form-section">
-                  <label for="newUsername">Username</label>
-                  <input id="newUsername" name="newUsername" type="text" placeholder="Enter username" required/>
+                  <label>Username<input id="newUsername" name="newUsername" type="text" placeholder="Enter username" required/></label>
+                  
                 </div>
                 <div className="login-form-section">
-                  <label for="newPassword">Password</label>
-                  <input id="newPassword" name="newPassword" type="password" placeholder="Enter password" required/>
+                  <label>Password<input id="newPassword" name="newPassword" type="password" placeholder="Enter password" required/></label>
+                  
                 </div>
                 <div className="login-form-row">
                   <div className="login-form-section">
                     <p>Type Preference</p>
                     <div className="login-radio-row">
-                      <input type="radio" id="cardio-pref" name="type-pref" value="cardio" required checked/>
-                      <label className="radio-label" for="cardio-pref">Cardio</label>
+                      
+                      <label className="radio-label"><input type="radio" id="cardio-pref" name="type-pref" value="cardio" required defaultChecked/>Cardio</label>
                     </div>
                     <div className="login-radio-row">
-                      <input type="radio" id="bodyweight-pref" name="type-pref" value="bodyweight"/>
-                      <label className="radio-label" for="bodyweight-pref">Bodyweight</label>
+                      
+                      <label className="radio-label"><input type="radio" id="bodyweight-pref" name="type-pref" value="bodyweight"/>Bodyweight</label>
                     </div>
                   </div>
                   <div className="login-form-section">
                     <p>Duration Preference</p>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-1" name="duration-pref" value="0" required checked/>
-                      <label className="radio-label" for="duration-1">0-30 minutes</label>
+                      
+                      <label className="radio-label"><input type="radio" id="duration-1" name="duration-pref" value="0" required defaultChecked/>0-30 minutes</label>
                     </div>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-2" name="duration-pref" value="1"/>
-                      <label className="radio-label" for="duration-2">30-60 minutes</label>
+                      
+                      <label className="radio-label"><input type="radio" id="duration-2" name="duration-pref" value="1"/>30-60 minutes</label>
                     </div>
                     <div className="login-radio-row">
-                      <input type="radio" id="duration-3" name="duration-pref" value="2"/>
-                      <label className="radio-label" for="duration-3">60+ minutes</label>
+                      
+                      <label className="radio-label"><input type="radio" id="duration-3" name="duration-pref" value="2"/>60+ minutes</label>
                     </div>
                   </div>
                 </div>
