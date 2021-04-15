@@ -84,6 +84,7 @@ function WorkoutItem(props){
         <h5>{props.postingUser}</h5>
       </div>
       <p>Description: {props.description}</p>
+      
       {followBtn}
     </div>
   );
