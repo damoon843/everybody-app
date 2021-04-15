@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
 import {Navbar, Nav, Modal, Button} from "react-bootstrap";
 import './Toolbar.css';
+import axios from 'axios';
 
 function Toolbar(props){
     const [show, setShow] = useState(false);
@@ -9,10 +10,28 @@ function Toolbar(props){
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const logout = () => {
-        console.log("logout")
-        props.changeUsername("")
-        props.history.push('/');
+    const logout = async () => {
+        let msg = document.getElementById('logout-msg')
+        let config = {
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*',
+            }
+        }
+        await axios.post(
+            "http://localhost:4567/logout",
+            config
+        )
+        .then(response => {
+            if (response.data.isValid) {
+                props.history.push('/login');
+            }
+            console.log(response.data)
+        })
+        .catch(function (error) {
+            msg.innerText = "Could not log out. Please try again."
+            console.log(error.response.data);
+        });
     }
 
     return (
@@ -40,7 +59,7 @@ function Toolbar(props){
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm action</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="modal-body-logout">Are you sure you want to log out?</Modal.Body>
+                <Modal.Body className="modal-body-logout"><p id="logout-msg">Are you sure you want to log out?</p></Modal.Body>
                 <Modal.Footer>
                 <button className="close-btn" onClick={handleClose}>
                     Cancel
