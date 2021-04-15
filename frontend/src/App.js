@@ -21,19 +21,19 @@ function App() {
     <Router>
       <Switch>
         <Route path="/workout/:id">
-          <Toolbar />
-          <WorkoutPage />
+          <Toolbar changeUsername={changeUsername} />
+          <WorkoutPage username={username} />
         </Route>
         <Route path="/exercises">
-          <Toolbar />
+          <Toolbar changeUsername={changeUsername} />
           {/* <ExercisePage /> */}
         </Route>
         <Route path="/profile">
-          <Toolbar />
+          <Toolbar changeUsername={changeUsername} />
           <ProfilePage username={username}/>
         </Route>
         <Route path="/home">
-          <Toolbar />
+          <Toolbar changeUsername={changeUsername} />
           <HomePage username={username} />
         </Route>
         <Route path="/">

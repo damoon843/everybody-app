@@ -250,6 +250,7 @@ public final class Queries {
   }
 
   /**
+
    * Retrieves similar usernames to input string that current user doesn't follow.
    * @return query string
    */
@@ -259,4 +260,11 @@ public final class Queries {
   }
 
   
+  /**
+   * Wipes user from DB.
+   * @return query string
+   */
+  public static String removeUser() {
+    return "";
+  }
 }

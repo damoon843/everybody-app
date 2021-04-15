@@ -2,10 +2,12 @@ package edu.brown.cs.everybody.userComponents;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.data.DataSourcePool;
 import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.ErrorConstants;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.json.JSONException;
 import org.json.JSONObject;
 import spark.*;
@@ -61,14 +63,41 @@ public class UserHandlers {
     }
   }
 
-  // TODO: FINISH
   public static class DeleteUserHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
       JSONObject data = new JSONObject(request.body());
+      Map<String, Object> variables;
+      String username = "";
 
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+      if (username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
 
-      Map<String, Object> variables = ImmutableMap.of("foo", "bar");
+      try {
+        PostgresDatabase.removeUser(username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_DELETE_USER);
+        return GSON.toJson(variables);
+      }
+
+      variables = ImmutableMap.of("foo", "bar");
       return GSON.toJson(variables);
     }
   }
@@ -232,6 +261,32 @@ public class UserHandlers {
         // Query execution failed
         response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_LOGIN_QUERY);
+      }
+      return GSON.toJson(variables);
+    }
+  }
+
+  /**
+   * Handles user logout.
+   */
+  public static class LogoutHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      JSONObject data = new JSONObject(request.body());
+      Map<String, Object> variables;
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, invalidate session
+        session.invalidate();
+        variables = ImmutableMap.of("isValid", true);
+      } else {
+        // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
       }
       return GSON.toJson(variables);
     }

@@ -58,6 +58,8 @@ public class Server {
     Spark.post("/newUser", new UserHandlers.NewUserHandler());
     // For user login
     Spark.post("/login", new UserHandlers.LoginHandler());
+    // For user logout
+    Spark.post("/logout", new UserHandlers.LogoutHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
