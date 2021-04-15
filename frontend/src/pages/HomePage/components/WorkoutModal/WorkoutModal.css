@@ -2,3 +2,25 @@
   width: 16rem;
   margin: 0.5rem 0;
 }
+
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.exercise-form-label {
+  display: flex;
+  flex-direction: column;
+}
+
+#select-exercises {
+  height: 8rem;
+}
+
+#close-btn {
+  background-color: #858585
+}
+
+#close-btn:hover {
+  background-color: #9e9e9e
+}

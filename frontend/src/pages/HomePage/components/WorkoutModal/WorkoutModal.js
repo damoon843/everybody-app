@@ -71,32 +71,23 @@ function WorkoutModal(props){
         </Modal.Header>
         <Modal.Body>
           <form action="/uploadWorkout" className="exercise-form">
-            <label>Title</label>
-            <input id="workout-title" type="text" placeholder="Enter workout title" />
-            <label>Description</label>
-            <input id="workout-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" />
-            <label>Select Exercises</label>
-
-            {/* <Select
-              isMulti
-              name="colors"
-              options={sampleData}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={handleChange}
-            /> */}
+            <label className="exercise-form-label">Title<input id="workout-title" type="text" placeholder="Enter workout title" /></label>
+            
+            <label className="exercise-form-label">Description<input id="workout-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" /></label>
+            <label className="exercise-form-label">Select Exercises<select name="exercises" id="select-exercises" multiple>
+            {props.exercises}
+          </select></label>
+            
             <p id="form-msg"></p>
           </form>
-          <select name="exercises" id="select-exercises" multiple>
-            {props.exercises}
-          </select>
-          {/* <div>{exercises}</div> */}
+
+          
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={handleClose}>
+          <button className="submit-btn" id="close-btn" onClick={handleClose}>
             Close
           </button>
-          <button onClick={submitWorkout}>Create workout</button>
+          <button className="submit-btn" onClick={submitWorkout}>Create workout</button>
         </Modal.Footer>
       </Modal>
     </div>
