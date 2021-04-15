@@ -20,7 +20,7 @@ public class DataSourcePool {
   /**
    * Initializes BasicDataSource.
    */
-  public static void configurePool() {
+  public static void configurePool() throws SQLException {
     // Retrieve DB credentials
     URI dbUri = null;
     try {
@@ -52,6 +52,9 @@ public class DataSourcePool {
     ds.setTestOnReturn(true);
     ds.setTestOnCreate(true);
     ds.setValidationQuery("SELECT 1;");
+
+    // Start DataSource
+    ds.start();
   }
 
   /**
