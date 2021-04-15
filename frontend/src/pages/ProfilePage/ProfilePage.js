@@ -50,7 +50,7 @@ function ProfilePage(props){
   }
 
   return (
-    <div className="profile-page">
+    <div className="profile-page fade-in">
       <ProfileCard id="profile-card" username={props.username}/>
       <h3 id="myWorkouts">My Workouts</h3>
       <div className="profile-workouts">

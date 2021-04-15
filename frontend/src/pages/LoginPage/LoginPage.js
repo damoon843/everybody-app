@@ -6,7 +6,68 @@ import './LoginPage.css';
 
 function LoginPage(props) {
 
-  const loginUser = async (toSend) => {
+  const getSignUpVals = () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const newUsername = document.getElementById('newUsername').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const workoutType = getRadioVal('type-pref');
+    const workoutDuration = getRadioVal('duration-pref');
+    const toSend = {
+      firstName: firstName,
+      lastName: lastName,
+      username: newUsername,
+      password: newPassword,
+      workoutType: workoutType,
+      workoutDuration: workoutDuration
+    };
+    return toSend;
+  }
+
+  const getLoginVals = () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const toSend = {
+      username: username,
+      password: password,
+    };
+    return toSend;
+  }
+
+  const createUser = async (e) => {
+    e.preventDefault();
+    let err = document.getElementById("err-msg-signup")
+    err.innerText = ""
+    const toSend = JSON.stringify(getSignUpVals());
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    console.log(toSend)
+    await axios.post(
+      "http://localhost:4567/newUser",
+      toSend,
+      config
+    )
+    .then(response => {
+      // TODO: check if returns true
+      props.changeUsername(toSend.newUsername)
+      props.history.push('/home');
+      console.log(response.data)
+    })
+    .catch(function (error) {
+      err.innerText = "Error: could not create account."
+      console.log(error);
+    });
+  }
+
+  const loginUser = async (e) => {
+    e.preventDefault()
+    let err = document.getElementById("err-msg-login")
+    err.innerText = ""
+    const toSend = JSON.stringify(getLoginVals());
     let config = {
       headers: {
         "Content-Type": "application/json",
@@ -19,32 +80,13 @@ function LoginPage(props) {
       config
     )
     .then(response => {
+      // TODO: check if returns true
+      props.changeUsername(toSend.username)
+      props.history.push('/home');
       console.log(response.data)
-      return response.data;
     })
     .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const createUser = async (toSend) => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-      }
-    }
-    let data = JSON.stringify(toSend);
-    await axios.post(
-      "http://localhost:4567/newUser",
-      data,
-      config
-    )
-    .then(response => {
-      console.log(response.data)
-      return response.data;
-    })
-    .catch(function (error) {
+      err.innerText = "Error: could not log in."
       console.log(error);
     });
   }
@@ -60,87 +102,48 @@ function LoginPage(props) {
     return val;
   }
 
-  const signUp = (e) => {
-    e.preventDefault();
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const newUsername = document.getElementById('newUsername').value;
-    const newPassword = document.getElementById('newPassword').value;
-    const workoutType = getRadioVal('type-pref');
-    const workoutDuration = getRadioVal('duration-pref');
-    const toSend = {
-      firstName: firstName,
-      lastName: lastName,
-      username: newUsername,
-      password: newPassword,
-      workoutType: workoutType,
-      workoutDuration: workoutDuration
-    };
-    createUser(toSend).then(result => {
-      props.changeUsername(newUsername)
-      props.history.push('/home');
-    });
-  }
-
-  const login = (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const toSend = {
-      username: username,
-      password: password,
-    };
-    loginUser(toSend).then(result => {
-      props.changeUsername(username)
-      props.history.push('/home');
-    });
-  }
-
   return (
-    <div className="login-page row">
-      {/* <div className="login-section login-image">
-        <img alt="login half page" src="https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg" id="login-img" />
-      </div> */}
-      <div className="login-section col">
+    <div className="login-page fade-in">
+        <div className="login-card">
         <div className="login-top">
           <h1>everyBODY</h1>
           <p>Fitness curated by all, for all.</p>
         </div>
-        <div className="login-card">
           <Tabs className="login-tabs" defaultActiveKey="login">
-            <Tab eventKey="login" title="Login">
+            <Tab className="login-tab" eventKey="login" title="Login">
               <form action="/home" className="login-form">
                 <div className="login-form-section">
-                  <label>Username
+                  <label className="login-label">Username
                     <input id="username" name="username" type="text" placeholder="Enter username" required/>
                   </label>
                 </div>
                 <div className="login-form-section">
-                  <label>Password
+                  <label className="login-label">Password
                   <input id="password" name="password" type="password" placeholder="Enter password" required/>
                   </label>
                 </div>
-                <button className="btn submit-btn" id="login-btn" onClick={login}>
+                <button className="btn submit-btn" id="login-btn" onClick={loginUser}>
                   Log in
                 </button>
+                <p id="err-msg-login"></p>
               </form>
             </Tab>
-            <Tab eventKey="signup" title="Sign up">
+            <Tab className="login-tab" eventKey="signup" title="Sign up">
               <form action="/home" className="signup-form">
                 <div className="login-form-section">
-                  <label>First name<input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/></label>
+                  <label className="login-label">First name<input id="firstName" name="firstName" type="text" placeholder="Enter first name" required/></label>
                   
                 </div>
                 <div className="login-form-section">
-                  <label>Last name<input id="lastName" name="lastName" type="text" placeholder="Enter last name" required/></label>
+                  <label className="login-label">Last name<input id="lastName" name="lastName" type="text" placeholder="Enter last name" required/></label>
                   
                 </div>
                 <div className="login-form-section">
-                  <label>Username<input id="newUsername" name="newUsername" type="text" placeholder="Enter username" required/></label>
+                  <label className="login-label">Username<input id="newUsername" name="newUsername" type="text" placeholder="Enter username" required/></label>
                   
                 </div>
                 <div className="login-form-section">
-                  <label>Password<input id="newPassword" name="newPassword" type="password" placeholder="Enter password" required/></label>
+                  <label className="login-label">Password<input id="newPassword" name="newPassword" type="password" placeholder="Enter password" required/></label>
                   
                 </div>
                 <div className="login-form-row">
@@ -171,14 +174,14 @@ function LoginPage(props) {
                     </div>
                   </div>
                 </div>
-                <button className="btn submit-btn" id="signup-btn" onClick={signUp}>
+                <button className="btn submit-btn" id="signup-btn" onClick={createUser}>
                   Sign Up
                 </button>
+                <p id="err-msg-signup"></p>
               </form>
             </Tab>
           </Tabs>
         </div>
-      </div>
     </div>
   );
 }

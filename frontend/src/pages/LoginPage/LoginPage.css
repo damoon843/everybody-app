@@ -1,7 +1,21 @@
-#login-img {
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  width: 50vw;
-  object-fit: cover;
+  width: 100vw;
+  background-image: url("https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg");
+}
+
+.nav-link {
+  text-align: center;
+  width: 50%;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: column;
 }
 
 .login-image {
@@ -9,7 +23,7 @@
 }
 
 .login-top {
-  margin: 5vh 0 1rem 0;
+  text-align: center;
 }
 
 .login-section {
@@ -57,4 +71,9 @@
   margin: 1rem 0 0 0;
   width: 100%;
   text-decoration: none;
+}
+
+#err-msg-login, #err-msg-signup {
+  margin: 2rem 1rem 1rem 1rem;
+  text-align: center;
 }
