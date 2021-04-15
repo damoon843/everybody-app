@@ -3,19 +3,6 @@ import './Workout.css';
 import { followUser } from '../../../../api';
 
 function WorkoutSelf(props){
-  const url = "/workout/" + props.id
-
-  const follow = () => {
-    const toSend = {
-      // TODO: remove hard coding
-      user: "ntim",
-      following: "aguo"
-    };
-    console.log(toSend)
-    followUser(toSend).then(result => {
-      console.log("user followed!")
-    })
-  }
 
   return (
     <div className="workout-container">
@@ -25,7 +12,7 @@ function WorkoutSelf(props){
           <p className="workout-info">{props.like_count}</p>
         </div>
       </div>
-      <a href={url}><button className="workout-btn">Start workout</button></a>
+      <button className="workout-btn">Start workout</button>
     </div>
   );
 }

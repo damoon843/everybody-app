@@ -37,7 +37,7 @@ function Recommendations(props) {
   }
 
   useEffect(() => {
-    getRecommendations();
+    // getRecommendations();
   }, []);
 
   // makes an api request and sets initial state variable

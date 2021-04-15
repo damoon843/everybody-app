@@ -3,7 +3,7 @@ import './WorkoutItem.css';
 // import { followUser } from '../../../../api';
 import axios from 'axios';
 
-function Workout(props){
+function WorkoutItem(props){
   const [following, setFollowing] = useState(props.following)
   let followBtn = useRef(null)
 
@@ -88,4 +88,4 @@ function Workout(props){
     </div>
   );
 }
-export default Workout
+export default WorkoutItem
