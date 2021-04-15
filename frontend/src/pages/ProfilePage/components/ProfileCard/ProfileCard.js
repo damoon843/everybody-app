@@ -24,7 +24,7 @@ function ProfileCard(props) {
     )
     .then(response => {
         if (response.data.success) {
-            props.history.push('/login');
+            props.history.push('/');
         }
         console.log(response.data)
     })

@@ -25,7 +25,7 @@ function Toolbar(props){
         )
         .then(response => {
             if (response.data.isValid) {
-                props.history.push('/login');
+                props.history.push('/');
             }
             console.log(response.data)
         })

@@ -25,6 +25,7 @@ function Home(props) {
       config,
     )
     .then(response => {
+      console.log(response.data)
       const data = Object.values(response.data)
       const keys = Object.keys(response.data)
       let exerciseList = [];
@@ -33,6 +34,7 @@ function Home(props) {
         exerciseList.push(opt)
       }
       setExercises(exerciseList)
+      console.log(exerciseList)
     })
     .catch(function (error) {
       console.log(error.response.data);
