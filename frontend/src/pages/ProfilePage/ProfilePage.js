@@ -1,19 +1,15 @@
-import React, {useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState } from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import WorkoutItem from '../HomePage/components/WorkoutItem/WorkoutItem';
+import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
 import axios from 'axios';
 
-let workouts = []
-let workoutData = []
-
 function ProfilePage(props){
-  // const [workouts, setWorkouts] = useState([]);
-  // const [data, setData] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    // getUserWorkouts();
+    getUserWorkouts();
     getUser();
   }, []);
 
@@ -40,46 +36,36 @@ function ProfilePage(props){
     });
   }
 
-  // const getUserWorkouts = async () => {
-  //   let config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       'Access-Control-Allow-Origin': '*',
-  //     }
-  //   }
-  //   const toSend = {
-  //     username: props.username
-  //   };
-  //   await axios.post(
-  //     "http://localhost:4567/userWorkouts",
-  //     toSend,
-  //     config
-  //   )
-  //   .then(response => {
-  //     workoutData = response.data.workouts
-  //     renderWorkouts()
-  //     // setData(response.data.workouts)
-  //     // renderWorkouts();
-  //     // console.log(response.data.workouts)
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-  // }
-
-  // const renderWorkouts = () => {
-  //   if (workoutData) {
-  //     workouts = workoutData.map((exercise) => <WorkoutItem key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>)
-  //   }
-  //   // setWorkouts(data.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
-  // }
+  const getUserWorkouts = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    const toSend = {
+      username: props.username
+    };
+    await axios.post(
+      "http://localhost:4567/userWorkouts",
+      toSend,
+      config
+    )
+    .then(response => {
+      const data = response.data.workouts
+      setWorkouts(data.map((workout) => <WorkoutSelf key={workout.id} id={workout.workout_id} name={workout.workout_name} createdAt={workout.created_at} description={workout.description} duration={workout.duration} postingUser={workout.posting_user} likeCount={workout.like_count} mediaLink={workout.media_link} username={props.username}/>))
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   return (
     <div className="profile-page fade-in">
       <ProfileCard id="profile-card" user={user} />
       <h3 id="myWorkouts">My Workouts</h3>
       <div className="profile-workouts">
-        {/* {workouts} */}
+        {workouts}
       </div>
     </div>
   );

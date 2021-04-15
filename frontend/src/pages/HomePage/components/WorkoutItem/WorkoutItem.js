@@ -78,7 +78,7 @@ function WorkoutItem(props){
   }, [following])
 
   return(
-    <div className="workout-container">
+    <div className="workout-item">
       <h4>{props.name}</h4>
       <div className="workout-poster">
         <h5>{props.postingUser}</h5>
