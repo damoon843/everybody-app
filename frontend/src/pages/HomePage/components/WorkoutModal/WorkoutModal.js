@@ -67,14 +67,14 @@ function WorkoutModal(props){
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Create Workout</Modal.Title>
+          <Modal.Title className="modal-title">Create Workout</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form action="/uploadWorkout" className="exercise-form">
-            <label className="exercise-form-label">Title<input id="workout-title" type="text" placeholder="Enter workout title" /></label>
+          <form action="/uploadWorkout" className="workout-form">
+            <label className="workout-form-label"><h5>Title</h5><input id="workout-title" type="text" placeholder="Enter workout title" /></label>
             
-            <label className="exercise-form-label">Description<input id="workout-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your workout" /></label>
-            <label className="exercise-form-label">Select Exercises<select name="exercises" id="select-exercises" multiple>
+            <label className="workout-form-label"><h5>Description</h5><textarea id="workout-description" rows={3} type="text" placeholder="Enter a description of your workout" /></label>
+            <label className="workout-form-label"><h5>Select Exercises</h5><select name="exercises" id="select-exercises" multiple>
             {props.exercises}
           </select></label>
             
@@ -84,7 +84,7 @@ function WorkoutModal(props){
           
         </Modal.Body>
         <Modal.Footer>
-          <button className="submit-btn" id="close-btn" onClick={handleClose}>
+          <button className="close-btn" onClick={handleClose}>
             Close
           </button>
           <button className="submit-btn" onClick={submitWorkout}>Create workout</button>

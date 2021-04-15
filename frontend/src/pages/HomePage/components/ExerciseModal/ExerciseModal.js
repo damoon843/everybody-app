@@ -132,56 +132,47 @@ function ExerciseModal(props){
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Upload Exercise</Modal.Title>
+          <Modal.Title className="modal-title">Upload Exercise</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form action="/uploadExercise" className="exercise-form">
-            <label>Title<input id="exercise-title" type="text" placeholder="Enter exercise title" /></label>
+            <label className="exercise-form-label"><h5>Title</h5><input id="exercise-title" type="text" placeholder="Enter exercise title" /></label>
             
-            <label>Description<input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" /></label>
+            <label className="exercise-form-label"><h5>Description</h5><textarea id="exercise-description" rows={3} type="text" placeholder="Enter a description of your exercise" /></label>
             
-            <label>Duration<input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" /></label>
-            
-            <div>
-              <p>Exercise Type</p>
-              <div className="exercise-radio-row">
-                
-                <label className="radio-label"><input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required defaultChecked/>Cardio</label>
-              </div>
-              <div className="exercise-radio-row">
-                
-                <label className="radio-label"><input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>Bodyweight</label>
-              </div>
-            </div>
+            <label className="exercise-form-label"><h5>Duration (number of minutes)</h5><input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" /></label>
 
-            <div>
-              <p>Body Area Tags</p>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="arms" name="body-tags" value="arms" required/>Arms</label>
+            <label className="exercise-form-label"><h5>Upload media</h5><input type="file" id="exercise-media" name="exercise-media" ref={inputFile} /></label>
+
+            <div className="exercise-form-row">
+              <div className="exercise-row-item">
+                <h5>Exercise Type</h5>
+                <div className="exercise-radio-row">
+                  
+                  <label className="exercise-radio-label"><input className="input-spacer" type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required defaultChecked/>Cardio</label>
+                  <label className="exercise-radio-label"><input className="input-spacer" type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>Bodyweight</label>
+                </div>
               </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="legs" name="body-tags" value="legs"/>Legs</label>
-              </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="chest" name="body-tags" value="chest"/>Chest</label>
-              </div>
-              <div className="login-radio-row">
-                
-                <label className="check-label"><input type="checkbox" id="abs" name="body-tags" value="abs"/>Abs</label>
+
+              <div className="exercise-row-item">
+                <h5>Body Area Tags</h5>
+                <div className="exercise-check-row">
+                  
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="arms" name="body-tags" value="arms" required/>Arms</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="legs" name="body-tags" value="legs"/>Legs</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="chest" name="body-tags" value="chest"/>Chest</label>
+                  <label className="check-label"><input className="input-spacer" type="checkbox" id="abs" name="body-tags" value="abs"/>Abs</label>
+                </div>
               </div>
             </div>
-            <label>Upload media<input type="file" id="exercise-media" name="exercise-media" ref={inputFile} /></label>
             
             </form>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={handleClose}>
+          <button className="close-btn" onClick={handleClose}>
             Close
           </button>
-          <button onClick={submitExercise}>Upload Exercise</button>
+          <button className="submit-btn" onClick={submitExercise}>Upload Exercise</button>
         </Modal.Footer>
       </Modal>
     </div>
