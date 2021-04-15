@@ -89,7 +89,7 @@ function ExerciseModal(props){
     //   }
     // })
 
-    if (props.username.current && title && media && newDuration && checkedVals && desc) {
+    if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
         username: props.username.current,
         exerciseName: title,
