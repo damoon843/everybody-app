@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
 import { createExercise } from '../../../../api';
 import './ExerciseModal.css';
-import S3 from "react-aws-s3";
+// import S3 from "react-aws-s3";
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
@@ -44,8 +44,8 @@ function ExerciseModal(props){
     checkedVals.push(type);
     const media = document.getElementById('exercise-media').value;
 
-    let file = inputFile.current.files[0]
-    let filename = file.name
+    // let file = inputFile.current.files[0]
+    // let filename = file.name
 
     // const config = {
     //   bucketName: "mybucket",
@@ -93,45 +93,45 @@ function ExerciseModal(props){
         </Modal.Header>
         <Modal.Body>
           <form action="/uploadExercise" className="exercise-form">
-            <label>Title</label>
-            <input id="exercise-title" type="text" placeholder="Enter exercise title" />
-            <label>Description</label>
-            <input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" />
-            <label>Duration</label>
-            <input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" />
+            <label>Title<input id="exercise-title" type="text" placeholder="Enter exercise title" /></label>
+            
+            <label>Description<input id="exercise-description" as="textarea" rows={3} type="text" placeholder="Enter a description of your exercise" /></label>
+            
+            <label>Duration<input min="0" id="exercise-duration" type="number" placeholder="Enter exercise duration" /></label>
+            
             <div>
               <p>Exercise Type</p>
               <div className="exercise-radio-row">
-                <input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required checked/>
-                <label className="radio-label" for="cardio-exercise">Cardio</label>
+                
+                <label className="radio-label"><input type="radio" id="cardio-exercise" name="exercise-type-pref" value="cardio" required defaultChecked/>Cardio</label>
               </div>
               <div className="exercise-radio-row">
-                <input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>
-                <label className="radio-label" for="bodyweight-exercise">Bodyweight</label>
+                
+                <label className="radio-label"><input type="radio" id="bodyweight-exercise" name="exercise-type-pref" value="bodyweight"/>Bodyweight</label>
               </div>
             </div>
 
             <div>
               <p>Body Area Tags</p>
               <div className="login-radio-row">
-                <input type="checkbox" id="arms" name="body-tags" value="arms" required/>
-                <label className="check-label" for="cardio-pref">Arms</label>
+                
+                <label className="check-label"><input type="checkbox" id="arms" name="body-tags" value="arms" required/>Arms</label>
               </div>
               <div className="login-radio-row">
-                <input type="checkbox" id="legs" name="body-tags" value="legs"/>
-                <label className="check-label" for="bodyweight-pref">Legs</label>
+                
+                <label className="check-label"><input type="checkbox" id="legs" name="body-tags" value="legs"/>Legs</label>
               </div>
               <div className="login-radio-row">
-                <input type="checkbox" id="chest" name="body-tags" value="chest"/>
-                <label className="check-label" for="bodyweight-pref">Chest</label>
+                
+                <label className="check-label"><input type="checkbox" id="chest" name="body-tags" value="chest"/>Chest</label>
               </div>
               <div className="login-radio-row">
-                <input type="checkbox" id="abs" name="body-tags" value="abs"/>
-                <label className="check-label" for="bodyweight-pref">Abs</label>
+                
+                <label className="check-label"><input type="checkbox" id="abs" name="body-tags" value="abs"/>Abs</label>
               </div>
             </div>
-            <label>Upload media</label>
-            <input type="file" id="exercise-media" name="exercise-media" ref={inputFile} />
+            <label>Upload media<input type="file" id="exercise-media" name="exercise-media" ref={inputFile} /></label>
+            
             </form>
         </Modal.Body>
         <Modal.Footer>
