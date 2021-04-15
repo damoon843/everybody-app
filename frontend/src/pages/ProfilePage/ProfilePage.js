@@ -1,7 +1,7 @@
 import React, {useEffect } from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import Workout from '../HomePage/components/Workout/Workout';
+import Workout from '../HomePage/components/WorkoutItem/WorkoutItem';
 import axios from 'axios';
 
 let workouts = []
