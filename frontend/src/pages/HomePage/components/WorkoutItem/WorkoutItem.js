@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import './WorkoutItem.css';
 import axios from 'axios';
+import {Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
@@ -143,28 +144,55 @@ function WorkoutItem(props){
   }, [following, like, likeCount])
 
   return(
-    <div className="workout-item">
-      <div className="workout-title">
-        <h4>{props.workout.workout_name}</h4>
-        <div className="workout-likes">
-          <p className="like">{likeCount}</p>
-          {like
-          ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
-          : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
-        </div>
-      </div>
+
+    <Card className="workout-item">
+      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Body>
+        <Card.Text>
+        <div className="workout-title">
+            <h4>{props.workout.workout_name}</h4>
+            <div className="workout-likes">
+              <p className="like">{likeCount}</p>
+              {like
+              ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+              : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+            </div>
+          </div>
+          <div className="workout-user">
+            <p className="workout-posting-user">{props.workout.posting_user}</p>
+            <div>
+              {following 
+              ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+            </div>
+          </div>
+          <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
+          <a href={url}><button id="start-workout-btn" className="submit-btn" >Start workout</button></a>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+
+    // <div className="workout-item">
+    //   <div className="workout-title">
+    //     <h4>{props.workout.workout_name}</h4>
+    //     <div className="workout-likes">
+    //       <p className="like">{likeCount}</p>
+    //       {like
+    //       ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+    //       : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+    //     </div>
+    //   </div>
       
-      <div className="workout-user">
-        <p className="workout-posting-user">{props.workout.posting_user}</p>
-        <div>
-        {following 
-        ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
-        </div>
-      </div>
-      <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
-      <p>Description: {props.workout.description}</p>
-      <a href={url} className="submit-btn start-workout-btn">Start workout</a>
-    </div>
+    //   <div className="workout-user">
+    //     <p className="workout-posting-user">{props.workout.posting_user}</p>
+    //     <div>
+    //     {following 
+    //     ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+    //     </div>
+    //   </div>
+    //   <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
+    //   <p>Description: {props.workout.description}</p>
+    //   <a href={url} className="submit-btn start-workout-btn">Start workout</a>
+    // </div>
   );
 }
 export default WorkoutItem
