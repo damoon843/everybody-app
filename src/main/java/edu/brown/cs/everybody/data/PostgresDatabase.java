@@ -55,7 +55,7 @@ public final class PostgresDatabase {
       try {
         dbConn.close();
       } catch(SQLException ex) {
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_DATABASE_CLOSE);
       }
     }
   }
@@ -65,7 +65,8 @@ public final class PostgresDatabase {
    * @param data list of user-related data to insert
    */
   public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
+
     String insertString = Queries.insertUserQuery();
     int id = -1;
 
@@ -82,7 +83,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_USER);
       throw new SQLException(ex.getMessage());
     }
 
@@ -95,7 +96,7 @@ public final class PostgresDatabase {
       stmt2.execute();
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_USER);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -107,7 +108,7 @@ public final class PostgresDatabase {
    * @return list of user info
    */
   public static List<Object> getUserInfo(String username) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUserInfo();
     List<Object> result = new ArrayList<>();
 
@@ -128,14 +129,14 @@ public final class PostgresDatabase {
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_USERINFO);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return result;
     } catch (Exception ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERINFO);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -143,10 +144,10 @@ public final class PostgresDatabase {
   /**
    * Retrieves a user's uploaded workouts.
    * @param username username
-   * @return list of Workout objects
+   * @return pq of Workout objects
    */
   public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -159,20 +160,24 @@ public final class PostgresDatabase {
           int likes = res.getInt("total_likes");
           String mediaLink = res.getString("media_link");
           int duration = res.getInt("duration");
-          String createrUsername = res.getString("username");
+          String creatorUsername = res.getString("username");
           String description = res.getString("description");
           Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
-              username(createrUsername).created_at(created).description(description)
+              username(creatorUsername).created_at(created).description(description)
               .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
           pq.add(workout);
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return pq;
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
+      throw new SQLException(ex.getMessage());
     }
   }
 
@@ -183,7 +188,7 @@ public final class PostgresDatabase {
    * @return list of Exercise objects
    */
   public static Map<Integer, List<Object>> getUserExercises(String username, String workoutName) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getExercisesFromWorkout();
     List<Integer> exerciseIds = new ArrayList<>();
 
@@ -199,7 +204,7 @@ public final class PostgresDatabase {
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ErrorConstants.ERROR_QUERY_EXCEPTION);
+        System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
         throw new SQLException(ex.getMessage());
       }
 
@@ -231,13 +236,13 @@ public final class PostgresDatabase {
             }
           } catch (SQLException ex) {
             tearDownConnection();
-            System.out.println(ex.getMessage());
+            System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
             throw new SQLException(ex.getMessage());
           }
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_EXERCISES);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
@@ -256,7 +261,7 @@ public final class PostgresDatabase {
    */
   public static void insertUserExercise(String username, String exerciseName, String mediaLink, Integer duration,
                                         List<String> tags, String description) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String insertString = Queries.insertExercise();
 
     // Insert into exercises table
@@ -271,7 +276,7 @@ public final class PostgresDatabase {
       stmt.execute();
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_EXERCISE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -281,7 +286,7 @@ public final class PostgresDatabase {
    * Helper method for insertUserWorkout. Retrieves exercise ID.
    */
   public static Integer getExerciseId(String username, String exerciseName) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getExerciseId();
     Integer exerciseId = 0;
 
@@ -296,7 +301,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_EXERCISEID);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -317,7 +322,7 @@ public final class PostgresDatabase {
   public static void insertUserWorkout(Integer duration, String mediaLink, Integer totalLikes,
                                        String description, String username, String workoutName,
                                        List<Integer> exerciseIds) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String insertString = Queries.insertWorkout();
 
     // Insert into workouts table
@@ -333,7 +338,7 @@ public final class PostgresDatabase {
       stmt.execute();
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_INSERT_WORKOUT);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -351,7 +356,7 @@ public final class PostgresDatabase {
    * @return list of user ID's.
    */
   public static List<Integer> getFollowing(int id) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String getString = Queries.getFollowingQuery();
     List<Integer> following = new ArrayList<>();
     try (PreparedStatement stmt = dbConn.prepareStatement(getString)) {
@@ -364,7 +369,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_FOLLOWING);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -377,9 +382,10 @@ public final class PostgresDatabase {
    * @return AppUser object containing info about user with given id
    */
   public static AppUser getUser(int id) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUser();
     AppUser user = null;
+
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setInt(1, id);
       try (ResultSet res = stmt.executeQuery()) {
@@ -395,14 +401,14 @@ public final class PostgresDatabase {
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ex.getMessage());
+        System.out.println(ErrorConstants.ERROR_GET_USERINFO);
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
       return user;
     } catch (Exception e) {
       tearDownConnection();
-      System.out.println(e.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERINFO);
       throw new SQLException(e.getMessage());
     }
   }
@@ -413,18 +419,19 @@ public final class PostgresDatabase {
    * @param workout workout id
    */
   public static void addRecentlyViewed(int user, int workout) throws SQLException, URISyntaxException {
-    setUpConnection();
-    String insertString = Queries.insertViewedWorkout();
-    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setInt(1, user);
-      stmt.setInt(2, workout);
-      stmt.execute();
-    } catch (SQLException ex) {
-      tearDownConnection();
-      System.out.println(ex.getMessage());
-      throw new SQLException(ex.getMessage());
-    }
-    tearDownConnection();
+// TODO: UNCOMMENT
+//    setUpConnection();
+//    String insertString = Queries.insertViewedWorkout();
+//    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+//      stmt.setInt(1, user);
+//      stmt.setInt(2, workout);
+//      stmt.execute();
+//    } catch (SQLException ex) {
+//      tearDownConnection();
+//      System.out.println(ex.getMessage());
+//      throw new SQLException(ex.getMessage());
+//    }
+//    tearDownConnection();
   }
 
   /**
@@ -434,7 +441,7 @@ public final class PostgresDatabase {
    *
    */
   public static Set<Integer> getRecentlyViewed(int userID) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.recentlyViewed();
     Set<Integer> workouts = new HashSet<>();
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -447,7 +454,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_RECENT_WORKOUTIDS);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -460,7 +467,7 @@ public final class PostgresDatabase {
    * @return userID
    */
   public static int getUserID(String username) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUserID();
     int userID = -1;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -469,10 +476,14 @@ public final class PostgresDatabase {
         while (res.next()) {
           userID = res.getInt("id");
         }
+      } catch (SQLException ex) {
+        tearDownConnection();
+        System.out.println(ErrorConstants.ERROR_GET_USERID);
+        throw new SQLException(ex.getMessage());
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERID);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -485,7 +496,7 @@ public final class PostgresDatabase {
    * @param following new user to follow
    */
   public static void insertFollow(String username, String following) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String insertString = Queries.insertFollow();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, getUserID(username));
@@ -493,7 +504,76 @@ public final class PostgresDatabase {
       stmt.execute();
     } catch (SQLException ex) {
       tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_INSERT_FOLLOW);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+  }
+
+
+  /**
+   * Helper method to retrieve workout ID.
+   * @param workoutName name of workout
+   * @param username username
+   * @return workout id
+   */
+  public static Integer getWorkoutId(String workoutName, String username) throws URISyntaxException, SQLException {
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getWorkoutId();
+    Integer workoutId = 0;
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, workoutName);
+      stmt.setString(2, username);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          workoutId = res.getInt("workout_id");
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
       System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return workoutId;
+  }
+
+  /**
+   * Registers a like on a workout
+   * @param username username (user liking post)
+   * @param workoutId workout ID
+   */
+  public static void insertLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    dbConn = DataSourcePool.getConnection();
+    String insertString = Queries.insertLike();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
+      stmt.setInt(2, getUserID(username));
+      stmt.execute();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_INSERT_LIKE);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+  }
+
+  /**
+   * Removes a like from a workout.
+   * @param username username (user unliking post)
+   * @param workoutId workout ID
+   */
+  public static void removeLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    dbConn = DataSourcePool.getConnection();
+    String insertString = Queries.removeLike();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
+      stmt.setInt(2, getUserID(username));
+      stmt.execute();
+    } catch (SQLException | URISyntaxException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_REMOVE_LIKE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -505,12 +585,13 @@ public final class PostgresDatabase {
    * @return list of exercises to display
    */
   public static Map<Integer, List<Object>> getExercises() throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getPublicExercises();
     Map<Integer, List<Object>>  results = new HashMap<>();
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       try (ResultSet res = stmt.executeQuery()) {
+        System.out.println("At start of getExercises query");
         while (res.next()) {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
@@ -531,13 +612,18 @@ public final class PostgresDatabase {
             username, exerciseName));
           results.put(exerciseID, tempList);
         }
+      } catch (SQLException ex) {
+        tearDownConnection();
+        System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
+        throw new SQLException(ex.getMessage());
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
+    System.out.println("Done with getExercises query");
     return results;
   }
 
@@ -548,7 +634,7 @@ public final class PostgresDatabase {
    * @throws SQLException
    */
   public static void removeFollow(String username, String following) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String insertString = Queries.removeFollow();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, getUserID(username));
@@ -557,7 +643,7 @@ public final class PostgresDatabase {
       tearDownConnection();
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_REMOVE_FOLLOW);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -569,7 +655,7 @@ public final class PostgresDatabase {
    * @return -1 if false, 1 if true
    */
   public static int loginUser(String username, String password) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.checkLogin();
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1,username);
@@ -581,14 +667,14 @@ public final class PostgresDatabase {
           tearDownConnection();
           return 1;
         } else {
-          // Login failed (user does not exist in DB)
+          // Login failed (user does not exist in DB) // incorrect credentials given
           tearDownConnection();
           return -1;
         }
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_LOGIN_QUERY);
       throw new SQLException(ex.getMessage());
     }
   }
@@ -598,7 +684,7 @@ public final class PostgresDatabase {
    * @return list of exercises to display
    */
   public static Map<Integer, List<Object>> getSimilarExercises(String query) throws SQLException, URISyntaxException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getSimilarExercises();
     Map<Integer, List<Object>>  results = new HashMap<>();
 
@@ -628,7 +714,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_SIMILAR_EXERCISES);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -643,7 +729,7 @@ public final class PostgresDatabase {
    * @throws SQLException
    */
   public static int getDuration(int exerciseId) throws URISyntaxException, SQLException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getDuration();
     int duration = 0;
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -655,7 +741,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_EXERCISE_DURATION);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -672,7 +758,7 @@ public final class PostgresDatabase {
     String queryString = Queries.getAllFollowing();
     List<String> following = new ArrayList<>();
     int userID = getUserID(username);
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setInt(1, userID);
       try (ResultSet res = stmt.executeQuery()) {
@@ -683,7 +769,7 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_FOLLOWING);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -696,7 +782,7 @@ public final class PostgresDatabase {
    * @return username
    */
   private static String getUsername(int id) throws URISyntaxException, SQLException {
-    setUpConnection();
+    dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUsername();
     String name = "";
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
@@ -708,10 +794,50 @@ public final class PostgresDatabase {
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ex.getMessage());
+      System.out.println(ErrorConstants.ERROR_GET_USERNAME);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
     return name;
+  }
+
+  /**
+   * Gets additional workouts based on highest like_count posted by any user.
+   * @param additionalWorkoutsNeeded number of workouts to obtain
+   * @return PQ of workouts
+   */
+  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded) throws URISyntaxException, SQLException {
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getCommunityWorkouts();
+    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, additionalWorkoutsNeeded);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          int workoutID = res.getInt("workout_id");
+          String workoutName = res.getString("workout_name");
+          Date created = res.getDate("created_at");
+          int likes = res.getInt("total_likes");
+          String mediaLink = res.getString("media_link");
+          int duration = res.getInt("duration");
+          String creatorUsername = res.getString("username");
+          String description = res.getString("description");
+          Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
+              username(creatorUsername).created_at(created).description(description)
+              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+          pq.add(workout);
+        }
+      } catch (SQLException ex) {
+        tearDownConnection();
+        System.out.println(ErrorConstants.ERROR_GET_ADDWORKOUTS);
+        throw new SQLException(ex.getMessage());
+      }
+      tearDownConnection();
+      return pq;
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_ADDWORKOUTS);
+      throw new SQLException(ex.getMessage());
+    }
   }
 }

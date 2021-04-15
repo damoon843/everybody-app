@@ -1,17 +1,12 @@
 package edu.brown.cs.everybody.utils;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import edu.brown.cs.everybody.data.PostgresDatabase;
 import edu.brown.cs.everybody.feedComponents.FeedHandlers;
-import edu.brown.cs.everybody.userComponents.AppUser;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
-import org.json.JSONObject;
 import spark.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
 
 
 /**
@@ -51,7 +46,9 @@ public class Server {
     });
 
     // Setup Spark Routes
-    Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+    Spark.before((request, response) -> response.header("Access-Control-Allow-Origin", "http://localhost:3000"));
+    Spark.before((request, response) -> response.header("Access-Control-Allow-Credentials", "true"));
+
     Spark.exception(Exception.class, new ExceptionPrinter());
 
     // For user creation
@@ -61,9 +58,7 @@ public class Server {
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
-
     Spark.post("/uploadExercise", new FeedHandlers.UploadExerciseHandler());
-
     // For uploading a workout
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts
@@ -75,15 +70,19 @@ public class Server {
     // For home feed recommendations
     Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
     // For exercises page
-    Spark.get("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
+    Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
     Spark.post("/follow", new UserHandlers.FollowHandler());
-    // TODO: post vs get
+    // For exercise filtering
     Spark.post("/searchExercises", new FeedHandlers.SearchExercisesHandler());
-    // unfollows
+    // For unfollow actions
     Spark.post("/unfollow", new UserHandlers.UnfollowHandler());
-
+    // Retrieves all users a particular user is following
     Spark.post("/allFollowing", new UserHandlers.GetAllFollowing());
+    // Registers a like (on a workout)
+    Spark.post("/registerLike", new FeedHandlers.LikeHandler());
+    // Registers an unlike (on a workout)
+    Spark.post("/registerUnlike", new FeedHandlers.UnlikeHandler());
   }
 
   /**

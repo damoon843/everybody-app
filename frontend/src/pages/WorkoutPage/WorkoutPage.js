@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'; 
 import WorkoutItem from './components/WorkoutItem/WorkoutItem';
 import './WorkoutPage.css';
-import { getWorkout } from '../../api';
 
 // fix this so that it shows workout title at top
 // and then individual exercises in iframe
@@ -24,9 +23,9 @@ const sampleWorkout = {
   ]}
 
 function WorkoutPage(props) {
-  const [workout, setWorkout] = useState({});
+  // const [workout, setWorkout] = useState({});
   const [exercises, setExercises] = useState([]);
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
 
   // render the workout's exercises in a listview
   const renderExercises = () => {
@@ -48,7 +47,7 @@ function WorkoutPage(props) {
         <div>
           <div className="workout-user">
             <div id="workout-user-info">
-              <img src={sampleWorkout.avatar} id="workout-user-img" />
+              <img alt="workout info" src={sampleWorkout.avatar} id="workout-user-img" />
               <p>{sampleWorkout.user}</p>
             </div>
           </div>
@@ -60,7 +59,7 @@ function WorkoutPage(props) {
             {/* <h3>{currExercise.props.title}</h3> */}
             <div className="exercise-user">
               <div id="exercise-user-info">
-                <img src={sampleWorkout.avatar} id="workout-user-img" />
+                <img alt="workout user" src={sampleWorkout.avatar} id="workout-user-img" />
                 {/* <p>{currExercise.props.username}</p> */}
               </div>
             </div>

@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import axios from 'axios';
 import './WorkoutModal.css';
-import { createWorkout, getAllExercises } from '../../../../api';
-import ExerciseItem from './ExerciseItem';
+import { createWorkout } from '../../../../api';
 
 function WorkoutModal(props){
   const [show, setShow] = useState(false);
-  const [exercises, setExercises] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  useEffect(() => {
-    // newGetAllExercises()
-  }, []);
 
   const getSelected = (element) => {
     let selected = []
@@ -26,21 +19,6 @@ function WorkoutModal(props){
     console.log(selected)
     return selected;
   }
-
-  // const newGetAllExercises = async () => {
-  //   getAllExercises().then(result => {
-  //     const data = Object.values(result)
-  //     const keys = Object.keys(result)
-  //     let exerciseList = [];
-  //     for (let i = 0; i < keys.length; i++) {
-  //       // const item = <ExerciseItem key={keys[i]} data={data[i]}/>
-  //       const opt = <option value={keys[i]}>{data[i][6]}</option>
-  //       exerciseList.push(opt)
-  //     }
-  //     console.log(exerciseList)
-  //     setExercises(exerciseList)
-  //   });
-  // }
 
   const submitWorkout = (e) => {
     e.preventDefault();

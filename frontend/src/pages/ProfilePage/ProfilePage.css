@@ -1,16 +1,18 @@
 .profile-page {
   display: flex;
-  margin-top: 0%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-
+  margin: 4rem 0 3rem 0;
 }
-.prof-card{
-  margin-top: 0;
+
+#myWorkouts {
+  align-self: flex-start;
+  margin: 0 0 0 5vw;
 }
 
 .profile-workouts {
   display: flex;
   flex-wrap: wrap;
+  width: 90vw;
 }

@@ -1,0 +1,24 @@
+.profile-card {
+  width: 90vw;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
+  margin: 2rem 2rem;
+  background-color: white;
+}
+
+.following-list {
+  border: 1px solid grey;
+  background-color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: grey;
+  transition: 0.2s ease-in-out;
+}
+
+.following-list:hover {
+  background-color: #f0f0f0;
+}

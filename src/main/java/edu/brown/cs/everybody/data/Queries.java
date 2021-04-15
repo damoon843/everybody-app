@@ -206,4 +206,38 @@ public final class Queries {
   public static String getUsername() {
     return "SELECT username FROM everybody_app.users WHERE id = ?;";
   }
+
+  /**
+   * Gets certain number of additional workouts ranked on total like_count.
+   * @return query string
+   */
+  public static String getCommunityWorkouts() {
+    return "SELECT * FROM everybody_app.workouts ORDER BY workouts.total_likes DESC LIMIT ?;";
+  }
+
+  /**
+   * Inserts a like on a workout.
+   * @return query string
+   */
+  public static String insertLike() {
+    return "INSERT INTO everybody_app.likes(workout_id, user_id) VALUES(?,?);";
+  }
+
+  /**
+   * Removes a like from a workout.
+   * @return query string
+   */
+  public static String removeLike() {
+    return "DELETE FROM ONLY everybody_app.likes"
+      + " WHERE workout_id = ? AND user_id = ?;";
+  }
+
+  /**
+   * Retrieves workout ID.
+   * @return query string
+   */
+  public static String getWorkoutId() {
+    return "SELECT workout_id FROM everybody_app.workouts"
+      + " WHERE workout_name = ? AND username = ?";
+  }
 }

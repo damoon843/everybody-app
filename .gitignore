@@ -4,5 +4,7 @@ target/
 .idea/
 **.DS_Store**
 *.sqlite3
-
+*.env
+*.iml
+.idea/*
 *.iml

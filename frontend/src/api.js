@@ -24,34 +24,34 @@ export const getRecommendations = async (username) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
 // gets workouts for a specific user
 // username: the user's username
-export const getWorkouts = async (username) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  const toSend = {
-    username: username
-  };
-  await axios.post(
-    "http://localhost:4567/userWorkouts",
-    toSend,
-    config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
-}
+// export const getWorkouts = async (username) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   const toSend = {
+//     username: username
+//   };
+//   await axios.post(
+//     "http://localhost:4567/userWorkouts",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // gets an existing workout
 // id: the workout's unique ID
@@ -70,7 +70,7 @@ export const getWorkout = async (id) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -90,24 +90,29 @@ export const getAllExercises = async () => {
 }
 
 // gets user data
-export const getUser = async () => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.get(
-    "http://localhost:4567/userInfo",
-    config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error.response.data);
-  });
-}
+// export const getUser = async (username) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   const toSend = {
+//     username: username
+//   };
+//   await axios.post(
+//     "http://localhost:4567/userInfo",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     console.log(response)
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 
 /** POST REQUESTS */
@@ -134,7 +139,7 @@ export const createWorkout = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -156,7 +161,7 @@ export const createExercise = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -190,7 +195,7 @@ export const createUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -218,7 +223,7 @@ export const loginUser = async (toSend) => {
     // userSession.setSession(response.data)
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -229,6 +234,7 @@ export const followUser = async (toSend) => {
     headers: {
       "Content-Type": "application/json",
       'Access-Control-Allow-Origin': '*',
+      "withCredentials": "true"
     }
   }
   await axios.post(
@@ -237,10 +243,11 @@ export const followUser = async (toSend) => {
       config
   )
   .then(response => {
+    console.log(document.cookie)
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
@@ -262,7 +269,7 @@ export const unfollowUser = async (toSend) => {
     return response.data;
   })
   .catch(function (error) {
-    console.log(error.response.data);
+    console.log(error);
   });
 }
 
