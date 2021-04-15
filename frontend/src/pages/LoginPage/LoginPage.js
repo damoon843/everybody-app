@@ -39,29 +39,34 @@ function LoginPage(props) {
     let err = document.getElementById("err-msg-signup")
     err.innerText = ""
     const data = getSignUpVals()
-    const toSend = JSON.stringify(data);
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
+    if (!data.firstName || !data.lastName || !data.newUsername || !data.newPassword || !data.workoutType || !data.workoutDuration) {
+      err.innerText = "Please fill out all fields."
+    } else {
+      const toSend = JSON.stringify(data);
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        }
       }
+      console.log(toSend)
+      await axios.post(
+        "http://localhost:4567/newUser",
+        toSend,
+        config
+      )
+      .then(response => {
+        // TODO: check if returns true
+        props.changeUsername(data.username)
+        props.history.push('/home');
+        console.log(response.data)
+      })
+      .catch(function (error) {
+        err.innerText = "Error: could not create account."
+        console.log(error);
+      });
     }
-    console.log(toSend)
-    await axios.post(
-      "http://localhost:4567/newUser",
-      toSend,
-      config
-    )
-    .then(response => {
-      // TODO: check if returns true
-      props.changeUsername(data.username)
-      props.history.push('/home');
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      err.innerText = "Error: could not create account."
-      console.log(error);
-    });
+ 
   }
 
   const loginUser = async (e) => {
@@ -69,28 +74,32 @@ function LoginPage(props) {
     let err = document.getElementById("err-msg-login")
     err.innerText = ""
     const data = getLoginVals()
-    const toSend = JSON.stringify(data);
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
+    if (!data.username || !data.password) {
+      err.innerText = "Please fill out all fields."
+    } else {
+      const toSend = JSON.stringify(data);
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        }
       }
+      await axios.post(
+        "http://localhost:4567/login",
+        toSend,
+        config
+      )
+      .then(response => {
+        // TODO: check if returns true
+        props.changeUsername(data.username)
+        props.history.push('/home');
+        console.log(response.data)
+      })
+      .catch(function (error) {
+        err.innerText = "Error: could not log in."
+        console.log(error);
+      });
     }
-    await axios.post(
-      "http://localhost:4567/login",
-      toSend,
-      config
-    )
-    .then(response => {
-      // TODO: check if returns true
-      props.changeUsername(data.username)
-      props.history.push('/home');
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      err.innerText = "Error: could not log in."
-      console.log(error);
-    });
   }
 
   const getRadioVal = (element) => {
