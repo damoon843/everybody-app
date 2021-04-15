@@ -213,7 +213,7 @@ public final class Queries {
    */
   public static String getAdditionalWorkouts() {
     return "SELECT * FROM everybody_app.workouts WHERE workout_id NOT IN "
-        + "(SELECT workout_id FROM everybody_app.viewed_workouts WHERE everybody_app.user_id = ?) "
+        + "(SELECT workout_id FROM everybody_app.viewed_workouts WHERE user_id = ?) "
         + "ORDER BY total_likes DESC LIMIT ?;";
   }
 
