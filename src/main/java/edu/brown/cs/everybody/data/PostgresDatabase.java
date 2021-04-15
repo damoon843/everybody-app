@@ -30,6 +30,14 @@ public final class PostgresDatabase {
   }
 
   /**
+   * Getter for connection.
+   * @return DB connection
+   */
+  public static Connection getConn() {
+    return dbConn;
+  }
+
+  /**
    * Establishes connection to pg DB.
    * @throws URISyntaxException when given improper URI
    * @throws SQLException when driver cannot retrieve conn
