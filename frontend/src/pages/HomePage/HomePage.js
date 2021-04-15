@@ -35,7 +35,7 @@ function Home(props) {
       setExercises(exerciseList)
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
   }
   

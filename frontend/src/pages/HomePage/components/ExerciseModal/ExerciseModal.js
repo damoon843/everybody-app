@@ -33,6 +33,42 @@ function ExerciseModal(props){
     return result;
   }
 
+  const uploadFile = () => {
+    let file = inputFile.current.files[0]
+    let filename = inputFile.current.files[0].name
+    const { REACT_APP_BUCKET_NAME, REACT_APP_DIR_NAME, REACT_APP_REGION, REACT_APP_ACCESS_ID, REACT_APP_ACCESS_KEY } = process.env;
+
+    const config = {
+      bucketName: REACT_APP_BUCKET_NAME,
+      dirName: REACT_APP_DIR_NAME,
+      region: REACT_APP_REGION,
+      accessKeyId: REACT_APP_ACCESS_ID,
+      secretAccessKey: REACT_APP_ACCESS_KEY,
+    };
+
+    // const config = {
+    //   bucketName: process.env.REACT_APP_BUCKET_NAME,
+    //   dirName: process.env.REACT_APP_DIR_NAME,
+    //   region: process.env.REACT_APP_REGION,
+    //   accessKeyId: process.env.REACT_APP_ACCESS_ID,
+    //   secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
+    // };
+    const s3Client = new S3(config);
+    console.log(s3Client)
+    s3Client.uploadFile(file, filename).then(data => {
+      console.log(data)
+      if (data.status === 204) {
+        console.log("yay")
+      } else {
+        console.log("aw shucks")
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    });
+    return filename
+  }
+
   const submitExercise = async (e) => {
     e.preventDefault();
 
@@ -47,31 +83,7 @@ function ExerciseModal(props){
     checkedVals.push(type);
     let newDuration = duration * 60;
     const media = document.getElementById('exercise-media').value;
-
-    let file = inputFile.current.files[0]
-    let filename = file.name
-    console.log(file)
-    console.log(filename)
-    const config = {
-      bucketName: process.env.REACT_APP_BUCKET_NAME,
-      region: process.env.REACT_APP_REGION,
-      accessKeyId: process.env.REACT_APP_ACCESS_ID,
-      secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
-    };
-
-    console.log(config)
-
-    const s3Client = new S3(config);
-    s3Client.uploadFile(file, filename).then(data => {
-      console.log(data)
-      if (data.status === 204) {
-        console.log("yay")
-      } else {
-        console.log("aw shucks")
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+    const filename = uploadFile();
 
     if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
