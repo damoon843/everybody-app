@@ -280,12 +280,12 @@ public class UserHandlers {
       List<Map<String, String>> output = new ArrayList<>();
       Workout finalWorkout = finalSortedWorkouts.poll();
       while (finalWorkout != null) {
-        output.add(finalWorkout.toMap());
+        Map<String, String> wkout = finalWorkout.toMap();
+        wkout.put("following", PostgresDatabase.getFollowingRelation(user.getUserID(), finalWorkout.getUsername()));
+        output.add(wkout);
         finalWorkout = finalSortedWorkouts.poll();
       }
-      System.out.println("HELLO");
       variables = ImmutableMap.of("workouts", output);
-      System.out.println(output);
       return GSON.toJson(variables);
     }
   }

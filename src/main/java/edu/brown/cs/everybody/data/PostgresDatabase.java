@@ -837,4 +837,32 @@ public final class PostgresDatabase {
       throw new SQLException(ex.getMessage());
     }
   }
+
+  /**
+   * Returns whether the current user follows another user.
+   * @param userID current user
+   * @param following user potentially being followed
+   * @return String form of boolean true if userID follows following, false otherwise
+   */
+  public static String getFollowingRelation(int userID, String following) throws SQLException, URISyntaxException {
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getRelation();
+    int followingID = getUserID(following);
+    boolean relation = false;
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      stmt.setInt(2, followingID);
+      try (ResultSet res = stmt.executeQuery()) {
+        if (res.next()) {
+          relation = true;
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_RELATION);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return String.valueOf(relation);
+  }
 }
