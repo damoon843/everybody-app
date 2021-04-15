@@ -179,7 +179,7 @@ public final class Queries {
    */
   public static String getSimilarExercises() {
     return "SELECT * FROM everybody_app.exercises"
-        + " WHERE exercise_name LIKE '%?%' ORDER BY created_at DESC"
+        + " WHERE exercise_name LIKE %?% ORDER BY created_at DESC"
         + " LIMIT 20;";
   }
 
@@ -259,12 +259,19 @@ public final class Queries {
     return "SELECT id, username FROM everybody_app.users WHERE username LIKE '%?%' AND"
     + " id NOT IN (SELECT following_id FROM everybody_app.following WHERE user_id = ?)";
   }
-  
+
   /**
    * Wipes user from DB.
    * @return query string
    */
   public static String removeUser() {
-    return "";
+    return "DELETE FROM ONLY everybody_app.workouts WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.exercises WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.users WHERE id = ?;"
+      + " DELETE FROM ONLY everybody_app.user_preferences WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.viewed_workouts WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.likes WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE following_id = ?;";
   }
 }

@@ -902,20 +902,27 @@ public final class PostgresDatabase {
    */
   public static void removeUser(String username) throws SQLException {
     dbConn = DataSourcePool.getConnection();
+    int id = -1;
 
     // Retrieve id of user to delete
     try {
-      int id = getUserID(username);
+      id = getUserID(username);
     } catch(SQLException | URISyntaxException ex) {
       System.out.println(ErrorConstants.ERROR_DELETE_USER);
       return;
     }
 
-    // Remove from all tables
+    // Remove from tables with FK relation with user_id and tables with username exact match
     String deleteQuery = Queries.removeUser();
     try (PreparedStatement stmt = dbConn.prepareStatement(deleteQuery)) {
-//      stmt.setString(1, (String) data.get(0));
-//      stmt.setString(2, (String) data.get(1));
+      stmt.setString(1, username);
+      stmt.setString(2, username);
+      stmt.setInt(3, id);
+      stmt.setInt(4, id);
+      stmt.setInt(5, id);
+      stmt.setInt(6, id);
+      stmt.setInt(7, id);
+      stmt.setInt(8, id);
       stmt.executeUpdate();
     } catch (SQLException ex) {
       tearDownConnection();
