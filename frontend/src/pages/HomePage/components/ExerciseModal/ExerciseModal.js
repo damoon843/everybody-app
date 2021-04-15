@@ -110,7 +110,7 @@ function ExerciseModal(props){
         config
       )
       .then(response => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           msg.innerText = "Exercise submitted successfully!";
           setTimeout(function(){ 
             props.rerender(title);
