@@ -92,7 +92,12 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         userInfo = PostgresDatabase.getUserInfo(username);
       } catch(SQLException ex) {
@@ -129,7 +134,12 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         int userid = PostgresDatabase.getUserID(username);
         user = PostgresDatabase.getUser(userid);
@@ -295,7 +305,12 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         PostgresDatabase.insertFollow(username, following);
       } catch(SQLException ex) {
@@ -331,7 +346,12 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         PostgresDatabase.removeFollow(username, following);
       } catch(SQLException ex) {
@@ -403,7 +423,12 @@ public class UserHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         following = PostgresDatabase.getAllFollowing(username);
       } catch(SQLException ex) {
