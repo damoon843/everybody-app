@@ -6,51 +6,9 @@
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
   margin: 1rem;
   background-color: white;
+  padding: 1rem;
 }
 
-.workout-text {
-  margin: 1rem 0 0rem 1rem;
-}
-
-.workout-btn {
-  width: 90%;
-  align-self: center;
-  margin: 0 0 0 1rem;
-  border: none;
-  color: white;
-  background-color: #34A2B8;
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-
-.workout-btn:hover {
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  background-color: #49b5ca;
-}
-
-.workout-info {
-  color: grey;
-}
-
-.workout-image {
-  width: 22rem;
-  height: 8rem;
-  object-fit: cover;
-}
-
-.workout-row {
+.workout-poster {
   display: flex;
-}
-
-#follow-btn {
-  background-color: #afafaf;
-  padding: 0 0.5rem;
-  margin: 0 0.5rem;
-  height: 1.5rem;
-}
-
-#follow-btn:hover {
-  background-color: #c0c0c0;
-  cursor: pointer;
 }

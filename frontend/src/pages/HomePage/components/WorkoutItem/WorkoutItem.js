@@ -1,32 +1,90 @@
-import React from 'react'; 
+import React, { useEffect, useState, useRef } from 'react'; 
 import './WorkoutItem.css';
-import { followUser } from '../../../../api';
+// import { followUser } from '../../../../api';
+import axios from 'axios';
 
 function Workout(props){
-  const url = "/workout/" + props.id
+  const [following, setFollowing] = useState(props.following)
+  let followBtn = useRef(null)
 
-  const follow = () => {
-    const toSend = {
-      // TODO: remove hard coding
-      user: "ntim",
-      following: "aguo"
-    };
-    console.log(toSend)
-    followUser(toSend).then(result => {
-      console.log("user followed!")
+  const followUser = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      username: props.username.current,
+      following: props.postingUser
+    }
+    await axios.post(
+        "http://localhost:4567/follow",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
     })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
+
+  const unfollowUser = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+        "withCredentials": "true"
+      }
+    }
+    let toSend = {
+      username: props.username.current,
+      following: props.postingUser
+    }
+    await axios.post(
+        "http://localhost:4567/unfollow",
+        toSend,
+        config
+    )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const toggleFollowing = () => {
+    if (following) {
+      unfollowUser().then(response => {
+        setFollowing(false)
+      })
+    } else {
+      followUser().then(response => {
+        setFollowing(true)
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (following) {
+      followBtn.current = <button onClick={toggleFollowing}>following</button>
+    } else {
+      followBtn.current = <button onClick={toggleFollowing}>follow</button>
+    }
+  }, [following])
 
   return(
     <div className="workout-container">
-      <div className="workout-text">
-        <h5>{props.title}<span className="workout-info"> ({props.duration})</span></h5>
-        <div className="workout-row">
-          {/* <p className="workout-info">{props.username.current}</p> */}
-          <button className="submit-btn" id="follow-btn" onClick={follow}>Follow</button>
-        </div>
+      <h4>{props.name}</h4>
+      <div className="workout-poster">
+        <h5>{props.postingUser}</h5>
       </div>
-      <a href={url}><button className="workout-btn">Start workout</button></a>
+      <p>Description: {props.description}</p>
+      {followBtn}
     </div>
   );
 }

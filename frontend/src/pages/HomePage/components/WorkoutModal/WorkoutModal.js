@@ -49,7 +49,7 @@ function WorkoutModal(props){
         config
       )
       .then(response => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           msg.innerText = "Workout submitted successfully!";
           setTimeout(function(){ 
             handleClose();
