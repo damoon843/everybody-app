@@ -39,7 +39,8 @@ function LoginPage(props) {
     let err = document.getElementById("err-msg-signup")
     err.innerText = ""
     const data = getSignUpVals()
-    if (!data.firstName || !data.lastName || !data.newUsername || !data.newPassword || !data.workoutType || !data.workoutDuration) {
+    console.log(data)
+    if (!data.firstName || !data.lastName || !data.username || !data.password || !data.workoutType || !data.workoutDuration) {
       err.innerText = "Please fill out all fields."
     } else {
       const toSend = JSON.stringify(data);
@@ -97,7 +98,7 @@ function LoginPage(props) {
       })
       .catch(function (error) {
         err.innerText = "Error: could not log in."
-        console.log(error);
+        console.log(error.response.data);
       });
     }
   }
