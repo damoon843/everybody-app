@@ -3,7 +3,7 @@ import Main from './components/Main/Main';
 import ExerciseModal from './components/ExerciseModal/ExerciseModal'
 import WorkoutModal from './components/WorkoutModal/WorkoutModal'
 import './HomePage.css';
-import { getAllExercises } from '../../api';
+import axios from 'axios';
 
 function Home(props) {
   const [render, setRender] = useState("");
@@ -14,17 +14,44 @@ function Home(props) {
   }
 
   const getExercises = async () => {
-    getAllExercises().then(result => {
-      const data = Object.values(result)
-      const keys = Object.keys(result)
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    await axios.post(
+      "http://localhost:4567/publicExercises",
+      config,
+    )
+    .then(response => {
+      const data = Object.values(response.data)
+      const keys = Object.keys(response.data)
       let exerciseList = [];
       for (let i = 0; i < keys.length; i++) {
-        const opt = <option value={keys[i]}>{data[i][6]}</option>
+        const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
         exerciseList.push(opt)
       }
       setExercises(exerciseList)
+    })
+    .catch(function (error) {
+      console.log(error);
     });
   }
+  
+
+  // const getExercises = async () => {
+  //   getAllExercises().then(result => {
+  //     const data = Object.values(result)
+  //     const keys = Object.keys(result)
+  //     let exerciseList = [];
+  //     for (let i = 0; i < keys.length; i++) {
+  //       const opt = <option value={keys[i]}>{data[i][6]}</option>
+  //       exerciseList.push(opt)
+  //     }
+  //     setExercises(exerciseList)
+  //   });
+  // }
 
   useEffect(() => {
     getExercises()
