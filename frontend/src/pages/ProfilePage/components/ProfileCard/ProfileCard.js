@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import './ProfileCard.css';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
 function ProfileCard(props) {
   const [show, setShow] = useState(false);
@@ -39,7 +40,6 @@ function ProfileCard(props) {
     )
     .then(response => {
         if (response.data.success) {
-            console.log(props.history)
             props.history.push('/');
         }
         console.log(response.data)
@@ -76,4 +76,4 @@ function ProfileCard(props) {
   );
 }
 
-export default ProfileCard;
+export default withRouter(ProfileCard);

@@ -98,7 +98,7 @@ function LoginPage(props) {
       })
       .catch(function (error) {
         err.innerText = "Error: could not log in."
-        console.log(error.response.data);
+        console.log(error);
       });
     }
   }
