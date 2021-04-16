@@ -5,7 +5,6 @@ package edu.brown.cs.everybody.utils;
  */
 public final class ErrorConstants {
 
-
   /** Empty constructor for the ErrorConstants class. */
   private ErrorConstants() { }
   public static final String ERROR_GET_RELATION = "Error retrieving following relation." ;
@@ -28,6 +27,7 @@ public final class ErrorConstants {
   public static final String ERROR_INSERT_WORKOUT = "Error inserting workout.";
   public static final String ERROR_GET_EXERCISEID = "Error retrieving exercise ID.";
   public static final String ERROR_GET_WORKOUTS = "Error retrieving user's workouts.";
+  public static final String ERROR_GET_LIKED_WORKOUTS = "Error retrieving user's liked workouts.";
   public static final String ERROR_GET_EXERCISES = "Error retrieving user's exercises.";
   public static final String ERROR_GET_PUBLIC_EXERCISES = "Error retrieving public exercises.";
   public static final String ERROR_GET_SIMILAR_EXERCISES = "Error retrieving similar exercises.";

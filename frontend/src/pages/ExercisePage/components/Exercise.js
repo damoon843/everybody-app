@@ -40,27 +40,31 @@ function Exercise(props){
                 const info = document.createElement("p")
                 const description = document.createElement("p")
                 const followBtn = document.createElement("button")
-                // const thumbnail = document.createElement("img")
+                const tags = document.createElement("p")
+                const thumbnail = document.createElement("img")
                 // const btn = document.createElement("button")
 
-                title.innerText = values[6]//exercise.title;
-                info.innerText = keys + " | " + values[5]
+                title.innerText = values[6] + " ("+ values[1]+' min)'//exercise.title;
+                info.innerText =  "User: "+ values[5]
                 description.innerText = values[3]
-                // thumbnail.src = workout.thumbnail
+                tags.innerText = "tags: "+ values[4]
+                thumbnail.src = "https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg"
                 // btn.value = "View Exercise"
                 followBtn.value = "follow"
 
-                // thumbnail.className = "workout-image"
+                thumbnail.className = "workout-image"
                 info.className = "exercise-info"
                 text.className = "exercise-text"
                 container.className = "exercise-container"
                 // btn.className = "workout-btn"
                 // btn.innerHTML = "View Exercise"
 
-                //container.append(thumbnail)
+                container.append(thumbnail)
                 text.append(title)
-                text.append(info)
                 text.append(description)
+                text.append(info)
+                text.append(tags)
+
                 container.append(text)
                 // container.append(btn)
                 anchor.append(container)

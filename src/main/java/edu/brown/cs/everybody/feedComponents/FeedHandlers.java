@@ -138,7 +138,6 @@ public class FeedHandlers {
   public static class GetWorkoutsHandler implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
-      JSONObject data = new JSONObject(request.body());
       Map<String, Object> variables;
       List<Map<String, String>> output = new ArrayList<>();
       String username = "";
@@ -164,6 +163,53 @@ public class FeedHandlers {
       }
       try {
         workouts = PostgresDatabase.getUserWorkouts(username);
+      } catch(SQLException ex) {
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_LIKED_WORKOUTS);
+        return GSON.toJson(variables);
+      }
+
+      Workout finalWorkout = workouts.poll();
+      while (finalWorkout != null) {
+        output.add(finalWorkout.toMap());
+        finalWorkout = workouts.poll();
+      }
+      variables = ImmutableMap.of("workouts", output);
+      return GSON.toJson(variables);
+    }
+  }
+
+  /**
+   * Retrieves all workouts liked by a user (for profile).
+   */
+  public static class GetLikedWorkoutsHandler implements Route {
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+      Map<String, Object> variables;
+      List<Map<String, String>> output = new ArrayList<>();
+      String username = "";
+      PriorityQueue<Workout> workouts;
+
+      // Retrieve session
+      Session session = request.session(false);
+      if (session != null) {
+        // Retrieval successful, get username
+        username = session.attribute("username");
+      } else {
+        // Retrieval failed
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
+        return GSON.toJson(variables);
+      }
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
+      try {
+        workouts = PostgresDatabase.getLikedWorkouts(username);
       } catch(SQLException ex) {
         response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_GET_WORKOUTS);

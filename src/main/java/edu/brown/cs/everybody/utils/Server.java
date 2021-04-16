@@ -68,6 +68,8 @@ public class Server {
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts
     Spark.post("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
+    // For retrieving a user's liked workouts
+    Spark.post("/likedWorkouts", new FeedHandlers.GetLikedWorkoutsHandler());
     // For retrieving the uploaded exercises (within a workout)
     Spark.post("/getWorkoutExercises", new FeedHandlers.GetExercisesHandler());
     // For user deletion

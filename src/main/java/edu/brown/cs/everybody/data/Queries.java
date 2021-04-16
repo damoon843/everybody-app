@@ -51,6 +51,15 @@ public final class Queries {
   }
 
   /**
+   * Query to retrieve a user's liked workouts.
+   * @return query string
+   */
+  public static String getLikedWorkouts() {
+    return "SELECT * FROM everybody_app.workouts, everybody_app.likes WHERE"
+        + " workouts.workout_id = likes.workout_id AND user_id = ?;";
+  }
+
+  /**
    * Query to retrieve a user's exercises (within a workout).
    * @return query string
    */

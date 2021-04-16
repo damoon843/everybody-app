@@ -154,7 +154,7 @@ public final class PostgresDatabase {
    * @param username username
    * @return pq of Workout objects
    */
-  public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException, URISyntaxException {
+  public static PriorityQueue<Workout> getUserWorkouts(String username) throws SQLException {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
@@ -180,6 +180,44 @@ public final class PostgresDatabase {
     } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return pq;
+  }
+
+  /**
+   * Retrieves a user's liked workouts.
+   * @param username username
+   * @return pq of Workout objects
+   */
+  public static PriorityQueue<Workout> getLikedWorkouts(String username) throws SQLException, URISyntaxException {
+    int userID = getUserID(username);
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getLikedWorkouts();
+    PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      try (ResultSet res = stmt.executeQuery()) {
+        while (res.next()) {
+          int workoutID = res.getInt("workout_id");
+          String workoutName = res.getString("workout_name");
+          Date created = res.getDate("created_at");
+          int likes = res.getInt("total_likes");
+          String mediaLink = res.getString("media_link");
+          int duration = res.getInt("duration");
+          String creatorUsername = res.getString("username");
+          String description = res.getString("description");
+          Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
+              username(creatorUsername).created_at(created).description(description)
+              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+          pq.add(workout);
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_LIKED_WORKOUTS);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -934,6 +972,9 @@ public final class PostgresDatabase {
       return;
     }
 
+    // Re-establish connection
+    dbConn = DataSourcePool.getConnection();
+
     // Remove from tables with FK relation with user_id and tables with username exact match
     String deleteQuery = Queries.removeUser();
     try (PreparedStatement stmt = dbConn.prepareStatement(deleteQuery)) {
@@ -948,6 +989,7 @@ public final class PostgresDatabase {
       stmt.executeUpdate();
     } catch (SQLException ex) {
       tearDownConnection();
+      System.out.println(ex.getMessage());
       System.out.println(ErrorConstants.ERROR_DELETE_USER);
       throw new SQLException(ex.getMessage());
     }

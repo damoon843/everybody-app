@@ -74,14 +74,14 @@ public class RecommendationHandler {
       // TODO: INCORPORATE THIS
       String tagPreference = user.getWorkoutType();
 
-      // inserts 10 workouts from people user follows into finalSortedWorkouts
+      // inserts 6 workouts from people user follows into finalSortedWorkouts
       PriorityQueue<Workout> finalSortedWorkouts = new PriorityQueue<>(new WorkoutComparator());
       int counter = 0;
       List<Integer> following = user.getFollowing();
       if (!following.isEmpty()) {
         Collections.shuffle(following);
         for (int followingUserID : following) {
-          if (counter == 10) {
+          if (counter == 6) {
             break;
           }
           AppUser followingUser;
@@ -154,6 +154,7 @@ public class RecommendationHandler {
       }
 
       // Gets additional workouts if needed to reach 14 total workouts
+      // (so minimum of 4 community workouts are added)
       int additionalWorkoutsNeeded = 14 - (counter + counter2);
       PriorityQueue<Workout> additionalWorkouts;
 

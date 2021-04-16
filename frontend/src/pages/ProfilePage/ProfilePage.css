@@ -6,14 +6,31 @@
   margin: 4rem 0 3rem 0;
 }
 
-#myWorkouts {
+#myWorkouts, #likedWorkouts {
   align-self: flex-start;
-  margin: 0 0 0 5vw;
+  margin: 0 0 0 0;
   padding: 0 0 0 1rem;
 }
 
-.profile-workouts {
+.profile-workouts, .liked-workouts {
   display: flex;
   flex-wrap: wrap;
+}
+
+.workout-wrapper {
   width: 90vw;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.myWorkouts, .likedWorkouts {
+  max-width: 50%;
+}
+
+.line {
+  border: 1px solid lightgrey;
+  margin: 3px;
 }
