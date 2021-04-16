@@ -1,4 +1,4 @@
-package edu.brown.everybody;
+package edu.brown.cs.everybody;
 
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.utils.WorkoutComparator;

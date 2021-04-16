@@ -24,6 +24,7 @@ function ProfileCard(props) {
     )
     .then(response => {
         if (response.data.success) {
+            console.log(props.history)
             props.history.push('/');
         }
         console.log(response.data)

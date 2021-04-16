@@ -972,6 +972,9 @@ public final class PostgresDatabase {
       return;
     }
 
+    // Re-establish connection
+    dbConn = DataSourcePool.getConnection();
+
     // Remove from tables with FK relation with user_id and tables with username exact match
     String deleteQuery = Queries.removeUser();
     try (PreparedStatement stmt = dbConn.prepareStatement(deleteQuery)) {
@@ -986,6 +989,7 @@ public final class PostgresDatabase {
       stmt.executeUpdate();
     } catch (SQLException ex) {
       tearDownConnection();
+      System.out.println(ex.getMessage());
       System.out.println(ErrorConstants.ERROR_DELETE_USER);
       throw new SQLException(ex.getMessage());
     }
