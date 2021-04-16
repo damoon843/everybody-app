@@ -544,11 +544,22 @@ public final class PostgresDatabase {
    * @param workoutId workout ID
    */
   public static void insertLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    int userID = getUserID(username);
     dbConn = DataSourcePool.getConnection();
     String insertString = Queries.insertLike();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, workoutId);
-      stmt.setInt(2, getUserID(username));
+      stmt.setInt(2, userID);
+      stmt.execute();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_INSERT_LIKE);
+      throw new SQLException(ex.getMessage());
+    }
+
+    insertString = Queries.addLikeCount();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
       stmt.execute();
     } catch (SQLException ex) {
       tearDownConnection();
@@ -564,15 +575,26 @@ public final class PostgresDatabase {
    * @param workoutId workout ID
    */
   public static void removeLike(String username, Integer workoutId) throws URISyntaxException, SQLException {
+    int userID = getUserID(username);
     dbConn = DataSourcePool.getConnection();
     String insertString = Queries.removeLike();
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setInt(1, workoutId);
-      stmt.setInt(2, getUserID(username));
+      stmt.setInt(2, userID);
       stmt.execute();
-    } catch (SQLException | URISyntaxException ex) {
+    } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_REMOVE_LIKE);
+      throw new SQLException(ex.getMessage());
+    }
+
+    insertString = Queries.subtractLikeCount();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, workoutId);
+      stmt.execute();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_INSERT_LIKE);
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
@@ -580,10 +602,10 @@ public final class PostgresDatabase {
 
 
   /**
-   * Retrieves exercises for exercises page (100 at a time)
+   * Retrieves exercises for exercises page (40 at a time)
    * @return list of exercises to display
    */
-  public static Map<Integer, List<Object>> getExercises() throws SQLException, URISyntaxException {
+  public static Map<Integer, List<Object>> getExercises() throws SQLException {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getPublicExercises();
     Map<Integer, List<Object>>  results = new HashMap<>();
@@ -612,12 +634,12 @@ public final class PostgresDatabase {
         }
       } catch (SQLException ex) {
         tearDownConnection();
-        System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
+        System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES + ex.getMessage());
         throw new SQLException(ex.getMessage());
       }
     } catch (SQLException ex) {
       tearDownConnection();
-      System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES);
+      System.out.println(ErrorConstants.ERROR_GET_PUBLIC_EXERCISES + ex.getMessage());
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();

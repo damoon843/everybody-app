@@ -68,8 +68,8 @@ public class Server {
     Spark.post("/uploadWorkout", new FeedHandlers.UploadWorkoutHandler());
     // For retrieving a user's uploaded workouts
     Spark.post("/userWorkouts", new FeedHandlers.GetWorkoutsHandler());
-    // For retrieving a user's uploaded exercises (within a workout)
-    Spark.post("/userExercises", new FeedHandlers.GetExercisesHandler());
+    // For retrieving the uploaded exercises (within a workout)
+    Spark.post("/getWorkoutExercises", new FeedHandlers.GetExercisesHandler());
     // For user deletion
     Spark.post("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
@@ -87,7 +87,7 @@ public class Server {
     // Registers a like (on a workout)
     Spark.post("/registerLike", new FeedHandlers.LikeHandler());
     // Registers an unlike (on a workout)
-    Spark.post("/registerUnlike", new FeedHandlers.UnlikeHandler());
+    Spark.post("/unregisterLike", new FeedHandlers.UnlikeHandler());
     // Returns all usernames which are like the search query
     Spark.post("/getMatchingUsers", new UserHandlers.GetMatchingUsersHandler());
   }
