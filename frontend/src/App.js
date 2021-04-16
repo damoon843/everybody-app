@@ -8,7 +8,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import WorkoutPage from './pages/WorkoutPage/WorkoutPage';
 import Toolbar from './components/Toolbar/Toolbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-require('dotenv').config()
+require('dotenv').config();
 
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
