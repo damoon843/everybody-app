@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 function WorkoutItem(props){
-  const [following, setFollowing] = useState(props.workout.following)
+  const [following, setFollowing] = useState(props.workout.following === 'true')
   const [like, setLike] = useState(false)
   const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
   const url = "/workout/" + props.workout.workout_id

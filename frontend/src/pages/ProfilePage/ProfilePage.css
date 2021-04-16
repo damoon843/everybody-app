@@ -18,8 +18,6 @@
 }
 
 .workout-wrapper {
-  /*column-count: 2;*/
-  /*column-rule-style: solid;*/
   width: 90vw;
   margin: 0 auto;
   display: flex;
@@ -28,25 +26,11 @@
   justify-content: flex-start;
 }
 
-.myWorkouts {
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*display:flex;*/
-  /*!*flex: 50%;*!*/
-  /*width: 50%;*/
+.myWorkouts, .likedWorkouts {
   max-width: 50%;
-  /*flex-wrap: wrap;*/
-}
-
-.likedWorkouts {
-  /*display:flex;*/
-  /*flex: 50%;*/
-  max-width: 50%;
-  /*flex-wrap: wrap;*/
 }
 
 .line {
   border: 1px solid lightgrey;
   margin: 3px;
-  /*height: 100%;*/
 }

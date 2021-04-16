@@ -1,10 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import './ProfileCard.css';
 import axios from 'axios';
 
 function ProfileCard(props) {
   const [show, setShow] = useState(false);
+  const [pref, setPref] = useState("");
+
+  useEffect(() => {
+    getPrefs();
+    }, []);
+
+  const getPrefs = async () => {
+      if (props.user.workoutDuration === 0) {
+          setPref("0-30 minutes");
+      } else if (props.user.workoutDuration === 1) {
+          setPref("30-60 minutes");
+      } else if (props.user.workoutDuration === 2) {
+          setPref("60+ minutes");
+      }
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,6 +53,7 @@ function ProfileCard(props) {
   return (
     <div className="profile-card">
       <h1>{props.user.firstName} {props.user.lastName}</h1>
+        <h2>Preferences: {pref}, {props.user.workoutType}. </h2>
       <button className="delete-account" id="delete-btn" onClick={handleShow}>Delete Account</button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
