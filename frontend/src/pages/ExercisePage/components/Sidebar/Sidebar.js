@@ -6,13 +6,12 @@ function Sidebar(props){
 
 
     const checkClick = (e)=> {
-        props.resetEx()
-        // var {name, checked} = e.target
-
-        /*
-
-         */
-
+        console.log("checking click")
+        //('input[type="checkbox"]:checked').prop('checked',false);
+        let x = document.getElementsByTagName("input");
+        for(let i=0; i<=x.length-1; i++) {
+            x[i].checked = false;
+        }
     }
 
 
@@ -48,7 +47,7 @@ function Sidebar(props){
       </ul>
       <hr/>
 
-      <Button onClick={props.resetEx} variant ="outline-dark">Reset</Button>
+      <Button onClick={()=>{props.resetEx();checkClick()}} variant ="outline-dark">Reset</Button>
       </div>
   );
 }

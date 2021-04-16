@@ -90,6 +90,7 @@ function ExercisePage() {
   }
 
   const resetEx=()=>{
+      checked.length = 0
       newGetAllExercises()
       /*
       resetting exercises--> deselect the checkboxes
