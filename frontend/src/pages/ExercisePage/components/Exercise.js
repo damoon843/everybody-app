@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import './Exercise.css'
+import ExerciseData from "../../../data/exercises.json";
 
 function Exercise(props){
     //let exercises = [{title: "Mountain Climbers", duration: "15 min", user: "Tim Nelson", description: "This is an short, intensive exercise focused on the core",thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {description: "This is an short, intensive exercise focused on the core",title: "Planks", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
@@ -10,7 +11,7 @@ function Exercise(props){
     //console.log(exercises);
 
     useEffect(() => {
-        getWorkouts();
+        //getWorkouts();
         renderWorkouts();
     });
     /*
@@ -21,12 +22,10 @@ function Exercise(props){
             genres={this.getGenres(movie.genre_ids, this.props.genres)}
         />
     ));
-
      */
 
     // TODO: fill this out with a GET request
-    const getWorkouts = () => {
-    }
+
 
     const renderWorkouts = () => {
 
@@ -44,9 +43,9 @@ function Exercise(props){
                 // const thumbnail = document.createElement("img")
                 // const btn = document.createElement("button")
 
-                title.innerText = values[0]//exercise.title;
-                info.innerText = keys + " | " + values[2]
-                description.innerText = values[4]
+                title.innerText = values[6]//exercise.title;
+                info.innerText = keys + " | " + values[5]
+                description.innerText = values[3]
                 // thumbnail.src = workout.thumbnail
                 // btn.value = "View Exercise"
                 followBtn.value = "follow"

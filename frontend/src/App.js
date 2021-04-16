@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import ExercisePage from './pages/ExercisePage/ExercisePage';
+import ExercisePage from './pages/ExercisePage/ExercisePage';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
@@ -27,7 +27,7 @@ function App() {
         </Route>
         <Route path="/exercises">
           <Toolbar changeUsername={changeUsername} />
-          {/* <ExercisePage /> */}
+          <ExercisePage />
         </Route>
         <Route path="/profile">
           <Toolbar changeUsername={changeUsername} />

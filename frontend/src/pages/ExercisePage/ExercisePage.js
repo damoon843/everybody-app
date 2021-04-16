@@ -1,70 +1,67 @@
-// import React, { useEffect, useState } from 'react'; 
-// import './ExercisePage.css';
-// import Sidebar from "./components/Sidebar/Sidebar";
-// import Exercise from "./components/Exercise/Exercise";
+import React, { useEffect, useState } from 'react'; 
+import './ExercisePage.css';
+import Sidebar from "./components/Sidebar/Sidebar";
+import Exercise from "./components/Exercise";
+import axios from "axios";
 
-// function ExercisePage() {
-//   const [exercises, setExercises] = useState({});
+function ExercisePage() {
+    const [exercises, setExercises] = useState({});
+    const newGetAllExercises = async () => {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
+        }
+      }
+      await axios.post(
+        "http://localhost:4567/publicExercises",
+        config,
+      )
+      .then(response => {
+        const data = Object.values(response.data)
+        const keys = Object.keys(response.data)
+        console.log(response.data)
+        console.log(keys)
+        console.log(data)
+        setExercises(response.data)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
 
-//     const exercisesTemp = {
-//         //map {id: [object]} where [object] = [exerciseName, mediaLink, duration, tags, description, time]
-//         "id1" : ['exerciseName', 'mediaLink', 'duration', ["abs", "chest"], "description", "time"],
-//         "id2" : ['exerciseName', 'mediaLink', 'duration', ["chest"], "description", "time"],
-//         "id3" : ['exerciseName', 'mediaLink', 'duration', ["arms"], "description", "time"]
+  useEffect(() => {
+    newGetAllExercises()
+  }, []);
 
-//     }
+  const updateExercises = (e) => {
+      console.log("clicked")
+      console.log(exercises)
 
-
-//   useEffect(() => {
-//       //console.log()
-//     setExercises(exercisesTemp);
-//       /*
-//       const ex = getAllExercises()
-//       ex.then(function(result) {
-//           console.log(result) // "Some User token"
-//       })
-
-//        */
-//   }, [exercisesTemp]);
-
-
-//   const updateExercises = (e) => {
-//       console.log("clicked")
-//       console.log(exercises)
-
-//       if (e.target.checked) {
-//           //const currState = [...this.state.movies];
-//           //console.log(exercises)
-//           let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[3].includes(e.target.name)));
-
-
-//           setExercises(filtered)
-//           console.log(filtered)
-//           //tags = exercises[3]
-//           //const newState = exercises.filter(exercise => exercise.exercise_target_area.includes(parseInt(e.target.name)));
-//           //setExercises(newState)
-//       } else {
-//           console.log('Not checked');
-//       }
+      if (e.target.checked) {
+          let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[4].includes(e.target.name)));
+          setExercises(filtered)
+          console.log(filtered)
+      } else {
+          console.log('Not checked');
+      }
 
 
-//   };
+  };
 
-//   const resetEx=()=>{
-//       console.log("resetting")
-//       setExercises(exercisesTemp);
+  const resetEx=()=>{
+      newGetAllExercises()
+  };
 
-//   };
-
-//   return (
-//     <div className="exercise-page fade-in">
-//       <div className = "sidebar">
-//         <Sidebar updateExercises = {updateExercises} />
-//       </div>
-//       <div className = "exercises">
-//         <Exercise resetEx = {resetEx} exercises={exercises}/>
-//       </div>
-//     </div>
-//   );
-// }
-// export default ExercisePage
+  return (
+    <div className="exercise-page">
+      <div className = "sidebar">
+        <Sidebar resetEx = {resetEx} updateExercises = {updateExercises} />
+      </div>
+      <div className = "exercises">
+        <Exercise  exercises={exercises}/>
+      </div>
+    </div>
+  );
+}
+export default ExercisePage
