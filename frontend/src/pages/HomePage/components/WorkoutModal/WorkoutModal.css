@@ -2,3 +2,19 @@
   width: 16rem;
   margin: 0.5rem 0;
 }
+
+.workout-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.workout-form-label {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0.75rem 0;
+}
+
+#select-exercises {
+  height: 8rem;
+}

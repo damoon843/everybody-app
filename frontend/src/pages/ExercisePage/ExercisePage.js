@@ -57,7 +57,7 @@
 //   };
 
 //   return (
-//     <div className="exercise-page">
+//     <div className="exercise-page fade-in">
 //       <div className = "sidebar">
 //         <Sidebar updateExercises = {updateExercises} />
 //       </div>

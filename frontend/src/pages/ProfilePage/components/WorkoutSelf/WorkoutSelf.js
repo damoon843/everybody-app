@@ -1,32 +1,22 @@
 import React from 'react'; 
-import './Workout.css';
-import { followUser } from '../../../../api';
+import {Card} from 'react-bootstrap'
+import './WorkoutSelf.css';
 
 function WorkoutSelf(props){
-  const url = "/workout/" + props.id
-
-  const follow = () => {
-    const toSend = {
-      // TODO: remove hard coding
-      user: "ntim",
-      following: "aguo"
-    };
-    console.log(toSend)
-    followUser(toSend).then(result => {
-      console.log("user followed!")
-    })
-  }
-
+  const url = "/workout/" + props.workout.workout_id
   return (
-    <div className="workout-container">
-      <div className="workout-text">
-        <h5>{props.workout_it}<span className="workout-info"> ({props.duration})</span></h5>
-        <div className="workout-row">
-          <p className="workout-info">{props.like_count}</p>
-        </div>
-      </div>
-      <a href={url}><button className="workout-btn">Start workout</button></a>
-    </div>
+    <Card className="workout-self">
+      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Body>
+        <Card.Text>
+          <div className="workout-title">
+            <h4>{props.workout.workout_name}</h4>
+          </div>
+          <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
+          <a href={url}><button id="start-workout-btn" className="submit-btn" >Start workout</button></a>
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
 }
 export default WorkoutSelf

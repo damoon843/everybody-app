@@ -208,11 +208,13 @@ public final class Queries {
   }
 
   /**
-   * Gets certain number of additional workouts ranked on total like_count.
+   * Gets certain number of additional workouts ranked on total like_count that the current user has not already seen.
    * @return query string
    */
-  public static String getCommunityWorkouts() {
-    return "SELECT * FROM everybody_app.workouts ORDER BY workouts.total_likes DESC LIMIT ?;";
+  public static String getAdditionalWorkouts() {
+    return "SELECT * FROM everybody_app.workouts WHERE workout_id NOT IN "
+        + "(SELECT workout_id FROM everybody_app.viewed_workouts WHERE user_id = ?) "
+        + "ORDER BY total_likes DESC LIMIT ?;";
   }
 
   /**
@@ -238,6 +240,38 @@ public final class Queries {
    */
   public static String getWorkoutId() {
     return "SELECT workout_id FROM everybody_app.workouts"
-      + " WHERE workout_name = ? AND username = ?";
+      + " WHERE workout_name = ? AND username = ?;";
+  }
+
+  /**
+   * Retrieves whether a user follows another.
+   * @return query string
+   */
+  public static String getRelation() {
+    return "SELECT * FROM everybody_app.following WHERE user_id = ? AND following_id = ?;";
+  }
+
+  /**
+   * Retrieves similar usernames to input string that current user doesn't follow.
+   * @return query string
+   */
+  public static String getMatching() {
+    return "SELECT id, username FROM everybody_app.users WHERE username LIKE '%?%' AND"
+    + " id NOT IN (SELECT following_id FROM everybody_app.following WHERE user_id = ?)";
+  }
+
+  /**
+   * Wipes user from DB.
+   * @return query string
+   */
+  public static String removeUser() {
+    return "DELETE FROM ONLY everybody_app.workouts WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.exercises WHERE username = ?;"
+      + " DELETE FROM ONLY everybody_app.users WHERE id = ?;"
+      + " DELETE FROM ONLY everybody_app.user_preferences WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.viewed_workouts WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.likes WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE user_id = ?;"
+      + " DELETE FROM ONLY everybody_app.following WHERE following_id = ?;";
   }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import Main from './components/Main/Main';
+import Recommendations from './components/Recommendations/Recommendations';
 import ExerciseModal from './components/ExerciseModal/ExerciseModal'
 import WorkoutModal from './components/WorkoutModal/WorkoutModal'
 import './HomePage.css';
@@ -25,6 +25,7 @@ function Home(props) {
       config,
     )
     .then(response => {
+      console.log(response.data)
       const data = Object.values(response.data)
       const keys = Object.keys(response.data)
       let exerciseList = [];
@@ -33,9 +34,10 @@ function Home(props) {
         exerciseList.push(opt)
       }
       setExercises(exerciseList)
+      console.log(exerciseList)
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data);
     });
   }
   
@@ -55,16 +57,17 @@ function Home(props) {
 
   useEffect(() => {
     getExercises()
+    console.log(props.username)
   }, [render])
 
   return (
-    <div className="home">
+    <div className="home fade-in">
       <div className="upload">
         <h5>Upload Activities</h5>
-        <ExerciseModal render={render} rerender={rerender} user={props.user} id="exercise-modal"/>
-        <WorkoutModal user={props.user} exercises={exercises} id="workout-modal"/>
+        <ExerciseModal render={render} rerender={rerender} username={props.username} id="exercise-modal"/>
+        <WorkoutModal username={props.username} exercises={exercises} id="workout-modal"/>
       </div>
-      <Main user={props.user} />
+      <Recommendations username={props.username} />
     </div>
   );
 }

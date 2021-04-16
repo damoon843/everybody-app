@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react'; 
-import './WorkoutPage.css';
+import React, { useEffect, useState } from 'react'; 
+import './WorkoutItem.css';
 import axios from 'axios';
+import {Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
-const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
-
-function WorkoutPage(props) {
-  const [following, setFollowing] = useState(workout.following)
+function WorkoutItem(props){
+  const [following, setFollowing] = useState(props.workout.following)
   const [like, setLike] = useState(false)
-  const [likeCount, setLikeCount] = useState(parseInt(workout.like_count))
+  const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
+  const url = "/workout/" + props.workout.workout_id
 
   const followUser = async () => {
     let config = {
@@ -144,35 +143,56 @@ function WorkoutPage(props) {
   useEffect(() => {
   }, [following, like, likeCount])
 
-  return (
-    <div className="workout-page fade-in">
-      <div className="workout-page-container">
-        <div className="workout-info">
-          <div className="workout-detail-title">
-            <h1 id="workout-title">{workout.workout_name}</h1>
-            <div className="workout-likes-detail">
+  return(
+
+    <Card className="workout-item">
+      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Body>
+        <Card.Text>
+        <div className="workout-title">
+            <h4>{props.workout.workout_name}</h4>
+            <div className="workout-likes">
+              <p className="like">{likeCount}</p>
               {like
-              ? <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="liked-detail" icon={faHeart} /></button>
-              : <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="unliked-detail" icon={faHeart} /></button>}
-              <h5 className="like">{likeCount}</h5>
+              ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+              : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
             </div>
           </div>
-          <h2>{workout.description}</h2>
-          <div className="workout-detail-user">
-            <h4 id="workout-detail-poster">{workout.posting_user}</h4>
+          <div className="workout-user">
+            <p className="workout-posting-user">{props.workout.posting_user}</p>
+            <div>
               {following 
-            ? <button className="detail-following-btn" onClick={toggleFollowing}>Following</button> : <button className="detail-follow-btn" onClick={toggleFollowing}>Follow</button>}
+              ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+            </div>
           </div>
-          <div className="additional-details">
-            <p>Estimated duration: {Math.floor(workout.duration/60)} minutes <br></br> Created: {workout.created_at}</p>
-          </div>
-        </div>
-        <hr></hr>
-        <h2 id="workout-subheading">Exercises</h2>
-        <ExerciseItem/>
-      </div>
-    </div>
+          <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
+          <a href={url}><button id="start-workout-btn" className="submit-btn" >Start workout</button></a>
+        </Card.Text>
+      </Card.Body>
+    </Card>
+
+    // <div className="workout-item">
+    //   <div className="workout-title">
+    //     <h4>{props.workout.workout_name}</h4>
+    //     <div className="workout-likes">
+    //       <p className="like">{likeCount}</p>
+    //       {like
+    //       ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
+    //       : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
+    //     </div>
+    //   </div>
+      
+    //   <div className="workout-user">
+    //     <p className="workout-posting-user">{props.workout.posting_user}</p>
+    //     <div>
+    //     {following 
+    //     ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
+    //     </div>
+    //   </div>
+    //   <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
+    //   <p>Description: {props.workout.description}</p>
+    //   <a href={url} className="submit-btn start-workout-btn">Start workout</a>
+    // </div>
   );
 }
-
-export default WorkoutPage
+export default WorkoutItem

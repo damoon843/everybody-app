@@ -30,6 +30,14 @@ public final class PostgresDatabase {
   }
 
   /**
+   * Getter for connection.
+   * @return DB connection
+   */
+  public static Connection getConn() {
+    return dbConn;
+  }
+
+  /**
    * Establishes connection to pg DB.
    * @throws URISyntaxException when given improper URI
    * @throws SQLException when driver cannot retrieve conn
@@ -150,6 +158,7 @@ public final class PostgresDatabase {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
+
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1, username);
       try (ResultSet res = stmt.executeQuery()) {
@@ -163,22 +172,18 @@ public final class PostgresDatabase {
           String creatorUsername = res.getString("username");
           String description = res.getString("description");
           Workout workout = new Workout.WorkoutBuilder().workout_id(workoutID).workout_name(workoutName).
-              username(creatorUsername).created_at(created).description(description)
-              .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
+            username(creatorUsername).created_at(created).description(description)
+            .duration(duration).media_link(mediaLink).like_count(likes).buildWorkout();
           pq.add(workout);
         }
-      } catch (SQLException ex) {
-        tearDownConnection();
-        System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
-        throw new SQLException(ex.getMessage());
       }
-      tearDownConnection();
-      return pq;
     } catch (SQLException ex) {
       tearDownConnection();
       System.out.println(ErrorConstants.ERROR_GET_WORKOUTS);
       throw new SQLException(ex.getMessage());
     }
+    tearDownConnection();
+    return pq;
   }
 
   /**
@@ -345,12 +350,6 @@ public final class PostgresDatabase {
   }
 
   /**
-   * Deletes an existing user from the users table.
-   */
-  public static void deleteUser() {
-  }
-
-  /**
    * Gets all the users the input user follows for Kosaraju's.
    * @param id input user ID.
    * @return list of user ID's.
@@ -381,7 +380,7 @@ public final class PostgresDatabase {
    * @param id user ID
    * @return AppUser object containing info about user with given id
    */
-  public static AppUser getUser(int id) throws SQLException, URISyntaxException {
+  public static AppUser getUser(int id) throws SQLException {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.getUser();
     AppUser user = null;
@@ -591,7 +590,6 @@ public final class PostgresDatabase {
 
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       try (ResultSet res = stmt.executeQuery()) {
-        System.out.println("At start of getExercises query");
         while (res.next()) {
           Integer exerciseID = res.getInt("exercise_id");
           Date createdAt = res.getDate("created_at");
@@ -623,7 +621,6 @@ public final class PostgresDatabase {
       throw new SQLException(ex.getMessage());
     }
     tearDownConnection();
-    System.out.println("Done with getExercises query");
     return results;
   }
 
@@ -804,14 +801,16 @@ public final class PostgresDatabase {
   /**
    * Gets additional workouts based on highest like_count posted by any user.
    * @param additionalWorkoutsNeeded number of workouts to obtain
+   * @param userID current user id
    * @return PQ of workouts
    */
-  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded) throws URISyntaxException, SQLException {
+  public static PriorityQueue<Workout> getAdditionalWorkouts(int additionalWorkoutsNeeded, int userID) throws SQLException {
     dbConn = DataSourcePool.getConnection();
-    String queryString = Queries.getCommunityWorkouts();
+    String queryString = Queries.getAdditionalWorkouts();
     PriorityQueue<Workout> pq = new PriorityQueue<>(new WorkoutComparator());
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
-      stmt.setInt(1, additionalWorkoutsNeeded);
+      stmt.setInt(1, userID);
+      stmt.setInt(2, additionalWorkoutsNeeded);
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
           int workoutID = res.getInt("workout_id");
@@ -839,5 +838,97 @@ public final class PostgresDatabase {
       System.out.println(ErrorConstants.ERROR_GET_ADDWORKOUTS);
       throw new SQLException(ex.getMessage());
     }
+  }
+
+  /**
+   * Returns whether the current user follows another user.
+   * @param userID current user
+   * @param following user potentially being followed
+   * @return String form of boolean true if userID follows following, false otherwise
+   */
+  public static String getFollowingRelation(int userID, String following) throws SQLException, URISyntaxException {
+    String queryString = Queries.getRelation();
+    int followingID = getUserID(following);
+    dbConn = DataSourcePool.getConnection();
+    boolean relation = false;
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setInt(1, userID);
+      stmt.setInt(2, followingID);
+      try (ResultSet res = stmt.executeQuery()) {
+        if (res.next()) {
+          relation = true;
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_RELATION);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return String.valueOf(relation);
+  }
+
+  /**
+   * Returns usernames which are similar to input query.
+   * @param query query name
+   * @param currUser username of current user
+   * @return list of similar usernames
+   */
+  public static List<String> getMatching(String query, String currUser) throws SQLException, URISyntaxException {
+    int currID = getUserID(currUser);
+    dbConn = DataSourcePool.getConnection();
+    String queryString = Queries.getMatching();
+    List<String> output = new ArrayList<>();
+    try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
+      stmt.setString(1, query);
+      stmt.setInt(2, currID);
+      try (ResultSet res = stmt.executeQuery()) {
+        if (res.next()) {
+          output.add(res.getString("username"));
+        }
+      }
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_GET_MATCHING);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
+    return output;
+  }
+
+  /**
+   * Completely wipes user and their posts/relations from DB.
+   * @param username username of user to delete
+   */
+  public static void removeUser(String username) throws SQLException {
+    dbConn = DataSourcePool.getConnection();
+    int id = -1;
+
+    // Retrieve id of user to delete
+    try {
+      id = getUserID(username);
+    } catch(SQLException | URISyntaxException ex) {
+      System.out.println(ErrorConstants.ERROR_DELETE_USER);
+      return;
+    }
+
+    // Remove from tables with FK relation with user_id and tables with username exact match
+    String deleteQuery = Queries.removeUser();
+    try (PreparedStatement stmt = dbConn.prepareStatement(deleteQuery)) {
+      stmt.setString(1, username);
+      stmt.setString(2, username);
+      stmt.setInt(3, id);
+      stmt.setInt(4, id);
+      stmt.setInt(5, id);
+      stmt.setInt(6, id);
+      stmt.setInt(7, id);
+      stmt.setInt(8, id);
+      stmt.executeUpdate();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ErrorConstants.ERROR_DELETE_USER);
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
   }
 }

@@ -1,7 +1,9 @@
 package edu.brown.cs.everybody.utils;
 
 import com.google.gson.Gson;
+import edu.brown.cs.everybody.data.DataSourcePool;
 import edu.brown.cs.everybody.feedComponents.FeedHandlers;
+import edu.brown.cs.everybody.feedComponents.RecommendationHandler;
 import edu.brown.cs.everybody.userComponents.UserHandlers;
 import spark.*;
 
@@ -15,8 +17,9 @@ import java.io.StringWriter;
 public class Server {
   private static final Gson GSON = new Gson();
 
-
   public Server(int port) throws Exception {
+    // Configure BasicDataSource
+    DataSourcePool.configurePool();
     // Run server
     runSparkServer(port);
   }
@@ -55,6 +58,8 @@ public class Server {
     Spark.post("/newUser", new UserHandlers.NewUserHandler());
     // For user login
     Spark.post("/login", new UserHandlers.LoginHandler());
+    // For user logout
+    Spark.post("/logout", new UserHandlers.LogoutHandler());
     // For user information
     Spark.post("/userInfo", new UserHandlers.GetUserInfoHandler());
     // For uploading an exercise
@@ -68,7 +73,7 @@ public class Server {
     // For user deletion
     Spark.post("/deleteUser", new UserHandlers.DeleteUserHandler());
     // For home feed recommendations
-    Spark.post("/getRecommendations", new UserHandlers.GetRecommendationsHandler());
+    Spark.post("/getRecommendations", new RecommendationHandler.Handler());
     // For exercises page
     Spark.post("/publicExercises", new FeedHandlers.GetPublicExercisesHandler());
     // For follow actions
@@ -83,6 +88,8 @@ public class Server {
     Spark.post("/registerLike", new FeedHandlers.LikeHandler());
     // Registers an unlike (on a workout)
     Spark.post("/registerUnlike", new FeedHandlers.UnlikeHandler());
+    // Returns all usernames which are like the search query
+    Spark.post("/getMatchingUsers", new UserHandlers.GetMatchingUsersHandler());
   }
 
   /**

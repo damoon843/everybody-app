@@ -5,10 +5,13 @@ package edu.brown.cs.everybody.utils;
  */
 public final class ErrorConstants {
 
+
   /** Empty constructor for the ErrorConstants class. */
   private ErrorConstants() { }
+  public static final String ERROR_GET_RELATION = "Error retrieving following relation." ;
+  public static final String ERROR_GET_MATCHING = "Error retrieving matching usernames." ;
+  public static final String ERROR_DATABASE_QUERY = "Error querying database.";
   public static final String ERROR_DATABASE_SETUP = "Error setting up database connection.";
-  public static final String ERROR_QUERY_EXCEPTION = "Error executing query.";
   public static final String ERROR_DATABASE_CLOSE = "Error closing database connection.";
   public static final String ERROR_NULL_SESSION = "Error retrieving session.";
   public static final String ERROR_GET_WORKOUTID = "Error retrieving workout ID.";
@@ -33,8 +36,9 @@ public final class ErrorConstants {
   public static final String ERROR_GET_EXERCISE_DURATION  = "Error retrieving exercise duration.";
   public static final String ERROR_GET_USERNAME = "Error retrieving username.";
   public static final String ERROR_GET_RECENT_WORKOUTIDS = "Error retrieving recently viewed workout IDs.";
-
+  public static final String ERROR_SESSION_USERNAME = "Error retrieving session username.";
   public static final String ERROR_LOGIN_FAILED = "Failed to log-in with given credentials.";
   public static final String LOGIN_SUCCESS = "Log-in succeeded.";
+  public static final String ERROR_DELETE_USER =  "Error removing user from database.";
 }
 

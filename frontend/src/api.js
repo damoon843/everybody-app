@@ -5,28 +5,28 @@ import axios from 'axios';
 
 // gets workout recommendations for a specific user
 // username: the user's username
-export const getRecommendations = async (username) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  const toSend = {
-    username: username
-  };
-  await axios.post(
-    "http://localhost:4567/getRecommendations",
-    toSend,
-    config,
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+// export const getRecommendations = async (username) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   const toSend = {
+//     username: username
+//   };
+//   await axios.post(
+//     "http://localhost:4567/getRecommendations",
+//     toSend,
+//     config,
+//   )
+//   .then(response => {
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // gets workouts for a specific user
 // username: the user's username
@@ -123,47 +123,47 @@ export const getAllExercises = async () => {
 
 // posts a new workout
 // data: information about the workout
-export const createWorkout = async (toSend) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.post(
-    "http://localhost:4567/uploadWorkout",
-    toSend,
-    config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+// export const createWorkout = async (toSend) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   await axios.post(
+//     "http://localhost:4567/uploadWorkout",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // posts a new workout
 // data: information about the workout
-export const createExercise = async (toSend) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.post(
-    "http://localhost:4567/uploadExercise",
-    toSend,
-    config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
+// export const createExercise = async (toSend) => {
+//   let config = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Access-Control-Allow-Origin': '*',
+//     }
+//   }
+//   await axios.post(
+//     "http://localhost:4567/uploadExercise",
+//     toSend,
+//     config
+//   )
+//   .then(response => {
+//     return response.data;
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// }
 
 // creates a new user
 // toSend: information about the user

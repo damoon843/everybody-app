@@ -50,7 +50,12 @@ public class FeedHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       // Extract tags from JSONArray
       List<String> tags = new ArrayList<>();
       for (int i = 0; i < tagsJSON.length(); i++) {
@@ -107,7 +112,12 @@ public class FeedHandlers {
          variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         PostgresDatabase.insertUserWorkout(duration, mediaLink, totalLikes,
           description, username, workoutName, exerciseIds);
@@ -146,7 +156,12 @@ public class FeedHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         workouts = PostgresDatabase.getUserWorkouts(username);
       } catch(SQLException ex) {
@@ -190,7 +205,12 @@ public class FeedHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       try {
         exercises = PostgresDatabase.getUserExercises(username, workoutName);
       } catch(SQLException ex) {
@@ -271,7 +291,12 @@ public class FeedHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       // Retrieve workout ID
       Integer workoutId = PostgresDatabase.getWorkoutId(workoutName, poster);
 
@@ -321,7 +346,12 @@ public class FeedHandlers {
         variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
         return GSON.toJson(variables);
       }
-
+      if(username.equals("")) {
+        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
+        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
+        return GSON.toJson(variables);
+      }
       // Retrieve workout ID
       Integer workoutId = PostgresDatabase.getWorkoutId(workoutName, poster);
 

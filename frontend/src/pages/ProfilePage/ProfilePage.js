@@ -1,19 +1,40 @@
-import React, {useEffect } from 'react';
+import React, {useEffect, useState } from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import Workout from '../HomePage/components/Workout/Workout';
+import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
 import axios from 'axios';
 
-let workouts = []
-let workoutData = []
-
 function ProfilePage(props){
-  // const [workouts, setWorkouts] = useState([]);
-  // const [data, setData] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     getUserWorkouts();
+    getUser();
   }, []);
+
+  const getUser = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    const toSend = {
+      username: props.username
+    };
+    await axios.post(
+      "http://localhost:4567/userInfo",
+      toSend,
+      config
+    )
+    .then(response => {
+      setUser(response.data)
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+  }
 
   const getUserWorkouts = async () => {
     let config = {
@@ -31,27 +52,17 @@ function ProfilePage(props){
       config
     )
     .then(response => {
-      workoutData = response.data.workouts
-      renderWorkouts()
-      // setData(response.data.workouts)
-      // renderWorkouts();
-      // console.log(response.data.workouts)
+      const data = response.data.workouts
+      setWorkouts(data.map((workout) => <WorkoutSelf key={workout.workout_id} workout={workout} username={props.username}/>))
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
-  const renderWorkouts = () => {
-    if (workoutData) {
-      workouts = workoutData.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>)
-    }
-    // setWorkouts(data.map((exercise) => <Workout key={exercise.id} id={exercise.id} title={exercise.title} duration={exercise.duration} user={exercise.user} thumbnail={exercise.thumbnail}/>))
-  }
-
   return (
-    <div className="profile-page">
-      <ProfileCard id="profile-card" username={props.username}/>
+    <div className="profile-page fade-in">
+      <ProfileCard id="profile-card" user={user} />
       <h3 id="myWorkouts">My Workouts</h3>
       <div className="profile-workouts">
         {workouts}

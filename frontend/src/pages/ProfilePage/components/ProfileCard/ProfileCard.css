@@ -1,24 +1,36 @@
 .profile-card {
   width: 90vw;
-  height: 10rem;
+  height: 7rem;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   padding: 2rem;
   box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
   margin: 2rem 2rem;
   background-color: white;
 }
 
-.following-list {
-  border: 1px solid grey;
+.delete-account {
+  border: 1px solid #d32020;
   background-color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  color: grey;
+  color: #d32020;
   transition: 0.2s ease-in-out;
+  height: 2.5rem;
+  margin: 0 0.5rem;
 }
 
-.following-list:hover {
-  background-color: #f0f0f0;
+.delete-account:hover {
+  background-color: #d32020;
+  color: white;
+}
+
+.modal-body-delete {
+  margin: 0 1rem;
+}
+
+.modal-footer-btns {
+  display: flex;
+  flex-wrap: wrap;
 }

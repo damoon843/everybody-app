@@ -2,3 +2,37 @@
   width: 16rem;
   margin: 0.5rem 0;
 }
+
+.exercise-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+.exercise-form-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.exercise-form-label {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0.75rem 0;
+}
+
+.exercise-radio-label {
+  margin: 0 1rem 0 0;
+}
+
+.check-label {
+  margin: 0 1rem 0 0;
+}
+
+.exercise-row-item {
+  margin: 0 3rem 0 0;
+}
+
+.input-spacer {
+  margin: 0 0.25rem;
+}
