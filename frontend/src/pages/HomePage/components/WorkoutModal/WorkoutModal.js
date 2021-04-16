@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
-// import { createWorkout } from '../../../../api';
 import S3 from 'react-aws-s3';
 import axios from 'axios';
 
@@ -31,12 +30,12 @@ function WorkoutModal(props){
     let msg = document.getElementById("workout-form-msg")
     msg.innerText = ""
 
-    if ((exerciseList.length > 0) && title && desc && props.username.current) {
+    if ((exerciseList.length > 0) && title && desc && props.username) {
       const toSend = {
         exerciseList: exerciseList,
         mediaLink: "google.com",
         description: desc,
-        username: props.username.current,
+        username: props.username,
         workoutName: title,
       };
       let config = {
@@ -62,38 +61,16 @@ function WorkoutModal(props){
         msg.innerText = "Error: could not submit workout.";
         console.log(error);
       });
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
     } else {
       console.log(exerciseList)
       console.log(title)
       console.log(desc)
-      console.log(props.username.current)
+      console.log(props.username)
       msg.innerText = "Please fill out all fields.";
     }
   }
-
-  // const createWorkout = async (toSend) => {
-  //   let config = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       'Access-Control-Allow-Origin': '*',
-  //     }
-  //   }
-  //   await axios.post(
-  //     "http://localhost:4567/uploadWorkout",
-  //     toSend,
-  //     config
-  //   )
-  //   .then(response => {
-  //     if (response.status == 200) {
-  //       msg.innerText = "Workout submitted successfully!";
-  //       setTimeout(function(){ handleClose(); }, 1000);
-  //     }
-  //   })
-  //   .catch(function (error) {
-  //     msg.innerText = "Error: could not submit workout.";
-  //     console.log(error);
-  //   });
-  // }
 
   const uploadFile = () => {
     let file = inputFile.current.files[0]
@@ -108,13 +85,6 @@ function WorkoutModal(props){
       secretAccessKey: REACT_APP_ACCESS_KEY,
     };
 
-    // const config = {
-    //   bucketName: process.env.REACT_APP_BUCKET_NAME,
-    //   dirName: process.env.REACT_APP_DIR_NAME,
-    //   region: process.env.REACT_APP_REGION,
-    //   accessKeyId: process.env.REACT_APP_ACCESS_ID,
-    //   secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
-    // };
     const s3Client = new S3(config);
     console.log(s3Client)
     s3Client.uploadFile(file, filename).then(data => {

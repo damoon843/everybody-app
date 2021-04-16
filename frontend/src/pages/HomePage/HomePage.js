@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useEffect, useState, useRef } from 'react'; 
 import Recommendations from './components/Recommendations/Recommendations';
 import ExerciseModal from './components/ExerciseModal/ExerciseModal'
 import WorkoutModal from './components/WorkoutModal/WorkoutModal'
@@ -8,9 +8,14 @@ import axios from 'axios';
 function Home(props) {
   const [render, setRender] = useState("");
   const [exercises, setExercises] = useState([]);
+  let username = useRef("");
 
   const rerender = (val) => {
     setRender(val);
+  }
+
+  const saveUsername = () => {
+    username.current = props.username.current
   }
 
   const getExercises = async () => {
@@ -25,7 +30,6 @@ function Home(props) {
       config,
     )
     .then(response => {
-      console.log(response.data)
       const data = Object.values(response.data)
       const keys = Object.keys(response.data)
       let exerciseList = [];
@@ -34,40 +38,26 @@ function Home(props) {
         exerciseList.push(opt)
       }
       setExercises(exerciseList)
-      console.log(exerciseList)
     })
     .catch(function (error) {
       console.log(error.response.data);
     });
   }
   
-
-  // const getExercises = async () => {
-  //   getAllExercises().then(result => {
-  //     const data = Object.values(result)
-  //     const keys = Object.keys(result)
-  //     let exerciseList = [];
-  //     for (let i = 0; i < keys.length; i++) {
-  //       const opt = <option value={keys[i]}>{data[i][6]}</option>
-  //       exerciseList.push(opt)
-  //     }
-  //     setExercises(exerciseList)
-  //   });
-  // }
-
   useEffect(() => {
     getExercises()
-    console.log(props.username)
+    saveUsername()
+    console.log(username.current)
   }, [render])
 
   return (
     <div className="home fade-in">
       <div className="upload">
         <h5>Upload Activities</h5>
-        <ExerciseModal render={render} rerender={rerender} username={props.username} id="exercise-modal"/>
-        <WorkoutModal username={props.username} exercises={exercises} id="workout-modal"/>
+        <ExerciseModal render={render} rerender={rerender} username={username.current} id="exercise-modal"/>
+        <WorkoutModal username={username.current} exercises={exercises} id="workout-modal"/>
       </div>
-      <Recommendations username={props.username} />
+      <Recommendations username={username.current} />
     </div>
   );
 }

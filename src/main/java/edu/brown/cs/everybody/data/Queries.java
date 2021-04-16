@@ -105,13 +105,13 @@ public final class Queries {
   }
 
   /**
-   * Query to retrieve 100 exercises for public exercises page.
+   * Query to retrieve 40 exercises for public exercises page.
    * @return query string
    */
   public static String getPublicExercises() {
     return "SELECT * FROM everybody_app.exercises"
       + " ORDER BY created_at DESC"
-      + " LIMIT 100;";
+      + " LIMIT 40;";
   }
 
   /**
@@ -222,7 +222,7 @@ public final class Queries {
    * @return query string
    */
   public static String insertLike() {
-    return "INSERT INTO everybody_app.likes(workout_id, user_id) VALUES(?,?);";
+    return "INSERT INTO everybody_app.likes VALUES(?,?);";
   }
 
   /**
@@ -274,4 +274,21 @@ public final class Queries {
       + " DELETE FROM ONLY everybody_app.following WHERE user_id = ?;"
       + " DELETE FROM ONLY everybody_app.following WHERE following_id = ?;";
   }
+
+  /**
+   * Increments the total_likes of a given workout by 1.
+   * @return query string
+   */
+  public static String addLikeCount() {
+    return "UPDATE everybody_app.workouts SET total_likes = total_likes + 1 WHERE workout_id = ?;";
+  }
+
+  /**
+   * Decrements the total_likes of a given workout by 1.
+   * @return query string
+   */
+  public static String subtractLikeCount() {
+    return "UPDATE everybody_app.workouts SET total_likes = total_likes - 1 WHERE workout_id = ?;";
+  }
+
 }

@@ -19,7 +19,7 @@ function Recommendations(props) {
       }
     }
     const toSend = {
-      username: props.username.current
+      username: props.username
     };
     await axios.post(
       "http://localhost:4567/getRecommendations",

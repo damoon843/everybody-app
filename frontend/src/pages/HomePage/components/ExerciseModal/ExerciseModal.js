@@ -46,13 +46,6 @@ function ExerciseModal(props){
       secretAccessKey: REACT_APP_ACCESS_KEY,
     };
 
-    // const config = {
-    //   bucketName: process.env.REACT_APP_BUCKET_NAME,
-    //   dirName: process.env.REACT_APP_DIR_NAME,
-    //   region: process.env.REACT_APP_REGION,
-    //   accessKeyId: process.env.REACT_APP_ACCESS_ID,
-    //   secretAccessKey: process.env.REACT_APP_ACCESS_KEY,
-    // };
     const s3Client = new S3(config);
     console.log(s3Client)
     s3Client.uploadFile(file, filename).then(data => {
@@ -85,9 +78,9 @@ function ExerciseModal(props){
     const media = document.getElementById('exercise-media').value;
     const filename = uploadFile();
 
-    if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
+    if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
-        username: props.username.current,
+        username: props.username,
         exerciseName: title,
         mediaLink: filename,
         duration: newDuration,
@@ -118,6 +111,8 @@ function ExerciseModal(props){
         msg.innerText = "Error: could not submit exercise.";
         console.log(error);
       });
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
     } else {
       console.log(props.username)
       console.log(title)

@@ -100,7 +100,7 @@ function WorkoutPage(props) {
       poster: props.workout.posting_user
     }
     await axios.post(
-        "http://localhost:4567/registerUnlike",
+        "http://localhost:4567/unregisterLike",
         toSend,
         config
     )
