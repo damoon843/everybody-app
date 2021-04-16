@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
-const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
+// const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
 
 function WorkoutPage(props) {
-  const [following, setFollowing] = useState(workout.following)
+  const [following, setFollowing] = useState(props.workout.following)
   const [like, setLike] = useState(false)
-  const [likeCount, setLikeCount] = useState(parseInt(workout.like_count))
+  const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
 
   const followUser = async () => {
     let config = {
@@ -142,6 +142,7 @@ function WorkoutPage(props) {
   }
 
   useEffect(() => {
+    console.log(props.workout)
   }, [following, like, likeCount])
 
   return (
@@ -149,7 +150,7 @@ function WorkoutPage(props) {
       <div className="workout-page-container">
         <div className="workout-info">
           <div className="workout-detail-title">
-            <h1 id="workout-title">{workout.workout_name}</h1>
+            <h1 id="workout-title">{props.workout.workout_name}</h1>
             <div className="workout-likes-detail">
               {like
               ? <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="liked-detail" icon={faHeart} /></button>
@@ -157,14 +158,14 @@ function WorkoutPage(props) {
               <h5 className="like">{likeCount}</h5>
             </div>
           </div>
-          <h2>{workout.description}</h2>
+          <h2>{props.workout.description}</h2>
           <div className="workout-detail-user">
-            <h4 id="workout-detail-poster">{workout.posting_user}</h4>
+            <h4 id="workout-detail-poster">{props.workout.posting_user}</h4>
               {following 
             ? <button className="detail-following-btn" onClick={toggleFollowing}>Following</button> : <button className="detail-follow-btn" onClick={toggleFollowing}>Follow</button>}
           </div>
           <div className="additional-details">
-            <p>Estimated duration: {Math.floor(workout.duration/60)} minutes <br></br> Created: {workout.created_at}</p>
+            <p>Estimated duration: {Math.floor(props.workout.duration/60)} minutes <br></br> Created: {props.workout.created_at}</p>
           </div>
         </div>
         <hr></hr>

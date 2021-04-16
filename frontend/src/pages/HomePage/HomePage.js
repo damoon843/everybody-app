@@ -57,7 +57,7 @@ function Home(props) {
         <ExerciseModal render={render} rerender={rerender} username={username.current} id="exercise-modal"/>
         <WorkoutModal username={username.current} exercises={exercises} id="workout-modal"/>
       </div>
-      <Recommendations username={username.current} />
+      <Recommendations changeWorkout={props.changeWorkout} username={username.current} />
     </div>
   );
 }

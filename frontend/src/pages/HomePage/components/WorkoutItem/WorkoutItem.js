@@ -11,6 +11,11 @@ function WorkoutItem(props){
   const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
   const url = "/workout/" + props.workout.workout_id
 
+  const updateWorkout = () => {
+    console.log(props.workout)
+    props.changeWorkout(props.workout)
+  }
+
   const followUser = async () => {
     let config = {
       headers: {
@@ -166,7 +171,7 @@ function WorkoutItem(props){
             </div>
           </div>
           <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
-          <a href={url}><button id="start-workout-btn" className="submit-btn" >Start workout</button></a>
+          <a href={url}><button id="start-workout-btn" className="submit-btn" onClick={updateWorkout} >Start workout</button></a>
         </Card.Text>
       </Card.Body>
     </Card>

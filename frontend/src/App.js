@@ -12,10 +12,16 @@ require('dotenv').config()
 
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
-  const username = useRef("")
+  let username = useRef("")
+  let workout = useRef({})
 
   const changeUsername = (newName) => {
     username.current = newName;
+  }
+
+  const changeWorkout = (newWorkout) => {
+    console.log(workout.current)
+    workout.current = newWorkout
   }
 
   return (
@@ -23,7 +29,7 @@ function App() {
       <Switch>
         <Route path="/workout/:id">
           <Toolbar changeUsername={changeUsername} />
-          <WorkoutPage username={username} />
+          <WorkoutPage workout={workout} username={username} />
         </Route>
         <Route path="/exercises">
           <Toolbar changeUsername={changeUsername} />
@@ -31,11 +37,11 @@ function App() {
         </Route>
         <Route path="/profile">
           <Toolbar changeUsername={changeUsername} />
-          <ProfilePage username={username}/>
+          <ProfilePage changeWorkout={changeWorkout} username={username}/>
         </Route>
         <Route path="/home">
           <Toolbar changeUsername={changeUsername} />
-          <HomePage username={username} />
+          <HomePage changeWorkout={changeWorkout} username={username} />
         </Route>
         <Route path="/">
           <LoginPage changeUsername={changeUsername}/>

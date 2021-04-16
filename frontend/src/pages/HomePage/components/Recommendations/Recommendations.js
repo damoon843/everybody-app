@@ -30,7 +30,7 @@ function Recommendations(props) {
       console.log(response)
       const data = response.data.workouts
       console.log(data)
-      const result = data.map(workout => <WorkoutItem key={workout.workout_id} workout={workout} username={props.username}/>)
+      const result = data.map(workout => <WorkoutItem changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
       console.log(result)
       setRecs(result)
     })
