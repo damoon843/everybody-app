@@ -5,12 +5,14 @@ import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
 import axios from 'axios';
 
 function ProfilePage(props){
-  const [workouts, setWorkouts] = useState([]);
+  const [userWorkouts, setUserWorkouts] = useState([]);
+  const [likedWorkouts, setLikedWorkouts] = useState([]);
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    getUserWorkouts();
     getUser();
+    getLikedWorkouts();
+    getUserWorkouts();
   }, []);
 
   const getUser = async () => {
@@ -52,20 +54,56 @@ function ProfilePage(props){
       config
     )
     .then(response => {
-      const data = response.data.workouts
-      setWorkouts(data.map((workout) => <WorkoutSelf key={workout.workout_id} workout={workout} username={props.username}/>))
+      const data = response.data.workouts;
+      setUserWorkouts(data.map((workout) => <WorkoutSelf key={workout.workout_id} workout={workout} username={props.username}/>))
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
+  const getLikedWorkouts = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    const toSend = {
+      username: props.username
+    };
+    await axios.post(
+        "http://localhost:4567/likedWorkouts",
+        toSend,
+        config
+    )
+        .then(response => {
+          const data = response.data.workouts
+          setLikedWorkouts(data.map((workout1) => <WorkoutSelf key={workout1.workout_id} workout={workout1} username={props.username}/>))
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  }
+
   return (
     <div className="profile-page fade-in">
       <ProfileCard id="profile-card" user={user} />
+      <div className="workout-wrapper">
+      <div className="myWorkouts">
       <h3 id="myWorkouts">My Workouts</h3>
       <div className="profile-workouts">
-        {workouts}
+        {userWorkouts}
+      </div>
+
+      </div>
+          <div className="line"></div>
+      <div className="likedWorkouts">
+      <h3 id="likedWorkouts">Liked Workouts</h3>
+      <div className="liked-workouts">
+        {likedWorkouts}
+      </div>
+      </div>
       </div>
     </div>
   );

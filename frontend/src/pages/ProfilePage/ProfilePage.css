@@ -6,14 +6,47 @@
   margin: 4rem 0 3rem 0;
 }
 
-#myWorkouts {
+#myWorkouts, #likedWorkouts {
   align-self: flex-start;
-  margin: 0 0 0 5vw;
+  margin: 0 0 0 0;
   padding: 0 0 0 1rem;
 }
 
-.profile-workouts {
+.profile-workouts, .liked-workouts {
   display: flex;
   flex-wrap: wrap;
+}
+
+.workout-wrapper {
+  /*column-count: 2;*/
+  /*column-rule-style: solid;*/
   width: 90vw;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.myWorkouts {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*display:flex;*/
+  /*!*flex: 50%;*!*/
+  /*width: 50%;*/
+  max-width: 50%;
+  /*flex-wrap: wrap;*/
+}
+
+.likedWorkouts {
+  /*display:flex;*/
+  /*flex: 50%;*/
+  max-width: 50%;
+  /*flex-wrap: wrap;*/
+}
+
+.line {
+  border: 1px solid lightgrey;
+  margin: 3px;
+  /*height: 100%;*/
 }
