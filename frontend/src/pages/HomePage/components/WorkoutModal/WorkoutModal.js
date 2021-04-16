@@ -30,12 +30,12 @@ function WorkoutModal(props){
     let msg = document.getElementById("workout-form-msg")
     msg.innerText = ""
 
-    if ((exerciseList.length > 0) && title && desc && props.username.current) {
+    if ((exerciseList.length > 0) && title && desc && props.username) {
       const toSend = {
         exerciseList: exerciseList,
         mediaLink: "google.com",
         description: desc,
-        username: props.username.current,
+        username: props.username,
         workoutName: title,
       };
       let config = {
@@ -61,11 +61,13 @@ function WorkoutModal(props){
         msg.innerText = "Error: could not submit workout.";
         console.log(error);
       });
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
     } else {
       console.log(exerciseList)
       console.log(title)
       console.log(desc)
-      console.log(props.username.current)
+      console.log(props.username)
       msg.innerText = "Please fill out all fields.";
     }
   }

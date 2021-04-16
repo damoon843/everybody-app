@@ -78,9 +78,9 @@ function ExerciseModal(props){
     const media = document.getElementById('exercise-media').value;
     const filename = uploadFile();
 
-    if (props.username.current && title && media && newDuration && (checkedVals.length > 1) && desc) {
+    if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
-        username: props.username.current,
+        username: props.username,
         exerciseName: title,
         mediaLink: filename,
         duration: newDuration,
@@ -111,6 +111,8 @@ function ExerciseModal(props){
         msg.innerText = "Error: could not submit exercise.";
         console.log(error);
       });
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
     } else {
       console.log(props.username)
       console.log(title)

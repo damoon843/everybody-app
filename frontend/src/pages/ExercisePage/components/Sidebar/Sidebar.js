@@ -3,22 +3,15 @@ import './Sidebar.css';
 import {Button} from "react-bootstrap";
 
 function Sidebar(props){
-  /*
-  1. may want to have all of the exercises intially rendered/displayed as a json object
-  this way we can organize/display the keys
-   */
 
-    // const [abs, setAbs] = useState(false);
-    // const [chest, setChest] = useState(false);
-    // const [legs, setLegs] = useState(false);
 
     const checkClick = (e)=> {
-        // var {name, checked} = e.target
-
-        /*
-
-         */
-
+        console.log("checking click")
+        //('input[type="checkbox"]:checked').prop('checked',false);
+        let x = document.getElementsByTagName("input");
+        for(let i=0; i<=x.length-1; i++) {
+            x[i].checked = false;
+        }
     }
 
 
@@ -54,18 +47,7 @@ function Sidebar(props){
       </ul>
       <hr/>
 
-        <h3>Ratings</h3>
-      <ul className = "ratings">
-          <li><input type = "checkbox" name = "1 Star" id = "1" onChange={checkClick}/> <label for="1"> 1 Star</label></li>
-          <li><input type = "checkbox" name = "2 Star" id = "2" onChange={checkClick}/> <label for="2"> 2 Star</label></li>
-          <li><input type = "checkbox" name = "3 Star" id = "3" onChange={checkClick}/> <label for="3"> 3 Star</label></li>
-          <li><input type = "checkbox" name = "4 Star" id="4" onChange={checkClick}/> <label for="4"> 4 Star</label></li>
-          <li><input type = "checkbox" name = "5 Star" id = "5" onChange={checkClick}/> <label for="5"> 5 Star</label></li>
-
-      </ul>
-      <hr/>
-
-      <Button onClick={props.resetEx} variant ="outline-dark">Reset</Button>
+      <Button onClick={()=>{props.resetEx();checkClick()}} variant ="outline-dark">Reset</Button>
       </div>
   );
 }
