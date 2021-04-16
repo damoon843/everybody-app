@@ -54,8 +54,8 @@ function ProfilePage(props){
       config
     )
     .then(response => {
-      const data = response.data.workouts
-      setWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      const data = response.data.workouts;
+      setUserWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
     })
     .catch(function (error) {
       console.log(error);
