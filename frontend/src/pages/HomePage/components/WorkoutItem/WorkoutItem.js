@@ -20,7 +20,7 @@ function WorkoutItem(props){
       }
     }
     let toSend = {
-      username: props.username.current,
+      username: props.username,
       following: props.workout.posting_user
     }
     await axios.post(
@@ -45,7 +45,7 @@ function WorkoutItem(props){
       }
     }
     let toSend = {
-      username: props.username.current,
+      username: props.username,
       following: props.workout.posting_user
     }
     await axios.post(
