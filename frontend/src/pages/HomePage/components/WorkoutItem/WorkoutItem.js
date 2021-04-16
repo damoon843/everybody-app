@@ -99,7 +99,7 @@ function WorkoutItem(props){
       poster: props.workout.posting_user
     }
     await axios.post(
-        "http://localhost:4567/registerUnlike",
+        "http://localhost:4567/unregisterLike",
         toSend,
         config
     )
@@ -170,29 +170,6 @@ function WorkoutItem(props){
         </Card.Text>
       </Card.Body>
     </Card>
-
-    // <div className="workout-item">
-    //   <div className="workout-title">
-    //     <h4>{props.workout.workout_name}</h4>
-    //     <div className="workout-likes">
-    //       <p className="like">{likeCount}</p>
-    //       {like
-    //       ? <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="liked" icon={faHeart} /></button>
-    //       : <button className="like-btn" onClick={toggleLike}><FontAwesomeIcon className="unliked" icon={faHeart} /></button>}
-    //     </div>
-    //   </div>
-      
-    //   <div className="workout-user">
-    //     <p className="workout-posting-user">{props.workout.posting_user}</p>
-    //     <div>
-    //     {following 
-    //     ? <button className="following-btn" onClick={toggleFollowing}>Following</button> : <button className="follow-btn" onClick={toggleFollowing}>Follow</button>}
-    //     </div>
-    //   </div>
-    //   <p>Duration: {Math.floor(props.workout.duration/60)} minutes</p>
-    //   <p>Description: {props.workout.description}</p>
-    //   <a href={url} className="submit-btn start-workout-btn">Start workout</a>
-    // </div>
   );
 }
 export default WorkoutItem

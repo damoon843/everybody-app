@@ -41,20 +41,6 @@ function Home(props) {
     });
   }
   
-
-  // const getExercises = async () => {
-  //   getAllExercises().then(result => {
-  //     const data = Object.values(result)
-  //     const keys = Object.keys(result)
-  //     let exerciseList = [];
-  //     for (let i = 0; i < keys.length; i++) {
-  //       const opt = <option value={keys[i]}>{data[i][6]}</option>
-  //       exerciseList.push(opt)
-  //     }
-  //     setExercises(exerciseList)
-  //   });
-  // }
-
   useEffect(() => {
     getExercises()
     console.log(props.username)
