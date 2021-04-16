@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import {Modal} from 'react-bootstrap';
 import './ExerciseModal.css';
-import S3 from 'react-aws-s3';
 import axios from 'axios';
+const AWS = require('aws-sdk');
 
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
@@ -34,32 +34,43 @@ function ExerciseModal(props){
   }
 
   const uploadFile = () => {
-    let file = inputFile.current.files[0]
-    let filename = inputFile.current.files[0].name
-    const { REACT_APP_BUCKET_NAME, REACT_APP_DIR_NAME, REACT_APP_REGION, REACT_APP_ACCESS_ID, REACT_APP_ACCESS_KEY } = process.env;
+    const BUCKET_NAME = process.env.REACT_APP_API_BUCKET_NAME;
+    const ID = process.env.REACT_APP_API_ID;
+    const SECRET = process.env.REACT_APP_API_SECRET;
 
-    const config = {
-      bucketName: REACT_APP_BUCKET_NAME,
-      dirName: REACT_APP_DIR_NAME,
-      region: REACT_APP_REGION,
-      accessKeyId: REACT_APP_ACCESS_ID,
-      secretAccessKey: REACT_APP_ACCESS_KEY,
-    };
+    console.log(process.env);
 
-    const s3Client = new S3(config);
-    console.log(s3Client)
-    s3Client.uploadFile(file, filename).then(data => {
-      console.log(data)
-      if (data.status === 204) {
-        console.log("yay")
-      } else {
-        console.log("aw shucks")
-      }
-    })
-    .catch(error => {
-      console.log(error)
+    const s3 = new AWS.S3({
+      accessKeyId: ID,
+      secretAccessKey: SECRET
     });
-    return filename
+
+    const file = inputFile.current.files[0];
+    const filename = inputFile.current.files[0].name
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = function(){
+      // Read operation done, upload file content
+      let fileContent = reader.result;
+
+      // // Setting up S3 upload parameters
+      const params = {
+        Bucket: BUCKET_NAME,
+        Key: filename,
+        Body: fileContent,
+        ACL: 'public-read',
+      };
+
+      // // Uploading files to the bucket
+      s3.upload(params, function(err, data) {
+        if (err) {
+          throw err;
+        }
+        console.log(`File uploaded successfully. ${data.Location}`);
+      });
+    }
+    return filename;
   }
 
   const submitExercise = async (e) => {
