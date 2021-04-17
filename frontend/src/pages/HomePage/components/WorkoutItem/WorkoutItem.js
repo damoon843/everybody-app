@@ -4,6 +4,8 @@ import axios from 'axios';
 import {Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import WorkoutPage from '../../../WorkoutPage/WorkoutPage'
+import {Link} from 'react-router-dom';
 
 function WorkoutItem(props){
   const [following, setFollowing] = useState(props.workout.following === 'true')
@@ -171,7 +173,9 @@ function WorkoutItem(props){
             </div>
           </div>
           <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
-          <a href={url}><button id="start-workout-btn" className="submit-btn" onClick={updateWorkout} >Start workout</button></a>
+          <Link id="start-workout-btn" className="submit-btn" onClick={updateWorkout} to={url}>Start Workout</Link>
+
+          {/* <a href={url}><button id="start-workout-btn" className="submit-btn" onClick={updateWorkout} >Start workout</button></a> */}
         </Card.Text>
       </Card.Body>
     </Card>

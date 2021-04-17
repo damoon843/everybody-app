@@ -143,29 +143,21 @@ function WorkoutPage(props) {
 
   useEffect(() => {
     console.log(props.workout)
-  }, [following, like, likeCount])
+  }, [following, like, likeCount, props.workout])
 
   return (
     <div className="workout-page fade-in">
       <div className="workout-page-container">
         <div className="workout-info">
-          <div className="workout-detail-title">
-            <h1 id="workout-title">{props.workout.workout_name}</h1>
-            <div className="workout-likes-detail">
-              {like
-              ? <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="liked-detail" icon={faHeart} /></button>
-              : <button className="like-btn-detail" onClick={toggleLike}><FontAwesomeIcon className="unliked-detail" icon={faHeart} /></button>}
-              <h5 className="like">{likeCount}</h5>
-            </div>
-          </div>
-          <h2>{props.workout.description}</h2>
+          <h1 id="workout-title">{props.workout.current.workout_name}</h1>
+          <h2>{props.workout.current.description}</h2>
           <div className="workout-detail-user">
-            <h4 id="workout-detail-poster">{props.workout.posting_user}</h4>
-              {following 
+            <h4 id="workout-detail-poster">{props.workout.current.posting_user}</h4>
+              {props.workout.current.following 
             ? <button className="detail-following-btn" onClick={toggleFollowing}>Following</button> : <button className="detail-follow-btn" onClick={toggleFollowing}>Follow</button>}
           </div>
           <div className="additional-details">
-            <p>Estimated duration: {Math.floor(props.workout.duration/60)} minutes <br></br> Created: {props.workout.created_at}</p>
+            <p>Estimated duration: {Math.floor(props.workout.current.duration/60)} minutes <br></br> Created: {props.workout.current.created_at}</p>
           </div>
         </div>
         <hr></hr>

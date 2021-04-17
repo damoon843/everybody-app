@@ -22,6 +22,7 @@ function App() {
   const changeWorkout = (newWorkout) => {
     console.log(workout.current)
     workout.current = newWorkout
+    console.log(workout.current)
   }
 
   return (
@@ -29,7 +30,7 @@ function App() {
       <Switch>
         <Route path="/workout/:id">
           <Toolbar changeUsername={changeUsername} />
-          <WorkoutPage workout={workout} username={username} />
+          <WorkoutPage changeWorkout={changeWorkout} workout={workout} username={username} />
         </Route>
         <Route path="/exercises">
           <Toolbar changeUsername={changeUsername} />
