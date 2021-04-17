@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
-import S3 from 'react-aws-s3';
 import axios from 'axios';
+const AWS = require('aws-sdk');
 
 function WorkoutModal(props){
   const [show, setShow] = useState(false);
@@ -26,14 +26,16 @@ function WorkoutModal(props){
     const title = document.getElementById('workout-title').value;
     const desc = document.getElementById('workout-description').value;
     const exerciseList = getSelected('select-exercises');
+    const media = document.getElementById('exercise-media').value;
+    const filename = uploadFile();
 
     let msg = document.getElementById("workout-form-msg")
     msg.innerText = ""
 
-    if ((exerciseList.length > 0) && title && desc && props.username) {
+    if ((exerciseList.length > 0) && title && desc && media && props.username) {
       const toSend = {
         exerciseList: exerciseList,
-        mediaLink: "google.com",
+        mediaLink: filename,
         description: desc,
         username: props.username,
         workoutName: title,
@@ -73,32 +75,44 @@ function WorkoutModal(props){
   }
 
   const uploadFile = () => {
-    let file = inputFile.current.files[0]
-    let filename = inputFile.current.files[0].name
-    const { REACT_APP_BUCKET_NAME, REACT_APP_DIR_NAME, REACT_APP_REGION, REACT_APP_ACCESS_ID, REACT_APP_ACCESS_KEY } = process.env;
+    // TODO: hide configs
+    const BUCKET_NAME = "everybody-app-media";
+    const ID = "AKIAVJ5YBZZRZONHA7PD";
+    const SECRET = "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";
+    let uploadedURL = "";
 
-    const config = {
-      bucketName: REACT_APP_BUCKET_NAME,
-      dirName: REACT_APP_DIR_NAME,
-      region: REACT_APP_REGION,
-      accessKeyId: REACT_APP_ACCESS_ID,
-      secretAccessKey: REACT_APP_ACCESS_KEY,
-    };
-
-    const s3Client = new S3(config);
-    console.log(s3Client)
-    s3Client.uploadFile(file, filename).then(data => {
-      console.log(data)
-      if (data.status === 204) {
-        console.log("yay")
-      } else {
-        console.log("aw shucks")
-      }
-    })
-    .catch(error => {
-      console.log(error)
+    const s3 = new AWS.S3({
+      accessKeyId: ID,
+      secretAccessKey: SECRET
     });
-    return filename
+
+    const file = inputFile.current.files[0];
+    const filename = inputFile.current.files[0].name
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = function(){
+      // Read operation done, upload file content
+      let fileContent = reader.result;
+
+      // // Setting up S3 upload parameters
+      const params = {
+        Bucket: BUCKET_NAME,
+        Key: filename,
+        Body: fileContent,
+        ACL: 'public-read',
+      };
+
+      // // Uploading files to the bucket
+      s3.upload(params, function(err, data) {
+        if (err) {
+          throw err;
+        }
+        uploadedURL = data.Location;
+        console.log(`File uploaded successfully. ${data.Location}`);
+      });
+    }
+    return uploadedURL;
   }
 
   return (
