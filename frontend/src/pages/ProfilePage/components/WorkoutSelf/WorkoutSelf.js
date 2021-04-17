@@ -1,6 +1,7 @@
 import React from 'react'; 
 import {Card} from 'react-bootstrap'
 import './WorkoutSelf.css';
+import {Link} from 'react-router-dom';
 
 function WorkoutSelf(props){
   const url = "/workout/" + props.workout.workout_id
@@ -18,7 +19,8 @@ function WorkoutSelf(props){
             <h4>{props.workout.workout_name}</h4>
           </div>
           <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
-          <a href={url}><button id="start-workout-btn" className="submit-btn" onClick={updateWorkout} >Start workout</button></a>
+          <Link id="start-workout-btn" className="submit-btn" onClick={updateWorkout} to={url}>Start Workout</Link>
+          {/* <a href={url}><button id="start-workout-btn" className="submit-btn" onClick={updateWorkout} >Start workout</button></a> */}
         </Card.Text>
       </Card.Body>
     </Card>

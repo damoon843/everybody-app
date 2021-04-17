@@ -79,7 +79,7 @@ function ProfilePage(props){
     )
         .then(response => {
           const data = response.data.workouts
-          setLikedWorkouts(data.map((workout1) => <WorkoutSelf key={workout1.workout_id} workout={workout1} username={props.username}/>))
+          setLikedWorkouts(data.map((workout1) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout1.workout_id} workout={workout1} username={props.username}/>))
         })
         .catch(function (error) {
           console.log(error);
