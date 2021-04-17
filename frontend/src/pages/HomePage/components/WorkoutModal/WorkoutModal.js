@@ -28,9 +28,8 @@ function WorkoutModal(props){
     const exerciseList = getSelected('select-exercises');
     const media = document.getElementById('exercise-media').value;
     const filename = uploadFile();
-
-    let msg = document.getElementById("workout-form-msg")
-    msg.innerText = ""
+    let msg = document.getElementById("workout-form-msg");
+    msg.innerText = "";
 
     if ((exerciseList.length > 0) && title && desc && media && props.username) {
       const toSend = {
