@@ -34,11 +34,16 @@ function ExerciseModal(props){
   }
 
   const uploadFile = () => {
-    const BUCKET_NAME = process.env.REACT_APP_API_BUCKET_NAME;
-    const ID = process.env.REACT_APP_API_ID;
-    const SECRET = process.env.REACT_APP_API_SECRET;
+    // TODO: configure process.env
+    // const BUCKET_NAME = process.env.REACT_APP_API_BUCKET_NAME;
+    // const ID = process.env.REACT_APP_API_ID;
+    // const SECRET = process.env.REACT_APP_API_SECRET;
 
-    console.log(process.env);
+    // TODO: hide configs
+    const BUCKET_NAME = "everybody-app-media";
+    const ID = "AKIAVJ5YBZZRZONHA7PD";
+    const SECRET = "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";
+    let uploadedURL = "";
 
     const s3 = new AWS.S3({
       accessKeyId: ID,
@@ -67,10 +72,11 @@ function ExerciseModal(props){
         if (err) {
           throw err;
         }
+        uploadedURL = data.Location;
         console.log(`File uploaded successfully. ${data.Location}`);
       });
     }
-    return filename;
+    return uploadedURL;
   }
 
   const submitExercise = async (e) => {
@@ -133,8 +139,6 @@ function ExerciseModal(props){
       console.log(desc)
       msg.innerText = "Please fill out all fields.";
     }
-
-
   }
 
   return (
