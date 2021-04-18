@@ -457,18 +457,18 @@ public final class PostgresDatabase {
    * @param workout workout id
    */
   public static void addRecentlyViewed(int user, int workout) throws SQLException, URISyntaxException {
-    setUpConnection();
-    String insertString = Queries.insertViewedWorkout();
-    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setInt(1, user);
-      stmt.setInt(2, workout);
-      stmt.execute();
-    } catch (SQLException ex) {
-      tearDownConnection();
-      System.out.println(ex.getMessage());
-      throw new SQLException(ex.getMessage());
-    }
-    tearDownConnection();
+//    setUpConnection();
+//    String insertString = Queries.insertViewedWorkout();
+//    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+//      stmt.setInt(1, user);
+//      stmt.setInt(2, workout);
+//      stmt.execute();
+//    } catch (SQLException ex) {
+//      tearDownConnection();
+//      System.out.println(ex.getMessage());
+//      throw new SQLException(ex.getMessage());
+//    }
+//    tearDownConnection();
   }
 
   /**
