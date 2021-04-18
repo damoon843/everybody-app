@@ -22,9 +22,31 @@ Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua 
 
 **Backend:** TODO: fill this out.
 
-**Frontend:** TODO: fill this out.
+**Frontend:**
 
-The frontend uses the React framework as well as bootstrap imports for the UI. The frontend structure is partioned into different 'page' folders, each containing a general javascript file (that exports a React functional component) as well as a corresponding css file. Each page also contains a folder titled 'components', which factor the functionality and styling of different parts of a given page. Each of these pages can be accessed from anywhere on the webpage via a 'header' component that routes to different parts of the website. To maintain information across a given session for a user, we utilized 'useRefs' on App.js that store information related to the logged in user and pass this information down to the children pages as props. Each page has a useEffect that call methods that retrieve specific information from the database through a POST/GET request.    
+We created the frontend website in React and used React Bootstrap + Font Awesome for general styling. The frontend is divided into four main parts: `components`, `pages`, `api.js`, and `assets`.
+
+### Components
+
+To keep the frontend extensible, we put commonly used components (specifically `ExerciseItem` -- which renders exercises on the Exercises page and on individual workout pages -- and `Toolbar`) in the `components` folder to share them across the website.
+
+### Pages
+
+#### Organization/Styling
+
+Additionally, to keep our code modular, we created a separate directory for each page (`ExercisePage`, `HomePage`, `LoginPage`, `ProfilePage`, and `WorkoutPage`). For pages with more components, we created a `components` sub-directory to break down the page further, and we gave each page its own CSS file to prevent overlap in styling. However, we put styling for common elements (buttons, headers, etc) in `App.css` to share them across the website.
+
+#### State/Navigation/Validation
+
+We used `useRef` to maintain state for each page, and we implemented sessions/cookies to keep the current user logged in on the app. Additionally, we used the React Router library to define separate routes for each page, allowing the user to navigate around the site. Finally, we validated the user input for each form (login, signing up, submitting new exercises and workouts) to ensure users sent correctly formatted data to the backend.
+
+### api.js
+
+We separated some of our commonly used GET/POST requests (such as following/unfollowing a user, liking/unliking a post) into `api.js`. Like the `components` folder, this allowed us to reuse the functions across the website without redefining them each time.
+
+### Assets
+
+The `assets` folder holds images that we use across the website.
 
 **Algorithm:** TODO: fill this out.
 
