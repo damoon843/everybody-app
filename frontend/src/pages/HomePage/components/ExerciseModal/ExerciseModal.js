@@ -95,7 +95,7 @@ function ExerciseModal(props){
     const media = document.getElementById('exercise-media').value;
     const fileURL = uploadFile();
 
-    if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
+    // if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
         username: props.username,
         exerciseName: title,
@@ -128,17 +128,17 @@ function ExerciseModal(props){
         msg.innerText = "Error: could not submit exercise.";
         console.log(error);
       });
-    } else if (!props.username) { 
-      msg.innerText = "Please ensure you are logged in.";
-    } else {
-      console.log(props.username)
-      console.log(title)
-      console.log(media)
-      console.log(newDuration)
-      console.log(checkedVals)
-      console.log(desc)
-      msg.innerText = "Please fill out all fields.";
-    }
+    // } else if (!props.username) { 
+    //   msg.innerText = "Please ensure you are logged in.";
+    // } else {
+    //   console.log(props.username)
+    //   console.log(title)
+    //   console.log(media)
+    //   console.log(newDuration)
+    //   console.log(checkedVals)
+    //   console.log(desc)
+    //   msg.innerText = "Please fill out all fields.";
+    // }
   }
 
   return (

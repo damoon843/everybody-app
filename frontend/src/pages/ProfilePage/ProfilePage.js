@@ -1,19 +1,37 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
 import axios from 'axios';
 
 function ProfilePage(props){
+  const [render, setRender] = useState("");
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
 
   useEffect(() => {
+    // getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
-  }, []);
+    console.log(props.userData.current)
+  }, [render]);
+
+  const rerender = (val) => {
+    setRender(val);
+  }
+
+  // const getPrefs = async () => {
+  //   if (user.workoutDuration === 0) {
+  //       pref.current = "0-30 minutes";
+  //       // setPref("0-30 minutes");
+  //   } else if (user.workoutDuration === 1) {
+  //       pref.current = "30-60 minutes";
+  //   } else if (user.workoutDuration === 2) {
+  //       pref.current = "60+ minutes";
+  //   }
+  // }
 
   const getUser = async () => {
     let config = {
@@ -31,7 +49,8 @@ function ProfilePage(props){
       config
     )
     .then(response => {
-      setUser(response.data)
+      props.changeUserData(response.data)
+      console.log(props.userData)
     })
     .catch(function (error) {
       console.log(error.response.data);
@@ -88,7 +107,7 @@ function ProfilePage(props){
 
   return (
     <div className="profile-page fade-in">
-      <ProfileCard id="profile-card" user={user} />
+      <ProfileCard id="profile-card" userData={props.userData} rerender={rerender} />
       <div className="workout-wrapper">
       <div className="myWorkouts">
       <h3 id="myWorkouts">My Workouts</h3>
