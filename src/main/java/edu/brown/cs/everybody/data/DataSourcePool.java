@@ -40,6 +40,7 @@ public class DataSourcePool {
     ds.setPassword(password);
     ds.setMinIdle(4);
     ds.setMaxIdle(10);
+    ds.setMaxTotal(15);
     ds.setDefaultQueryTimeout(40);
     ds.setRemoveAbandonedOnBorrow(true); // Remove abandoned connections
     ds.setRemoveAbandonedTimeout(10); // Timeout before abandoned connections removed

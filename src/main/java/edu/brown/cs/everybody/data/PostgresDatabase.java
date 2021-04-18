@@ -2,6 +2,7 @@ package edu.brown.cs.everybody.data;
 
 import edu.brown.cs.everybody.feedComponents.Workout;
 import edu.brown.cs.everybody.userComponents.AppUser;
+import edu.brown.cs.everybody.utils.Encryption;
 import edu.brown.cs.everybody.utils.ErrorConstants;
 import edu.brown.cs.everybody.utils.WorkoutComparator;
 
@@ -16,8 +17,9 @@ import java.util.*;
  * its related SQL commands.
  */
 public final class PostgresDatabase {
-//  private static PostgresDatabase singleInstance = null;
   private static Connection dbConn = null;
+  private final static String ENCRYPTION_KEY = "32TAsARETHEBEST";
+
 
   /* Hidden constructor to avoid instantiation */
   private PostgresDatabase() {
@@ -66,18 +68,19 @@ public final class PostgresDatabase {
    * Inserts a new user into the users table (sign-up).
    * @param data list of user-related data to insert
    */
-  public static void insertUser(List<Object> data) throws SQLException, URISyntaxException {
+  public static void insertUser(List<Object> data) throws Exception {
     dbConn = DataSourcePool.getConnection();
 
     String insertString = Queries.insertUserQuery();
     int id = -1;
+    String encryptedPass = Encryption.encrypt((String) data.get(3), ENCRYPTION_KEY);
 
     // Insert into users table
     try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
       stmt.setString(1, (String) data.get(0));
       stmt.setString(2, (String) data.get(1));
       stmt.setString(3, (String) data.get(2));
-      stmt.setString(4, (String) data.get(3));
+      stmt.setString(4, encryptedPass);
       try (ResultSet res = stmt.executeQuery()) {
         while (res.next()) {
           id = res.getInt("id");
@@ -454,18 +457,18 @@ public final class PostgresDatabase {
    * @param workout workout id
    */
   public static void addRecentlyViewed(int user, int workout) throws SQLException, URISyntaxException {
-    setUpConnection();
-    String insertString = Queries.insertViewedWorkout();
-    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-      stmt.setInt(1, user);
-      stmt.setInt(2, workout);
-      stmt.execute();
-    } catch (SQLException ex) {
-      tearDownConnection();
-      System.out.println(ex.getMessage());
-      throw new SQLException(ex.getMessage());
-    }
-    tearDownConnection();
+//    setUpConnection();
+//    String insertString = Queries.insertViewedWorkout();
+//    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+//      stmt.setInt(1, user);
+//      stmt.setInt(2, workout);
+//      stmt.execute();
+//    } catch (SQLException ex) {
+//      tearDownConnection();
+//      System.out.println(ex.getMessage());
+//      throw new SQLException(ex.getMessage());
+//    }
+//    tearDownConnection();
   }
 
   /**
@@ -708,12 +711,13 @@ public final class PostgresDatabase {
    * @param password password
    * @return -1 if false, 1 if true
    */
-  public static int loginUser(String username, String password) throws SQLException, URISyntaxException {
+  public static int loginUser(String username, String password) throws Exception {
     dbConn = DataSourcePool.getConnection();
     String queryString = Queries.checkLogin();
+    String encryptedPass = Encryption.encrypt(password, ENCRYPTION_KEY);
     try (PreparedStatement stmt = dbConn.prepareStatement(queryString)) {
       stmt.setString(1,username);
-      stmt.setString(2, password);
+      stmt.setString(2, encryptedPass);
 
       try (ResultSet res = stmt.executeQuery()) {
         if (res.next()) {

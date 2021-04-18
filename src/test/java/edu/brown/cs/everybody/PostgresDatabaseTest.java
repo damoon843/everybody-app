@@ -43,7 +43,7 @@ public class PostgresDatabaseTest {
   }
 
   @BeforeClass
-  public static void setUp() throws SQLException, URISyntaxException {
+  public static void setUp() throws Exception {
     DataSourcePool.configurePool();
 
     // Insert data
