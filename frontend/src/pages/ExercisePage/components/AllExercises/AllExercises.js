@@ -3,25 +3,9 @@ import './AllExercises.css'
 
 function AllExercises(props){
     let exercises = props.exercises
-    // const [exerciseList, setExerciseList] = useState([]);
 
     useEffect(() => {
-        console.log(props.exercises)
-        console.log(exercises)
-        // let list = renderExercises()
-        // setExerciseList(list)
     }, []);
-
-    // const renderExercises = () => {
-    //     const data = Object.values(exercises)
-    //     const keys = Object.keys(exercises)
-    //     let result = [];
-    //     for (let i = 0; i < keys.length; i++) {
-    //       const opt = <ExerciseItem key={keys[i]} exercise={data[i]}/>
-    //       result.push(opt)
-    //     }
-    //     setExerciseList(result)
-    // }
 
     return (
         <div className="exercises">

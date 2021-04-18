@@ -47,7 +47,6 @@ function WorkoutItemHome(props){
       likePost(toSend).then(response => {
         setLike(true)
         const newCount = likeCount + 1
-        console.log(newCount)
         setLikeCount(newCount)
       })
     }

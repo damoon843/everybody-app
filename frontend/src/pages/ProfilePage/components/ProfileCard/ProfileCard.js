@@ -41,7 +41,6 @@ function ProfileCard(props) {
         if (response.data.success) {
             props.history.push('/');
         }
-        console.log(response.data)
     })
     .catch(function (error) {
         msg.innerText = "Error: could not delete account."
