@@ -13,10 +13,15 @@ require('dotenv').config();
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
   let username = useRef("")
+  let userData = useRef({});
   let workout = useRef({})
 
   const changeUsername = (newName) => {
     username.current = newName;
+  }
+
+  const changeUserData = (data) => {
+    userData.current = data;
   }
 
   const changeWorkout = (newWorkout) => {
@@ -38,7 +43,7 @@ function App() {
         </Route>
         <Route path="/profile">
           <Toolbar changeUsername={changeUsername} />
-          <ProfilePage changeWorkout={changeWorkout} username={username}/>
+          <ProfilePage changeWorkout={changeWorkout} username={username} userData={userData} changeUserData={changeUserData}/>
         </Route>
         <Route path="/home">
           <Toolbar changeUsername={changeUsername} />
