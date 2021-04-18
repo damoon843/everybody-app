@@ -173,7 +173,7 @@ function WorkoutItem(props){
         </div>
         <div>
           <p>Duration: {Math.floor(props.workout.duration/60)} minutes<br></br>Description: {props.workout.description}</p>
-          <Link id="start-workout-btn" className="submit-btn" onClick={updateWorkout} to={url}>Start Workout</Link>
+          <Link className="submit-btn start-workout-btn" onClick={updateWorkout} to={url}>Start Workout</Link>
         </div>
       </Card.Body>
     </Card>

@@ -77,8 +77,7 @@
   cursor: pointer;
 }
 
-#start-workout-btn {
-  width: 100%;
+.start-workout-btn {
   text-align: center;
   text-decoration: none;
 }
