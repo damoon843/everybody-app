@@ -7,6 +7,10 @@ import {Spinner} from 'react-bootstrap'
 let recData1 = []
 
 function Recommendations(props) {
+  /*
+  Retrieves the recommendations through a post request that submits the username. The information of the workouts are then
+  mapped into a workout item, which will be displayed on the home feed after a user logs in
+   */
   const [recs, setRecs] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -31,6 +35,7 @@ function Recommendations(props) {
     )
     .then(response => {
       const data = response.data.workouts
+      //creating workout items for all of the retrieved workout
       const result = data.map(workout => <WorkoutItemHome changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
       recData1 = result;
       setRecs(recData1)

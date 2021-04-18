@@ -4,6 +4,10 @@ import './AllExercises.css'
 function AllExercises(props){
     let exercises = props.exercises
 
+    /*
+    Contains all of exercises that are updated in the parent component
+     */
+
     useEffect(() => {
     }, []);
 

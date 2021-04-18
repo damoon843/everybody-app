@@ -7,15 +7,22 @@ import {Link} from 'react-router-dom';
 import {followUser, unfollowUser, likePost, unlikePost} from '../../../../api.js';
 
 function WorkoutItemHome(props){
+  /*
+  Workout item serves as the "card" displayed on the recommended feed, which houses the workout specific data
+  and allows for interaction with following and likes. The 'start workout' button links to the url retrieved by the
+  request
+   */
   const [following, setFollowing] = useState(props.workout.following === 'true')
   const [like, setLike] = useState(false)
   const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
   const url = "/workout/" + props.workout.workout_id
 
+
   const updateWorkout = () => {
     props.changeWorkout(props.workout)
   }
 
+  //called when following
   const toggleFollowing = () => {
     const toSend = {
       username: props.username,
@@ -32,6 +39,7 @@ function WorkoutItemHome(props){
     }
   }
 
+  // called when someone presses the like button
   const toggleLike = () => {
     let toSend = {
       workoutName: props.workout.workout_name,

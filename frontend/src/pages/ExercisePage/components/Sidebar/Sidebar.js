@@ -3,6 +3,12 @@ import './Sidebar.css';
 import {Button} from "react-bootstrap";
 
 function Sidebar(props){
+    /*
+    Sidebar controls filter functionality by linking the checks and button to the appropriate functions in the parent
+    component, ExercisePage.
+     */
+
+    //clears the checks when it is reset
     const checkClick = (e)=> {
         let x = document.getElementsByTagName("input");
         for(let i=0; i<=x.length-1; i++) {

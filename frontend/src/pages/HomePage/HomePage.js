@@ -6,7 +6,14 @@ import './HomePage.css';
 import axios from 'axios';
 
 function Home(props) {
+  /*
+  Homepage is the default page for a user that logs in. It displays a collection of workouts specifically curated for
+  the user using the information sent via the getExercises post request. There are also buttons to upload exercises
+  and workouts via a prompted modal.
+   */
   const [render, setRender] = useState("");
+
+  //useRef allows for information to be maintained
   const exercises = useRef([]);
   let username = useRef("");
 
