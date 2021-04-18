@@ -110,21 +110,21 @@ function ProfilePage(props){
             toggleLiked ?
             <div className="myWorkouts">
               <div className="workout-header">
-                <h3 id="myWorkouts">My Workouts</h3>
-                <button onClick={toggle} className="toggle-btn profile-toggle">Show liked workouts</button>
-              </div>
-              <div className="profile-workouts">
-                {userWorkouts}
-              </div>
-            </div>
-            :
-            <div className="myWorkouts">
-              <div className="workout-header">
                 <h3 id="myWorkouts">Liked Workouts</h3>
                 <button onClick={toggle} className="toggle-btn profile-toggle">Show my workouts</button>
               </div>
               <div className="liked-workouts">
                 {likedWorkouts}
+              </div>
+            </div>
+            :
+            <div className="myWorkouts">
+              <div className="workout-header">
+                <h3 id="myWorkouts">My Workouts</h3>
+                <button onClick={toggle} className="toggle-btn profile-toggle">Show liked workouts</button>
+              </div>
+              <div className="profile-workouts">
+                {userWorkouts}
               </div>
             </div>
           }
