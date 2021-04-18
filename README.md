@@ -126,3 +126,5 @@ docker-compose up --build
 ## Known Bugs and Limitations
 
 **Heroku Database Limitation:** Because the Postgres database is fully managed by Heroku, there are connection limitations. The 'Hobby' tier provides 20 connections at a time and going beyond this limit will result in connection timeouts/exceptions. If this does occur, please contact a collaborator on this repo so the database connections can be reset (completed from the Heroku dashboard). You can read more about this limitation [here](https://devcenter.heroku.com/articles/postgres-logs-errors#fatal-too-many-connections-for-role).
+
+**Recommendation Algorithm Bug** There is a bug where the home feed will display duplicated workouts in its attempt to always return 9 workouts. If we had additional time, this is the main bug we need to fix before our application is fully functional and bug-free.
