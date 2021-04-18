@@ -31,7 +31,7 @@ function WorkoutModal(props){
     let msg = document.getElementById("workout-form-msg");
     msg.innerText = "";
 
-    if ((exerciseList.length > 0) && title && desc && media && props.username) {
+    // if ((exerciseList.length > 0) && title && desc && media && props.username) {
       const toSend = {
         exerciseList: exerciseList,
         mediaLink: filename,
@@ -62,15 +62,15 @@ function WorkoutModal(props){
         msg.innerText = "Error: could not submit workout.";
         console.log(error);
       });
-    } else if (!props.username) { 
-      msg.innerText = "Please ensure you are logged in.";
-    } else {
-      console.log(exerciseList)
-      console.log(title)
-      console.log(desc)
-      console.log(props.username)
-      msg.innerText = "Please fill out all fields.";
-    }
+    // } else if (!props.username) { 
+    //   msg.innerText = "Please ensure you are logged in.";
+    // } else {
+    //   console.log(exerciseList)
+    //   console.log(title)
+    //   console.log(desc)
+    //   console.log(props.username)
+    //   msg.innerText = "Please fill out all fields.";
+    // }
   }
 
   const uploadFile = () => {
