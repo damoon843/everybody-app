@@ -17,7 +17,7 @@ function WorkoutPage(props) {
       }
     }
     let toSend = {
-      username: props.username.current,
+      username: props.workout.current.posting_user,
       workoutName: props.workout.current.workout_name
     }
     console.log(toSend)
