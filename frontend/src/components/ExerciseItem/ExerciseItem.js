@@ -5,7 +5,7 @@ import './ExerciseItem.css'
 function ExerciseItem(props) {
   return (
     <Card className="exercise-item">
-      <Card.Img variant="top" src={props.exercise[1]} alt="exercise item thumbnail"/>
+      <Card.Img variant="top" src="https://upload.wikimedia.org/wikipedia/commons/6/60/Working_Out_At_The_Reily_Center_%283726377407%29.jpg" alt="exercise item thumbnail"/>
       <Card.Body>
         <Card.Title>
           {props.exercise[0]}
