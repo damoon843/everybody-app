@@ -8,10 +8,8 @@ function ProfilePage(props){
   const [render, setRender] = useState("");
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
-  // const [user, setUser] = useState({});
 
   useEffect(() => {
-    // getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
@@ -21,17 +19,6 @@ function ProfilePage(props){
   const rerender = (val) => {
     setRender(val);
   }
-
-  // const getPrefs = async () => {
-  //   if (user.workoutDuration === 0) {
-  //       pref.current = "0-30 minutes";
-  //       // setPref("0-30 minutes");
-  //   } else if (user.workoutDuration === 1) {
-  //       pref.current = "30-60 minutes";
-  //   } else if (user.workoutDuration === 2) {
-  //       pref.current = "60+ minutes";
-  //   }
-  // }
 
   const getUser = async () => {
     let config = {
@@ -74,7 +61,8 @@ function ProfilePage(props){
     )
     .then(response => {
       const data = response.data.workouts;
-      setUserWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      props.changeMyWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      setUserWorkouts(props.myWorkouts.current)
     })
     .catch(function (error) {
       console.log(error);
@@ -98,7 +86,8 @@ function ProfilePage(props){
     )
         .then(response => {
           const data = response.data.workouts
-          setLikedWorkouts(data.map((workout1) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout1.workout_id} workout={workout1} username={props.username}/>))
+          props.changeLikedWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+          setLikedWorkouts(props.likedWorkouts.current)
         })
         .catch(function (error) {
           console.log(error);

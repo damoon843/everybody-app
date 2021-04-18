@@ -66,7 +66,7 @@ function App() {
         </Route>
         <Route path="/profile">
           <Toolbar changeUsername={changeUsername} />
-          <ProfilePage changeWorkout={changeWorkout} username={username} userData={userData} changeUserData={changeUserData}/>
+          <ProfilePage changeWorkout={changeWorkout} username={username} userData={userData} changeUserData={changeUserData} changeMyWorkouts={changeMyWorkouts} changeLikedWorkouts={changeLikedWorkouts} myWorkouts={myWorkouts} likedWorkouts={likedWorkouts} />
         </Route>
         <Route path="/home">
           <Toolbar changeUsername={changeUsername} />
