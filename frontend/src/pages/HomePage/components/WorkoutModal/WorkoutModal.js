@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
 import axios from 'axios';
@@ -114,6 +114,11 @@ function WorkoutModal(props){
     return uploadedURL;
   }
 
+  useEffect(() => {
+    console.log("in the workout modal")
+    console.log(props.exercises.current)
+  })
+
   return (
     <div className="exercise-modal">
       <button id="workout-modal-btn" className="submit-btn" onClick={handleShow}>
@@ -131,7 +136,7 @@ function WorkoutModal(props){
             <label className="workout-form-label"><h5>Description</h5><textarea id="workout-description" rows={3} type="text" placeholder="Enter a description of your workout" /></label>
             <label className="workout-form-label"><h5>Upload media</h5><input type="file" id="workout-media" name="workout-media" ref={inputFile} required/></label>
             <label className="workout-form-label"><h5>Select Exercises (cmd/ctrl + click)</h5><select name="exercises" id="select-exercises" multiple>
-            {props.exercises}
+            {props.exercises.current}
           </select></label>
     
           </form>

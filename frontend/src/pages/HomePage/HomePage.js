@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'; 
 import Recommendations from './components/Recommendations/Recommendations';
-import ExerciseModal from './components/ExerciseModal/ExerciseModal'
-import WorkoutModal from './components/WorkoutModal/WorkoutModal'
+import ExerciseModal from './components/ExerciseModal/ExerciseModal';
+import WorkoutModal from './components/WorkoutModal/WorkoutModal';
 import './HomePage.css';
 import axios from 'axios';
 
 function Home(props) {
   const [render, setRender] = useState("");
-  const [exercises, setExercises] = useState([]);
+  const exercises = useRef([]);
   let username = useRef("");
 
   const rerender = (val) => {
@@ -37,7 +37,9 @@ function Home(props) {
         const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
         exerciseList.push(opt)
       }
-      setExercises(exerciseList)
+      console.log(exerciseList)
+      exercises.current = exerciseList
+      console.log(exercises.current)
     })
     .catch(function (error) {
       console.log(error);
@@ -48,7 +50,7 @@ function Home(props) {
     getExercises()
     saveUsername()
     console.log(username.current)
-  }, [render])
+  }, [render, exercises])
 
   return (
     <div className="home fade-in">
