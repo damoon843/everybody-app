@@ -10,7 +10,7 @@ function ProfileCard(props) {
 
   useEffect(() => {
     // convertPrefs();
-    // props.rerender("hi")
+    props.rerender("hi")
   }, []);
 
   const convertPrefs = (time) => {
