@@ -7,7 +7,8 @@ import './ExerciseItem.css'
 function ExerciseItem(props) {
   useEffect(()=> {
     console.log(props.exercise)
-  })
+  }, [])
+  
   return (
     <Card className="exercise-item">
       <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
