@@ -1,5 +1,5 @@
 # CS0320 Term Project 2021: EveryBODY App
-![text](everBODY_logo.png)
+![](everyBODY_logo.png)
 
 **Team Members:**
 Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua Woo (@jwoo153)
