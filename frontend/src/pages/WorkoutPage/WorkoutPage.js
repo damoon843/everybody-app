@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'; 
 import './WorkoutPage.css';
 import axios from 'axios';
-import ExerciseItem from './components/ExerciseItem/ExerciseItem'
+import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
 
 let exercises = [];
 

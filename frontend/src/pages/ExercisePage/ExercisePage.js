@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './ExercisePage.css';
 import Sidebar from "./components/Sidebar/Sidebar";
 import Exercise from "./components/Exercise";
+import ExerciseItem from "../../components/ExerciseItem/ExerciseItem"
 import axios from "axios";
 
 function ExercisePage() {
     const [allEx, setAllEx]=useState({})
     const [checked, setChecked] = useState([])//names of checked
-    const [exercises, setExercises] = useState({});
+    const [exercises, setExercises] = useState([]);
 
     const newGetAllExercises = async () => {
       let config = {
@@ -26,13 +27,25 @@ function ExercisePage() {
         console.log(response.data)
         console.log(keys)
         console.log(data)
-        setExercises(response.data)
+        // setExercises(response.data)
+        renderExercises(response.data)
         setAllEx(response.data)
       })
       .catch(function (error) {
         console.log(error);
       });
     }
+
+  const renderExercises = (exerciseData) => {
+      const data = Object.values(exerciseData)
+      const keys = Object.keys(exerciseData)
+      let result = [];
+      for (let i = 0; i < keys.length; i++) {
+        const opt = <ExerciseItem key={keys[i]} exercise={data[i]}/>
+        result.push(opt)
+      }
+      setExercises(result)
+  }
 
   useEffect(() => {
     newGetAllExercises()
@@ -92,9 +105,6 @@ function ExercisePage() {
   const resetEx=()=>{
       checked.length = 0
       newGetAllExercises()
-      /*
-      resetting exercises--> deselect the checkboxes
-       */
   };
 
   return (
