@@ -18,7 +18,7 @@ public class KosarajusAlgorithm {
    */
   public KosarajusAlgorithm() { }
 
-  // Psuedocode:
+  // Pseudocode:
   // BFS from start user through following list
   // as you traverse, add to reverseEdges hashmap and firstRun
   // BFS starting from startUserID in hashmap

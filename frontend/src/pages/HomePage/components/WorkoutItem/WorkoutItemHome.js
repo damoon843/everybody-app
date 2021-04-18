@@ -58,7 +58,7 @@ function WorkoutItemHome(props){
   return(
 
     <Card className="workout-item">
-      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Img alt="workout item thumbnail" variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
       <Card.Body>
         <div className="workout-title">
           <h4>{props.workout.workout_name}</h4>

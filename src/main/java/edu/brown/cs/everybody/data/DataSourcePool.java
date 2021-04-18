@@ -38,14 +38,17 @@ public class DataSourcePool {
     ds.setUrl(dbUrl);
     ds.setUsername(username);
     ds.setPassword(password);
-    ds.setMinIdle(3);
-    ds.setMaxIdle(6);
+    ds.setMinIdle(4);
+    ds.setMaxIdle(10);
+    ds.setMaxTotal(15);
     ds.setDefaultQueryTimeout(40);
     ds.setRemoveAbandonedOnBorrow(true); // Remove abandoned connections
     ds.setRemoveAbandonedTimeout(10); // Timeout before abandoned connections removed
     ds.setMaxOpenPreparedStatements(30);
     ds.setPoolPreparedStatements(true);
     ds.setClearStatementPoolOnReturn(true); // Clear pool of statements when returning connection
+    ds.setTestWhileIdle(true);
+    ds.setTestOnReturn(true);
 
     // Test connection before proceeding with action
     ds.setTestOnBorrow(true);
