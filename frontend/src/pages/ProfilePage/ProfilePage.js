@@ -11,7 +11,7 @@ function ProfilePage(props){
   // const [user, setUser] = useState({});
 
   useEffect(() => {
-    getPrefs();
+    // getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
@@ -22,16 +22,16 @@ function ProfilePage(props){
     setRender(val);
   }
 
-  const getPrefs = async () => {
-    if (user.workoutDuration === 0) {
-        pref.current = "0-30 minutes";
-        // setPref("0-30 minutes");
-    } else if (user.workoutDuration === 1) {
-        pref.current = "30-60 minutes";
-    } else if (user.workoutDuration === 2) {
-        pref.current = "60+ minutes";
-    }
-  }
+  // const getPrefs = async () => {
+  //   if (user.workoutDuration === 0) {
+  //       pref.current = "0-30 minutes";
+  //       // setPref("0-30 minutes");
+  //   } else if (user.workoutDuration === 1) {
+  //       pref.current = "30-60 minutes";
+  //   } else if (user.workoutDuration === 2) {
+  //       pref.current = "60+ minutes";
+  //   }
+  // }
 
   const getUser = async () => {
     let config = {
