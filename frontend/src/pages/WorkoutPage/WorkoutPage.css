@@ -80,3 +80,8 @@
 #workout-subheading {
   margin: 2rem 0 1rem 0;
 }
+
+.workout-page-exercises {
+  display: flex;
+  flex-wrap: wrap;
+}
