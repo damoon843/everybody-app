@@ -3,11 +3,13 @@ import React, {useEffect, useState, useRef} from 'react';
 import WorkoutItem from '../WorkoutItem/WorkoutItem';
 import './Recommendations.css';
 import axios from 'axios';
+import {Spinner} from 'react-bootstrap'
 
 let recData1 = []
 
 function Recommendations(props) {
   const [recs, setRecs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getRecommendations();
@@ -36,6 +38,7 @@ function Recommendations(props) {
       console.log(result)
       recData1 = result;
       setRecs(recData1)
+      setLoaded(true)
     })
     .catch(function (error) {
       console.log(error);
@@ -46,7 +49,9 @@ function Recommendations(props) {
     <div className="home-main">
       <h3 id="recommendations">Recommended for you</h3>
       <div className="home-recs">
-        { recs }
+        { loaded ? recs : <Spinner animation="border" role="status" className="rec-loading">
+  <span className="sr-only">Loading...</span>
+</Spinner> }
       </div>
     </div>
   );
