@@ -672,8 +672,10 @@ public final class PostgresDatabase {
           // Cast java.sql array to java.utils array
           String[] tags = (String[]) sqlTags.getArray();
 
-          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
-            username, exerciseName));
+//          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
+//            username, exerciseName));
+          List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags,
+            description, username, time));
           results.put(exerciseID, tempList);
         }
       } catch (SQLException ex) {
