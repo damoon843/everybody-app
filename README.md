@@ -61,7 +61,7 @@ To build the Docker images:
 ```
 docker-compose build
 ```
-To create containers from images and run the application:
+To create containers from images and start/restart all Docker services to run the application:
 ```
-docker-compose run
+docker-compose up
 ```
