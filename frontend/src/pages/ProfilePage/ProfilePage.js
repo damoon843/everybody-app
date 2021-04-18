@@ -5,6 +5,9 @@ import WorkoutItemProfile from "./components/WorkoutItemProfile/WorkoutItemProfi
 import axios from 'axios';
 
 function ProfilePage(props){
+  /*
+  retrieves all of the user information and displays them, including liked workouts and authored workouts
+   */
   const [render, setRender] = useState("");
   const [userData, setUserData] = useState({})
   const [userWorkouts, setUserWorkouts] = useState([]);

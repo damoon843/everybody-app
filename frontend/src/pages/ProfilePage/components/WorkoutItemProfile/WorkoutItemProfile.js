@@ -4,6 +4,9 @@ import './WorkoutItemProfile.css';
 import {Link} from 'react-router-dom';
 
 function WorkoutItemProfile(props){
+    /*
+    This component houses the information for the workout items displayed on a specific user's profile
+     */
   const url = "/workout/" + props.workout.workout_id
 
   const updateWorkout = () => {

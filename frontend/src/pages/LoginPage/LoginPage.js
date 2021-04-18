@@ -5,7 +5,11 @@ import axios from 'axios'
 import './LoginPage.css';
 
 function LoginPage(props) {
+  /*
+  Login page has options for new users to signup or returning users to login back into their account
+   */
 
+  //first time users will have their inputted information stored so that it is sent to database
   const getSignUpVals = () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -24,6 +28,7 @@ function LoginPage(props) {
     return toSend;
   }
 
+  //returning users will only need their username, which is retrieved by the input into the textbox
   const getLoginVals = () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -34,6 +39,7 @@ function LoginPage(props) {
     return toSend;
   }
 
+  //sends the new user information to the database
   const createUser = async (e) => {
     e.preventDefault();
     let err = document.getElementById("err-msg-signup")
@@ -68,6 +74,7 @@ function LoginPage(props) {
  
   }
 
+  //sends the information in the login field, validates the user login, and sets the user information in the App.js parent
   const loginUser = async (e) => {
     e.preventDefault()
     let err = document.getElementById("err-msg-login")

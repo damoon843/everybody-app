@@ -5,6 +5,9 @@ import axios from 'axios';
 import { withRouter } from 'react-router';
 
 function ProfileCard(props) {
+    /*
+    The profile card displays information related to user preferences, username, and account deletion
+     */
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -24,6 +27,8 @@ function ProfileCard(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
+//user deletion sends a request to the backend that removes the user from database
   const deleteAccount = async () => {
     let msg = document.getElementById('delete-msg')
     msg.innerText = ""
