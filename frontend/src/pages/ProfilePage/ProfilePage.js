@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
@@ -8,12 +8,26 @@ function ProfilePage(props){
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
   const [user, setUser] = useState({});
+  const pref = useRef("");
 
   useEffect(() => {
+    getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
+
   }, []);
+
+  const getPrefs = async () => {
+    if (user.workoutDuration === 0) {
+        pref.current = "0-30 minutes";
+        // setPref("0-30 minutes");
+    } else if (user.workoutDuration === 1) {
+        pref.current = "30-60 minutes";
+    } else if (user.workoutDuration === 2) {
+        pref.current = "60+ minutes";
+    }
+  }
 
   const getUser = async () => {
     let config = {
@@ -88,7 +102,7 @@ function ProfilePage(props){
 
   return (
     <div className="profile-page fade-in">
-      <ProfileCard id="profile-card" user={user} />
+      <ProfileCard id="profile-card" user={user} pref={pref.current} />
       <div className="workout-wrapper">
       <div className="myWorkouts">
       <h3 id="myWorkouts">My Workouts</h3>
