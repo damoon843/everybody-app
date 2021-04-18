@@ -5,7 +5,7 @@ import './ExerciseItem.css'
 function ExerciseItem(props) {
   return (
     <Card className="exercise-item">
-      <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Img variant="top" src={props.exercise[1]} alt="exercise item thumbnail"/>
       <Card.Body>
         <Card.Title>
           {props.exercise[0]}
