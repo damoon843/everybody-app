@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'; 
 import './WorkoutItemHome.css';
-import axios from 'axios';
-import {Card, Button} from 'react-bootstrap'
+import {Card} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import WorkoutPage from '../../../WorkoutPage/WorkoutPage'
 import {Link} from 'react-router-dom';
+import {followUser, unfollowUser, likePost, unlikePost} from '../../../../api.js';
 
 function WorkoutItemHome(props){
   const [following, setFollowing] = useState(props.workout.following === 'true')
@@ -14,131 +13,38 @@ function WorkoutItemHome(props){
   const url = "/workout/" + props.workout.workout_id
 
   const updateWorkout = () => {
-    console.log(props.workout)
     props.changeWorkout(props.workout)
   }
 
-  const followUser = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      username: props.username,
-      following: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/follow",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const unfollowUser = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      username: props.username,
-      following: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/unfollow",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const likePost = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      workoutName: props.workout.workout_name,
-      poster: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/registerLike",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const unlikePost = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      workoutName: props.workout.workout_name,
-      poster: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/unregisterLike",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
   const toggleFollowing = () => {
+    const toSend = {
+      username: props.username,
+      following: props.workout.posting_user
+    }
     if (following) {
-      unfollowUser().then(response => {
+      unfollowUser(toSend).then(response => {
         setFollowing(false)
       })
     } else {
-      followUser().then(response => {
+      followUser(toSend).then(response => {
         setFollowing(true)
       })
     }
   }
 
   const toggleLike = () => {
+    let toSend = {
+      workoutName: props.workout.workout_name,
+      poster: props.workout.posting_user
+    }
     if (like) {
-      unlikePost().then(response => {
+      unlikePost(toSend).then(response => {
         setLike(false)
         const newCount = likeCount - 1
         setLikeCount(newCount)
       })
     } else {
-      likePost().then(response => {
+      likePost(toSend).then(response => {
         setLike(true)
         const newCount = likeCount + 1
         console.log(newCount)

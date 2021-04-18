@@ -10,7 +10,6 @@ function ExercisePage() {
     const [allEx, setAllEx]=useState([])
     const [checked, setChecked] = useState([])//names of checked
     const [exercises, setExercises] = useState([])
-    const [ref, setRef] = useState([])
 
     const newGetAllExercises = async () => {
       let config = {
@@ -89,7 +88,7 @@ function ExercisePage() {
           2. do a for loop where you do the similar thing as in the target checked
           arr = arr.filter(e => e !== 'B')
            */
-          let arr = checked.filter(box=> box !=e.target)
+          let arr = checked.filter(box=> box !== e.target)
           setChecked(arr)
           console.log(arr.length)
           console.log(checked.length)

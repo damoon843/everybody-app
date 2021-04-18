@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 // import { getRecommendations } from '../../../../api';
 import WorkoutItemHome from '../WorkoutItem/WorkoutItemHome';
 import './Recommendations.css';

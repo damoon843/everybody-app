@@ -15,11 +15,8 @@ function App() {
   let username = useRef("");
   let userData = useRef({});
   let workout = useRef({});
-  let recs = useRef([]);
   let myWorkouts = useRef([]);
   let likedWorkouts = useRef([]);
-  let exercises = useRef({});
-  let allExercises = useRef([]);
 
   const changeUsername = (newName) => {
     username.current = newName;
@@ -33,24 +30,12 @@ function App() {
     workout.current = newWorkout
   }
 
-  const changeRecs = (newRecs) => {
-    recs.current = newRecs
-  }
-
   const changeMyWorkouts = (newWorkouts) => {
     myWorkouts.current = newWorkouts
   }
 
   const changeLikedWorkouts = (newWorkouts) => {
     likedWorkouts.current = newWorkouts
-  }
-
-  const changeExercises = (newExercises) => {
-    exercises.current = newExercises
-  }
-
-  const changeAllExercises = (newExercises) => {
-    allExercises.current = newExercises
   }
 
   return (

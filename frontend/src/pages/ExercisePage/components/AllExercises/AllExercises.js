@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect} from "react";
 import './AllExercises.css'
-import ExerciseItem from '../../../../components/ExerciseItem/ExerciseItem'
 
 function AllExercises(props){
     let exercises = props.exercises
