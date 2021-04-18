@@ -37,7 +37,7 @@ public class DataSourcePoolTest {
     // Test data source properties
     assertNotNull(ds);
     assertTrue(ds.getTestOnBorrow());
-    assertEquals(3, ds.getMinIdle());
+    assertEquals(4, ds.getMinIdle());
   }
 
   @Test
