@@ -54,7 +54,27 @@ We separated some of our commonly used GET/POST requests (such as following/unfo
 The `assets` folder holds images that we use across the website.
 
 ## Algorithm 
-TODO: fill this out.
+
+#### Home Feed Recommendations
+Our home feed is tailored to always recommend 9 workouts:
+4 are from people you follow,
+3 are from people strongly connected to you (Kosaraju’s), and
+2 are from the highly rated community workout pool.
+Workouts are displayed on your feed in order of ranking.
+Ranks are based on recency of post date and like-count, where the most recent workouts are favored, but every 5 likes compensates for 24 hours of time passing
+Additionally, the final 9 workouts are chosen, preferential filtering based on duration (and eventually type) is applied
+Once a workout is recommended, it will not be recommended again in the future to ensure a dynamic feed.
+
+#### Kosaraju's Algorithm
+Kosaraju’s Algorithm is a linear-time graph traversal algorithm, which typically uses DFS on both a graph and the transposed version of the graph to find strongly connected components.
+For context, our app’s graph consists of nodes (users) and edges (following relations), so a strongly connected component is a group of users who share some sort of mutual cyclic following relation.
+For the purpose of our app, we modified Kosaraju’s algorithm to instead use BFS, and only find the strongly connected component a specific given (input) user is part of rather than traverse the entire graph. 
+
+The psuedocode for the algorithm is simple: perform BFS on a graph from a starting node, keeping track of all reachable nodes. Reverse the edges in the graph, and perform BFS again on the graph
+from the same starting node, keeping track of all reachable nodes. Return the intersection of these two sets of reachable nodes to find the
+strongly connected component the starting node is part of.
+
+
 
 ## Deployment 
 App deployment involved the following key services:
