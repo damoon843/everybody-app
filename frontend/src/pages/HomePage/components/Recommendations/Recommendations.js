@@ -4,20 +4,27 @@ import './Recommendations.css';
 import axios from 'axios';
 import {Spinner} from 'react-bootstrap'
 
-let recData1 = []
+// stores the list of recommendations
+let recData = []
 
+/**
+ * Retrieves the recommendations through a post request that submits the username. The information of the workouts are then mapped into a workout item, which will be displayed on the home feed after a user logs in
+ * @param {*} props the username of the user to display recommendations for
+ * @returns the list of recommendations, rendered as WorkoutItemHome components.
+ */
 function Recommendations(props) {
-  /*
-  Retrieves the recommendations through a post request that submits the username. The information of the workouts are then
-  mapped into a workout item, which will be displayed on the home feed after a user logs in
-   */
+  // state variable for representing the list of recommendations
   const [recs, setRecs] = useState([]);
+  // state variable to indicate whether the list of recommendations is loaded or not
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getRecommendations();
   }, []);
 
+  /**
+   * Gets the list of recommendations.
+   */
   const getRecommendations = async () => {
     let config = {
       headers: {
@@ -37,8 +44,8 @@ function Recommendations(props) {
       const data = response.data.workouts
       //creating workout items for all of the retrieved workout
       const result = data.map(workout => <WorkoutItemHome changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
-      recData1 = result;
-      setRecs(recData1)
+      recData = result;
+      setRecs(recData)
       setLoaded(true)
     })
     .catch(function (error) {

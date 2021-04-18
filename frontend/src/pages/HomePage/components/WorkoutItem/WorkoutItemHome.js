@@ -6,23 +6,31 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {Link} from 'react-router-dom';
 import {followUser, unfollowUser, likePost, unlikePost} from '../../../../api.js';
 
+/**
+ * Workout item serves as the "card" displayed on the recommended feed, which houses the workout specific data and allows for interaction with following and likes. The 'start workout' button links to the url retrieved by the request.
+ * @param {*} props the workout data
+ * @returns a component representing a workout item
+ */
 function WorkoutItemHome(props){
-  /*
-  Workout item serves as the "card" displayed on the recommended feed, which houses the workout specific data
-  and allows for interaction with following and likes. The 'start workout' button links to the url retrieved by the
-  request
-   */
+  // state variable for user to follow/unfollow the workout poster
   const [following, setFollowing] = useState(props.workout.following === 'true')
+  // state variable for user to like/unlike a workout
   const [like, setLike] = useState(false)
+  // state variable to show how many likes the workout has
   const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
+  // the url to redirect to when the user clicks on the "start workout" button
   const url = "/workout/" + props.workout.workout_id
 
-
+  /**
+   * Updates the workout useRef in App.js
+   */
   const updateWorkout = () => {
     props.changeWorkout(props.workout)
   }
 
-  //called when following
+  /**
+   * Toggles the following button and calls follow/unfollow.
+   */
   const toggleFollowing = () => {
     const toSend = {
       username: props.username,
@@ -39,7 +47,9 @@ function WorkoutItemHome(props){
     }
   }
 
-  // called when someone presses the like button
+  /**
+   * Toggles the like button and calls like/unlike.
+   */
   const toggleLike = () => {
     let toSend = {
       workoutName: props.workout.workout_name,
