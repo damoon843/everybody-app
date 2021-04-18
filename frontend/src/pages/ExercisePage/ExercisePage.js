@@ -6,9 +6,11 @@ import ExerciseItem from "../../components/ExerciseItem/ExerciseItem"
 import axios from "axios";
 
 function ExercisePage() {
-    const [allEx, setAllEx]=useState({})
+    //const [allEx, setAllEx]=useState({})
+    const [allEx, setAllEx]=useState([])
     const [checked, setChecked] = useState([])//names of checked
-    const [exercises, setExercises] = useState([]);
+    const [exercises, setExercises] = useState([])
+    const [ref, setRef] = useState([])
 
     const newGetAllExercises = async () => {
       let config = {
@@ -27,9 +29,13 @@ function ExercisePage() {
         console.log(response.data)
         console.log(keys)
         console.log(data)
-        // setExercises(response.data)
+
+        //setExercises(response.data)
+
         renderExercises(response.data)
-        setAllEx(response.data)
+        //setExercises(data)
+
+        //setAllEx(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -45,6 +51,7 @@ function ExercisePage() {
         result.push(opt)
       }
       setExercises(result)
+      setAllEx(result)
   }
 
   useEffect(() => {
@@ -59,11 +66,21 @@ function ExercisePage() {
           /*
           if checked, it iterates through exercises and adds only ones that contain the tag name to show
            */
+
           checked.push(e.target)
-          let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[4].includes(e.target.name)));
+          console.log(exercises)
+          /*
+          let filtered = Object.fromEntries(Object.entries(exercises).filter(v => v[3].includes(e.target.name)));
           setExercises(filtered)
           console.log(filtered)
           console.log(checked)
+           */
+          //let filtered = exercises.filter(v => console.log(v.props.exercise));
+
+          let filtered = exercises.filter(v => v.props.exercise[3].includes(e.target.name));
+          setExercises(filtered)
+          console.log(filtered)
+
       } else {
           /*
           this should only run if it was initially checked and now unchecked
@@ -80,8 +97,13 @@ function ExercisePage() {
               console.log("here")
               arr.forEach(id => {
                   console.log(id)
-                      let filtered = Object.fromEntries(Object.entries(allEx).filter(([k, v]) => v[4].includes(id.name)));
+                  /*
+                      let filtered = Object.fromEntries(Object.entries(allEx).filter(([k, v]) => v[3].includes(id.name)));
                       setExercises(filtered)
+
+                   */
+                  let filtered = exercises.filter(v => v.props.exercise[3].includes(id.name));
+                  setExercises(filtered)
                   }
               )
           } else {
