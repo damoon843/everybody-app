@@ -97,7 +97,7 @@ function ExerciseModal(props){
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
     let newDuration = duration * 60;
-    const fileURL = await uploadFile(getUploadedURL);
+    const fileURL = "google.com";
 
     console.log(fileURL)
 
