@@ -9,9 +9,8 @@ services:
       context: ./
       dockerfile: src/Dockerfile
     ports:
+      - "8080:8080"
       - "4567"
-    expose:
-      - "8080"
   web:
     image: everybody-frontend
     build:

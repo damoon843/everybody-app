@@ -67,3 +67,7 @@ To create containers from images and start/restart all Docker services to run th
 ```
 docker-compose up
 ```
+To build containers before running them in a single step:
+```
+docker-compose up --build
+```
