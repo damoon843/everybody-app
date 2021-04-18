@@ -1,16 +1,13 @@
-import React, {useEffect} from "react";
+import React from "react";
 import './AllExercises.css'
 
+/**
+ * Wrapper component for all the exercises updated in the parent component.
+ * @param {*} props the list of exercises to render on the exercises page.
+ * @returns the currently selected exercises.
+ */
 function AllExercises(props){
     let exercises = props.exercises
-
-    /*
-    Contains all of exercises that are updated in the parent component
-     */
-
-    useEffect(() => {
-    }, []);
-
     return (
         <div className="exercises">
             <h3 id="page-title">Exercises</h3>

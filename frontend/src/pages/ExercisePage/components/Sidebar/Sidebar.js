@@ -2,20 +2,24 @@ import React from 'react';
 import './Sidebar.css';
 import {Button} from "react-bootstrap";
 
+/**
+ * Sidebar controls filter functionality by linking the checks and button to the appropriate functions in the parent component, ExercisePage.
+ * @param {*} props 
+ * @returns 
+ */
 function Sidebar(props){
-    /*
-    Sidebar controls filter functionality by linking the checks and button to the appropriate functions in the parent
-    component, ExercisePage.
+    /**
+     * Clears selected exercises when the user presses the "reset" button.
+     * @param {*} e 
      */
-
-    //clears the checks when it is reset
     const checkClick = (e)=> {
         let x = document.getElementsByTagName("input");
         for(let i=0; i<=x.length-1; i++) {
             x[i].checked = false;
         }
     }
-  return (
+
+    return (
       <div className = "filters">
         <h3 id="filter-header">Filter Exercises</h3>
         <h4 className="filter-title">Type</h4>

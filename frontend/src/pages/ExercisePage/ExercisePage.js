@@ -5,36 +5,44 @@ import AllExercises from "./components/AllExercises/AllExercises";
 import ExerciseItem from "../../components/ExerciseItem/ExerciseItem"
 import axios from "axios";
 
+/**
+ * ExercisePage displays the filter and a grid of exercises that is retrieved from the post request made by the newGetAllExercises method. State hooks were used to manage the resulting exercises; allEx maintains a copy of the full exercise list, exercises maintains the exercises to be displayed, and checked keeps track of categories that were checked by the filter panel.
+ * @returns 
+ */
 function ExercisePage() {
-    /*
-    ExercisePage displays the filter and a grid of exercises that is retrieved from the post request made by
-    the newGetAllExercises method. State hooks were used to manage the resulting exercises; allEx maintains a copy
-    of the full exercise list, exercises maintains the exercises to be displayed, and checked keeps track of categories
-    that were checked by the filter panel.
-     */
-    const [allEx, setAllEx]=useState([])
-    const [checked, setChecked] = useState([])
-    const [exercises, setExercises] = useState([])
+  // state variable for storing list of all exercises
+  const [allEx, setAllEx] = useState([])
+  // state variable for seeing which option is checked
+  const [checked, setChecked] = useState([])
+  // state variable for storing currently checked exercises
+  const [exercises, setExercises] = useState([])
 
-    const newGetAllExercises = async () => {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          'Access-Control-Allow-Origin': '*',
-        }
+  /**
+   * Gets the list of all exercises from the database. Calls renderExercises to store as ExerciseItem objects
+   */
+  const getAllExercises = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
       }
-      await axios.post(
-        "http://localhost:4567/publicExercises",
-        config,
-      )
-      .then(response => {
-        renderExercises(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     }
+    await axios.post(
+      "http://localhost:4567/publicExercises",
+      config,
+    )
+    .then(response => {
+      renderExercises(response.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
+  /**
+   * Renders the exercise data from getAllExercises as a list of exercise objects.
+   * @param {*} exerciseData 
+   */
   const renderExercises = (exerciseData) => {
       const data = Object.values(exerciseData)
       const keys = Object.keys(exerciseData)
@@ -48,7 +56,7 @@ function ExercisePage() {
   }
 
   useEffect(() => {
-    newGetAllExercises()
+    getAllExercises()
   }, []);
 
 
@@ -84,7 +92,7 @@ function ExercisePage() {
   //function is passed into the sidebar, triggered onclick
   const resetEx=()=>{
       checked.length = 0
-      newGetAllExercises()
+      getAllExercises()
   };
 
   //displays a grid of exercises and filter bar
