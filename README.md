@@ -22,7 +22,7 @@ Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua 
 
 **Backend:** TODO: fill this out.
 
-**Frontend:**
+## Frontend
 
 We created the frontend website in React and used React Bootstrap + Font Awesome for general styling. The frontend is divided into four main parts: `components`, `pages`, `api.js`, and `assets`.
 
@@ -40,11 +40,11 @@ Additionally, to keep our code modular, we created a separate directory for each
 
 We used `useRef` to maintain state for each page, and we implemented sessions/cookies to keep the current user logged in on the app. Additionally, we used the React Router library to define separate routes for each page, allowing the user to navigate around the site. Finally, we validated the user input for each form (login, signing up, submitting new exercises and workouts) to ensure users sent correctly formatted data to the backend.
 
-### api.js
+#### api.js
 
 We separated some of our commonly used GET/POST requests (such as following/unfollowing a user, liking/unliking a post) into `api.js`. Like the `components` folder, this allowed us to reuse the functions across the website without redefining them each time.
 
-### Assets
+#### Assets
 
 The `assets` folder holds images that we use across the website.
 
