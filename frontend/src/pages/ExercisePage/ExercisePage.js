@@ -98,7 +98,7 @@ function ExercisePage() {
   };
 
   return (
-    <div className="exercise-page">
+    <div className="exercise-page fade-in">
       <div className = "sidebar">
         <Sidebar  resetEx = {resetEx} updateExercises = {updateExercises} />
       </div>

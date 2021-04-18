@@ -9,13 +9,14 @@ function ProfilePage(props){
   const [userData, setUserData] = useState({})
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
+  const [toggleLiked, setToggle] = useState(false);
 
   useEffect(() => {
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
     console.log(props.userData.current)
-  }, []);
+  }, [render]);
 
   const rerender = (val) => {
     setRender(val);
@@ -96,24 +97,37 @@ function ProfilePage(props){
         });
   }
 
+  const toggle = () => {
+    let val = toggleLiked
+    setToggle(!val)
+  }
+
   return (
     <div className="profile-page fade-in">
       <ProfileCard id="profile-card" userData={userData} rerender={rerender} />
       <div className="workout-wrapper">
-      <div className="myWorkouts">
-      <h3 id="myWorkouts">My Workouts</h3>
-      <div className="profile-workouts">
-        {userWorkouts}
-      </div>
-
-      </div>
-          <div className="line"></div>
-      <div className="likedWorkouts">
-      <h3 id="likedWorkouts">Liked Workouts</h3>
-      <div className="liked-workouts">
-        {likedWorkouts}
-      </div>
-      </div>
+          {
+            toggleLiked ?
+            <div className="myWorkouts">
+              <div className="workout-header">
+                <h3 id="myWorkouts">Liked Workouts</h3>
+                <button onClick={toggle} className="toggle-btn profile-toggle">Show my workouts</button>
+              </div>
+              <div className="liked-workouts">
+                {likedWorkouts}
+              </div>
+            </div>
+            :
+            <div className="myWorkouts">
+              <div className="workout-header">
+                <h3 id="myWorkouts">My Workouts</h3>
+                <button onClick={toggle} className="toggle-btn profile-toggle">Show liked workouts</button>
+              </div>
+              <div className="profile-workouts">
+                {userWorkouts}
+              </div>
+            </div>
+          }
       </div>
     </div>
   );
