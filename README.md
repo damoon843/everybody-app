@@ -1,4 +1,4 @@
-# CS0320 Term Project 2021: EveryBODY App
+# CS0320 Term Project 2021: EveryBODY App :runner:
 ![](everyBODY_logo.png)
 
 **Team Members:**
