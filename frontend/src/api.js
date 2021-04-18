@@ -1,5 +1,9 @@
 import axios from 'axios'
 
+/*
+This file contains requests for following/unfollowing as well as liking/unliking
+ */
+
 export const followUser = async (toSend) => {
   let config = {
     headers: {
