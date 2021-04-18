@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
+import WorkoutItemProfile from "./components/WorkoutSelf/WorkoutItemProfile";
 import axios from 'axios';
 
 function ProfilePage(props){
@@ -64,7 +64,7 @@ function ProfilePage(props){
     )
     .then(response => {
       const data = response.data.workouts;
-      props.changeMyWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      props.changeMyWorkouts(data.map((workout) => <WorkoutItemProfile changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
       setUserWorkouts(props.myWorkouts.current)
     })
     .catch(function (error) {
@@ -89,7 +89,7 @@ function ProfilePage(props){
     )
         .then(response => {
           const data = response.data.workouts
-          props.changeLikedWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+          props.changeLikedWorkouts(data.map((workout) => <WorkoutItemProfile changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
           setLikedWorkouts(props.likedWorkouts.current)
         })
         .catch(function (error) {

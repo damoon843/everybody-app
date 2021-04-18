@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
-import './WorkoutItem.css';
+import './WorkoutItemHome.css';
 import axios from 'axios';
 import {Card, Button} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import WorkoutPage from '../../../WorkoutPage/WorkoutPage'
 import {Link} from 'react-router-dom';
 
-function WorkoutItem(props){
+function WorkoutItemHome(props){
   const [following, setFollowing] = useState(props.workout.following === 'true')
   const [like, setLike] = useState(false)
   const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
@@ -179,4 +179,4 @@ function WorkoutItem(props){
     </Card>
   );
 }
-export default WorkoutItem
+export default WorkoutItemHome

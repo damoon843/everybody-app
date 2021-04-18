@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import './ExercisePage.css';
 import Sidebar from "./components/Sidebar/Sidebar";
-import Exercise from "./components/Exercise";
+import AllExercises from "./components/AllExercises/AllExercises";
 import ExerciseItem from "../../components/ExerciseItem/ExerciseItem"
 import axios from "axios";
 
@@ -120,9 +120,6 @@ function ExercisePage() {
 
 
   };
-  const getChecked =()=>{
-
-  }
 
   const resetEx=()=>{
       checked.length = 0
@@ -135,7 +132,7 @@ function ExercisePage() {
         <Sidebar  resetEx = {resetEx} updateExercises = {updateExercises} />
       </div>
       <div className = "exercises">
-        <Exercise  exercises={exercises}/>
+        <AllExercises  exercises={exercises}/>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useRef} from "react";
-import './Exercise.css'
-import ExerciseItem from '../../../components/ExerciseItem/ExerciseItem'
+import './AllExercises.css'
+import ExerciseItem from '../../../../components/ExerciseItem/ExerciseItem'
 
-function Exercise(props){
+function AllExercises(props){
     let exercises = props.exercises
     // const [exerciseList, setExerciseList] = useState([]);
 
@@ -33,4 +33,4 @@ function Exercise(props){
         </div>
     );
 }
-export default Exercise
+export default AllExercises
