@@ -74,7 +74,7 @@ public final class Queries {
    */
   public static String getExerciseInfo() {
     return "SELECT exercise_name, media_link, duration,"
-      + " tags, description, created_at"
+      + " tags, description, created_at, username"
       + " FROM everybody_app.exercises WHERE exercise_id = ?;";
   }
 
