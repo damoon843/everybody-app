@@ -1,14 +1,16 @@
-# CS0320 Term Project 2021: EveryBODY App
+# CS0320 Term Project 2021: EveryBODY App :runner:
 ![](everyBODY_logo.png)
 
 **Team Members:**
 Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua Woo (@jwoo153)
 
-**App Overview:** With the new circumstances brought about by COVID-19, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts (strength or cardio-related), whether from user-uploaded videos on youtube or paid collections from a fitness organization. EveryBODY is the fitness social media app for all, by all, serving as a mobile platform to share and view other users' bodyweight workouts.
+## App Overview 
+
+With the new circumstances brought about by COVID-19, going to the gym for a workout with weights is not as accessible as before. Hence, there has been a noticeable increase in consumption of simple guided bodyweight workouts (strength or cardio-related), whether from user-uploaded videos on youtube or paid collections from a fitness organization. EveryBODY is the fitness social media app for all, by all, serving as a mobile platform to share and view other users' bodyweight workouts.
 
 **Final Presentation:** A link to the final product presentation can be found [here](https://docs.google.com/presentation/d/1__YhvloPYGBAoIf8TNcaFXsW2IOT7QlMt8n_5kbyh5w/edit#slide=id.gd2a99047a1_0_10).
 
-**Key Features:**
+## Key Features
 
 - Account Creation page: serving as the sign-up/log-in page, this page allows users to either log-in to an existing account or sign-up for a new account.
 
@@ -20,7 +22,10 @@ Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua 
 
 - My Profile page: this page displays information about a logged-in user, displaying a user's uploaded workouts and liked workouts. The user's workout preferences are also displayed here. The profile page contains functionality to delete all references of a user in the database.
 
-**Backend:** TODO: fill this out.
+## Backend 
+The backend is divided up into four folders: data, feedComponents, userComponents, and utils. 
+
+The data package contains all database-level logic: the DataSourcePool class is a wrapper for a connections pool, the PostgresDatabase class is driver class for all database queries (which extensively relies on JDBC API), and the Queries class is a constants class containing query strings that are used in the PostgresDatabase class. the feedComponents package contains all logic for a user's feed (exercises and workouts). The Workout class is a wrapper for a Workout object. In addition, there are two handler classes: RecommendationHandler handles the home-page algorithm (to return recommended workouts) and returns results from Kosaraju's algorithm, and FeedHandler handles all other workout and exercise-related logic (i.e. uploading an exercise, retrieving exercises for the Discover page, etc). The userComponents package contains all user-related logic with an AppUser class to encapsulate a user on the app. The UserHandlers class handles following/unfollowing, log-in/sign-up, user deletion, and user profile information retrieval. Lastly, the utils package contain miscellaneous utilities needed for the application. The ErrorConstants class holds all error message printed to the backend. The KosarajusAlgorithm class is a generic implementation of Kosaraju's Algorithm, taking in a user and finding that user's strongly-connected component in the graph. The Server class holds logic to start the server, as well as all endpoints that the frontend can request data from. The WorkoutComparator is used to compare two workouts by time created and like count.
 
 ## Frontend
 
@@ -48,9 +53,11 @@ We separated some of our commonly used GET/POST requests (such as following/unfo
 
 The `assets` folder holds images that we use across the website.
 
-**Algorithm:** TODO: fill this out.
+## Algorithm 
+TODO: fill this out.
 
-**Deployment** App deployment involved the following key services:
+## Deployment 
+App deployment involved the following key services:
 
 - Heroku: this was the core service used to deploy and scale the app under a unique domain name. Heroku provides dynos (application containers) in a fully-managed runtime environment
 
