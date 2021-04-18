@@ -675,7 +675,7 @@ public final class PostgresDatabase {
 //          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
 //            username, exerciseName));
           List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags,
-            description, username, time));
+            description, time));
           results.put(exerciseID, tempList);
         }
       } catch (SQLException ex) {
