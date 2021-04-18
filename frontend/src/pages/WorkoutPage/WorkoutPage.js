@@ -3,8 +3,6 @@ import './WorkoutPage.css';
 import axios from 'axios';
 import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
-// const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
-
 function WorkoutPage(props) {
   const [following, setFollowing] = useState(props.workout.current.following)
   const exercises = useRef([]);

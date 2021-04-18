@@ -10,7 +10,7 @@ function ProfileCard(props) {
 
   useEffect(() => {
     // convertPrefs();
-    props.rerender("hi")
+    // props.rerender("hi")
   }, []);
 
   const convertPrefs = (time) => {
@@ -59,8 +59,8 @@ function ProfileCard(props) {
 
   return (
     <div className="profile-card">
-      <h1>{props.userData.current.firstName} {props.userData.current.lastName}</h1>
-        <h2>Preferences: {convertPrefs(props.userData.current.workoutDuration)}, {props.userData.current.workoutType}. </h2>
+      <h1>{props.userData.firstName} {props.userData.lastName}</h1>
+        <h2>Preferences: {convertPrefs(props.userData.workoutDuration)}, {props.userData.workoutType}. </h2>
       <button className="delete-account" id="delete-btn" onClick={handleShow}>Delete Account</button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

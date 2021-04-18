@@ -6,6 +6,7 @@ import axios from 'axios';
 
 function ProfilePage(props){
   const [render, setRender] = useState("");
+  const [userData, setUserData] = useState({})
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
 
@@ -14,7 +15,7 @@ function ProfilePage(props){
     getLikedWorkouts();
     getUserWorkouts();
     console.log(props.userData.current)
-  }, [render]);
+  }, []);
 
   const rerender = (val) => {
     setRender(val);
@@ -37,6 +38,7 @@ function ProfilePage(props){
     )
     .then(response => {
       props.changeUserData(response.data)
+      setUserData(props.userData.current)
       console.log(props.userData)
     })
     .catch(function (error) {
@@ -96,7 +98,7 @@ function ProfilePage(props){
 
   return (
     <div className="profile-page fade-in">
-      <ProfileCard id="profile-card" userData={props.userData} rerender={rerender} />
+      <ProfileCard id="profile-card" userData={userData} rerender={rerender} />
       <div className="workout-wrapper">
       <div className="myWorkouts">
       <h3 id="myWorkouts">My Workouts</h3>
