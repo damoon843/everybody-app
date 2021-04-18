@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
 import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
@@ -11,6 +11,7 @@ function ProfilePage(props){
   // const [user, setUser] = useState({});
 
   useEffect(() => {
+    getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
@@ -19,6 +20,17 @@ function ProfilePage(props){
 
   const rerender = (val) => {
     setRender(val);
+  }
+
+  const getPrefs = async () => {
+    if (user.workoutDuration === 0) {
+        pref.current = "0-30 minutes";
+        // setPref("0-30 minutes");
+    } else if (user.workoutDuration === 1) {
+        pref.current = "30-60 minutes";
+    } else if (user.workoutDuration === 2) {
+        pref.current = "60+ minutes";
+    }
   }
 
   const getUser = async () => {
