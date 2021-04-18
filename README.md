@@ -36,8 +36,10 @@ The frontend uses the React framework as well as bootstrap imports for the UI. T
 
 - PostgreSQL Database: this was the relational database management system (RDBMS) used to store all relational data and structure the database schema. This Postgres DB is hosted on Heroku provisioned as an add-on to the app.
 
+- Amazon S3: this was the cloud-based storage service used to hold all images for workouts/exercises (upload to S3 occurs when a user first creates a workout/exercise).
+
 ## How to Build and Run
-Note that the following commands are meant to be run in a development/testing context; the production-level app is deployed at (INSERT URL HERE). The following commands can be used to run individual backend / frontend components.
+Note that the following commands are meant to be run in a development/testing context; the production-level app is deployed on Heroku. The following commands can be used to run individual backend / frontend components.
 
 To compile the source code of this project:
 ```
