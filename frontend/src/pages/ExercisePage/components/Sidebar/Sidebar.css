@@ -1,26 +1,39 @@
-.filters{
-    width: 19rem;
-    height: 28rem;
+.filters {
+    width: 20rem;
+    height: 24rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 1rem;
+    padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-    margin: 4rem 2rem;
+    margin: 3rem 2rem;
     background-color: white;
+    position: fixed;
 }
-.type-tag {
-    list-style-type: none;
-    columns: 2 ;
+
+.filter-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
 }
-.body-tag{
-    list-style-type: none;
-    columns: 2;
 
+.filter-col {
+    display: flex;
+    flex-direction: column;
 }
-.ratings{
-    list-style-type: none;
-    columns: 1;
 
+#filter-header {
+    margin: 1rem 0 0;
+}
 
+.checkbox-input {
+    margin: 0 0.5rem;
+}
+
+.filter-title {
+    margin: 1rem 0 0.5rem 0;
+}
+
+#reset-btn {
+    margin: 1rem 0;
 }

@@ -1,80 +1,71 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import './Exercise.css'
 import ExerciseData from "../../../data/exercises.json";
+import ExerciseItem from '../../../components/ExerciseItem/ExerciseItem'
 
 function Exercise(props){
-    //let exercises = [{title: "Mountain Climbers", duration: "15 min", user: "Tim Nelson", description: "This is an short, intensive exercise focused on the core",thumbnail: "https://blog.fitbit.com/wp-content/uploads/2018/08/0816-summer-workouts-HERO.jpg", category: "cardio", tags: ["arms", "abs"]}, {description: "This is an short, intensive exercise focused on the core",title: "Planks", duration: "30 min", user: "Spike", thumbnail: "https://cdn10.phillymag.com/wp-content/uploads/2016/12/running-shoe-cecilie-arcurs-istock-940x540.jpg", category: "bodyweight", tags: ["legs"]},
-       // {description: "This is an short, intensive exercise focused on the core",title: "Crunches", duration: "20 min", user: "Andy Van Dam", thumbnail: "https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Fitness/Articles/Twice+a+Day/man+working+out-carousel.jpg", category: "weights", tags: ["legs", "abs"]}];
-
     let exercises = props.exercises
-    // let exercises = ExerciseData;
-    //console.log(exercises);
+    const [exerciseList, setExerciseList] = useState([]);
 
     useEffect(() => {
-        //getWorkouts();
+        console.log(exercises)
         renderWorkouts();
-    });
-    /*
-    return this.props.movies.map((movie) => (
-        <MovieItem
-            key={movie.id}
-            movie={movie}
-            genres={this.getGenres(movie.genre_ids, this.props.genres)}
-        />
-    ));
-     */
-
-    // TODO: fill this out with a GET request
-
+    }, []);
 
     const renderWorkouts = () => {
 
-        const anchor = document.getElementById("ex-grid-anchor")
-        anchor.innerHTML = '';
+        // const anchor = document.getElementById("ex-grid-anchor")
+        // anchor.innerHTML = '';
+        let result = [];
         if (exercises) {
-            //for (const [key, value] of Object.entries(object))
-            /*exercises.forEach((values,keys) =>*/for (const [keys, values] of Object.entries(exercises)) {//this would be done by props.exercise or something
-                const container = document.createElement("div")
-                const text = document.createElement("div")
-                const title = document.createElement("h5")
-                const info = document.createElement("p")
-                const description = document.createElement("p")
-                const followBtn = document.createElement("button")
-                const tags = document.createElement("p")
-                const thumbnail = document.createElement("img")
-                // const btn = document.createElement("button")
+            for (const [keys, values] of Object.entries(exercises)) {
+                // const container = document.createElement("div")
+                // const text = document.createElement("div")
+                // const title = document.createElement("h5")
+                // const info = document.createElement("p")
+                // const description = document.createElement("p")
+                // const followBtn = document.createElement("button")
+                // const tags = document.createElement("p")
+                // const thumbnail = document.createElement("img")
+                // // const btn = document.createElement("button")
 
-                title.innerText = values[6] + " ("+ values[1]+' min)'//exercise.title;
-                info.innerText =  "User: "+ values[5]
-                description.innerText = values[3]
-                tags.innerText = "tags: "+ values[4]
-                thumbnail.src = "https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg"
-                // btn.value = "View Exercise"
-                followBtn.value = "follow"
+                // title.innerText = values[6] + " ("+ values[1]+' min)'//exercise.title;
+                // info.innerText =  "User: "+ values[5]
+                // description.innerText = values[3]
+                // tags.innerText = "tags: "+ values[4]
+                // thumbnail.src = "https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg"
+                // // btn.value = "View Exercise"
+                // followBtn.value = "follow"
 
-                thumbnail.className = "workout-image"
-                info.className = "exercise-info"
-                text.className = "exercise-text"
-                container.className = "exercise-container"
-                // btn.className = "workout-btn"
-                // btn.innerHTML = "View Exercise"
+                // thumbnail.className = "workout-image"
+                // info.className = "exercise-info"
+                // text.className = "exercise-text"
+                // container.className = "exercise-container"
+                // // btn.className = "workout-btn"
+                // // btn.innerHTML = "View Exercise"
 
-                container.append(thumbnail)
-                text.append(title)
-                text.append(description)
-                text.append(info)
-                text.append(tags)
+                // container.append(thumbnail)
+                // text.append(title)
+                // text.append(description)
+                // text.append(info)
+                // text.append(tags)
 
-                container.append(text)
-                // container.append(btn)
-                anchor.append(container)
+                // container.append(text)
+                // // container.append(btn)
+                // anchor.append(container)
+                // const elt = <ExerciseItem exercise={values} />
+                console.log(values)
+                // result.push(elt);
             };
+            setExerciseList(result)
         }
     }
     return (
         <div className="exercises">
             <h3 id="page-title">Exercises</h3>
-            <div id="ex-grid-anchor"></div>
+            <div id="ex-grid-anchor">
+                { exerciseList }
+            </div>
         </div>
     );
 }
