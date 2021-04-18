@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import WorkoutItemProfile from "./components/WorkoutSelf/WorkoutItemProfile";
+import WorkoutItemProfile from "./components/WorkoutItemProfile/WorkoutItemProfile";
 import axios from 'axios';
 
 function ProfilePage(props){
