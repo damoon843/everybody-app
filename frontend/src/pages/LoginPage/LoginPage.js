@@ -57,10 +57,11 @@ function LoginPage(props) {
         config
       )
       .then(response => {
-        // TODO: check if returns true
-        props.changeUsername(data.username)
-        props.history.push('/home');
-        console.log(response.data)
+        if (response.data.queryStatus === "success") {
+          props.changeUsername(data.username)
+          props.history.push('/home');
+          console.log(response.data)
+        }
       })
       .catch(function (error) {
         err.innerText = "Error: could not create account."
@@ -91,10 +92,10 @@ function LoginPage(props) {
         config
       )
       .then(response => {
-        // TODO: check if returns true
-        props.changeUsername(data.username)
-        props.history.push('/home');
-        console.log(response.data)
+        if (response.data.status === "Log-in succeeded.") {
+          props.changeUsername(data.username)
+          props.history.push('/home');
+        }
       })
       .catch(function (error) {
         err.innerText = "Error: could not log in."
