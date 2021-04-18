@@ -37,9 +37,7 @@ function Home(props) {
         const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
         exerciseList.push(opt)
       }
-      console.log(exerciseList)
       exercises.current = exerciseList
-      console.log(exercises.current)
     })
     .catch(function (error) {
       console.log(error);
@@ -49,13 +47,12 @@ function Home(props) {
   useEffect(() => {
     getExercises()
     saveUsername()
-    console.log(username.current)
   }, [render, exercises])
 
   return (
     <div className="home fade-in">
       <div className="upload">
-        <h5>Upload Activities</h5>
+        <h3>Upload Activities</h3>
         <ExerciseModal render={render} rerender={rerender} username={username.current} id="exercise-modal"/>
         <WorkoutModal username={username.current} exercises={exercises} id="workout-modal"/>
       </div>

@@ -1,37 +1,25 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './ProfilePage.css';
 import ProfileCard from "./components/ProfileCard/ProfileCard";
-import WorkoutSelf from "./components/WorkoutSelf/WorkoutSelf";
+import WorkoutItemProfile from "./components/WorkoutItemProfile/WorkoutItemProfile";
 import axios from 'axios';
 
 function ProfilePage(props){
   const [render, setRender] = useState("");
+  const [userData, setUserData] = useState({})
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
-  // const [user, setUser] = useState({});
+  const [toggleLiked, setToggle] = useState(false);
 
   useEffect(() => {
-    // getPrefs();
     getUser();
     getLikedWorkouts();
     getUserWorkouts();
-    console.log(props.userData.current)
   }, [render]);
 
   const rerender = (val) => {
     setRender(val);
   }
-
-  // const getPrefs = async () => {
-  //   if (user.workoutDuration === 0) {
-  //       pref.current = "0-30 minutes";
-  //       // setPref("0-30 minutes");
-  //   } else if (user.workoutDuration === 1) {
-  //       pref.current = "30-60 minutes";
-  //   } else if (user.workoutDuration === 2) {
-  //       pref.current = "60+ minutes";
-  //   }
-  // }
 
   const getUser = async () => {
     let config = {
@@ -50,10 +38,10 @@ function ProfilePage(props){
     )
     .then(response => {
       props.changeUserData(response.data)
-      console.log(props.userData)
+      setUserData(props.userData.current)
     })
     .catch(function (error) {
-      console.log(error.response.data);
+      console.log(error);
     });
   }
 
@@ -74,7 +62,8 @@ function ProfilePage(props){
     )
     .then(response => {
       const data = response.data.workouts;
-      setUserWorkouts(data.map((workout) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      props.changeMyWorkouts(data.map((workout) => <WorkoutItemProfile changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+      setUserWorkouts(props.myWorkouts.current)
     })
     .catch(function (error) {
       console.log(error);
@@ -98,31 +87,45 @@ function ProfilePage(props){
     )
         .then(response => {
           const data = response.data.workouts
-          setLikedWorkouts(data.map((workout1) => <WorkoutSelf changeWorkout={props.changeWorkout} key={workout1.workout_id} workout={workout1} username={props.username}/>))
+          props.changeLikedWorkouts(data.map((workout) => <WorkoutItemProfile changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>))
+          setLikedWorkouts(props.likedWorkouts.current)
         })
         .catch(function (error) {
           console.log(error);
         });
   }
 
+  const toggle = () => {
+    let val = toggleLiked
+    setToggle(!val)
+  }
+
   return (
     <div className="profile-page fade-in">
-      <ProfileCard id="profile-card" userData={props.userData} rerender={rerender} />
+      <ProfileCard id="profile-card" userData={userData} rerender={rerender} username={props.username} />
       <div className="workout-wrapper">
-      <div className="myWorkouts">
-      <h3 id="myWorkouts">My Workouts</h3>
-      <div className="profile-workouts">
-        {userWorkouts}
-      </div>
-
-      </div>
-          <div className="line"></div>
-      <div className="likedWorkouts">
-      <h3 id="likedWorkouts">Liked Workouts</h3>
-      <div className="liked-workouts">
-        {likedWorkouts}
-      </div>
-      </div>
+          {
+            toggleLiked ?
+            <div className="myWorkouts">
+              <div className="workout-header">
+                <h3 id="myWorkouts">Liked Workouts</h3>
+                <button onClick={toggle} className="toggle-btn profile-toggle">Show my workouts</button>
+              </div>
+              <div className="liked-workouts">
+                {likedWorkouts}
+              </div>
+            </div>
+            :
+            <div className="myWorkouts">
+              <div className="workout-header">
+                <h3 id="myWorkouts">My Workouts</h3>
+                <button onClick={toggle} className="toggle-btn profile-toggle">Show liked workouts</button>
+              </div>
+              <div className="profile-workouts">
+                {userWorkouts}
+              </div>
+            </div>
+          }
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import './WorkoutPage.css';
 import axios from 'axios';
-import ExerciseItem from './components/ExerciseItem/ExerciseItem'
-
-// const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
+import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
+import {followUser, unfollowUser} from '../../api.js';
 
 function WorkoutPage(props) {
   const [following, setFollowing] = useState(props.workout.current.following)
-  const exercises = useRef([]);
+  const [exercises, setExercises] = useState([]);
 
   const getWorkoutExercises = async () => {
     let config = {
@@ -17,10 +16,9 @@ function WorkoutPage(props) {
       }
     }
     let toSend = {
-      username: props.username.current,
+      username: props.workout.current.posting_user,
       workoutName: props.workout.current.workout_name
     }
-    console.log(toSend)
     await axios.post(
       "http://localhost:4567/getWorkoutExercises",
       toSend,
@@ -32,62 +30,9 @@ function WorkoutPage(props) {
       let exerciseList = [];
       for (let i = 0; i < keys.length; i++) {
         const opt = <ExerciseItem key={keys[i]} exercise={data[i]}/>
-        // const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
         exerciseList.push(opt)
       }
-      console.log(exerciseList)
-      exercises.current = exerciseList
-      console.log(exercises.current)
-    })
-    .catch(function (error) {
-      console.log(error.response.data);
-    });
-  }
-
-  const followUser = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      username: props.username.current,
-      following: props.workout.current.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/follow",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const unfollowUser = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      username: props.username.current,
-      following: props.workout.current.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/unfollow",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
+      setExercises(exerciseList)
     })
     .catch(function (error) {
       console.log(error);
@@ -95,12 +40,16 @@ function WorkoutPage(props) {
   }
 
   const toggleFollowing = () => {
+    const toSend = {
+      username: props.username.current,
+      following: props.workout.current.posting_user
+    }
     if (following) {
-      unfollowUser().then(response => {
+      unfollowUser(toSend).then(response => {
         setFollowing(false)
       })
     } else {
-      followUser().then(response => {
+      followUser(toSend).then(response => {
         setFollowing(true)
       })
     }
@@ -108,9 +57,7 @@ function WorkoutPage(props) {
 
   useEffect(() => {
     getWorkoutExercises()
-    console.log("hi")
-    console.log(props.workout)
-  }, [following, exercises])
+  }, [following])
 
   return (
     <div className="workout-page fade-in">
@@ -120,7 +67,7 @@ function WorkoutPage(props) {
           <h2>{props.workout.current.description}</h2>
           <div className="workout-detail-user">
             <h4 id="workout-detail-poster">{props.workout.current.posting_user}</h4>
-              {props.workout.current.following 
+              {following 
             ? <button className="detail-following-btn" onClick={toggleFollowing}>Following</button> : <button className="detail-follow-btn" onClick={toggleFollowing}>Follow</button>}
           </div>
           <div className="additional-details">
@@ -130,10 +77,8 @@ function WorkoutPage(props) {
         <hr></hr>
         <h2 id="workout-subheading">Exercises</h2>
         <div className="workout-page-exercises">
-        { exercises.current }
+          {exercises}
         </div>
-        {/* { exercises } */}
-        {/* <ExerciseItem/> */}
       </div>
     </div>
   );

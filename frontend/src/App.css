@@ -10,6 +10,11 @@
   flex-direction: column;
 }
 
+.link-btn, .link-btn:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .submit-btn {
   border: none;
   color: white;
@@ -20,6 +25,7 @@
 
 .submit-btn:hover {
   cursor: pointer;
+  color: white;
   transition: 0.2s ease-in-out;
   background-color: #49b5ca;
 }
@@ -36,6 +42,21 @@
   cursor: pointer;
   transition: 0.2s ease-in-out;
   background-color: #9e9e9e
+}
+
+.toggle-btn {
+  border: 1px solid #858585;
+  background-color: transparent;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.toggle-btn:hover {
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  border: 1px solid #858585;
+  background-color: #858585;
+  color: white;
 }
 
 .modal-title {

@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
-// import { getRecommendations } from '../../../../api';
-import WorkoutItem from '../WorkoutItem/WorkoutItem';
+import WorkoutItemHome from '../WorkoutItem/WorkoutItemHome';
 import './Recommendations.css';
 import axios from 'axios';
+import {Spinner} from 'react-bootstrap'
+
+let recData1 = []
 
 function Recommendations(props) {
   const [recs, setRecs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     getRecommendations();
@@ -27,12 +30,11 @@ function Recommendations(props) {
       config,
     )
     .then(response => {
-      console.log(response)
       const data = response.data.workouts
-      console.log(data)
-      const result = data.map(workout => <WorkoutItem changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
-      console.log(result)
-      setRecs(result)
+      const result = data.map(workout => <WorkoutItemHome changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
+      recData1 = result;
+      setRecs(recData1)
+      setLoaded(true)
     })
     .catch(function (error) {
       console.log(error);
@@ -43,7 +45,9 @@ function Recommendations(props) {
     <div className="home-main">
       <h3 id="recommendations">Recommended for you</h3>
       <div className="home-recs">
-        { recs }
+        { loaded ? recs : <Spinner animation="border" role="status" className="rec-loading">
+  <span className="sr-only">Loading...</span>
+</Spinner> }
       </div>
     </div>
   );

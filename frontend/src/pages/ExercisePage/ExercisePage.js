@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'; 
 import './ExercisePage.css';
 import Sidebar from "./components/Sidebar/Sidebar";
-import Exercise from "./components/Exercise";
+import AllExercises from "./components/AllExercises/AllExercises";
+import ExerciseItem from "../../components/ExerciseItem/ExerciseItem"
 import axios from "axios";
 
 function ExercisePage() {
-    const [allEx, setAllEx]=useState({})
-    const [checked, setChecked] = useState([])//names of checked
-    const [exercises, setExercises] = useState({});
+    const [allEx, setAllEx]=useState([])
+    const [checked, setChecked] = useState([])
+    const [exercises, setExercises] = useState([])
 
     const newGetAllExercises = async () => {
       let config = {
@@ -21,36 +22,37 @@ function ExercisePage() {
         config,
       )
       .then(response => {
-        const data = Object.values(response.data)
-        const keys = Object.keys(response.data)
-        console.log(response.data)
-        console.log(keys)
-        console.log(data)
-        setExercises(response.data)
-        setAllEx(response.data)
+        renderExercises(response.data)
       })
       .catch(function (error) {
         console.log(error);
       });
     }
 
+  const renderExercises = (exerciseData) => {
+      const data = Object.values(exerciseData)
+      const keys = Object.keys(exerciseData)
+      let result = [];
+      for (let i = 0; i < keys.length; i++) {
+        const opt = <ExerciseItem key={keys[i]} exercise={data[i]}/>
+        result.push(opt)
+      }
+      setExercises(result)
+      setAllEx(result)
+  }
+
   useEffect(() => {
     newGetAllExercises()
   }, []);
 
   const updateExercises = (e) => {
-      console.log("clicked")
-      console.log(exercises)
-
       if (e.target.checked) {
           /*
           if checked, it iterates through exercises and adds only ones that contain the tag name to show
            */
           checked.push(e.target)
-          let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[4].includes(e.target.name)));
+          let filtered = exercises.filter(v => v.props.exercise[3].includes(e.target.name));
           setExercises(filtered)
-          console.log(filtered)
-          console.log(checked)
       } else {
           /*
           this should only run if it was initially checked and now unchecked
@@ -59,51 +61,34 @@ function ExercisePage() {
           2. do a for loop where you do the similar thing as in the target checked
           arr = arr.filter(e => e !== 'B')
            */
-          let arr = checked.filter(box=> box !=e.target)
+          let arr = checked.filter(box=> box !== e.target)
           setChecked(arr)
-          console.log(arr.length)
-          console.log(checked.length)
           if (arr.length >0) {
-              console.log("here")
               arr.forEach(id => {
-                  console.log(id)
-                      let filtered = Object.fromEntries(Object.entries(allEx).filter(([k, v]) => v[4].includes(id.name)));
-                      setExercises(filtered)
+                  let filtered = exercises.filter(v => v.props.exercise[3].includes(id.name));
+                  setExercises(filtered)
                   }
               )
           } else {
-              console.log("setting to allEx")
               setExercises(allEx)
           }
-          // let filtered = Object.fromEntries(Object.entries(exercises).filter(([k,v]) => v[4].includes(e.target.name)));
-          // setExercises(filtered)
-          //console.log(filtered)
-
-          console.log('Not checked');
-          console.log(arr)
       }
 
 
   };
-  const getChecked =()=>{
-
-  }
 
   const resetEx=()=>{
       checked.length = 0
       newGetAllExercises()
-      /*
-      resetting exercises--> deselect the checkboxes
-       */
   };
 
   return (
-    <div className="exercise-page">
+    <div className="exercise-page fade-in">
       <div className = "sidebar">
         <Sidebar  resetEx = {resetEx} updateExercises = {updateExercises} />
       </div>
       <div className = "exercises">
-        <Exercise  exercises={exercises}/>
+        <AllExercises  exercises={exercises}/>
       </div>
     </div>
   );

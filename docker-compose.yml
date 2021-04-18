@@ -3,22 +3,21 @@ version: '3.9'
 services:
   backend:
     image: everybody-app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
     build:
       context: ./
       dockerfile: src/Dockerfile
-# TODO: may not need DB details here
-#  db:
-#    image: postgres:latest
-#    ports:
-#      - 5432:5432
+    ports:
+      - "8080:8080"
+      - "4567"
   web:
     image: everybody-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - "3000:3000"
     command: 'npm start'
     depends_on:
       - backend
-#      - db

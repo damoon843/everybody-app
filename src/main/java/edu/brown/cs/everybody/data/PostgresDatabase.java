@@ -239,8 +239,9 @@ public final class PostgresDatabase {
 
       try (ResultSet res = stmt1.executeQuery()) {
         while (res.next()) {
-          Integer exerciseId = res.getInt("exercise_id");
-          exerciseIds.add(exerciseId);
+          Array exerciseIdsArray = res.getArray("exercises");
+          exerciseIds = Arrays.asList((Integer[]) exerciseIdsArray.getArray());
+          System.out.println(exerciseIds);
         }
       } catch (SQLException ex) {
         tearDownConnection();
@@ -264,6 +265,7 @@ public final class PostgresDatabase {
               Array tagArray = res.getArray("tags");
               String description = res.getString("description");
               Date createdAt = res.getDate("created_at");
+              String createdBy = res.getString("username");
 
               // Convert Date obj to milliseconds
               Long time = createdAt.getTime();
@@ -271,7 +273,7 @@ public final class PostgresDatabase {
               // Cast java.sql array to java.utils array
               String[] tags = (String[]) tagArray.getArray();
 
-              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags, description, time));
+              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags, description, createdBy, time));
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
@@ -286,6 +288,8 @@ public final class PostgresDatabase {
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
+
+      System.out.println(results);
       return results;
     }
   }
@@ -662,8 +666,8 @@ public final class PostgresDatabase {
           // Cast java.sql array to java.utils array
           String[] tags = (String[]) sqlTags.getArray();
 
-          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
-            username, exerciseName));
+          List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags,
+            description, username, time));
           results.put(exerciseID, tempList);
         }
       } catch (SQLException ex) {

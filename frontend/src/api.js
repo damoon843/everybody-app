@@ -1,46 +1,5 @@
-import axios from 'axios';
-// import userSession from './userSession.js'
+import axios from 'axios'
 
-/** GET REQUESTS */
-
-// gets an existing workout
-// id: the workout's unique ID
-export const getWorkout = async (id) => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  await axios.get(
-      "http://localhost:4567/getWorkout/" + id,
-      config
-  )
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
-// gets all exercises in the database, regardless of user
-export const getAllExercises = async () => {
-  let config = {
-    headers: {
-      "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
-    }
-  }
-  let res = await axios.get(
-    "http://localhost:4567/publicExercises",
-    config
-  )
-  return res.data
-}
-
-// follows a user
-// data: information about the user and following
 export const followUser = async (toSend) => {
   let config = {
     headers: {
@@ -55,33 +14,72 @@ export const followUser = async (toSend) => {
       config
   )
   .then(response => {
-    console.log(document.cookie)
-    return response.data;
+    console.log(response)
   })
   .catch(function (error) {
     console.log(error);
   });
 }
 
-// follows a user
-// data: information about the user and following
 export const unfollowUser = async (toSend) => {
   let config = {
     headers: {
       "Content-Type": "application/json",
       'Access-Control-Allow-Origin': '*',
+      "withCredentials": "true"
     }
   }
   await axios.post(
-    "http://localhost:4567/unfollow",
-    toSend,
-    config
+      "http://localhost:4567/unfollow",
+      toSend,
+      config
   )
   .then(response => {
-    return response.data;
+    console.log(response)
   })
   .catch(function (error) {
     console.log(error);
   });
 }
 
+export const likePost = async (toSend) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+      "withCredentials": "true"
+    }
+  }
+  await axios.post(
+      "http://localhost:4567/registerLike",
+      toSend,
+      config
+  )
+  .then(response => {
+    console.log(response)
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+export const unlikePost = async (toSend) => {
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      'Access-Control-Allow-Origin': '*',
+      "withCredentials": "true"
+    }
+  }
+  await axios.post(
+      "http://localhost:4567/unregisterLike",
+      toSend,
+      config
+  )
+  .then(response => {
+    console.log(response)
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}

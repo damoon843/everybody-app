@@ -5,7 +5,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-image: url("https://static01.nyt.com/images/2020/03/10/well/physed-immune1/physed-immune1-mediumSquareAt3X.jpg");
+  background-image: url("../../assets/login-bg.jpg");
 }
 
 .nav-link {
@@ -54,7 +54,7 @@
 }
 
 .login-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.97);
   width: 30rem;
   padding: 2rem;
   border: 1px solid rgb(192, 192, 192);

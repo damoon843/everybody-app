@@ -12,9 +12,11 @@ require('dotenv').config();
 
 function App() {
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
-  let username = useRef("")
+  let username = useRef("");
   let userData = useRef({});
-  let workout = useRef({})
+  let workout = useRef({});
+  let myWorkouts = useRef([]);
+  let likedWorkouts = useRef([]);
 
   const changeUsername = (newName) => {
     username.current = newName;
@@ -25,9 +27,15 @@ function App() {
   }
 
   const changeWorkout = (newWorkout) => {
-    console.log(workout.current)
     workout.current = newWorkout
-    console.log(workout.current)
+  }
+
+  const changeMyWorkouts = (newWorkouts) => {
+    myWorkouts.current = newWorkouts
+  }
+
+  const changeLikedWorkouts = (newWorkouts) => {
+    likedWorkouts.current = newWorkouts
   }
 
   return (
@@ -43,7 +51,7 @@ function App() {
         </Route>
         <Route path="/profile">
           <Toolbar changeUsername={changeUsername} />
-          <ProfilePage changeWorkout={changeWorkout} username={username} userData={userData} changeUserData={changeUserData}/>
+          <ProfilePage changeWorkout={changeWorkout} username={username} userData={userData} changeUserData={changeUserData} changeMyWorkouts={changeMyWorkouts} changeLikedWorkouts={changeLikedWorkouts} myWorkouts={myWorkouts} likedWorkouts={likedWorkouts} />
         </Route>
         <Route path="/home">
           <Toolbar changeUsername={changeUsername} />

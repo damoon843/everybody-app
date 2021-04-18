@@ -1,0 +1,17 @@
+#ex-grid-anchor {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 2rem;
+}
+#page-title {
+    margin: 6rem 3rem -1rem 3rem;
+}
+
+.exercise-info {
+    color: grey;
+  }
+
+.exercises {
+    margin-left: 12rem;
+}

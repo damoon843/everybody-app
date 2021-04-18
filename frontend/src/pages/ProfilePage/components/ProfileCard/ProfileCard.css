@@ -1,6 +1,6 @@
 .profile-card {
   width: 90vw;
-  height: 7rem;
+  height: 10rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -33,4 +33,9 @@
 .modal-footer-btns {
   display: flex;
   flex-wrap: wrap;
+}
+
+.profile-card-text {
+  display: flex;
+  flex-direction: column;
 }
