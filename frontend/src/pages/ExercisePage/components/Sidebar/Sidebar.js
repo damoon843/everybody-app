@@ -21,11 +21,11 @@ function Sidebar(props){
         <div className="filter-div">
             <div className="filter-col">
                 <label for="abs"><input className="checkbox-input" type = "checkbox" name = "abs" id = "abs" onChange={props.updateExercises}/>Abs</label>
-                <label for="abs"><input className="checkbox-input" type = "checkbox" name = "chest" id = "chest" onChange={props.updateExercises}/>Chest</label>
+                <label for="chest"><input className="checkbox-input" type = "checkbox" name = "chest" id = "chest" onChange={props.updateExercises}/>Chest</label>
             </div>
             <div className="filter-col">
-                <label for="abs"><input className="checkbox-input" type = "checkbox" name = "legs" id = "legs" onChange={props.updateExercises}/>Legs</label>
-                <label for="abs"><input className="checkbox-input" type = "checkbox" name = "arms" id = "arms" onChange={props.updateExercises}/>Arms</label>
+                <label for="legs"><input className="checkbox-input" type = "checkbox" name = "legs" id = "legs" onChange={props.updateExercises}/>Legs</label>
+                <label for="arms"><input className="checkbox-input" type = "checkbox" name = "arms" id = "arms" onChange={props.updateExercises}/>Arms</label>
             </div>
         </div>
       <Button id="reset-btn" onClick={()=>{props.resetEx();checkClick()}} variant ="outline-dark">Reset</Button>
