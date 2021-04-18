@@ -24,6 +24,8 @@ Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua 
 
 **Frontend:** TODO: fill this out.
 
+The frontend uses the React framework as well as bootstrap imports for the UI. The frontend structure is partioned into different 'page' folders, each containing a general javascript file (that exports a React functional component) as well as a corresponding css file. Each page also contains a folder titled 'components', which factor the functionality and styling of different parts of a given page. Each of these pages can be accessed from anywhere on the webpage via a 'header' component that routes to different parts of the website. To maintain information across a given session for a user, we utilized 'useRefs' on App.js that store information related to the logged in user and pass this information down to the children pages as props. Each page has a useEffect that call methods that retrieve specific information from the database through a POST/GET request.    
+
 **Algorithm:** TODO: fill this out.
 
 **Deployment** App deployment involved the following key services:
