@@ -99,7 +99,6 @@ public class AppUser {
    * @return priority queue of workouts ordered by recency posted
    */
   public PriorityQueue<Workout> getWorkouts() {
-    // TODO
     return this.workouts;
   }
 
@@ -108,7 +107,6 @@ public class AppUser {
    * @param w workout to add
    */
   public void addWorkout(Workout w) {
-    // TODO
     this.workouts.add(w);
   }
 

@@ -71,7 +71,6 @@ public class RecommendationHandler {
         highBoundDuration = Integer.MAX_VALUE;
       }
 
-      // TODO: INCORPORATE THIS
       String tagPreference = user.getWorkoutType();
 
       // inserts 6 workouts from people user follows into finalSortedWorkouts

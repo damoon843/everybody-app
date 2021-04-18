@@ -19,12 +19,6 @@ public final class PostgresDatabase {
 //  private static PostgresDatabase singleInstance = null;
   private static Connection dbConn = null;
 
-  // TODO: cache getUser?
-  // TODO: look into connection pooling
-  // main.java concurrency (stretch feature)
-  // cache of users, getUser/getFollowers query called in constructor so also cached?
-
-
   /* Hidden constructor to avoid instantiation */
   private PostgresDatabase() {
   }
@@ -460,19 +454,18 @@ public final class PostgresDatabase {
    * @param workout workout id
    */
   public static void addRecentlyViewed(int user, int workout) throws SQLException, URISyntaxException {
-// TODO: UNCOMMENT
-//    setUpConnection();
-//    String insertString = Queries.insertViewedWorkout();
-//    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
-//      stmt.setInt(1, user);
-//      stmt.setInt(2, workout);
-//      stmt.execute();
-//    } catch (SQLException ex) {
-//      tearDownConnection();
-//      System.out.println(ex.getMessage());
-//      throw new SQLException(ex.getMessage());
-//    }
-//    tearDownConnection();
+    setUpConnection();
+    String insertString = Queries.insertViewedWorkout();
+    try (PreparedStatement stmt = dbConn.prepareStatement(insertString)) {
+      stmt.setInt(1, user);
+      stmt.setInt(2, workout);
+      stmt.execute();
+    } catch (SQLException ex) {
+      tearDownConnection();
+      System.out.println(ex.getMessage());
+      throw new SQLException(ex.getMessage());
+    }
+    tearDownConnection();
   }
 
   /**
