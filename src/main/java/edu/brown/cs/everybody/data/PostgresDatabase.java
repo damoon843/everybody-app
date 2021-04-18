@@ -235,9 +235,6 @@ public final class PostgresDatabase {
     String queryString = Queries.getExercisesFromWorkout();
     List<Integer> exerciseIds = new ArrayList<>();
 
-    System.out.println(username);
-    System.out.println(workoutName);
-
     // Retrieve order of exercise IDs
     try (PreparedStatement stmt1 = dbConn.prepareStatement(queryString)) {
       stmt1.setString(1, username);
@@ -271,6 +268,7 @@ public final class PostgresDatabase {
               Array tagArray = res.getArray("tags");
               String description = res.getString("description");
               Date createdAt = res.getDate("created_at");
+              String createdBy = res.getString("username");
 
               // Convert Date obj to milliseconds
               Long time = createdAt.getTime();
@@ -278,7 +276,7 @@ public final class PostgresDatabase {
               // Cast java.sql array to java.utils array
               String[] tags = (String[]) tagArray.getArray();
 
-              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags, description, time));
+              List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags, description, createdBy, time));
               results.put(id, tempList);
             }
           } catch (SQLException ex) {
@@ -672,10 +670,8 @@ public final class PostgresDatabase {
           // Cast java.sql array to java.utils array
           String[] tags = (String[]) sqlTags.getArray();
 
-//          List<Object> tempList = new ArrayList<>(Arrays.asList(time, duration, mediaLink, description, tags,
-//            username, exerciseName));
           List<Object> tempList = new ArrayList<>(Arrays.asList(exerciseName, mediaLink, duration, tags,
-            description, time));
+            description, username, time));
           results.put(exerciseID, tempList);
         }
       } catch (SQLException ex) {
