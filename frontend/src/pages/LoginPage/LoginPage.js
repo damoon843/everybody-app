@@ -186,6 +186,9 @@ function LoginPage(props) {
                     </div>
                   </div>
                 </div>
+                <div> Note: Your preference information will only be used tailor your recommendation feed appropriately,
+                  and be shown to other users on your profile page. Your name will also be shown on your profile. Please reach
+                out to our team for more detailed information.</div>
                 <button className="btn submit-btn" id="signup-btn" onClick={createUser}>
                   Sign Up
                 </button>
