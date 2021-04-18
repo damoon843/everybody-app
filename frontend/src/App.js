@@ -10,30 +10,63 @@ import Toolbar from './components/Toolbar/Toolbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 require('dotenv').config();
 
+/**
+ * The base of the app. Sets up the routes to each page.
+ * 
+ * @returns the routes to each page
+ */
 function App() {
+  // set the styling for the overall app
   document.body.style = 'background-color: #f2f4f5; font-family: "Overpass", sans-serif;';
+  
+  // store the user's username, user data, workouts, liked workouts, and the workout to be displayed on the individual workout page
   let username = useRef("");
   let userData = useRef({});
-  let workout = useRef({});
   let myWorkouts = useRef([]);
   let likedWorkouts = useRef([]);
+  let workout = useRef({});
 
+  /**
+   * Change the value of the username ref
+   * 
+   * @param {*} newName the name to change the username ref to
+   */
   const changeUsername = (newName) => {
     username.current = newName;
   }
 
+  /**
+   * Change the value of the userData ref
+   * 
+   * @param {*} data the data to change the userData ref to
+   */
   const changeUserData = (data) => {
     userData.current = data;
   }
 
+  /**
+   * Change the value of the workout ref
+   * 
+   * @param {*} newWorkout the workout to change the current workout ref to
+   */
   const changeWorkout = (newWorkout) => {
     workout.current = newWorkout
   }
 
+  /**
+   * Change the value of the myWorkouts ref
+   * 
+   * @param {*} newWorkouts the list of my workouts to change to
+   */
   const changeMyWorkouts = (newWorkouts) => {
     myWorkouts.current = newWorkouts
   }
 
+  /**
+   * Change the value of the likedWorkouts ref
+   * 
+   * @param {*} newWorkouts the list of liked workouts to change to
+   */
   const changeLikedWorkouts = (newWorkouts) => {
     likedWorkouts.current = newWorkouts
   }
