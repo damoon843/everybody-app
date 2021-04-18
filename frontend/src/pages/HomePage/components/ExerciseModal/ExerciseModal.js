@@ -93,13 +93,13 @@ function ExerciseModal(props){
     checkedVals.push(type);
     let newDuration = duration * 60;
     const media = document.getElementById('exercise-media').value;
-    const filename = uploadFile();
+    const fileURL = uploadFile();
 
     if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
         username: props.username,
         exerciseName: title,
-        mediaLink: filename,
+        mediaLink: fileURL,
         duration: newDuration,
         tags: checkedVals,
         description: desc
