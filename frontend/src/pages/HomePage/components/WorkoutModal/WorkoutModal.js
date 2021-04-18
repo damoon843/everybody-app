@@ -27,7 +27,7 @@ function WorkoutModal(props){
     const desc = document.getElementById('workout-description').value;
     const exerciseList = getSelected('select-exercises');
     const media = document.getElementById('exercise-media').value;
-    const filename = uploadFile();
+    const filename = "google.com";
     let msg = document.getElementById("workout-form-msg");
     msg.innerText = "";
 
