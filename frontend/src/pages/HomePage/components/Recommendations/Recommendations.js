@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 // import { getRecommendations } from '../../../../api';
 import WorkoutItem from '../WorkoutItem/WorkoutItem';
 import './Recommendations.css';
 import axios from 'axios';
+
+let recData1 = []
 
 function Recommendations(props) {
   const [recs, setRecs] = useState([]);
@@ -32,7 +34,8 @@ function Recommendations(props) {
       console.log(data)
       const result = data.map(workout => <WorkoutItem changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
       console.log(result)
-      setRecs(result)
+      recData1 = result;
+      setRecs(recData1)
     })
     .catch(function (error) {
       console.log(error);
