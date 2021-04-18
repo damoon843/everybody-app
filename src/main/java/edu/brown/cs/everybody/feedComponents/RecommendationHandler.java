@@ -20,7 +20,7 @@ public class RecommendationHandler {
   private static final Gson GSON = new Gson();
 
   /**
-   * Static class which handles the getRecommendations post request.
+   * Static class which handles the getRecommendations post request and returns 14 workouts.
    */
   public static class Handler implements Route {
     @Override
@@ -71,17 +71,17 @@ public class RecommendationHandler {
         highBoundDuration = Integer.MAX_VALUE;
       }
 
-      // TODO: INCORPORATE THIS
+      // INCORPORATE THIS EVENTUALLY
       String tagPreference = user.getWorkoutType();
 
-      // inserts 6 workouts from people user follows into finalSortedWorkouts
+      // inserts 4 workouts from people user follows into finalSortedWorkouts
       PriorityQueue<Workout> finalSortedWorkouts = new PriorityQueue<>(new WorkoutComparator());
       int counter = 0;
       List<Integer> following = user.getFollowing();
       if (!following.isEmpty()) {
         Collections.shuffle(following);
         for (int followingUserID : following) {
-          if (counter == 6) {
+          if (counter == 4) {
             break;
           }
           AppUser followingUser;
@@ -114,14 +114,14 @@ public class RecommendationHandler {
         }
       }
 
-      // inserts 4 workouts from strongly connected users into output
+      // inserts 3 workouts from strongly connected users into output
       int counter2 = 0;
       List<Integer> scc = user.getStronglyConnected();
       scc.remove(Integer.valueOf(user.getUserID()));
       if (!scc.isEmpty()) {
         Collections.shuffle(scc);
         for (int connectedUserID : scc) {
-          if (counter2 == 4) {
+          if (counter2 == 3) {
             break;
           }
           AppUser connectedUser;
@@ -153,9 +153,9 @@ public class RecommendationHandler {
         }
       }
 
-      // Gets additional workouts if needed to reach 14 total workouts
-      // (so minimum of 4 community workouts are added)
-      int additionalWorkoutsNeeded = 14 - (counter + counter2);
+      // Gets additional workouts if needed to reach 9 total workouts
+      // (so minimum of 2 community workouts are added)
+      int additionalWorkoutsNeeded = 9 - (counter + counter2);
       PriorityQueue<Workout> additionalWorkouts;
 
       while (additionalWorkoutsNeeded > 0) {

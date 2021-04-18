@@ -46,19 +46,19 @@ public class KosarajusAlgorithm {
     firstRun.add(user);
     while (!queue.isEmpty()) {
       int startUser = queue.poll();
-      List<Integer> following = PostgresDatabase.getFollowing(user);
+      List<Integer> following = PostgresDatabase.getFollowing(startUser);
       for (int followingUser : following) {
+        if (reverseRelations.containsKey(followingUser)) {
+          reverseRelations.get(followingUser).add(startUser);
+        } else {
+          List<Integer> lst = new ArrayList<>();
+          lst.add(startUser);
+          reverseRelations.put(followingUser, lst);
+        }
         if (!visited.contains(followingUser)) {
           queue.add(followingUser);
           visited.add(followingUser);
           firstRun.add(followingUser);
-          if (reverseRelations.containsKey(followingUser)) {
-            reverseRelations.get(followingUser).add(startUser);
-          } else {
-            List<Integer> lst = new ArrayList<>();
-            lst.add(startUser);
-            reverseRelations.put(followingUser, lst);
-          }
         }
       }
     }
