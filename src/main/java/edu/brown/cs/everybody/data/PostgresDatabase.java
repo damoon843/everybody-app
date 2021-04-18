@@ -235,6 +235,9 @@ public final class PostgresDatabase {
     String queryString = Queries.getExercisesFromWorkout();
     List<Integer> exerciseIds = new ArrayList<>();
 
+    System.out.println(username);
+    System.out.println(workoutName);
+
     // Retrieve order of exercise IDs
     try (PreparedStatement stmt1 = dbConn.prepareStatement(queryString)) {
       stmt1.setString(1, username);
@@ -242,8 +245,9 @@ public final class PostgresDatabase {
 
       try (ResultSet res = stmt1.executeQuery()) {
         while (res.next()) {
-          Integer exerciseId = res.getInt("exercise_id");
-          exerciseIds.add(exerciseId);
+          Array exerciseIdsArray = res.getArray("exercises");
+          exerciseIds = Arrays.asList((Integer[]) exerciseIdsArray.getArray());
+          System.out.println(exerciseIds);
         }
       } catch (SQLException ex) {
         tearDownConnection();
@@ -289,6 +293,8 @@ public final class PostgresDatabase {
         throw new SQLException(ex.getMessage());
       }
       tearDownConnection();
+
+      System.out.println(results);
       return results;
     }
   }

@@ -236,27 +236,9 @@ public class FeedHandlers {
       Map<String, Object> variables;
       Map<Integer, List<Object>> exercises;
 
-      String username = "";
+      String username = data.getString("username");
       String workoutName = data.getString("workoutName");
 
-      // Retrieve session
-      Session session = request.session(false);
-      if (session != null) {
-        // Retrieval successful, get username
-        username = session.attribute("username");
-      } else {
-        // Retrieval failed
-        System.out.println(ErrorConstants.ERROR_NULL_SESSION);
-        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        variables = ImmutableMap.of("error", ErrorConstants.ERROR_NULL_SESSION);
-        return GSON.toJson(variables);
-      }
-      if(username.equals("")) {
-        System.out.println(ErrorConstants.ERROR_SESSION_USERNAME);
-        response.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        variables = ImmutableMap.of("error", ErrorConstants.ERROR_SESSION_USERNAME);
-        return GSON.toJson(variables);
-      }
       try {
         exercises = PostgresDatabase.getUserExercises(username, workoutName);
       } catch(SQLException ex) {
