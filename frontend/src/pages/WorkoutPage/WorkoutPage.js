@@ -1,16 +1,48 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react'; 
 import './WorkoutPage.css';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
 // const workout = {workout_name: "Sample Workout Name", workout_id: 1 , posting_user: "johnnyappleseed", created_at: "2021-04-15", description: "This is the description of the sample workout.", duration: 180, media_link: "google.com", like_count: 5, following: false}
 
 function WorkoutPage(props) {
-  const [following, setFollowing] = useState(props.workout.following)
-  const [like, setLike] = useState(false)
-  const [likeCount, setLikeCount] = useState(parseInt(props.workout.like_count))
+  const [following, setFollowing] = useState(props.workout.current.following)
+  const exercises = useRef([]);
+
+  const getWorkoutExercises = async () => {
+    let config = {
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
+    let toSend = {
+      username: props.username.current,
+      workoutName: props.workout.current.workout_name
+    }
+    console.log(toSend)
+    await axios.post(
+      "http://localhost:4567/getWorkoutExercises",
+      toSend,
+      config,
+    )
+    .then(response => {
+      const data = Object.values(response.data)
+      const keys = Object.keys(response.data)
+      let exerciseList = [];
+      for (let i = 0; i < keys.length; i++) {
+        const opt = <ExerciseItem key={keys[i]} exercise={data[i]}/>
+        // const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
+        exerciseList.push(opt)
+      }
+      console.log(exerciseList)
+      exercises.current = exerciseList
+      console.log(exercises.current)
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+    });
+  }
 
   const followUser = async () => {
     let config = {
@@ -22,7 +54,7 @@ function WorkoutPage(props) {
     }
     let toSend = {
       username: props.username.current,
-      following: props.workout.posting_user
+      following: props.workout.current.posting_user
     }
     await axios.post(
         "http://localhost:4567/follow",
@@ -47,60 +79,10 @@ function WorkoutPage(props) {
     }
     let toSend = {
       username: props.username.current,
-      following: props.workout.posting_user
+      following: props.workout.current.posting_user
     }
     await axios.post(
         "http://localhost:4567/unfollow",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const likePost = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      workoutName: props.workout.workout_name,
-      poster: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/registerLike",
-        toSend,
-        config
-    )
-    .then(response => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
-  const unlikePost = async () => {
-    let config = {
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Origin': '*',
-        "withCredentials": "true"
-      }
-    }
-    let toSend = {
-      workoutName: props.workout.workout_name,
-      poster: props.workout.posting_user
-    }
-    await axios.post(
-        "http://localhost:4567/unregisterLike",
         toSend,
         config
     )
@@ -124,26 +106,11 @@ function WorkoutPage(props) {
     }
   }
 
-  const toggleLike = () => {
-    if (like) {
-      unlikePost().then(response => {
-        setLike(false)
-        const newCount = likeCount - 1
-        setLikeCount(newCount)
-      })
-    } else {
-      likePost().then(response => {
-        setLike(true)
-        const newCount = likeCount + 1
-        console.log(newCount)
-        setLikeCount(newCount)
-      })
-    }
-  }
-
   useEffect(() => {
+    getWorkoutExercises()
+    console.log("hi")
     console.log(props.workout)
-  }, [following, like, likeCount, props.workout])
+  }, [following, exercises])
 
   return (
     <div className="workout-page fade-in">
@@ -162,7 +129,11 @@ function WorkoutPage(props) {
         </div>
         <hr></hr>
         <h2 id="workout-subheading">Exercises</h2>
-        <ExerciseItem/>
+        <div className="workout-page-exercises">
+        { exercises.current }
+        </div>
+        {/* { exercises } */}
+        {/* <ExerciseItem/> */}
       </div>
     </div>
   );
