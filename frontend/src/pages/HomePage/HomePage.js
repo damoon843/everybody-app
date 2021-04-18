@@ -54,6 +54,7 @@ function Home(props) {
   useEffect(() => {
     getExercises()
     saveUsername()
+    console.log(username.current)
   }, [render, exercises])
 
   return (

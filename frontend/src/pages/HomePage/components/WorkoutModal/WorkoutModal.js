@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
 import axios from 'axios';
-const AWS = require('aws-sdk');
 
 function WorkoutModal(props){
   const [show, setShow] = useState(false);
@@ -21,24 +20,30 @@ function WorkoutModal(props){
     return selected;
   }
 
-  const submitWorkout = async (e) => {
-    e.preventDefault();
+  const getWorkoutVals = () => {
     const title = document.getElementById('workout-title').value;
     const desc = document.getElementById('workout-description').value;
     const exerciseList = getSelected('select-exercises');
-    // const media = document.getElementById('exercise-media').value;
-    const filename = "google.com";
+    const media = "https://live.staticflickr.com/2006/32646057752_71fae65725_b.jpg";
+    const toSend = {
+      exerciseList: exerciseList,
+      mediaLink: media,
+      description: desc,
+      username: props.username,
+      workoutName: title,
+    };
+    return toSend;
+  }
+
+  const submitWorkout = async (e) => {
+    e.preventDefault();
+    const toSend = getWorkoutVals();
     let msg = document.getElementById("workout-form-msg");
     msg.innerText = "";
 
-    // if ((exerciseList.length > 0) && title && desc && media && props.username) {
-      const toSend = {
-        exerciseList: exerciseList,
-        mediaLink: filename,
-        description: desc,
-        username: props.username,
-        workoutName: title,
-      };
+    console.log(props.username)
+
+    if ((toSend.exerciseList.length > 0) && toSend.workoutName && toSend.description && toSend.mediaLink && props.username) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -62,56 +67,11 @@ function WorkoutModal(props){
         msg.innerText = "Error: could not submit workout.";
         console.log(error);
       });
-    // } else if (!props.username) { 
-    //   msg.innerText = "Please ensure you are logged in.";
-    // } else {
-    //   console.log(exerciseList)
-    //   console.log(title)
-    //   console.log(desc)
-    //   console.log(props.username)
-    //   msg.innerText = "Please fill out all fields.";
-    // }
-  }
-
-  const uploadFile = () => {
-    // TODO: hide configs
-    const BUCKET_NAME = "everybody-app-media";
-    const ID = "AKIAVJ5YBZZRZONHA7PD";
-    const SECRET = "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";
-    let uploadedURL = "";
-
-    const s3 = new AWS.S3({
-      accessKeyId: ID,
-      secretAccessKey: SECRET
-    });
-
-    const file = inputFile.current.files[0];
-    const filename = inputFile.current.files[0].name
-
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = function(){
-      // Read operation done, upload file content
-      let fileContent = reader.result;
-
-      // // Setting up S3 upload parameters
-      const params = {
-        Bucket: BUCKET_NAME,
-        Key: filename,
-        Body: fileContent,
-        ACL: 'public-read',
-      };
-
-      // // Uploading files to the bucket
-      s3.upload(params, function(err, data) {
-        if (err) {
-          throw err;
-        }
-        uploadedURL = data.Location;
-        console.log(`File uploaded successfully. ${data.Location}`);
-      });
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
+    } else {
+      msg.innerText = "Please fill out all fields.";
     }
-    return uploadedURL;
   }
 
   return (

@@ -15,7 +15,7 @@ function WorkoutItemProfile(props){
 
   return (
     <Card className="workout-self">
-      <Card.Img alt="workout item thumbnail" variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
+      <Card.Img alt="workout item thumbnail" variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9sp0U82qOF8DUvVZt0pgIp03jhi7tQxdCpg&usqp=CAU" />
       <Card.Body>
           <div className="workout-title">
             <h4>{props.workout.workout_name}</h4>

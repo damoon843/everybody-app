@@ -3,8 +3,6 @@ import {Modal} from 'react-bootstrap';
 import './ExerciseModal.css';
 import axios from 'axios';
 
-const AWS = require('aws-sdk');
-
 function ExerciseModal(props){
   const [show, setShow] = useState(false);
   const inputFile = useRef();
@@ -34,54 +32,24 @@ function ExerciseModal(props){
     return result;
   }
 
-  const uploadFile = (callback) => {
-    let uploadedURL = "";
-
-    const BUCKET_NAME = "everybody-app-media";
-    const ID = "AKIAVJ5YBZZRZONHA7PD";
-    const SECRET = "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";
-
-    const s3 = new AWS.S3({
-      accessKeyId: ID,
-      secretAccessKey: SECRET
-    });
-
-    const file = inputFile.current.files[0];
-    const filename = inputFile.current.files[0].name
-
-    let reader = new FileReader();
-    // Read data from file
-    reader.readAsDataURL(file);
-
-    // NOTE: this func is called when reading from file finishes
-    reader.onloadend = function() {
-      // Read operation done, upload file content
-      let fileContent = reader.result;
-
-      // // Setting up S3 upload parameters
-      const params = {
-        Bucket: BUCKET_NAME,
-        Key: filename,
-        Body: fileContent,
-        ACL: 'public-read',
-      };
-
-      // // Uploading files to the bucket
-      s3.upload(params, function(err, data) {
-        if (err) {
-          throw err;
-        }
-        uploadedURL = data.Location;
-        console.log(`File uploaded successfully. ${data.Location}`);
-        callback(uploadedURL);
-      });
-    }
-  }
-
-  const getUploadedURL = function(url) {
-    console.log(url)
-    console.log("IN CALLBACK")
-    return url;
+  const getExerciseVals = () => {
+    const title = document.getElementById('exercise-title').value;
+    const desc = document.getElementById('exercise-description').value;
+    let duration = document.getElementById('exercise-duration').value;
+    let type = getRadioVal('exercise-type-pref');
+    let checkedVals = getCheckedVals('body-tags');
+    checkedVals.push(type);
+    let newDuration = duration * 60;
+    const fileURL = "https://live.staticflickr.com/2006/32646057752_71fae65725_b.jpg";
+    const toSend = {
+      username: props.username,
+      exerciseName: title,
+      mediaLink: fileURL,
+      duration: newDuration,
+      tags: checkedVals,
+      description: desc
+    };
+    return toSend;
   }
 
   const submitExercise = async (e) => {
@@ -90,26 +58,10 @@ function ExerciseModal(props){
     let msg = document.getElementById("exercise-form-msg")
     msg.innerText = ""
 
-    const title = document.getElementById('exercise-title').value;
-    const desc = document.getElementById('exercise-description').value;
-    let duration = document.getElementById('exercise-duration').value;
-    let type = getRadioVal('exercise-type-pref');
-    let checkedVals = getCheckedVals('body-tags');
-    checkedVals.push(type);
-    let newDuration = duration * 60;
-    const fileURL = "google.com";
+    const toSend = getExerciseVals();
 
-    console.log(fileURL)
+    if ((toSend.tags.length > 1) && toSend.exerciseName && toSend.duration && toSend.description && toSend.mediaLink && props.username) {
 
-    // if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
-      const toSend = {
-        username: props.username,
-        exerciseName: title,
-        mediaLink: fileURL,
-        duration: newDuration,
-        tags: checkedVals,
-        description: desc
-      };
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +77,7 @@ function ExerciseModal(props){
         if (response.status === 200) {
           msg.innerText = "Exercise submitted successfully!";
           setTimeout(function(){ 
-            props.rerender(title);
+            props.rerender(toSend.exerciseName);
             handleClose(); 
           }, 1000);
         }
@@ -134,17 +86,11 @@ function ExerciseModal(props){
         msg.innerText = "Error: could not submit exercise.";
         console.log(error);
       });
-    // } else if (!props.username) { 
-    //   msg.innerText = "Please ensure you are logged in.";
-    // } else {
-    //   console.log(props.username)
-    //   console.log(title)
-    //   console.log(media)
-    //   console.log(newDuration)
-    //   console.log(checkedVals)
-    //   console.log(desc)
-    //   msg.innerText = "Please fill out all fields.";
-    // }
+    } else if (!props.username) { 
+      msg.innerText = "Please ensure you are logged in.";
+    } else {
+      msg.innerText = "Please fill out all fields.";
+    }
   }
 
   return (
