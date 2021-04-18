@@ -3,13 +3,27 @@ import {Modal} from 'react-bootstrap';
 import './ExerciseModal.css';
 import axios from 'axios';
 
+/**
+ * The modal to upload a new exercise.
+ * 
+ * @param {*} props used to get user information for submitting a new exercise.
+ * @returns submits a new exercise.
+ */
 function ExerciseModal(props){
-  const [show, setShow] = useState(false);
+  // used to get the value of the input file
   const inputFile = useRef();
 
+  // handles displaying/hiding the exercise modal
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  /**
+   * Gets the value from a group of radio buttons.
+   * 
+   * @param {*} element the element with the group of radio buttons.
+   * @returns the selected radio value
+   */
   const getRadioVal = (element) => {
     const options = document.getElementsByName(element);
     let val = "";
@@ -21,6 +35,12 @@ function ExerciseModal(props){
     return val;
   }
 
+  /**
+   * Gets the values from a group of checkboxes.
+   * 
+   * @param {*} element 
+   * @returns the selected checkbox values
+   */
   const getCheckedVals = (element) => {
     let result = []
     let markedCheckbox = document.getElementsByName(element);  
@@ -32,6 +52,11 @@ function ExerciseModal(props){
     return result;
   }
 
+  /**
+   * Gets the values entered into the exercise modal for submission.
+   * 
+   * @returns an object representing the values of the exercise.
+   */
   const getExerciseVals = () => {
     const title = document.getElementById('exercise-title').value;
     const desc = document.getElementById('exercise-description').value;
@@ -52,16 +77,19 @@ function ExerciseModal(props){
     return toSend;
   }
 
+  /**
+   * Submits the exercise to the backend.
+   * 
+   * @param {*} e the event upon which the exercise is submitted
+   */
   const submitExercise = async (e) => {
     e.preventDefault();
-
     let msg = document.getElementById("exercise-form-msg")
     msg.innerText = ""
-
     const toSend = getExerciseVals();
 
+    // check if all the values have been filled out
     if ((toSend.tags.length > 1) && toSend.exerciseName && toSend.duration && toSend.description && toSend.mediaLink && props.username) {
-
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -77,6 +105,7 @@ function ExerciseModal(props){
         if (response.status === 200) {
           msg.innerText = "Exercise submitted successfully!";
           setTimeout(function(){ 
+            // update the list of exercises in the workout modal
             props.rerender(toSend.exerciseName);
             handleClose(); 
           }, 1000);
@@ -86,9 +115,9 @@ function ExerciseModal(props){
         msg.innerText = "Error: could not submit exercise.";
         console.log(error);
       });
-    } else if (!props.username) { 
+    } else if (!props.username) { // check if the user is logged in
       msg.innerText = "Please ensure you are logged in.";
-    } else {
+    } else { // if the user hasn't filled out all the fields
       msg.innerText = "Please fill out all fields.";
     }
   }
@@ -98,7 +127,6 @@ function ExerciseModal(props){
       <button id="exercise-modal-btn" className="submit-btn" onClick={handleShow}>
         Upload Exercise
       </button>
-
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="modal-title">Upload Exercise</Modal.Title>
@@ -142,7 +170,9 @@ function ExerciseModal(props){
           <button className="close-btn" onClick={handleClose}>
             Close
           </button>
-          <button className="submit-btn" onClick={submitExercise}>Upload Exercise</button>
+          <button className="submit-btn" onClick={submitExercise}>
+            Upload Exercise
+          </button>
         </Modal.Footer>
       </Modal>
     </div>
