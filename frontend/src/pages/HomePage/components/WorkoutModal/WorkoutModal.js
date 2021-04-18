@@ -114,11 +114,6 @@ function WorkoutModal(props){
     return uploadedURL;
   }
 
-  useEffect(() => {
-    console.log("in the workout modal")
-    console.log(props.exercises.current)
-  })
-
   return (
     <div className="exercise-modal">
       <button id="workout-modal-btn" className="submit-btn" onClick={handleShow}>

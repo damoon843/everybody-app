@@ -1,9 +1,9 @@
 import React from 'react'; 
 import {Card} from 'react-bootstrap'
-import './WorkoutSelf.css';
+import './WorkoutItemProfile.css';
 import {Link} from 'react-router-dom';
 
-function WorkoutSelf(props){
+function WorkoutItemProfile(props){
   const url = "/workout/" + props.workout.workout_id
 
   const updateWorkout = () => {
@@ -23,4 +23,4 @@ function WorkoutSelf(props){
     </Card>
   );
 }
-export default WorkoutSelf
+export default WorkoutItemProfile

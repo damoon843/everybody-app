@@ -39,7 +39,6 @@ function LoginPage(props) {
     let err = document.getElementById("err-msg-signup")
     err.innerText = ""
     const data = getSignUpVals()
-    console.log(data)
     if (!data.firstName || !data.lastName || !data.username || !data.password || !data.workoutType || !data.workoutDuration) {
       err.innerText = "Please fill out all fields."
     } else {
@@ -50,17 +49,16 @@ function LoginPage(props) {
           'Access-Control-Allow-Origin': '*',
         }
       }
-      console.log(toSend)
       await axios.post(
         "http://localhost:4567/newUser",
         toSend,
         config
       )
       .then(response => {
-        // TODO: check if returns true
-        props.changeUsername(data.username)
-        props.history.push('/home');
-        console.log(response.data)
+        if (response.data.queryStatus === "success") {
+          props.changeUsername(data.username)
+          props.history.push('/home');
+        }
       })
       .catch(function (error) {
         err.innerText = "Error: could not create account."
@@ -91,10 +89,10 @@ function LoginPage(props) {
         config
       )
       .then(response => {
-        // TODO: check if returns true
-        props.changeUsername(data.username)
-        props.history.push('/home');
-        console.log(response.data)
+        if (response.data.status === "Log-in succeeded.") {
+          props.changeUsername(data.username)
+          props.history.push('/home');
+        }
       })
       .catch(function (error) {
         err.innerText = "Error: could not log in."
@@ -186,9 +184,7 @@ function LoginPage(props) {
                     </div>
                   </div>
                 </div>
-                <div> Note: Your preference information will only be used tailor your recommendation feed appropriately,
-                  and be shown to other users on your profile page. Your name will also be shown on your profile. Please reach
-                out to our team for more detailed information.</div>
+                <div> Note: We only collect your preferences to tailor your recommendation feed. Your preferences and name will also be shown on your profile. Please reach out to our team for detailed information.</div>
                 <button className="btn submit-btn" id="signup-btn" onClick={createUser}>
                   Sign Up
                 </button>

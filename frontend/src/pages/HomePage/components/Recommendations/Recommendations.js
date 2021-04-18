@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react';
-// import { getRecommendations } from '../../../../api';
-import WorkoutItem from '../WorkoutItem/WorkoutItem';
+import React, {useEffect, useState} from 'react';
+import WorkoutItemHome from '../WorkoutItem/WorkoutItemHome';
 import './Recommendations.css';
 import axios from 'axios';
 import {Spinner} from 'react-bootstrap'
@@ -31,11 +30,8 @@ function Recommendations(props) {
       config,
     )
     .then(response => {
-      console.log(response)
       const data = response.data.workouts
-      console.log(data)
-      const result = data.map(workout => <WorkoutItem changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
-      console.log(result)
+      const result = data.map(workout => <WorkoutItemHome changeWorkout={props.changeWorkout} key={workout.workout_id} workout={workout} username={props.username}/>)
       recData1 = result;
       setRecs(recData1)
       setLoaded(true)

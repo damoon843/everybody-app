@@ -37,9 +37,7 @@ function Home(props) {
         const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
         exerciseList.push(opt)
       }
-      console.log(exerciseList)
       exercises.current = exerciseList
-      console.log(exercises.current)
     })
     .catch(function (error) {
       console.log(error);
@@ -49,7 +47,6 @@ function Home(props) {
   useEffect(() => {
     getExercises()
     saveUsername()
-    console.log(username.current)
   }, [render, exercises])
 
   return (

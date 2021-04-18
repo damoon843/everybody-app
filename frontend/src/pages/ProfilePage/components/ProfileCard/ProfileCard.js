@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import './ProfileCard.css';
 import axios from 'axios';
@@ -6,25 +6,17 @@ import { withRouter } from 'react-router';
 
 function ProfileCard(props) {
   const [show, setShow] = useState(false);
-  // const [pref, setPref] = useState("");
 
   useEffect(() => {
-    // convertPrefs();
-    props.rerender("hi")
+    props.rerender(props.username)
   }, []);
 
   const convertPrefs = (time) => {
       if (time === 0) {
-        // props.changeUserData("0-30 minutes");
-          // setPref("0-30 minutes");
           return "0-30 minutes"
       } else if (time === 1) {
-        // props.changeUserData("30-60 minutes");
-          // setPref("30-60 minutes");
           return "30-60 minutes"
       } else if (time === 2) {
-        // props.changeUserData("60+ minutes");
-          // setPref("60+ minutes");
           return "60+ minutes"
       }
   }
@@ -49,7 +41,6 @@ function ProfileCard(props) {
         if (response.data.success) {
             props.history.push('/');
         }
-        console.log(response.data)
     })
     .catch(function (error) {
         msg.innerText = "Error: could not delete account."

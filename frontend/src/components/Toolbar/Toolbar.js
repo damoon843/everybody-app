@@ -27,7 +27,6 @@ function Toolbar(props){
             if (response.data.isValid) {
                 props.history.push('/');
             }
-            console.log(response.data)
         })
         .catch(function (error) {
             msg.innerText = "Could not log out. Please try again."
