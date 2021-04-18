@@ -8,7 +8,7 @@ function ExerciseItem(props) {
   useEffect(()=> {
     console.log(props.exercise)
   }, [])
-  
+
   return (
     <Card className="exercise-item">
       <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
@@ -17,7 +17,7 @@ function ExerciseItem(props) {
           {props.exercise[6]} ({props.exercise[1]} min)
         </Card.Title>
         <Card.Text>
-          {props.exercise[3]}<br></br><br></br>Tags: {props.exercise[4].join(', ')}
+          {props.exercise[3]}<br></br><br></br>Tags: {props.exercise[4]}
         </Card.Text>
       </Card.Body>
     </Card>

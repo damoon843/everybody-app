@@ -3,9 +3,12 @@ import './WorkoutPage.css';
 import axios from 'axios';
 import ExerciseItem from './components/ExerciseItem/ExerciseItem'
 
+let exercises = [];
+
 function WorkoutPage(props) {
   const [following, setFollowing] = useState(props.workout.current.following)
-  const exercises = useRef([]);
+  // const exercises = useRef([]);
+  const [exercises, setExercises] = useState([]);
 
   const getWorkoutExercises = async () => {
     let config = {
@@ -34,11 +37,12 @@ function WorkoutPage(props) {
         exerciseList.push(opt)
       }
       console.log(exerciseList)
-      exercises.current = exerciseList
-      console.log(exercises.current)
+      setExercises(exerciseList)
+      // exercises.current = exerciseList
+      // console.log(exercises.current)
     })
     .catch(function (error) {
-      console.log(error.response.data);
+      console.log(error);
     });
   }
 
@@ -108,7 +112,7 @@ function WorkoutPage(props) {
     getWorkoutExercises()
     console.log("hi")
     console.log(props.workout)
-  }, [following, exercises])
+  }, [following])
 
   return (
     <div className="workout-page fade-in">
@@ -128,7 +132,8 @@ function WorkoutPage(props) {
         <hr></hr>
         <h2 id="workout-subheading">Exercises</h2>
         <div className="workout-page-exercises">
-        { exercises.current }
+          {exercises}
+        {/* { exercises.current } */}
         </div>
         {/* { exercises } */}
         {/* <ExerciseItem/> */}
