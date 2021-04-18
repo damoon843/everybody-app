@@ -35,7 +35,7 @@ Lauren Choi (@lauren-choi), Alex Guo (@aguo71), David Moon (@damoon843), Joshua 
 - PostgreSQL Database: this was the relational database management system (RDBMS) used to store all relational data and structure the database schema. This Postgres DB is hosted on Heroku provisioned as an add-on to the app.
 
 ## How to Build and Run
-Note that the following commands are meant to be run in a development/testing context; the production-level app is deployed at (INSERT URL HERE).  
+Note that the following commands are meant to be run in a development/testing context; the production-level app is deployed at (INSERT URL HERE). The following commands can be used to run individual backend / frontend components.
 
 To compile the source code of this project:
 ```
@@ -53,4 +53,15 @@ To run the frontend/client:
 ```
 npm install
 npm start
+```
+
+The following command can be used to run the containerized backend / frontend.
+
+To build the Docker images:
+```
+docker-compose build
+```
+To create containers from images and run the application:
+```
+docker-compose run
 ```
