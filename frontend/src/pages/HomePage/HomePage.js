@@ -41,7 +41,7 @@ function Home(props) {
       const keys = Object.keys(response.data)
       let exerciseList = [];
       for (let i = 0; i < keys.length; i++) {
-        const opt = <option key={keys[i]} value={keys[i]}>{data[i][6]}</option>
+        const opt = <option key={keys[i]} value={keys[i]}>{data[i][1]}</option>
         exerciseList.push(opt)
       }
       exercises.current = exerciseList
