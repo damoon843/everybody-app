@@ -1,15 +1,23 @@
 import React, {useState} from 'react'; 
 import {NavLink, withRouter} from 'react-router-dom';
-import {Navbar, Nav, Modal, Button} from "react-bootstrap";
+import {Navbar, Nav, Modal} from "react-bootstrap";
 import './Toolbar.css';
 import axios from 'axios';
 
+/**
+ * The top toolbar for navigating around the site.
+ * @param {*} props the handler from App.js to change the value of the current user on logout.
+ * @returns the fully rendered toolbar
+ */
 function Toolbar(props){
+    // state variables and functions to handle displaying the logout modal
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    /**
+     * Logs out the user and resets the username ref in App.js.
+     */
     const logout = async () => {
         let msg = document.getElementById('logout-msg')
         msg.innerText = ""
@@ -24,6 +32,7 @@ function Toolbar(props){
             config
         )
         .then(response => {
+            // if the logout is successful, redirect the user to the login page.
             if (response.data.isValid) {
                 props.history.push('/');
             }

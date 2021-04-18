@@ -2,6 +2,11 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 import './ExerciseItem.css'
 
+/**
+ * Component representing a single exercise.
+ * @param {*} props an array representing a single exercise object
+ * @returns a grid item for an exercise
+ */
 function ExerciseItem(props) {
   return (
     <Card className="exercise-item">
