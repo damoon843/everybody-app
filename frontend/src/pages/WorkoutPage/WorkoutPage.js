@@ -4,15 +4,19 @@ import axios from 'axios';
 import ExerciseItem from '../../components/ExerciseItem/ExerciseItem'
 import {followUser, unfollowUser} from '../../api.js';
 
+/**
+ * The workout page is displayed when a user presses 'start workout'. Shows expanded information and all of the comprising exercises.
+ * 
+ * @param {*} props takes in the current username, the workout to render, and the function changing the value of the current workout on the page.
+ * @returns a page representing an individual workout.
+ */
 function WorkoutPage(props) {
-  /*
-  The workout page is displayed when a user presses 'start workout'. Shows expanded information and all of the
-  comprising exercises.
-   */
+  // a state button representing whether or not the user is following the workout poster
   const [following, setFollowing] = useState(props.workout.current.following)
+  // the list of exercises for the given workout
   const [exercises, setExercises] = useState([]);
 
-  //post request retrieves exercises for that specific workout by sending username and workoutname; exercises are displayed via exercise items
+  //post request retrieves exercises for that specific workout by sending username and workout name; exercises are displayed via exercise items
   const getWorkoutExercises = async () => {
     let config = {
       headers: {
@@ -44,7 +48,7 @@ function WorkoutPage(props) {
     });
   }
 
-  //button allows for following of a specific user, the author of the workout
+  // button allows for following of a specific user, the author of the workout
   const toggleFollowing = () => {
     const toSend = {
       username: props.username.current,

@@ -3,12 +3,19 @@ import {Card} from 'react-bootstrap'
 import './WorkoutItemProfile.css';
 import {Link} from 'react-router-dom';
 
+/**
+ * Houses the information for the workout items displayed on a specific user's profile.
+ * 
+ * @param {*} props the workout to display on the profile page.
+ * @returns a component representing a single workout.
+ */
 function WorkoutItemProfile(props){
-    /*
-    This component houses the information for the workout items displayed on a specific user's profile
-     */
+  // the url routing to the workout to display individually on click
   const url = "/workout/" + props.workout.workout_id
 
+  /**
+   * Updates the value of the workout to display individually
+   */
   const updateWorkout = () => {
     props.changeWorkout(props.workout)
   }

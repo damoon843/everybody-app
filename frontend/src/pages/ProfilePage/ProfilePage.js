@@ -4,11 +4,16 @@ import ProfileCard from "./components/ProfileCard/ProfileCard";
 import WorkoutItemProfile from "./components/WorkoutItemProfile/WorkoutItemProfile";
 import axios from 'axios';
 
+/**
+ * Displays the Profile page.
+ * 
+ * @param {*} props takes in the current user, the user's workouts, all their liked workouts, and the respective functions changing their value.
+ * @returns the profile page
+ */
 function ProfilePage(props){
-  /*
-  retrieves all of the user information and displays them, including liked workouts and authored workouts
-   */
+  // marker variable to render the profile card
   const [render, setRender] = useState("");
+  // state variables for displaying user info, workouts, liked workouts, and toggling between workouts
   const [userData, setUserData] = useState({})
   const [userWorkouts, setUserWorkouts] = useState([]);
   const [likedWorkouts, setLikedWorkouts] = useState([]);
@@ -20,10 +25,14 @@ function ProfilePage(props){
     getUserWorkouts();
   }, [render]);
 
+  // function to rerender the profile card upon change
   const rerender = (val) => {
     setRender(val);
   }
 
+  /**
+   * Gets user information and updates the userData ref in App.js.
+   */
   const getUser = async () => {
     let config = {
       headers: {
@@ -48,6 +57,9 @@ function ProfilePage(props){
     });
   }
 
+  /**
+   * Gets the workouts posted by the current user. Updates the myWorkouts ref in App.js.
+   */
   const getUserWorkouts = async () => {
     let config = {
       headers: {
@@ -73,6 +85,9 @@ function ProfilePage(props){
     });
   }
 
+  /**
+   * Gets all the workouts the current user has liked. Updates the likedWorkouts ref in App.js.
+   */
   const getLikedWorkouts = async () => {
     let config = {
       headers: {
@@ -98,6 +113,9 @@ function ProfilePage(props){
         });
   }
 
+  /**
+   * Toggles the display for showing liked workouts versus my workouts.
+   */
   const toggle = () => {
     let val = toggleLiked
     setToggle(!val)

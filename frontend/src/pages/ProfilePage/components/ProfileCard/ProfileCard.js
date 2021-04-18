@@ -4,16 +4,27 @@ import './ProfileCard.css';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 
+/**
+ * Displays user information such as preferences and username. Includes option for account deletion
+ * 
+ * @param {*} props 
+ * @returns 
+ */
 function ProfileCard(props) {
-    /*
-    The profile card displays information related to user preferences, username, and account deletion
-     */
+  // state variables and methods for handling account deletion modal
   const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     props.rerender(props.username)
   }, []);
 
+  /**
+   * Converts the user's workout duration preferences into a string.
+   * @param {*} time the workout duration preference
+   * @returns a string representing the duration.
+   */
   const convertPrefs = (time) => {
       if (time === 0) {
           return "0-30 minutes"
@@ -24,11 +35,9 @@ function ProfileCard(props) {
       }
   }
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
-//user deletion sends a request to the backend that removes the user from database
+  /**
+   * Sends a request to the backend that removes the user from database
+   */
   const deleteAccount = async () => {
     let msg = document.getElementById('delete-msg')
     msg.innerText = ""
