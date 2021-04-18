@@ -14,11 +14,10 @@ function ExerciseItem(props) {
       <Card.Img variant="top" src="https://runningmagazine.ca/wp-content/uploads/2013/07/164767502.jpg" />
       <Card.Body>
         <Card.Title>
-          {props.exercise[6]} ({props.exercise[1]} min)
+          {props.exercise[0]}
         </Card.Title>
-        <Card.Text>
-          {props.exercise[3]}<br></br><br></br>Tags: {props.exercise[4]}
-        </Card.Text>
+        <p>Duration: {Math.floor(props.exercise[2]/60)} minutes<br></br>Description: {props.exercise[4]}</p>
+        <p className="tags">Tags: {props.exercise[3].join(', ')}</p>
       </Card.Body>
     </Card>
   );
