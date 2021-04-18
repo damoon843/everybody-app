@@ -71,10 +71,10 @@ function Home(props) {
     <div className="home fade-in">
       <div className="upload">
         <h3>Upload Activities</h3>
-        <ExerciseModal render={render} rerender={rerender} username={username.current} id="exercise-modal"/>
-        <WorkoutModal username={username.current} exercises={exercises} id="workout-modal"/>
+        <ExerciseModal render={render} rerender={rerender} username={props.username.current} id="exercise-modal"/>
+        <WorkoutModal username={props.username.current} exercises={exercises} id="workout-modal"/>
       </div>
-      <Recommendations changeWorkout={props.changeWorkout} username={username.current} />
+      <Recommendations changeWorkout={props.changeWorkout} username={props.username.current} />
     </div>
   );
 }
