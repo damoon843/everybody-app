@@ -31,12 +31,14 @@ public class FeedHandlers {
       JSONObject data = new JSONObject(request.body());
       Map<String, Object> variables;
 
-      String username = "";
-      String exerciseName = data.getString("exerciseName");
-      String mediaLink = data.getString("mediaLink");
-      Integer duration = data.getInt("duration");
-      JSONArray tagsJSON = data.getJSONArray("tags");
-      String description = data.getString("description");
+
+        String username = "";
+        String exerciseName = data.getString("exerciseName");
+        String mediaLink = data.getString("mediaLink");
+        Integer duration = data.getInt("duration");
+        JSONArray tagsJSON = data.getJSONArray("tags");
+        String description = data.getString("description");
+
 
       // Retrieve session
       Session session = request.session(false);

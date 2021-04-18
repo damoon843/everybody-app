@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, {useRef, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import './ExerciseModal.css';
 import axios from 'axios';
+
 const AWS = require('aws-sdk');
 
 function ExerciseModal(props){
@@ -33,17 +34,12 @@ function ExerciseModal(props){
     return result;
   }
 
-  const uploadFile = () => {
-    // TODO: configure process.env
-    // const BUCKET_NAME = process.env.REACT_APP_API_BUCKET_NAME;
-    // const ID = process.env.REACT_APP_API_ID;
-    // const SECRET = process.env.REACT_APP_API_SECRET;
+  const uploadFile = (callback) => {
+    let uploadedURL = "";
 
-    // TODO: hide configs
     const BUCKET_NAME = "everybody-app-media";
     const ID = "AKIAVJ5YBZZRZONHA7PD";
     const SECRET = "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";
-    let uploadedURL = "";
 
     const s3 = new AWS.S3({
       accessKeyId: ID,
@@ -54,8 +50,11 @@ function ExerciseModal(props){
     const filename = inputFile.current.files[0].name
 
     let reader = new FileReader();
+    // Read data from file
     reader.readAsDataURL(file);
-    reader.onloadend = function(){
+
+    // NOTE: this func is called when reading from file finishes
+    reader.onloadend = function() {
       // Read operation done, upload file content
       let fileContent = reader.result;
 
@@ -74,9 +73,15 @@ function ExerciseModal(props){
         }
         uploadedURL = data.Location;
         console.log(`File uploaded successfully. ${data.Location}`);
+        callback(uploadedURL);
       });
     }
-    return uploadedURL;
+  }
+
+  const getUploadedURL = function(url) {
+    console.log(url)
+    console.log("IN CALLBACK")
+    return url;
   }
 
   const submitExercise = async (e) => {
@@ -92,8 +97,9 @@ function ExerciseModal(props){
     let checkedVals = getCheckedVals('body-tags');
     checkedVals.push(type);
     let newDuration = duration * 60;
-    const media = document.getElementById('exercise-media').value;
-    const fileURL = uploadFile();
+    const fileURL = await uploadFile(getUploadedURL);
+
+    console.log(fileURL)
 
     // if (props.username && title && media && newDuration && (checkedVals.length > 1) && desc) {
       const toSend = {
