@@ -10,6 +10,11 @@
   flex-direction: column;
 }
 
+.link-btn, .link-btn:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .submit-btn {
   border: none;
   color: white;

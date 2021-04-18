@@ -8,24 +8,10 @@
     margin: 6rem 3rem -1rem 3rem;
 }
 
-.exercise-container {
-    display: flex;
-    flex-direction: column;
-    width: 22rem;
-    height: 28rem;
-    box-shadow: 0 4px 8px 0 rgba(190, 190, 190, 0.2), 0 6px 20px 0 rgba(190, 190, 190, 0.2);
-    margin: 1rem;
-    background-color: white;
-  }
-
-.exercise-text {
-    margin: 1rem 0 1rem 1rem;
-}
-
 .exercise-info {
     color: grey;
   }
 
 .exercises {
-    margin-left: 10rem;
+    margin-left: 12rem;
 }

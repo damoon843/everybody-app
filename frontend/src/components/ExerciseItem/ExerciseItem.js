@@ -17,7 +17,7 @@ function ExerciseItem(props) {
           {props.exercise[0]}
         </Card.Title>
         <p>Duration: {Math.floor(props.exercise[2]/60)} minutes<br></br>Description: {props.exercise[4]}</p>
-        <p className="tags">Tags: {props.exercise[3].join(', ')}</p>
+        <p className="tags">Tags: {props.exercise[3].join(', ')}<br></br>Posted by {props.exercise[6]}</p>
       </Card.Body>
     </Card>
   );
