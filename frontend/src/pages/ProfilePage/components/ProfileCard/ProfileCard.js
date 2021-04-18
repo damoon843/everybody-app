@@ -59,8 +59,10 @@ function ProfileCard(props) {
 
   return (
     <div className="profile-card">
-      <h1>{props.userData.firstName} {props.userData.lastName}</h1>
-        <h2>Preferences: {convertPrefs(props.userData.workoutDuration)}, {props.userData.workoutType}. </h2>
+      <div className="profile-card-text">
+        <h1>{props.userData.firstName} {props.userData.lastName}</h1>
+        <p>Preferred duration: {convertPrefs(props.userData.workoutDuration)}<br></br>Preferred workout type: {props.userData.workoutType}</p>
+      </div>
       <button className="delete-account" id="delete-btn" onClick={handleShow}>Delete Account</button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
