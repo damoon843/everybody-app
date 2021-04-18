@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import './WorkoutModal.css';
 import axios from 'axios';
+import { getSelected } from '../../../../calculations';
 
 /**
  * The modal to upload a new workout.
@@ -17,22 +18,6 @@ function WorkoutModal(props){
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  /**
-   * Gets the value of all the selected exercises.
-   * 
-   * @param {*} element the list of exercises
-   * @returns a list of all the selected exercises
-   */
-  const getSelected = (element) => {
-    let selected = []
-    for (let option of document.getElementById(element).options) {
-      if (option.selected) {
-        selected.push(option.value);
-      }
-    }
-    return selected;
-  }
 
   /**
    * Gets all the values of the workout to send to the backend.

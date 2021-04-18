@@ -3,13 +3,18 @@ import {Tabs, Tab} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios'
 import './LoginPage.css';
+import {getRadioVal} from '../../calculations';
 
+/**
+ * The Login page. Has options for new users to signup or returning users to login back into their account.
+ * @param {*} props the function to change the value of the username ref.
+ * @returns the login page.
+ */
 function LoginPage(props) {
-  /*
-  Login page has options for new users to signup or returning users to login back into their account
+  /**
+   * Gets the sign up information entered into the form. First time users will have their inputted information stored so that it is sent to database
+   * @returns an object representing the values the user signed up with.
    */
-
-  //first time users will have their inputted information stored so that it is sent to database
   const getSignUpVals = () => {
     const firstName = document.getElementById('firstName').value;
     const lastName = document.getElementById('lastName').value;
@@ -28,7 +33,10 @@ function LoginPage(props) {
     return toSend;
   }
 
-  //returning users will only need their username, which is retrieved by the input into the textbox
+  /**
+   * Gets the values of the login credentials. Returning users will only need their username and password, which is retrieved by the input into the text box
+   * @returns an object representing the values the user logs in with.
+   */
   const getLoginVals = () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -39,12 +47,19 @@ function LoginPage(props) {
     return toSend;
   }
 
-  //sends the new user information to the database
+  /**
+   * Sends the new user information to the database.
+   * @param {*} e the event to create a new user on
+   */
   const createUser = async (e) => {
     e.preventDefault();
+    
     let err = document.getElementById("err-msg-signup")
     err.innerText = ""
+
     const data = getSignUpVals()
+
+    // check if the user has filled in all the values of the signup form
     if (!data.firstName || !data.lastName || !data.username || !data.password || !data.workoutType || !data.workoutDuration) {
       err.innerText = "Please fill out all fields."
     } else {
@@ -61,6 +76,7 @@ function LoginPage(props) {
         config
       )
       .then(response => {
+        // if the query is successful, redirect the user to the home page
         if (response.data.queryStatus === "success") {
           props.changeUsername(data.username)
           props.history.push('/home');
@@ -74,12 +90,16 @@ function LoginPage(props) {
  
   }
 
-  //sends the information in the login field, validates the user login, and sets the user information in the App.js parent
+  /**
+   * Sends the information in the login field, validates the user login, and sets the user information in the App.js parent
+   * @param {*} e the event to log in the user on
+   */
   const loginUser = async (e) => {
     e.preventDefault()
     let err = document.getElementById("err-msg-login")
     err.innerText = ""
     const data = getLoginVals()
+    // check if the user has filled out all login fields
     if (!data.username || !data.password) {
       err.innerText = "Please fill out all fields."
     } else {
@@ -96,6 +116,7 @@ function LoginPage(props) {
         config
       )
       .then(response => {
+        // if the login is successful, redirect to the home page
         if (response.data.status === "Log-in succeeded.") {
           props.changeUsername(data.username)
           props.history.push('/home');
@@ -106,17 +127,6 @@ function LoginPage(props) {
         console.log(error);
       });
     }
-  }
-
-  const getRadioVal = (element) => {
-    const options = document.getElementsByName(element);
-    let val = "";
-    options.forEach(elt => {
-      if (elt.checked) {
-        val = elt.value;
-      }
-    })
-    return val;
   }
 
   return (

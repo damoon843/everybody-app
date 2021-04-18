@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import './ExerciseModal.css';
 import axios from 'axios';
+import { getRadioVal, getCheckedVals } from '../../../../calculations';
 
 /**
  * The modal to upload a new exercise.
@@ -17,40 +18,6 @@ function ExerciseModal(props){
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  /**
-   * Gets the value from a group of radio buttons.
-   * 
-   * @param {*} element the element with the group of radio buttons.
-   * @returns the selected radio value
-   */
-  const getRadioVal = (element) => {
-    const options = document.getElementsByName(element);
-    let val = "";
-    options.forEach(elt => {
-      if (elt.checked) {
-        val = elt.value;
-      }
-    })
-    return val;
-  }
-
-  /**
-   * Gets the values from a group of checkboxes.
-   * 
-   * @param {*} element 
-   * @returns the selected checkbox values
-   */
-  const getCheckedVals = (element) => {
-    let result = []
-    let markedCheckbox = document.getElementsByName(element);  
-    for (let checkbox of markedCheckbox) {  
-      if (checkbox.checked) {
-        result.push(checkbox.value)
-      }
-    }  
-    return result;
-  }
 
   /**
    * Gets the values entered into the exercise modal for submission.
