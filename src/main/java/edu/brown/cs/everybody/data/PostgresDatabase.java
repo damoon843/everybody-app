@@ -18,7 +18,7 @@ import java.util.*;
  */
 public final class PostgresDatabase {
   private static Connection dbConn = null;
-  private final static String ENCRYPTION_KEY = "32TAsARETHEBEST";
+  private final static String ENCRYPTION_KEY = System.getenv("ENCRYPTION_KEY");
 
 
   /* Hidden constructor to avoid instantiation */
